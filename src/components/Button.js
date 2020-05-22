@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-export default function Button({ children, onClick, block }) {
-  return (
-    <ButtonS block={block} onClick={onClick}>
-      {children}{" "}
-    </ButtonS>
-  );
+export default function Button({ children, ...rest }) {
+  return <ButtonS {...rest}>{children}</ButtonS>;
 }
 const ButtonS = styled.button`
   border: solid 2px #ebebeb;

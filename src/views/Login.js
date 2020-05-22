@@ -1,18 +1,33 @@
 import React from "react";
 import Form from "../components/Forms/Login";
 import styled from "styled-components";
+import { MdClose } from "react-icons/md";
+
 export default function Login() {
+  const [on, setToggle] = React.useState(true);
+
+  const handleToggle = (e) => setToggle(false);
   return (
-    <LoginView>
-      <div className="login-box">
-        <div className="container">
-          <h2 className="h2">Log In</h2>
-          <Form />
-          <h3 className="h3">New to Porta?</h3>
-          <h4 className="h4">SIGN UP</h4>
-        </div>
-      </div>
-    </LoginView>
+    <div>
+      {on ? (
+        <LoginView>
+          <div className="login-box">
+            <MdClose
+              onClick={handleToggle}
+              className="close"
+              size="1.7rem"
+              color="black"
+            />
+            <div className="container">
+              <h2 className="h2">Log In</h2>
+              <Form />
+              <h3 className="h3">New to Porta?</h3>
+              <h4 className="h4">SIGN UP</h4>
+            </div>
+          </div>
+        </LoginView>
+      ) : null}
+    </div>
   );
 }
 
@@ -26,6 +41,10 @@ const LoginView = styled.div`
   width: 100vw;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
   &:after {
     position: absolute;
     top: 0;
@@ -86,5 +105,15 @@ const LoginView = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .close {
+    margin-top: 2rem;
+    margin-right: 2rem;
+    z-index: 34
+    padding:0;
+    position:absolute;
+    z-index: 4;
+    right:0;
+    
   }
 `;

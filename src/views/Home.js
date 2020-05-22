@@ -5,9 +5,9 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 
 export default function Home() {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState("Hola");
 
-  const handlingInput = (e) => setCount(count + 1);
+  const handlingInput = (e) => setCount(count + "a");
 
   return (
     <HomeStyle>

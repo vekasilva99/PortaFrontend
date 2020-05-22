@@ -6,27 +6,31 @@ export default function FormLogin() {
   return (
     <Formik
       initialValues={{
-        email: "",
-        password: "",
+        Email: "",
+        Password: "",
       }}
       validate={(values) => {
         const errors = {};
         if (!values.email) {
-          errors.email = "Campo requerido";
+          errors.Email = "Required Field";
         } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
         ) {
-          errors.email = "Email Inválido";
+          errors.Email = "Invalid Email";
         }
-        if (!values.password) {
-          errors.nombre = "Campo Requerido";
+        if (!values.Password) {
+          errors.Password = "Required Field";
+        } else if (values.Password.length < 9) {
+          errors.Password = "Password too short";
         }
 
-        return errors;
+        return console.log(errors);
       }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        setSubmitting(true);
         /// code here
+
+        setSubmitting(true);
+        console.log(values);
 
         setSubmitting(false);
         resetForm();
@@ -44,19 +48,19 @@ export default function FormLogin() {
       }) => (
         <form onSubmit={handleSubmit}>
           <Input
-            value={values.nombre}
-            label="Enter your username"
-            id="nombre"
-            name="User"
+            value={values.Email}
+            label="Enter your email"
+            id="Email"
+            name="Email"
             type="text"
             onChange={handleChange}
             onBlur={handleBlur}
           />
 
           <Input
-            value={values.password}
+            value={values.Password}
             label="Enter your password"
-            id="password"
+            id="Password"
             type="password"
             name="Password"
             onChange={handleChange}
