@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-export default function Button({ children, ...rest }) {
-  return <ButtonS {...rest}>{children}</ButtonS>;
+export default function Button({ color, children, ...rest }) {
+  return (
+    <ButtonS color={color} {...rest}>
+      {children}
+    </ButtonS>
+  );
 }
 const ButtonS = styled.button`
   border: solid 2px #ebebeb;
@@ -20,9 +24,9 @@ const ButtonS = styled.button`
 
   &:hover {
     opacity: 0.8;
-    background: #29e2f3;
+    background: ${(props) => props.color};
     color: white;
-    border-color: #29e2f3;
+    border-color: ${(props) => props.color};
   }
   &:focus {
     opacity: 0.8;

@@ -8,9 +8,10 @@ export default function Input({
   value,
   onChange,
   onBlur,
+  color,
 }) {
   return (
-    <StyleInput>
+    <StyleInput color={color}>
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
@@ -63,7 +64,7 @@ const StyleInput = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #29e2f3;
+      border-bottom: solid 2px ${(props) => props.color};
     }
   }
 `;

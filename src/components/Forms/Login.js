@@ -2,7 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
-export default function FormLogin() {
+export default function FormLogin(props) {
   return (
     <Formik
       initialValues={{
@@ -32,7 +32,7 @@ export default function FormLogin() {
         const email = values.Email;
         const password = values.Password;
 
-        if(email.trim() === 0 || password.trim() === 0){
+        if (email.trim() === 0 || password.trim() === 0) {
           return;
         }
 
@@ -45,25 +45,28 @@ export default function FormLogin() {
                 tokenExpiration
               }
             }
-          `
+          `,
         };
-       
-        fetch('https://porta-api.herokuapp.com/graphql/', {
-          method: 'POST',
+
+        fetch("https://porta-api.herokuapp.com/graphql/", {
+          method: "POST",
           body: JSON.stringify(requestBody),
           headers: {
-            'Content-type':'application/json'
-          }
-        }).then(res => {
-          if(res.status !== 200 && res.status !== 201){
-            throw new Error('Failed!');
-          }
-          return res.json();
-        }).then(resData => {
-          console.log(resData);
-        }).catch(err => {
-          console.log(err);
-        });
+            "Content-type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (res.status !== 200 && res.status !== 201) {
+              throw new Error("Failed!");
+            }
+            return res.json();
+          })
+          .then((resData) => {
+            console.log(resData);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         setSubmitting(true);
         console.log(values, values.Password.length);
@@ -91,6 +94,7 @@ export default function FormLogin() {
             type="text"
             onChange={handleChange}
             onBlur={handleBlur}
+            color={props.color}
           />
 
           <Input
@@ -101,8 +105,9 @@ export default function FormLogin() {
             name="Password"
             onChange={handleChange}
             onBlur={handleBlur}
+            color={props.color}
           />
-          <Button type="submit" block>
+          <Button color={props.color} type="submit" block>
             {" "}
             SIGN IN{" "}
           </Button>

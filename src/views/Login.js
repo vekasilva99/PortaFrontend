@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "../components/Forms/Login";
+import FormLogin from "../components/Forms/Login";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
@@ -20,7 +20,7 @@ export default function Login() {
             />
             <div className="container">
               <h2 className="h2">Log In</h2>
-              <Form />
+              <FormLogin color="#0A95BF" />
               <h3 className="h3">New to Porta?</h3>
               <h4 className="h4">SIGN UP</h4>
             </div>
@@ -77,7 +77,7 @@ const LoginView = styled.div`
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #29e2f3;
+    color: #0A95BF;
   }
 
   .login-box {

@@ -1,16 +1,16 @@
 import React from "react";
-import FormRegister from "../components/Forms/Register";
+import FormLogin from "../components/Forms/Login";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-export default function Register2() {
+export default function LoginDriver() {
   const [on, setToggle] = React.useState(true);
 
   const handleToggle = (e) => setToggle(false);
   return (
     <div>
       {on ? (
-        <RegisterView>
+        <LoginView>
           <div className="login-box">
             <MdClose
               onClick={handleToggle}
@@ -19,19 +19,19 @@ export default function Register2() {
               color="black"
             />
             <div className="container">
-              <h2 className="h2">Register</h2>
-              <FormRegister color="#0A95BF" />
-              <h3 className="h3">Already have an account?</h3>
-              <h4 className="h4">SIGN IN</h4>
+              <h2 className="h2">Log In</h2>
+              <FormLogin color="#AAA0ED" />
+              <h3 className="h3">New to Porta?</h3>
+              <h4 className="h4">SIGN UP</h4>
             </div>
           </div>
-        </RegisterView>
+        </LoginView>
       ) : null}
     </div>
   );
 }
 
-const RegisterView = styled.div`
+const LoginView = styled.div`
   background: url(${require("../assets/images/bg1.jpg")}) no-repeat center;
   background-size: cover;
   display: block;
@@ -61,23 +61,23 @@ const RegisterView = styled.div`
     font-family: Roboto;
     font-size: 1.5em;
     position: absolute;
-    top: 1.5rem;
+    top: 2rem;
   }
   .h3 {
     color: black;
-    bottom: 2rem;
+    bottom: 3rem;
     position: absolute;
     font-family: Roboto;
     font-size: 0.9em;
   }
   .h4 {
     color: black;
-    bottom: 0.5rem;
+    bottom: 1.5rem;
     position: absolute;
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #0A95BF;
+    color: #AAA0ED;
   }
 
   .login-box {

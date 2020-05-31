@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-export default function FormRegister() {
+export default function FormRegister(props) {
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
   const [phone, setPhone] = React.useState("");
@@ -21,6 +21,7 @@ export default function FormRegister() {
   const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleStep1 = (e) => {
+    console.log(props.color);
     let codigos = false;
     if (
       phone.slice(0, 4) == "0424" ||
@@ -149,10 +150,11 @@ export default function FormRegister() {
                       type="text"
                       onChange={handlePhone}
                       onBlur={handleBlur}
+                      color={props.color}
                     />
 
                     <div className="button">
-                      <Button onClick={handleStep1} block>
+                      <Button color={props.color} onClick={handleStep1} block>
                         {" "}
                         CONTINUE{" "}
                       </Button>
@@ -169,6 +171,7 @@ export default function FormRegister() {
                         type="text"
                         onChange={handleFName}
                         onBlur={handleBlur}
+                        color={props.color}
                       />
                       <Input
                         value={lName}
@@ -178,6 +181,7 @@ export default function FormRegister() {
                         type="text"
                         onChange={handleLName}
                         onBlur={handleBlur}
+                        color={props.color}
                       />
                     </div>
                     <div className="input2">
@@ -210,7 +214,7 @@ export default function FormRegister() {
                       </div>
                     </div>
                     <div className="button">
-                      <Button onClick={handleStep2} block>
+                      <Button color={props.color} onClick={handleStep2} block>
                         {" "}
                         CONTINUE{" "}
                       </Button>
@@ -228,6 +232,7 @@ export default function FormRegister() {
                   type="text"
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  color={props.color}
                 />
                 <div className="input2">
                   <Input
@@ -238,6 +243,7 @@ export default function FormRegister() {
                     name="Password"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    color={props.color}
                   />
                   <Input
                     value={values.Password2}
@@ -247,11 +253,12 @@ export default function FormRegister() {
                     name="Password2"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    color={props.color}
                   />
                 </div>
 
                 <div className="button">
-                  <Button type="submit" block>
+                  <Button color={props.color} type="submit" block>
                     {" "}
                     SIGN UP{" "}
                   </Button>
@@ -271,7 +278,7 @@ const RegisterView = styled.div`
   label {
     font-size: 1em;
     font-weight: 600;
-    color: black;
+    color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
     margin-top: 2rem;
@@ -280,7 +287,7 @@ const RegisterView = styled.div`
     background: none;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: black;
+    color: ${(props) => props.color};
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
@@ -296,7 +303,7 @@ const RegisterView = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #29e2f3;
+      border-bottom: solid 2px ${(props) => props.color};
     }
   }
 
@@ -315,7 +322,7 @@ const RegisterView = styled.div`
   .dos {
     font-size: 1em;
     font-weight: 600;
-    color: black;
+    color: ${(props) => props.color};
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;
@@ -347,5 +354,11 @@ const RegisterView = styled.div`
     margin-top: 1rem;
     padding: 0.3rem 0.5rem;
     width: 100%;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px ${(props) => props.color};
+    }
   }
 `;
