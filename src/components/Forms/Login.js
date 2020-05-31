@@ -48,6 +48,18 @@ export default function FormLogin(props) {
           `,
         };
 
+        let requestBody = {
+          query: `
+            query{
+              adminLogin(mail: "${email}", password: "${password}"){
+                adminId
+                token
+                tokenExpiration
+              }
+            }
+          `,
+        };
+
         fetch("https://porta-api.herokuapp.com/graphql/", {
           method: "POST",
           body: JSON.stringify(requestBody),
