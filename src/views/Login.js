@@ -77,11 +77,10 @@ const LoginView = styled.div`
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #0A95BF;
+    color: #0a95bf;
   }
 
   .login-box {
-    width: 280px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -89,7 +88,8 @@ const LoginView = styled.div`
     color: #002e64;
     background: white;
     height: 75vh;
-    width: 35vw;
+    width: 95%;
+    max-width: 500px;
     z-index: 2;
     align-items: center;
     justify-content: center;
@@ -99,7 +99,7 @@ const LoginView = styled.div`
     position: relative;
     z-index: 3;
     height: 75vh;
-    width: 35vw;
+    width: inherit;
     background: white;
     color: black;
     display: flex;
@@ -109,11 +109,10 @@ const LoginView = styled.div`
   .close {
     margin-top: 2rem;
     margin-right: 2rem;
-    z-index: 34
-    padding:0;
-    position:absolute;
+    z-index: 34;
+    padding: 0;
+    position: absolute;
     z-index: 4;
-    right:0;
-    
+    right: 0;
   }
 `;

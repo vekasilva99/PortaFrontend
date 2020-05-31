@@ -19,9 +19,9 @@ export default function FormRegister(props) {
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  console.log(props.color);
 
   const handleStep1 = (e) => {
-    console.log(props.color);
     let codigos = false;
     if (
       phone.slice(0, 4) == "0424" ||
@@ -119,8 +119,6 @@ export default function FormRegister(props) {
             },
           ];
 
-
-
           const requestBody = {
             query: `
               mutation{
@@ -135,11 +133,11 @@ export default function FormRegister(props) {
                   cellphone
                 }
               }
-            `
+            `,
           };
 
           fetch("https://porta-api.herokuapp.com/graphql", {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(requestBody),
             headers: {
               "Content-type": "application/json",

@@ -77,7 +77,7 @@ const RegisterView = styled.div`
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #0A95BF;
+    color: #0a95bf;
   }
 
   .login-box {
@@ -109,11 +109,10 @@ const RegisterView = styled.div`
   .close {
     margin-top: 2rem;
     margin-right: 2rem;
-    z-index: 34
-    padding:0;
-    position:absolute;
+    z-index: 34;
+    padding: 0;
+    position: absolute;
     z-index: 4;
-    right:0;
-    
+    right: 0;
   }
 `;

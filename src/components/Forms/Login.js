@@ -48,7 +48,7 @@ export default function FormLogin(props) {
           `,
         };
 
-        let requestBody = {
+        requestBody = {
           query: `
             query{
               adminLogin(mail: "${email}", password: "${password}"){
