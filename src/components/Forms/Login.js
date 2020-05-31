@@ -28,6 +28,42 @@ export default function FormLogin() {
       }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         /// code here
+        //event.preventDefault();
+        const email = values.Email;
+        const password = values.Password;
+
+        if(email.trim() === 0 || password.trim() === 0){
+          return;
+        }
+
+        let requestBody = {
+          query: `
+            query{
+              userLogin(mail: "${email}", password: "${password}"){
+                userId
+                token
+                tokenExpiration
+              }
+            }
+          `
+        };
+       
+        fetch('https://porta-api.herokuapp.com/graphql/', {
+          method: 'POST',
+          body: JSON.stringify(requestBody),
+          headers: {
+            'Content-type':'application/json'
+          }
+        }).then(res => {
+          if(res.status !== 200 && res.status !== 201){
+            throw new Error('Failed!');
+          }
+          return res.json();
+        }).then(resData => {
+          console.log(resData);
+        }).catch(err => {
+          console.log(err);
+        });
 
         setSubmitting(true);
         console.log(values, values.Password.length);
