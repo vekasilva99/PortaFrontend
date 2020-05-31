@@ -10,10 +10,12 @@ import moment from "moment";
 export default function FormRegister(props) {
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
+  const [step3, setStep3] = React.useState(true);
   const [phone, setPhone] = React.useState("");
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
+  const [cedula, setCedula] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleStep1 = (e) => {
@@ -52,8 +54,14 @@ export default function FormRegister(props) {
     }
   };
 
+  const handleStep3 = (e) => {};
+
   const handlePhone = (e) => {
     setPhone(e.target.value);
+  };
+
+  const handleCedula = (e) => {
+    setCedula(e.target.value);
   };
 
   const handleFName = (e) => {
@@ -80,6 +88,7 @@ export default function FormRegister(props) {
           LName: "",
           BDate: "",
           Region: "",
+          Cedula: "",
         }}
         validate={(values) => {
           const errors = {};
@@ -134,27 +143,61 @@ export default function FormRegister(props) {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            {step2 ? (
+            {step3 ? (
               <div>
-                {step1 ? (
+                {step2 ? (
                   <div>
-                    <Input
-                      value={phone}
-                      label="Enter your phone number"
-                      id="Phone"
-                      name="Phone"
-                      type="text"
-                      onChange={handlePhone}
-                      onBlur={handleBlur}
-                      color={props.color}
-                    />
+                    {step1 ? (
+                      <div>
+                        <Input
+                          value={phone}
+                          label="Enter your phone number"
+                          id="Phone"
+                          name="Phone"
+                          type="text"
+                          onChange={handlePhone}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
 
-                    <div className="button">
-                      <Button color={props.color} onClick={handleStep1} block>
-                        {" "}
-                        CONTINUE{" "}
-                      </Button>
-                    </div>
+                        <div className="button">
+                          <Button
+                            color={props.color}
+                            onClick={handleStep1}
+                            block
+                          >
+                            {" "}
+                            CONTINUE{" "}
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <Input
+                          value={cedula}
+                          label="Enter your ID"
+                          id="Cedula"
+                          name="Cedula"
+                          type="number"
+                          min="1"
+                          max="3"
+                          onChange={handleCedula}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+
+                        <div className="button">
+                          <Button
+                            color={props.color}
+                            onClick={handleStep2}
+                            block
+                          >
+                            {" "}
+                            CONTINUE{" "}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div>

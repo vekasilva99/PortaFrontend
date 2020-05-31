@@ -5,6 +5,7 @@ import Login from "../views/Login";
 import LoginAdmin from "../views/LoginAdmin";
 import LoginDriver from "../views/LoginDriver";
 import RegisterUser2 from "../views/RegisterUser2";
+import RegisterDriver from "../views/RegisterDriver";
 
 export default function Routes() {
   return (
@@ -15,6 +16,11 @@ export default function Routes() {
         exact
         path="/register"
         render={(props) => <RegisterUser2 {...props} />}
+      />
+      <Route
+        exact
+        path="/registerdriver"
+        render={(props) => <RegisterDriver {...props} />}
       />
       <Route
         exact

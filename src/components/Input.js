@@ -9,6 +9,8 @@ export default function Input({
   onChange,
   onBlur,
   color,
+  min,
+  max,
 }) {
   return (
     <StyleInput color={color}>
@@ -23,6 +25,8 @@ export default function Input({
         placeholder={name}
         id={id}
         value={value}
+        min={min}
+        max={max}
         onChange={onChange}
       />
     </StyleInput>
