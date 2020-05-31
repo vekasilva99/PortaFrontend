@@ -20,7 +20,7 @@ export default function RegisterDriver() {
             />
             <div className="container">
               <h2 className="h2">Register</h2>
-              <FormRegister color="#0A95BF" />
+              <FormRegister color="#aaa0ed" />
               <h3 className="h3">Already have an account?</h3>
               <h4 className="h4">SIGN IN</h4>
             </div>
@@ -77,7 +77,7 @@ const RegisterView = styled.div`
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #0A95BF;
+    color: #aaa0ed;
   }
 
   .login-box {

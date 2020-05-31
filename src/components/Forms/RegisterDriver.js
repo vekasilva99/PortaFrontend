@@ -44,17 +44,23 @@ export default function FormRegister(props) {
     }
   };
 
-  const handleStep2 = (e) => {
+  const handleStep3 = (e) => {
     if (!fName || !lName || !selectedDate || !region) {
-      setStep2(true);
+      setStep3(true);
       console.log(phone, "telefono");
     } else {
-      setStep2(false);
+      setStep3(false);
       console.log(phone, "telefono");
     }
   };
 
-  const handleStep3 = (e) => {};
+  const handleStep2 = (e) => {
+    if (!cedula || cedula < 1000000 || cedula > 100000000) {
+      setStep2(true);
+    } else {
+      setStep2(false);
+    }
+  };
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -121,6 +127,7 @@ export default function FormRegister(props) {
               Email: values.Email,
               Birthdate: selectedDate,
               Region: region,
+              Cedula: cedula,
             },
           ];
 
@@ -179,8 +186,8 @@ export default function FormRegister(props) {
                           id="Cedula"
                           name="Cedula"
                           type="number"
-                          min="1"
-                          max="3"
+                          min="1000000"
+                          max="100000000"
                           onChange={handleCedula}
                           onBlur={handleBlur}
                           color={props.color}
@@ -253,7 +260,7 @@ export default function FormRegister(props) {
                       </div>
                     </div>
                     <div className="button">
-                      <Button color={props.color} onClick={handleStep2} block>
+                      <Button color={props.color} onClick={handleStep3} block>
                         {" "}
                         CONTINUE{" "}
                       </Button>
@@ -351,6 +358,12 @@ const RegisterView = styled.div`
     flex-direction: row;
     width: 100%;
     margin: auto;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #aaa0ed;
+    }
   }
 
   .button {
@@ -367,6 +380,12 @@ const RegisterView = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px pink;
+    }
   }
 
   .picker {
@@ -377,6 +396,12 @@ const RegisterView = styled.div`
     align-items: center;
     justify-content: center;
     font-family: Roboto;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #aaa0ed;
+    }
   }
 
   .select {
@@ -397,7 +422,7 @@ const RegisterView = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
+      border-bottom: solid 2px #aaa0ed;
     }
   }
 `;

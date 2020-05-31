@@ -15,9 +15,9 @@ export default function FormRegister(props) {
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  console.log(props.color);
 
   const handleStep1 = (e) => {
+    console.log(props.color);
     let codigos = false;
     if (
       phone.slice(0, 4) == "0424" ||
@@ -114,45 +114,6 @@ export default function FormRegister(props) {
               Region: region,
             },
           ];
-
-          const requestBody = {
-            query: `
-              mutation{
-                createUser(userInput: {name: "${submitUser[0].FirstName}", lastName: "${submitUser[0].LastName}", birthdate: "${submitUser[0].Birthdate}", mail: "${submitUser[0].Email}", password: "${submitUser[0].Password}", zone: "${submitUser[0].Region}", cellphone: "${submitUser[0].UserPhone}"}){
-                  _id
-                  name
-                  lastName
-                  birthdate
-                  mail
-                  password
-                  zone
-                  cellphone
-                }
-              }
-            `,
-          };
-
-          fetch("https://porta-api.herokuapp.com/graphql", {
-            method: "POST",
-            body: JSON.stringify(requestBody),
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-            .then((res) => {
-              if (res.status !== 200 && res.status !== 201) {
-                throw new Error("Failed!");
-              }
-              return res.json();
-            })
-            .then((resData) => {
-              console.log(resData);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-
-          //console.log(submitUser[0].FirstName);
 
           setSubmitting(true);
           console.log(submitUser);
@@ -393,7 +354,7 @@ const RegisterView = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
+      border-bottom: solid 2px #0a95bf;
     }
   }
 `;
