@@ -12,6 +12,7 @@ export default function Input({
   min,
   max,
 }) {
+  console.log(color);
   return (
     <StyleInput color={color}>
       <label htmlFor={id}>{label}</label>
@@ -20,7 +21,6 @@ export default function Input({
         name={name}
         required
         autocomplete="off"
-        required
         onBlur={onBlur}
         placeholder={name}
         id={id}
@@ -68,7 +68,7 @@ const StyleInput = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
+      border-bottom: solid 2px ${(props) => props.color} !important;
     }
   }
 `;
