@@ -35,30 +35,32 @@ export default function FormLogin(props) {
         if (email.trim() === 0 || password.trim() === 0) {
           return;
         }
-
-        let requestBody = {
-          query: `
-            query{
-              userLogin(mail: "${email}", password: "${password}"){
-                userId
-                token
-                tokenExpiration
+        let requestBody = {};
+        if (props.color === "#0A95BF") {
+          requestBody = {
+            query: `
+              query{
+                userLogin(mail: "${email}", password: "${password}"){
+                  userId
+                  token
+                  tokenExpiration
+                }
               }
-            }
-          `,
-        };
-
-        requestBody = {
-          query: `
-            query{
-              adminLogin(mail: "${email}", password: "${password}"){
-                adminId
-                token
-                tokenExpiration
+            `,
+          };
+        } else {
+          requestBody = {
+            query: `
+              query{
+                adminLogin(mail: "${email}", password: "${password}"){
+                  adminId
+                  token
+                  tokenExpiration
+                }
               }
-            }
-          `,
-        };
+            `,
+          };
+        }
 
         fetch("https://porta-api.herokuapp.com/graphql/", {
           method: "POST",
