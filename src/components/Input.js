@@ -39,9 +39,9 @@ const StyleInput = styled.div`
     font-size: 1em;
     font-weight: 600;
     color: black;
-    margin: 0.3rem;
+    margin: 0.2rem;
     cursor: pointer;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
   input {
     background: none;

@@ -11,7 +11,7 @@ export default function FormLogin() {
       }}
       validate={(values) => {
         const errors = {};
-        if (!values.email) {
+        if (!values.Email) {
           errors.Email = "Required Field";
         } else if (
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
@@ -30,7 +30,7 @@ export default function FormLogin() {
         /// code here
 
         setSubmitting(true);
-        console.log(values);
+        console.log(values, values.Password.length);
 
         setSubmitting(false);
         resetForm();
