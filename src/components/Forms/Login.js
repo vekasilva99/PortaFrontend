@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
 export default function FormLogin(props) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [login, { data, loading, error }] = useLazyQuery(
+    isAdmin ? ADMIN_LOGIN : LOGIN_USER
+  );
   return (
     <Formik
       initialValues={{
@@ -36,7 +42,7 @@ export default function FormLogin(props) {
           return;
         }
 
-        let requestBody = {
+        /*   let requestBody = {
           query: `
             query{
               userLogin(mail: "${email}", password: "${password}"){
@@ -79,7 +85,15 @@ export default function FormLogin(props) {
           .catch((err) => {
             console.log(err);
           });
+   */
 
+        const { data } = await login({
+          variables: {
+            mail: email,
+            password,
+          },
+        });
+        console.log(data);
         setSubmitting(true);
         console.log(values, values.Password.length);
 
