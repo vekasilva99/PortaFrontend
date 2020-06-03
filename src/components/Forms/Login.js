@@ -90,7 +90,7 @@ export default function FormLogin(props) {
         const { data } = await login({
           variables: {
             mail: email,
-            password,
+            password: password,
           },
         });
         console.log(data);

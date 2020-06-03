@@ -2,12 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
+import { GET_USERS, GET_REPARTIDORES } from "../helpers/graphql/queries";
+import { useQuery } from '@apollo/react-hooks';
+
+
 
 export default function AdminTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
+
+  const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
+  const { loading, error, data } = useQuery(GET_REPARTIDORES);  
+  // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  // if (u_loading) return 'Loading...';
+  // if (u_error) return `Error! ${r_error.message}`;
+  
   return (
     <StyledTable>
       <div className="title">
@@ -16,6 +30,24 @@ export default function AdminTable(props) {
           2
         </BsCircleFill>
       </div>
+
+      {/* Prueba repartidores */}
+      <select name="driverTest">
+        {data.repartidores.map(repartidor => (
+          <option key={repartidor.id}>
+            {repartidor.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Prueba USUARIOS */}
+      <select name="userTest">
+        {dataU.users.map(user => (
+          <option key={user.id}>
+            {user.name}
+          </option>
+        ))}
+      </select>
 
       <ul className="header">
         <li className="link2">

@@ -20,3 +20,32 @@ export const ADMIN_LOGIN = gql`
    }
  
 `;
+
+export const GET_USERS = gql`
+   {
+      users{
+         _id
+         name
+         lastName
+         birthdate
+         mail
+         zone
+         cellphone
+         signinDate
+      }
+   }
+`;
+
+export const GET_REPARTIDORES = gql`
+   {
+      repartidores{
+         _id
+         name
+         lastName
+         birthdate
+         mail
+         zone
+         hiringDate
+      }
+   }
+`;
