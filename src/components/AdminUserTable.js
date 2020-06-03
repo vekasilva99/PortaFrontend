@@ -14,8 +14,8 @@ export default function AdminTable(props) {
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
   // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  if (loadingU) return "Loading...";
+  if (errorU) return `Error! ${errorU.message}`;
 
   // if (u_loading) return 'Loading...';
   // if (u_error) return `Error! ${r_error.message}`;
