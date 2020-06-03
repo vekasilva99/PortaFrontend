@@ -97,7 +97,7 @@ export default function FormRegister(props) {
             errors.Password = "Required Field";
           } else if (values.Password.length < 9) {
             errors.Password = "Password too short";
-          } else if (values.Password != values.Password2) {
+          } else if (values.Password !== values.Password2) {
             errors.Password = "Password doesn't match";
           }
 
