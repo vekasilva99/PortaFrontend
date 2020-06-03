@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { colorPrimary } from "../helpers/styles";
 import NavbarAdmin from "../components/NavbarAdmin";
 import AdminSidebar from "../components/AdminSidebar";
-import AdminTable from "../components/AdminUserDashboardTable";
+import AdminTable from "../components/AdminUserTable";
 import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 
@@ -31,7 +31,7 @@ const HomeStyle = styled.section`
   left: 0;
   position: absolute;
   overflow-x: hidden;
-  background: #333333;
+  background: #fafafa;
   .content {
     margin-top: 5rem;
   }

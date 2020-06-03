@@ -3,26 +3,25 @@ import FormLogin from "../components/Forms/Login";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-export default function Login() {
-  const [on, setToggle] = React.useState(true);
-
-  const handleToggle = (e) => setToggle(false);
+export default function Login(props) {
   return (
     <div>
-      {on ? (
+      {props.show ? (
         <LoginView>
           <div className="login-box">
             <MdClose
-              onClick={handleToggle}
+              onClick={props.togglerLogin}
               className="close"
               size="1.7rem"
-              color="black"
+              color="#fafafa"
             />
             <div className="container">
               <h2 className="h2">Log In</h2>
               <FormLogin color="#00507A" />
               <h3 className="h3">New to Porta?</h3>
-              <h4 className="h4">SIGN UP</h4>
+              <button onClick={props.togglerRegister} className="h4">
+                SIGN UP
+              </button>
             </div>
           </div>
         </LoginView>
@@ -44,6 +43,9 @@ const LoginView = styled.div`
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 300;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   &:after {
     position: absolute;
     top: 0;
@@ -52,31 +54,36 @@ const LoginView = styled.div`
     width: 100%;
     z-index: 1;
     height: 100%;
-    background: white;
+    background: #202124;
     opacity: 0.4;
   }
   .h2 {
-    color: black;
-    font-family: Roboto;
-    font-size: 1.5em;
+    color: #fafafa;
+    font-size: 2em;
+    font-weight: 500;
+    letter-spacing: 1px;
     position: absolute;
     top: 2rem;
   }
   .h3 {
-    color: black;
+    color: #fafafa;
     bottom: 3rem;
     position: absolute;
-    font-family: Roboto;
     font-size: 0.9em;
   }
   .h4 {
-    color: black;
     bottom: 1.5rem;
+    margin: 0;
     position: absolute;
-    font-family: Roboto;
     font-size: 0.8em;
-    font-weight: 600;
     color: #00507a;
+    font-weight: 300;
+    border: none;
+    cursor: pointer;
+    background: #202124;
+    &:focus {
+      outline: none;
+    }
   }
 
   .login-box {
@@ -86,8 +93,8 @@ const LoginView = styled.div`
     transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
-    height: 100vh;
-    width: 100vw;
+    height: 75vh;
+    width: 70vw;
     z-index: 2;
     align-items: center;
     justify-content: center;
@@ -101,7 +108,7 @@ const LoginView = styled.div`
     z-index: 3;
     height: 75vh;
     width: inherit;
-    background: white;
+    background: #202124;
     color: black;
     display: flex;
     align-items: center;
@@ -115,5 +122,6 @@ const LoginView = styled.div`
     position: absolute;
     z-index: 4;
     right: 0;
+    cursor: pointer;
   }
 `;

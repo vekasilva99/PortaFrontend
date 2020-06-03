@@ -374,7 +374,7 @@ const RegisterView = styled.div`
   .dos {
     font-size: 1em;
     font-weight: 600;
-    color: ${(props) => props.color};
+    color: #fafafa;
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;

@@ -329,7 +329,7 @@ const RegisterView = styled.div`
   justify-content: space-between;
   label {
     font-size: 1em;
-    font-weight: 600;
+    font-weight: 200;
     color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
@@ -373,8 +373,8 @@ const RegisterView = styled.div`
 
   .dos {
     font-size: 1em;
-    font-weight: 600;
-    color: ${(props) => props.color};
+    font-weight: 200;
+    color: #fafafa;
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;

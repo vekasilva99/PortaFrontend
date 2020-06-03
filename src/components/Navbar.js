@@ -22,30 +22,20 @@ export default function NavbarAdmin(props) {
     <StyledNavbar>
       <div className="toggle">
         <div>
-          <TiThMenuOutline
-            onClick={() => {
-              props.togglerSidebar();
-              handlingSidebar();
-            }}
-            className={style}
-            size="1.7rem"
-            color="#fafafa"
-          />
-          {/* <FiMail className={style} size="1.7rem" color="#ff8600" />
-          <FaRegUser className={style} size="1.7rem" color="#ff8600" /> */}
+          <h2>Porta</h2>
         </div>
       </div>
       {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
       <ul className="nav-links">
         <li>
-          <NavLink to="/" className="link">
-            LOG OUT
-          </NavLink>
+          <button onClick={props.togglerLogin} className="link">
+            LOG IN
+          </button>
         </li>
         <li>
-          <NavLink to="/" className="link2">
-            PROFILE
-          </NavLink>
+          <button onClick={props.togglerRegister} className="link2">
+            SIGN UP
+          </button>
         </li>
       </ul>
     </StyledNavbar>
@@ -57,8 +47,7 @@ const StyledNavbar = styled.nav`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-end;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: Roboto;
   height: 8vh;
   width: 100%;
   top: 0;
@@ -71,46 +60,24 @@ const StyledNavbar = styled.nav`
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
+    color: #fafafa;
     top: 0;
     left: 0;
+    margin-left: 2vw;
   }
-  .open {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: left;
-    list-style: none;
-    margin-left: 22vw;
-    margin-top: 1rem;
-    cursor: pointer;
-    transform: translateX(0);
-    transition: transform 0.3s ease-out;
-    font-weight: 200;
-    &:hover {
-      color: #fafafa;
-    }
+  .toggle > h2 {
+    font-weight: 500;
+    margin-left: 2vw;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
-  .close {
-    transform: translateX(-18vw);
-    display: flex;
-    font-weight: 200;
-    flex-flow: row nowrap;
-    align-items: left;
-    list-style: none;
-    margin-left: 20vw;
-    margin-top: 1rem;
-    cursor: pointer;
-    transition: transform 0.3s ease-out;
-    &:hover {
-      color: #fafafa;
-    }
-  }
   .nav-links {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: right;
-    width: 18vw;
+    width: 15vw;
     list-style: none;
     margin-right: 1rem;
   }
@@ -118,12 +85,13 @@ const StyledNavbar = styled.nav`
   .link {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.8vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
     border: 1.5px solid #202124;
     border-radius: 5vw;
     cursor: pointer;
@@ -143,12 +111,13 @@ const StyledNavbar = styled.nav`
   .link2 {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.8vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
     border: 1.5px solid #202124;
     border-radius: 5vw;
     cursor: pointer;
@@ -164,5 +133,6 @@ const StyledNavbar = styled.nav`
     &:focus {
       outline: none;
     }
-  }
+
+   
 `;

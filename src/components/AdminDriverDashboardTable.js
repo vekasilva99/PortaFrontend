@@ -19,32 +19,32 @@ export default function AdminDriverTable(props) {
 
       <ul className="header">
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             NAME
           </NavLink>
         </li>
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             LAST NAME
           </NavLink>
         </li>
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             BIRTHDATE
           </NavLink>
         </li>
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             MAIL
           </NavLink>
         </li>
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             CELLPHONE
           </NavLink>
         </li>
         <li className="link2">
-          <NavLink className="item" to="/">
+          <NavLink className="item2" to="/">
             HIRING DATE
           </NavLink>
         </li>
@@ -95,7 +95,8 @@ export default function AdminDriverTable(props) {
 const StyledTable = styled.nav`
   display: flex;
   flex-flow: column;
-  font-family: Roboto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   height: 50vh;
   width: 100%;
   margin-top: 0;
@@ -105,7 +106,10 @@ const StyledTable = styled.nav`
     margin-left: 20vw;
     width: 70%;
     align-self: center;
-    color: #f28530;
+    color: #202124;
+  }
+  .title > h1 {
+    font-weight: 200;
   }
 
   .circle {
@@ -125,13 +129,12 @@ const StyledTable = styled.nav`
     margin-block-start: 0;
     padding-inline-start: 0;
     transition: all ease-in-out 0.3s;
-    border-bottom: 1.5px solid #202124;
+    border-bottom: 1px solid #202124;
     padding: 0;
 
     &:hover {
-      background: #202124;
-      color: white;
-      border-color: #202124;
+      background: #ebebeb;
+      border-bottom: 1px solid #202124;
     }
     &:focus {
       outline: none;
@@ -174,7 +177,7 @@ const StyledTable = styled.nav`
   }
   .button {
     display: flex;
-    color: #202124;
+    color: #fafafa;
     font-weight: 600;
     font-size: 0.7em;
     text-decoration: none;
@@ -190,7 +193,7 @@ const StyledTable = styled.nav`
 
     &:hover {
       background: #202124;
-      color: #f28530;
+      color: #fafafa;
       border-color: #202124;
     }
     &:focus {
@@ -227,6 +230,10 @@ const StyledTable = styled.nav`
 
   .item {
     text-decoration: none;
-    color: #f28530;
+    color: #202124;
+  }
+  .item2 {
+    text-decoration: none;
+    color: #fafafa;
   }
 `;

@@ -39,11 +39,12 @@ const StyleInput = styled.div`
   margin: auto;
   align-items: center;
   justify-content: center;
-  font-family: Roboto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
     font-size: 1em;
-    font-weight: 600;
-    color: black;
+    font-weight: 200;
+    color: #fafafa;
     margin: 0.2rem;
     cursor: pointer;
     margin-top: 1rem;
@@ -52,7 +53,7 @@ const StyleInput = styled.div`
     background: none;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: black;
+    color: #fafafa;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;

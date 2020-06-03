@@ -33,7 +33,7 @@ const HomeStyle = styled.section`
   left: 0;
   position: absolute;
   overflow-x: hidden;
-  background: #333333;
+  background: #fafafa;
   .content {
     margin-top: 5rem;
   }

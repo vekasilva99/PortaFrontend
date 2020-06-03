@@ -17,12 +17,12 @@ export default function AdminSidebar(props) {
         <img className="logo" src={logo3} alt="Logo" />
         <ul className="nav-links">
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/admin" className="link">
               HOME
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/admin/users" className="link">
               USERS
             </NavLink>
           </li>
@@ -95,8 +95,8 @@ const StyledSidebar = styled.nav`
   .link {
     background: #202124;
     display: flex;
-    color: #333333;
-    font-weight: 600;
+    color: #fafafa;
+    font-weight: 500;
     font-size: 0.9em;
     text-decoration: none;
     padding: 1.4rem;
@@ -105,7 +105,8 @@ const StyledSidebar = styled.nav`
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-start;
-    font-family: Roboto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     &:hover {
       color: #f28530;
