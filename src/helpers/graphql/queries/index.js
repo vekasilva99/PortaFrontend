@@ -46,6 +46,7 @@ export const GET_REPARTIDORES = gql`
          mail
          zone
          hiringDate
+         cellphone
       }
    }
 `;
