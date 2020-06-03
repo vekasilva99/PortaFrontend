@@ -20,7 +20,7 @@ export default function Login() {
             />
             <div className="container">
               <h2 className="h2">Log In</h2>
-              <FormLogin color="#0A95BF" />
+              <FormLogin color="#00507A" />
               <h3 className="h3">New to Porta?</h3>
               <h4 className="h4">SIGN UP</h4>
             </div>
@@ -32,7 +32,6 @@ export default function Login() {
 }
 
 const LoginView = styled.div`
-  background: url(${require("../assets/images/bg1.jpg")}) no-repeat center;
   background-size: cover;
   display: block;
   display: flex;
@@ -77,7 +76,7 @@ const LoginView = styled.div`
     font-family: Roboto;
     font-size: 0.8em;
     font-weight: 600;
-    color: #0a95bf;
+    color: #00507a;
   }
 
   .login-box {
@@ -87,9 +86,8 @@ const LoginView = styled.div`
     transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
-    height: 75vh;
-    width: 95%;
-    max-width: 500px;
+    height: 100vh;
+    width: 100vw;
     z-index: 2;
     align-items: center;
     justify-content: center;
@@ -97,6 +95,9 @@ const LoginView = styled.div`
 
   .container {
     position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 3;
     height: 75vh;
     width: inherit;

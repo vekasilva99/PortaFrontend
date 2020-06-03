@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
 import { GET_USERS, GET_REPARTIDORES } from "../helpers/graphql/queries";
-import { useQuery } from '@apollo/react-hooks';
-
-
+import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminTable(props) {
   const [users, setUsers] = React.useState([
@@ -14,14 +12,14 @@ export default function AdminTable(props) {
   ]);
 
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
-  const { loading, error, data } = useQuery(GET_REPARTIDORES);  
+  const { loading, error, data } = useQuery(GET_REPARTIDORES);
   // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
   // if (u_loading) return 'Loading...';
   // if (u_error) return `Error! ${r_error.message}`;
-  
+
   return (
     <StyledTable>
       <div className="title">
@@ -32,22 +30,18 @@ export default function AdminTable(props) {
       </div>
 
       {/* Prueba repartidores */}
-      <select name="driverTest">
-        {data.repartidores.map(repartidor => (
-          <option key={repartidor.id}>
-            {repartidor.name}
-          </option>
+      {/* <select name="driverTest">
+        {data.repartidores.map((repartidor) => (
+          <option key={repartidor.id}>{repartidor.name}</option>
         ))}
-      </select>
+      </select> */}
 
       {/* Prueba USUARIOS */}
-      <select name="userTest">
-        {dataU.users.map(user => (
-          <option key={user.id}>
-            {user.name}
-          </option>
+      {/* <select name="userTest">
+        {dataU.users.map((user) => (
+          <option key={user.id}>{user.name}</option>
         ))}
-      </select>
+      </select> */}
 
       <ul className="header">
         <li className="link2">
@@ -75,19 +69,14 @@ export default function AdminTable(props) {
             CELLPHONE
           </NavLink>
         </li>
-        <li className="link2">
+        {/* <li className="link2">
           <NavLink className="item" to="/">
             DATE
           </NavLink>
-        </li>
+        </li> */}
       </ul>
-      {users.map((user) => (
+      {dataU.users.map((user) => (
         <ul className="nav-links">
-          <li className="link">
-            <NavLink className="item" to="/">
-              {user.id}
-            </NavLink>
-          </li>
           <li className="link">
             <NavLink className="item" to="/">
               {user.name}
@@ -95,32 +84,31 @@ export default function AdminTable(props) {
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.age}
+              {user.lastName}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.birthdate}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.mail}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.cellphone}
             </NavLink>
           </li>
+          {/* <li className="link">
+            <NavLink className="item" to="/">
+              {user.signindate}
+            </NavLink>
+          </li> */}
         </ul>
       ))}
-
-      <li className="container">
-        <NavLink to="/" className="button">
-          SHOW MORE
-        </NavLink>
-      </li>
     </StyledTable>
   );
 }
@@ -128,7 +116,7 @@ const StyledTable = styled.nav`
   display: flex;
   flex-flow: column;
   font-family: Roboto;
-  height: 50vh;
+  height: 70%;
   width: 100%;
   margin-top: 0;
   .title {
