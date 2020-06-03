@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
 
-export default function AdminTable(props) {
+export default function RequestsTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
@@ -11,8 +11,8 @@ export default function AdminTable(props) {
   return (
     <StyledTable>
       <div className="title">
-        <h1>USERS</h1>
-        <BsCircleFill size="1.8rem" color="#f89262" className="circle">
+        <h1>REQUESTS</h1>
+        <BsCircleFill size="1.8rem" color="#202124" className="circle">
           2
         </BsCircleFill>
       </div>
@@ -20,22 +20,32 @@ export default function AdminTable(props) {
       <ul className="header">
         <li className="link2">
           <NavLink className="item" to="/">
-            ITEM 1
+            NAME
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item" to="/">
-            ITEM 2
+            LAST NAME
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item" to="/">
-            ITEM 2
+            BIRTHDATE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item" to="/">
-            ITEM 2
+            MAIL
+          </NavLink>
+        </li>
+        <li className="link2">
+          <NavLink className="item" to="/">
+            CELLPHONE
+          </NavLink>
+        </li>
+        <li className="link2">
+          <NavLink className="item" to="/">
+            HIRING DATE
           </NavLink>
         </li>
       </ul>
@@ -61,12 +71,22 @@ export default function AdminTable(props) {
               {user.email}
             </NavLink>
           </li>
+          <li className="link">
+            <NavLink className="item" to="/">
+              {user.email}
+            </NavLink>
+          </li>
+          <li className="link">
+            <NavLink className="item" to="/">
+              {user.email}
+            </NavLink>
+          </li>
         </ul>
       ))}
 
       <li className="container">
         <NavLink to="/" className="button">
-          BOTON
+          SHOW MORE
         </NavLink>
       </li>
     </StyledTable>
@@ -78,14 +98,14 @@ const StyledTable = styled.nav`
   font-family: Roboto;
   height: 50vh;
   width: 100%;
-  margin-top: 1vh;
+  margin-top: 0;
   .title {
     font-size: 1.5rem;
     display: flex;
     margin-left: 20vw;
     width: 70%;
     align-self: center;
-    color: #f89262;
+    color: #f28530;
   }
 
   .circle {
@@ -105,13 +125,13 @@ const StyledTable = styled.nav`
     margin-block-start: 0;
     padding-inline-start: 0;
     transition: all ease-in-out 0.3s;
-    border-bottom: 1.5px solid #f8f8f8;
+    border-bottom: 1.5px solid #202124;
     padding: 0;
 
     &:hover {
-      background: #ebebeb;
+      background: #202124;
       color: white;
-      border-color: #ebebeb;
+      border-color: #202124;
     }
     &:focus {
       outline: none;
@@ -127,12 +147,12 @@ const StyledTable = styled.nav`
     justify-content: center;
     list-style: none;
     height: 4.5vh;
-    background: #f8f8f8;
+    background: #202124;
     margin-block-end: 0;
     margin-block-start: 0;
     padding-inline-start: 0;
     margin-bottom: 1.5rem;
-    border: 1.5px solid #f8f8f8;
+    border: 1.5px solid #202124;
     border-radius: 10px;
     padding-left: 1em;
   }
@@ -154,24 +174,24 @@ const StyledTable = styled.nav`
   }
   .button {
     display: flex;
-    color: white;
+    color: #202124;
     font-weight: 600;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.5rem;
     padding-left: 4rem;
     padding-right: 4rem;
-    border: 1.5px solid #f89262;
+    border: 1.5px solid #f28530;
     border-radius: 500px;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
-    background: #f89262;
+    background: #f28530;
 
     &:hover {
-      background: white;
-      color: #f89262;
-      border-color: #f89262;
+      background: #202124;
+      color: #f28530;
+      border-color: #202124;
     }
     &:focus {
       outline: none;
@@ -195,7 +215,7 @@ const StyledTable = styled.nav`
   .link2 {
     display: flex;
     font-weight: 600;
-    font-size: 0.8em;
+    font-size: 0.5em;
     text-decoration: none;
     cursor: pointer;
     justify-content: center;
@@ -207,6 +227,6 @@ const StyledTable = styled.nav`
 
   .item {
     text-decoration: none;
-    color: #f89262;
+    color: #f28530;
   }
 `;

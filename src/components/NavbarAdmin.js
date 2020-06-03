@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
+import { FiMail } from "react-icons/fi";
+import { FaRegUser } from "react-icons/fa";
 
 export default function NavbarAdmin(props) {
-  const [sidebar, setSidebar] = React.useState(true);
+  const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
@@ -19,26 +21,30 @@ export default function NavbarAdmin(props) {
   return (
     <StyledNavbar>
       <div className="toggle">
-        <TiThMenuOutline
-          onClick={() => {
-            props.togglerSidebar();
-            handlingSidebar();
-          }}
-          className={style}
-          size="1.7rem"
-          color="#f89262"
-        />
+        <div>
+          <TiThMenuOutline
+            onClick={() => {
+              props.togglerSidebar();
+              handlingSidebar();
+            }}
+            className={style}
+            size="1.7rem"
+            color="#f28530"
+          />
+          {/* <FiMail className={style} size="1.7rem" color="#ff8600" />
+          <FaRegUser className={style} size="1.7rem" color="#ff8600" /> */}
+        </div>
       </div>
       {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
       <ul className="nav-links">
         <li>
           <NavLink to="/" className="link">
-            ITEM 1
+            LOG OUT
           </NavLink>
         </li>
         <li>
           <NavLink to="/" className="link2">
-            ITEM 2
+            PROFILE
           </NavLink>
         </li>
       </ul>
@@ -52,8 +58,7 @@ const StyledNavbar = styled.nav`
   align-items: center;
   justify-content: flex-end;
   font-family: Roboto;
-  color: pink;
-  height: 10vh;
+  height: 8vh;
   width: 100%;
   top: 0;
   left: 0;
@@ -102,23 +107,24 @@ const StyledNavbar = styled.nav`
 
   .link {
     display: flex;
-    color: #f89262;
+    color: #ff8600;
     font-weight: 600;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.5rem;
     padding-left: 1.4rem;
     padding-right: 1.4rem;
-    border: 1.5px solid #f89262;
+    border: 1.5px solid #202124;
     border-radius: 500px;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
+    background: #202124;
 
     &:hover {
-      background: #f89262;
-      color: white;
-      border-color: #f89262;
+      background: #f28530;
+      color: #202124;
+      border-color: #f28530;
     }
     &:focus {
       outline: none;
@@ -126,20 +132,25 @@ const StyledNavbar = styled.nav`
   }
   .link2 {
     display: flex;
-    color: white;
+    color: #202124;
     font-weight: 600;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.5rem;
     padding-left: 1.4rem;
     padding-right: 1.4rem;
-    border: 1.5px solid #f89262;
+    border: 1.5px solid #f28530;
     border-radius: 500px;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
-    background: #f89262;
+    background: #f28530;
 
+    &:hover {
+      background: #202124;
+      color: #f28530;
+      border-color: #202124;
+    }
     &:focus {
       outline: none;
     }

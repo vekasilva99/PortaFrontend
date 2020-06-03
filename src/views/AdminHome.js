@@ -19,6 +19,8 @@ export default function AdminHome() {
       <AdminSidebar show={sidebar} />
       <div className="content">
         <AdminTable />
+        <AdminDriverTable />
+        <RequestsTable />
       </div>
     </HomeStyle>
   );

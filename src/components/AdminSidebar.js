@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
-import logo2 from "../assets/images/logo2.png";
+import logo3 from "../assets/images/logo3.png";
+import { FiMail } from "react-icons/fi";
 
 export default function AdminSidebar(props) {
   let style;
@@ -13,31 +14,31 @@ export default function AdminSidebar(props) {
   return (
     <StyledSidebar>
       <div className={style}>
-        <img className="logo" src={logo2} alt="Logo" />
+        <img className="logo" src={logo3} alt="Logo" />
         <ul className="nav-links">
           <li>
             <NavLink to="/" className="link">
-              ITEM 1
+              HOME
             </NavLink>
           </li>
           <li>
             <NavLink to="/" className="link">
-              ITEM 2
+              USERS
             </NavLink>
           </li>
           <li>
             <NavLink to="/" className="link">
-              ITEM 2
+              DRIVERS
             </NavLink>
           </li>
           <li>
             <NavLink to="/" className="link">
-              ITEM 2
+              REQUESTS
             </NavLink>
           </li>
           <li>
             <NavLink to="/" className="link">
-              ITEM 2
+              TRIPS
             </NavLink>
           </li>
         </ul>
@@ -49,7 +50,7 @@ const StyledSidebar = styled.nav`
   .open {
     transform: translateX(0);
     height: 100%;
-    background: #ebebeb;
+    background: #202124;
     position: fixed;
     top: 0;
     left: 0;
@@ -63,7 +64,7 @@ const StyledSidebar = styled.nav`
   .close {
     transform: translateX(-20vw);
     height: 100%;
-    background: #ebebeb;
+    background: #202124;
     position: fixed;
     top: 0;
     left: 0;
@@ -89,11 +90,12 @@ const StyledSidebar = styled.nav`
     margin-block-start: 0;
     padding-inline-start: 0;
     justify-content: center;
+    background: #202124;
   }
   .link {
-    background: #ebebeb;
+    background: #202124;
     display: flex;
-    color: #d1d1d1;
+    color: #333333;
     font-weight: 600;
     font-size: 0.9em;
     text-decoration: none;
@@ -106,9 +108,9 @@ const StyledSidebar = styled.nav`
     font-family: Roboto;
 
     &:hover {
-      color: #f89262;
-      border-left: 2.5px solid #f89262;
-      background: #d1d1d1;
+      color: #f28530;
+      border-left: 2.5px solid #f28530;
+      background: #333333;
     }
     &:focus {
       outline: none;
@@ -125,5 +127,6 @@ const StyledSidebar = styled.nav`
     padding: 2.5rem;
     top: 0;
     left: 0;
+    z-index: 50;
   }
 `;

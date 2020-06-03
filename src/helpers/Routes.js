@@ -7,6 +7,7 @@ import LoginDriver from "../views/LoginDriver";
 import RegisterUser2 from "../views/RegisterUser2";
 import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
+import AdminHome from "../views/AdminHome";
 
 export default function Routes() {
   return (
@@ -33,9 +34,10 @@ export default function Routes() {
         path="/driverlogin"
         render={(props) => <LoginDriver {...props} />}
       />
+      <Route exact path="/admin" render={(props) => <AdminHome {...props} />} />
       <Route
         exact
-        path="/admin"
+        path="/admin/users"
         render={(props) => <AdminUsers {...props} />}
       />
 
