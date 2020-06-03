@@ -44,13 +44,13 @@ export default function Home() {
   return (
     <HomeStyle>
       <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} />
-      {login ? (
-        <Login
-          show={login}
-          togglerLogin={handlingLogin}
-          togglerRegister={handlingRegister}
-        />
-      ) : null}
+
+      <Login
+        show={login}
+        togglerLogin={handlingLogin}
+        togglerRegister={handlingRegister}
+      />
+
       {loginD ? (
         <LoginDriver
           show={loginD}

@@ -6,26 +6,25 @@ import { MdClose } from "react-icons/md";
 export default function Login(props) {
   return (
     <div>
-      {props.show ? (
-        <LoginView>
-          <div className="login-box">
-            <MdClose
-              onClick={props.togglerLogin}
-              className="close"
-              size="1.7rem"
-              color="#fafafa"
-            />
-            <div className="container">
-              <h2 className="h2">Log In</h2>
-              <FormLogin color="#00507A" />
-              <h3 className="h3">New to Porta?</h3>
-              <button onClick={props.togglerRegister} className="h4">
-                SIGN UP
-              </button>
-            </div>
+      <LoginView show={props.show}>
+        <div className="login-box">
+          <MdClose
+            onClick={props.togglerLogin}
+            className="close"
+            size="1.7rem"
+            color="#fafafa"
+          />
+          <div className="container">
+            <h2 className="h2">Log In</h2>
+            <FormLogin color="#00507A" />
+            <h3 className="h3">New to Porta?</h3>
+            <button onClick={props.togglerRegister} className="h4">
+              SIGN UP
+            </button>
           </div>
-        </LoginView>
-      ) : null}
+        </div>
+      </LoginView>
+      )
     </div>
   );
 }
@@ -43,7 +42,9 @@ const LoginView = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 300;
+  transition: all ease-in-out 0.3s;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  z-index: ${(props) => (props.show ? 300 : -1)};
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   &:after {
@@ -88,9 +89,9 @@ const LoginView = styled.div`
 
   .login-box {
     position: absolute;
+    transform-origin: center center;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
     height: 75vh;
@@ -98,6 +99,9 @@ const LoginView = styled.div`
     z-index: 2;
     align-items: center;
     justify-content: center;
+    transition: transform ease-in-out 0.3s;
+    transform: translate(-50%, -50%)
+      rotateY(${(props) => (props.show ? "0" : "90deg")});
   }
 
   .container {

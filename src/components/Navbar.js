@@ -48,7 +48,7 @@ const StyledNavbar = styled.nav`
   align-items: center;
   justify-content: flex-end;
   font-family: Roboto;
-  height: 8vh;
+  height: 4rem;
   width: 100%;
   top: 0;
   left: 0;
@@ -69,7 +69,7 @@ const StyledNavbar = styled.nav`
     font-weight: 500;
     margin-left: 2vw;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
   .nav-links {
@@ -133,6 +133,5 @@ const StyledNavbar = styled.nav`
     &:focus {
       outline: none;
     }
-
-   
+  }
 `;
