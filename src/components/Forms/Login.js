@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
+import Spinner from "../Spinner";
 export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [login, { data, loading, error }] = useLazyQuery(
-    isAdmin ? ADMIN_LOGIN : LOGIN_USER
-  );
+  const [login, { data, loading, error }] = useLazyQuery(ADMIN_LOGIN);
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("token", data.adminLogin);
+    }
+  }, [data, loading]);
   return (
     <Formik
       initialValues={{
@@ -23,25 +28,26 @@ export default function FormLogin(props) {
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
         ) {
           errors.Email = "Invalid Email";
+          console.log("sa");
         }
         if (!values.Password) {
           errors.Password = "Required Field";
+          console.log("entra");
         } else if (values.Password.length < 9) {
           errors.Password = "Password too short";
+          console.log("entra 2");
         }
-
-        return console.log(errors);
+        console.log(errors);
+        return errors;
       }}
-      onSubmit={async (values, { setSubmitting, resetForm }) => {
+      onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
         /// code here
         //event.preventDefault();
-        const email = values.Email;
-        const password = values.Password;
 
-        if (email.trim() === 0 || password.trim() === 0) {
+        if (Email.trim() === 0 || Password.trim() === 0) {
           return;
         }
-
+        console.log("llega aca");
         /*   let requestBody = {
           query: `
             query{
@@ -87,15 +93,13 @@ export default function FormLogin(props) {
           });
    */
 
-        const { data } = await login({
+        login({
           variables: {
-            mail: email,
-            password: password,
+            mail: Email,
+            password: Password,
           },
         });
-        console.log(data);
         setSubmitting(true);
-        console.log(values, values.Password.length);
 
         setSubmitting(false);
         resetForm();
@@ -110,35 +114,40 @@ export default function FormLogin(props) {
         handleSubmit,
         isSubmitting,
         /* and other goodies */
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <Input
-            value={values.Email}
-            label="Enter your email"
-            id="Email"
-            name="Email"
-            type="text"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            color={props.color}
-          />
+      }) =>
+        loading ? (
+          <Spinner></Spinner>
+        )
+        :data ? <Redirect to="/admin"/>: (
+          <form onSubmit={handleSubmit}>
+            <Input
+              value={values.Email}
+              label="Enter your email"
+              id="Email"
+              name="Email"
+              type="text"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color={props.color}
+            />
 
-          <Input
-            value={values.Password}
-            label="Enter your password"
-            id="Password"
-            type="password"
-            name="Password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            color={props.color}
-          />
-          <Button color={props.color} type="submit" block>
-            {" "}
-            SIGN IN{" "}
-          </Button>
-        </form>
-      )}
+            <Input
+              value={values.Password}
+              label="Enter your password"
+              id="Password"
+              type="password"
+              name="Password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color={props.color}
+            />
+            <Button color={props.color} type="submit" block>
+              {" "}
+              SIGN IN{" "}
+            </Button>
+          </form>
+        )
+      }
     </Formik>
   );
 }

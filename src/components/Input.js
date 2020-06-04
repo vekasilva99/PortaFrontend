@@ -12,7 +12,6 @@ export default function Input({
   min,
   max,
 }) {
-  console.log(color);
   return (
     <StyleInput color={color}>
       <label htmlFor={id}>{label}</label>
@@ -20,7 +19,7 @@ export default function Input({
         type={type}
         name={name}
         required
-        autocomplete="off"
+        autoComplete="off"
         onBlur={onBlur}
         placeholder={name}
         id={id}
