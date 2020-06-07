@@ -7,17 +7,15 @@ import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
 export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(true);
   const [isRepartidor, setIsRepartidor] = useState(false);
 
-  if (props.color == "#F89262") {
+  if (props.color === "#F89262") {
     setIsAdmin(true);
-  }
-  if ((props.color = "#EE462F")) {
+    setIsUser(false);
+  } else if (props.color === "#EE462F") {
     setIsRepartidor(true);
-  }
-  if ((props.color = "#00507A")) {
-    setIsUser(true);
+    setIsUser(false);
   }
 
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
