@@ -5,11 +5,7 @@ import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
-export default function FormLogin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(true);
-  const [isRepartidor, setIsRepartidor] = useState(false);
-
+export default function FormLoginDriver(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   useEffect(() => {
     if (data) {
