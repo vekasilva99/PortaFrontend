@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
@@ -13,7 +14,7 @@ export default function FormLogin(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.userLogin);
+      localStorage.setItem("token", data.adminLogin);
     }
   }, [data, loading]);
   return (
@@ -119,6 +120,8 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
+        ) : data ? (
+          <Redirect to="/admin" />
         ) : (
           <form onSubmit={handleSubmit}>
             <Input
