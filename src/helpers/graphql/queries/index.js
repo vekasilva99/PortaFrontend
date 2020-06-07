@@ -50,3 +50,52 @@ export const GET_REPARTIDORES = gql`
       }
    }
 `;
+
+export const CURRENT_USER = gql`
+   {
+      currentUser{
+         _id
+         name
+         lastName
+      }
+   }
+`;
+
+export const CURRENT_ADMIN = gql`
+   {
+      currentAdmin{
+         _id
+         mail
+      }
+   }
+`;
+
+export const NEW_USERS = gql`
+   {
+      newestUsers{
+         _id
+         name
+         lastName
+         birthdate
+         mail
+         zone
+         cellphone
+         signinDate
+     }
+   }
+`;
+
+export const NEW_REPARTIDORES = gql`
+   {
+      newestRepartidores{
+         _id
+         name
+         lastName
+         birthdate
+         mail
+         zone
+         hiringDate
+         cellphone
+     }
+   }
+`;

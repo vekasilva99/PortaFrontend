@@ -1,5 +1,5 @@
 import React from "react";
-import FormLogin from "../components/Forms/Login";
+import FormLoginAdmin from "../components/Forms/LoginAdmin";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
@@ -20,7 +20,7 @@ export default function LoginAdmin() {
             /> */}
             <div className="container">
               <h2 className="h2">Log In</h2>
-              <FormLogin color="#F89262" />
+              <FormLoginAdmin color="#F89262" />
             </div>
           </div>
         </LoginView>

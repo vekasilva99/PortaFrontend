@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import { GET_USERS, GET_REPARTIDORES } from "../helpers/graphql/queries";
+import { GET_USERS, GET_REPARTIDORES, NEW_USERS, NEW_REPARTIDORES } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminTable(props) {
@@ -11,11 +11,28 @@ export default function AdminTable(props) {
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
 
+  //Usuarios
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
+  //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
+  //Nuevos usuarios
+  // const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(NEW_USERS);
+  //Nuevos repartidores
+  // const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(NEW_REPARTIDORES);
   // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+
+  if (loadingU) return "Loading...";
+  if (errorU) return `Error! ${errorU.message}`;
+
+  // if (loadingNU) return "Loading...";
+  // if (errorNU) return `Error! ${errorNU.message}`;
+
+  // if (loadingNR) return "Loading...";
+  // if (errorNR) return `Error! ${errorNR.message}`;
+
+
 
   // if (u_loading) return 'Loading...';
   // if (u_error) return `Error! ${r_error.message}`;
@@ -31,14 +48,14 @@ export default function AdminTable(props) {
 
       {/* Prueba repartidores */}
       {/* <select name="driverTest">
-        {data.repartidores.map((repartidor) => (
+        {dataNR.repartidores.map((repartidor) => (
           <option key={repartidor.id}>{repartidor.name}</option>
         ))}
       </select> */}
 
       {/* Prueba USUARIOS */}
       {/* <select name="userTest">
-        {dataU.users.map((user) => (
+        {dataNU.users.map((user) => (
           <option key={user.id}>{user.name}</option>
         ))}
       </select> */}

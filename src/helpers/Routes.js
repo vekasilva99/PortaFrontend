@@ -8,6 +8,7 @@ import RegisterUser2 from "../views/RegisterUser2";
 import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
+import UserHome from "../views/UserHome";
 
 export default function Routes() {
   return (
@@ -40,6 +41,7 @@ export default function Routes() {
         path="/admin/users"
         render={(props) => <AdminUsers {...props} />}
       />
+      <Route exact path="/user" render={(props) => <UserHome {...props} />} />
 
       <Redirect exact from="*" to="/" />
     </Switch>

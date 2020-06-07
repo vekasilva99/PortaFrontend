@@ -1,5 +1,5 @@
 import React from "react";
-import FormLogin from "../components/Forms/Login";
+import FormLoginDriver from "../components/Forms/LoginDriver";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
@@ -17,7 +17,7 @@ export default function LoginDriver(props) {
             />
             <div className="container">
               <h2 className="h2">Log In</h2>
-              <FormLogin color="#EE462F" />
+              <FormLoginDriver color="#EE462F" />
               <h3 className="h3">New to Porta?</h3>
               <button onClick={props.togglerRegisterD} className="h4">
                 SIGN UP

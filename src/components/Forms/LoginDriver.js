@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
-export default function FormLogin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(true);
-  const [isRepartidor, setIsRepartidor] = useState(false);
-
+export default function FormLoginDriver(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.adminLogin);
+      localStorage.setItem("token", data.userLogin);
     }
   }, [data, loading]);
   return (
@@ -120,8 +115,6 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
-        ) : data ? (
-          <Redirect to="/admin" />
         ) : (
           <form onSubmit={handleSubmit}>
             <Input
