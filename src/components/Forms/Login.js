@@ -14,7 +14,8 @@ export default function FormLogin(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_SESION);
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.userLogin);
+      console.log("hola1");
+      localStorage.setItem("token", data.sesionLogin.token);
     }
   }, [data, loading]);
   return (
@@ -31,16 +32,13 @@ export default function FormLogin(props) {
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
         ) {
           errors.Email = "Invalid Email";
-          console.log("sa");
         }
         if (!values.Password) {
           errors.Password = "Required Field";
-          console.log("entra");
         } else if (values.Password.length < 9) {
           errors.Password = "Password too short";
-          console.log("entra 2");
         }
-        console.log(errors);
+
         return errors;
       }}
       onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
@@ -51,7 +49,6 @@ export default function FormLogin(props) {
           return;
         }
         console.log("llega aca");
-        
 
         login({
           variables: {
@@ -77,7 +74,7 @@ export default function FormLogin(props) {
       }) =>
         loading && !data ? (
           <Spinner></Spinner>
-        ) : data? (
+        ) : data ? (
           <Redirect to="/user" />
         ) : (
           <form onSubmit={handleSubmit}>
