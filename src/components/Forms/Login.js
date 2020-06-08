@@ -4,14 +4,18 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
+<<<<<<< HEAD
 import { LOGIN_USER } from "../../helpers/graphql/queries";
+=======
+import { LOGIN_SESION } from "../../helpers/graphql/queries";
+>>>>>>> 995e15369fbd49466f4314686a9465110aee7427
 import Spinner from "../Spinner";
 export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [isRepartidor, setIsRepartidor] = useState(false);
 
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  const [login, { data, loading, error }] = useLazyQuery(LOGIN_SESION);
   useEffect(() => {
     if (data) {
       localStorage.setItem("token", data.userLogin);
@@ -51,6 +55,7 @@ export default function FormLogin(props) {
           return;
         }
         console.log("llega aca");
+<<<<<<< HEAD
         /*   let requestBody = {
           query: `
             query{
@@ -95,6 +100,9 @@ export default function FormLogin(props) {
             console.log(err);
           });
    */
+=======
+        
+>>>>>>> 995e15369fbd49466f4314686a9465110aee7427
 
         login({
           variables: {

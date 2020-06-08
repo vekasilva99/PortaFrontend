@@ -9,7 +9,7 @@ import Login from "./Login";
 import LoginDriver from "./LoginDriver";
 import Register2 from "./RegisterUser2";
 import RegisterDriver from "./RegisterDriver";
-import { CURRENT_USER } from "../helpers/graphql/queries";
+import { CURRENT_SESION_USER } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
 export default function UserHome() {
@@ -21,7 +21,11 @@ export default function UserHome() {
   const [loginD, setLoginD] = React.useState(false);
   const [register, setRegister] = React.useState(false);
   const [registerD, setRegisterD] = React.useState(false);
+<<<<<<< HEAD
   const { loading, error, data } = useQuery(CURRENT_USER);
+=======
+  const { loading, error, data } = useQuery(CURRENT_SESION_USER);
+>>>>>>> 995e15369fbd49466f4314686a9465110aee7427
   
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
