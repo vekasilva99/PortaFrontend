@@ -106,48 +106,324 @@ export default function Home() {
   );
 }
 
+// const HomeStyle = styled.div`
+//   background: white;
+//   height: 100vh;
+//   position: relative;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+//   top: 0;
+//   left: 0;
+
+//   .infoPorta {
+//     text-align: center;
+//     color: rgb(29, 29, 31);
+//     position: relative;
+//     margin-top: 3rem;
+//     position: relative;
+//     z-index: 1;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     .content {
+//       position: absolute;
+//       top: 0%;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+//     h2 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.3em;
+//       word-spacing: 5px;
+//       padding-top: 0.5rem;
+//     }
+//     h1 {
+//       font-weight: 500;
+//       margin: 0px;
+//       font-size: 2em;
+//       letter-spacing: 0.15em;
+//       padding-top: 3rem;
+//     }
+//   }
+//   .usuarios > div {
+//     margin-top: 0.5rem;
+//     background-repeat: no-repeat;
+//     background-position: center;
+//     text-align: center;
+//     color: rgb(29, 29, 31);
+//   }
+
+//   .boton {
+//     color: rgb(2, 102, 204);
+//     background-color: transparent;
+//     border: none;
+//     cursor: pointer;
+//   }
+//   .infoPorta > button {
+//     font-size: 25px;
+//     padding-top: 0.5rem;
+//   }
+//   .usuarios {
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     grid-gap: 0.5rem;
+//     grid-auto-rows: auto;
+//   }
+//   .cliente {
+//     z-index: 1;
+//     position: relative;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     div {
+//       position: absolute;
+//       top: 0;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+//     h1 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.2em;
+//       letter-spacing: 1px;
+//       padding-top: 2.5rem;
+//     }
+//     button {
+//       font-size: 15px;
+//       cursor: pointer;
+//       padding-top: 1rem;
+//     }
+//   }
+
+//   .repartidor {
+//     z-index: 1;
+//     position: relative;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     div {
+//       position: absolute;
+//       top: 0;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+
+//     h1 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.2em;
+//       letter-spacing: 1px;
+//       padding-top: 2.5rem;
+//     }
+//     button {
+//       font-size: 1.1em;
+//       cursor: pointer;
+
+//       padding-top: 1rem;
+//     }
+//   }
+//   @media screen and (max-width: 600px) {
+//     .infoPorta {
+//       h1 {
+//         font-size: 1.5em;
+//       }
+//       h2 {
+//         font-size: 1em;
+//       }
+//       button {
+//         font-size: 0.9em;
+//       }
+//     }
+//   }
+
+// @media only screen and (min-width: 1070px) {
+//   .infoPorta {
+//     height: 690px;
+//     background-image: url("/Porta1.png");
+//   }
+//   .infoPorta > h1 {
+//     font-size: 60px;
+//     letter-spacing: 3px;
+//     padding-top: 3rem;
+//   }
+//   .infoPorta > h2 {
+//     font-size: 30px;
+//     word-spacing: 5px;
+//     padding-top: 0.5rem;
+//   }
+//   .infoPorta > button {
+//     font-size: 25px;
+//     padding-top: 0.5rem;
+//   }
+//   .usuarios {
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     grid-gap: 0.5rem;
+//     grid-auto-rows: auto;
+//   }
+//   .cliente {
+//     height: 580px;
+//     background-image: url("/Cliente1.png");
+//     margin-left: 0.5rem;
+//   }
+//   .cliente > h1 {
+//     font-size: 1.2em;
+//     letter-spacing: 1px;
+//     padding-top: 2.5rem;
+//   }
+//   .cliente > button {
+//     font-size: 15px;
+//     padding-top: 1rem;
+//   }
+//   .repartidor {
+//     height: 580px;
+//     background-image: url("/Repartidor1.png");
+//     margin-right: 0.5rem;
+//   }
+//   .repartidor > h1 {
+//     font-size: 1.2em;
+//     letter-spacing: 1px;
+//     padding-top: 2.5rem;
+//   }
+//   .repartidor > button {
+//     font-size: 15px;
+//     padding-top: 1rem;
+//   }
+// }
+
+// @media only screen and (max-width: 1069px) and (min-width: 735px) {
+//   .infoPorta {
+//     height: 650px;
+//     background-image: url("/Porta2.png");
+//   }
+//   .infoPorta > h1 {
+//     font-size: 50px;
+//     letter-spacing: 3px;
+//     padding-top: 2.5rem;
+//   }
+//   .infoPorta > h2 {
+//     font-size: 25px;
+//     word-spacing: 5px;
+//     padding-top: 0.5rem;
+//   }
+//   .infoPorta > button {
+//     font-size: 18px;
+//     padding-top: 1rem;
+//   }
+//   .usuarios {
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     grid-gap: 0.5rem;
+//     grid-auto-rows: auto;
+//   }
+//   .cliente {
+//     height: 490px;
+//     background-image: url("/Cliente2.png");
+//     margin-left: 0.5rem;
+//   }
+//   .cliente > h1 {
+//     font-size: 30px;
+//     letter-spacing: 1px;
+//     padding-top: 2rem;
+//   }
+//   .cliente > button {
+//     font-size: 12px;
+//     padding-top: 1rem;
+//   }
+//   .repartidor {
+//     height: 490px;
+//     background-image: url("/Repartidor2.png");
+//     margin-right: 0.5rem;
+//   }
+//   .repartidor > h1 {
+//     font-size: 30px;
+//     letter-spacing: 1px;
+//     padding-top: 2rem;
+//   }
+//   .repartidor > button {
+//     font-size: 12px;
+//     padding-top: 1rem;
+//   }
+// }
+
+// @media only screen and (max-width: 734px) {
+//   .infoPorta {
+//     height: 500px;
+//     background-image: url("/Porta3.png");
+//   }
+//   .infoPorta > h1 {
+//     font-size: 30px;
+//     letter-spacing: 2px;
+//     padding-top: 2.5rem;
+//   }
+//   .infoPorta > h2 {
+//     font-size: 18px;
+//     word-spacing: 3px;
+//     padding-top: 0.3rem;
+//   }
+//   .infoPorta > button {
+//     font-size: 15px;
+//     padding-top: 1rem;
+//   }
+//   .cliente {
+//     height: 500px;
+//     background-image: url("/Cliente3.png");
+//   }
+//   .cliente > h1 {
+//     font-size: 30px;
+//     padding-top: 2.5rem;
+//   }
+//   .cliente > button {
+//     font-size: 15px;
+//     padding-top: 2rem;
+//   }
+//   .repartidor {
+//     height: 500px;
+//     background-image: url("/Repartidor3.png");
+//   }
+//   .repartidor > h1 {
+//     font-size: 30px;
+//     padding-top: 2.5rem;
+//   }
+//   .repartidor > button {
+//     font-size: 15px;
+//     padding-top: 2rem;
+//   }
+// }
+
 const HomeStyle = styled.div`
+  position: absolute;
   background: white;
   height: 100vh;
-  position: relative;
-  width: 100%;
+  width: 100vw;
   margin: 0;
   padding: 0;
   top: 0;
   left: 0;
 
   .infoPorta {
+    background-repeat: no-repeat;
+    background-position: center;
     text-align: center;
     color: rgb(29, 29, 31);
-    position: relative;
-    margin-top: 3rem;
-    position: relative;
-    z-index: 1;
-    img {
-      max-width: 100%;
-      position: relative;
-      z-index: 0;
-    }
-    .content {
-      position: absolute;
-      top: 0%;
-      left: 50%;
-      transform: translate(-50%, 0);
-    }
-    h2 {
-      font-weight: 300;
-      margin: 0px;
-      font-size: 1.3em;
-      word-spacing: 5px;
-      padding-top: 0.5rem;
-    }
-    h1 {
-      font-weight: 500;
-      margin: 0px;
-      font-size: 2em;
-      letter-spacing: 0.15em;
-      padding-top: 3rem;
-    }
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  .infoPorta > h1 {
+    font-weight: 500;
+    margin: 0px;
+  }
+  .infoPorta > h2 {
+    font-weight: 300;
+    margin: 0px;
   }
   .usuarios > div {
     margin-top: 0.5rem;
@@ -155,95 +431,24 @@ const HomeStyle = styled.div`
     background-position: center;
     text-align: center;
     color: rgb(29, 29, 31);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
-
+  .cliente > h1 {
+    font-weight: 300;
+    margin: 0px;
+  }
+  .repartidor > h1 {
+    font-weight: 300;
+    margin: 0px;
+  }
   .boton {
     color: rgb(2, 102, 204);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background-color: transparent;
     border: none;
-    cursor: pointer;
   }
-  .infoPorta > button {
-    font-size: 25px;
-    padding-top: 0.5rem;
-  }
-  .usuarios {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 0.5rem;
-    grid-auto-rows: auto;
-  }
-  .cliente {
-    z-index: 1;
-    position: relative;
-    img {
-      max-width: 100%;
-      position: relative;
-      z-index: 0;
-    }
-    div {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, 0);
-    }
-    h1 {
-      font-weight: 300;
-      margin: 0px;
-      font-size: 1.2em;
-      letter-spacing: 1px;
-      padding-top: 2.5rem;
-    }
-    button {
-      font-size: 15px;
-      cursor: pointer;
-      padding-top: 1rem;
-    }
-  }
-
-  .repartidor {
-    z-index: 1;
-    position: relative;
-    img {
-      max-width: 100%;
-      position: relative;
-      z-index: 0;
-    }
-    div {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, 0);
-    }
-
-    h1 {
-      font-weight: 300;
-      margin: 0px;
-      font-size: 1.2em;
-      letter-spacing: 1px;
-      padding-top: 2.5rem;
-    }
-    button {
-      font-size: 1.1em;
-      cursor: pointer;
-
-      padding-top: 1rem;
-    }
-  }
-  @media screen and (max-width: 600px) {
-    .infoPorta {
-      h1 {
-        font-size: 1.5em;
-      }
-      h2 {
-        font-size: 1em;
-      }
-      button {
-        font-size: 0.9em;
-      }
-    }
-  }
-  /*
   @media only screen and (min-width: 1070px) {
     .infoPorta {
       height: 690px;
@@ -275,7 +480,7 @@ const HomeStyle = styled.div`
       margin-left: 0.5rem;
     }
     .cliente > h1 {
-      font-size: 1.2em;
+      font-size: 35px;
       letter-spacing: 1px;
       padding-top: 2.5rem;
     }
@@ -289,7 +494,7 @@ const HomeStyle = styled.div`
       margin-right: 0.5rem;
     }
     .repartidor > h1 {
-      font-size: 1.2em;
+      font-size: 35px;
       letter-spacing: 1px;
       padding-top: 2.5rem;
     }
@@ -398,5 +603,4 @@ const HomeStyle = styled.div`
       padding-top: 2rem;
     }
   }
-  */
 `;
