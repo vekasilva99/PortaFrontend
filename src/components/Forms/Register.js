@@ -4,6 +4,7 @@ import Input from "../Input";
 import Button from "../Button";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
+// import DatePicker from "../DatePicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
@@ -14,13 +15,16 @@ export default function FormRegister(props) {
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
   const [phone, setPhone] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [password2, setPassword2] = React.useState("");
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  console.log(props.color);
 
   const handleStep1 = (e) => {
-    console.log(props.color);
     let codigos = false;
     if (
       phone.slice(0, 4) == "0424" ||
@@ -97,7 +101,7 @@ export default function FormRegister(props) {
             errors.Password = "Required Field";
           } else if (values.Password.length < 9) {
             errors.Password = "Password too short";
-          } else if (values.Password !== values.Password2) {
+          } else if (values.Password != values.Password2) {
             errors.Password = "Password doesn't match";
           }
 
@@ -118,22 +122,22 @@ export default function FormRegister(props) {
             },
           ];
 
-          // const requestBody = {
-          //   query: `
-          //     mutation{
-          //       createUser(userInput: {name: "${submitUser[0].FirstName}", lastName: "${submitUser[0].LastName}", birthdate: "${submitUser[0].Birthdate}", mail: "${submitUser[0].Email}", password: "${submitUser[0].Password}", zone: "${submitUser[0].Region}", cellphone: "${submitUser[0].UserPhone}"}){
-          //         _id
-          //         name
-          //         lastName
-          //         birthdate
-          //         mail
-          //         password
-          //         zone
-          //         cellphone
-          //       }
-          //     }
-          //   `,
-          // };
+          const requestBody = {
+            query: `
+              mutation{
+                createUser(userInput: {name: "${submitUser[0].FirstName}", lastName: "${submitUser[0].LastName}", birthdate: "${submitUser[0].Birthdate}", mail: "${submitUser[0].Email}", password: "${submitUser[0].Password}", zone: "${submitUser[0].Region}", cellphone: "${submitUser[0].UserPhone}"}){
+                  _id
+                  name
+                  lastName
+                  birthdate
+                  mail
+                  password
+                  zone
+                  cellphone
+                }
+              }
+            `,
+          };
           const { data } = await register({
             variables: {
               userInput: {
@@ -329,7 +333,7 @@ const RegisterView = styled.div`
   justify-content: space-between;
   label {
     font-size: 1em;
-    font-weight: 200;
+    font-weight: 600;
     color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
@@ -373,8 +377,8 @@ const RegisterView = styled.div`
 
   .dos {
     font-size: 1em;
-    font-weight: 200;
-    color: #fafafa;
+    font-weight: 600;
+    color: ${(props) => props.color};
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;
@@ -410,7 +414,7 @@ const RegisterView = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #0a95bf;
+      border-bottom: solid 2px ${(props) => props.color};
     }
   }
 `;

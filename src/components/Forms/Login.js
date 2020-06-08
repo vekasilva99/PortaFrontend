@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
@@ -31,35 +30,36 @@ export default function FormLogin(props) {
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
         ) {
           errors.Email = "Invalid Email";
-          console.log("sa");
         }
         if (!values.Password) {
           errors.Password = "Required Field";
-          console.log("entra");
         } else if (values.Password.length < 9) {
           errors.Password = "Password too short";
-          console.log("entra 2");
         }
-        console.log(errors);
-        return errors;
+
+        return console.log(errors);
       }}
-      onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
         /// code here
         //event.preventDefault();
+        const email = values.Email;
+        const password = values.Password;
 
-        if (Email.trim() === 0 || Password.trim() === 0) {
+        if (email.trim() === 0 || password.trim() === 0) {
           return;
         }
         console.log("llega aca");
         
 
-        login({
+        const { data } = await login({
           variables: {
-            mail: Email,
-            password: Password,
+            mail: email,
+            password,
           },
         });
+        console.log(data);
         setSubmitting(true);
+        console.log(values, values.Password.length);
 
         setSubmitting(false);
         resetForm();
@@ -74,40 +74,35 @@ export default function FormLogin(props) {
         handleSubmit,
         isSubmitting,
         /* and other goodies */
-      }) =>
-        loading ? (
-          <Spinner></Spinner>
-        )
-        :data ? <Redirect to="/user"/>: (
-          <form onSubmit={handleSubmit}>
-            <Input
-              value={values.Email}
-              label="Enter your email"
-              id="Email"
-              name="Email"
-              type="text"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              color={props.color}
-            />
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Input
+            value={values.Email}
+            label="Enter your email"
+            id="Email"
+            name="Email"
+            type="text"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            color={props.color}
+          />
 
-            <Input
-              value={values.Password}
-              label="Enter your password"
-              id="Password"
-              type="password"
-              name="Password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              color={props.color}
-            />
-            <Button color={props.color} type="submit" block>
-              {" "}
-              SIGN IN{" "}
-            </Button>
-          </form>
-        )
-      }
+          <Input
+            value={values.Password}
+            label="Enter your password"
+            id="Password"
+            type="password"
+            name="Password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            color={props.color}
+          />
+          <Button color={props.color} type="submit" block>
+            {" "}
+            SIGN IN{" "}
+          </Button>
+        </form>
+      )}
     </Formik>
   );
 }

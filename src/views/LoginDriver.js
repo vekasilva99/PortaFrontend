@@ -1,27 +1,28 @@
 import React from "react";
-import FormLoginDriver from "../components/Forms/LoginDriver";
+import FormLogin from "../components/Forms/Login";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-export default function LoginDriver(props) {
+export default function LoginDriver() {
+  const [on, setToggle] = React.useState(true);
+
+  const handleToggle = (e) => setToggle(false);
   return (
     <div>
-      {props.show ? (
+      {on ? (
         <LoginView>
           <div className="login-box">
             <MdClose
-              onClick={props.togglerLoginD}
+              onClick={handleToggle}
               className="close"
               size="1.7rem"
-              color="#fafafa"
+              color="black"
             />
             <div className="container">
               <h2 className="h2">Log In</h2>
-              <FormLoginDriver color="#EE462F" />
+              <FormLogin color="#AAA0ED" />
               <h3 className="h3">New to Porta?</h3>
-              <button onClick={props.togglerRegisterD} className="h4">
-                SIGN UP
-              </button>
+              <h4 className="h4">SIGN UP</h4>
             </div>
           </div>
         </LoginView>
@@ -31,6 +32,7 @@ export default function LoginDriver(props) {
 }
 
 const LoginView = styled.div`
+  background: url(${require("../assets/images/bg1.jpg")}) no-repeat center;
   background-size: cover;
   display: block;
   display: flex;
@@ -43,9 +45,6 @@ const LoginView = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 300;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   &:after {
     position: absolute;
     top: 0;
@@ -54,39 +53,35 @@ const LoginView = styled.div`
     width: 100%;
     z-index: 1;
     height: 100%;
-    background: #202124;
+    background: white;
     opacity: 0.4;
   }
   .h2 {
-    color: #fafafa;
-    font-size: 2em;
-    font-weight: 500;
-    letter-spacing: 1px;
+    color: black;
+    font-family: Roboto;
+    font-size: 1.5em;
     position: absolute;
     top: 2rem;
   }
   .h3 {
-    color: #fafafa;
+    color: black;
     bottom: 3rem;
     position: absolute;
+    font-family: Roboto;
     font-size: 0.9em;
   }
   .h4 {
+    color: black;
     bottom: 1.5rem;
-    margin: 0;
     position: absolute;
+    font-family: Roboto;
     font-size: 0.8em;
-    color: #ee462f;
-    font-weight: 300;
-    border: none;
-    cursor: pointer;
-    background: #202124;
-    &:focus {
-      outline: none;
-    }
+    font-weight: 600;
+    color: #AAA0ED;
   }
 
   .login-box {
+    width: 280px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -94,7 +89,7 @@ const LoginView = styled.div`
     color: #002e64;
     background: white;
     height: 75vh;
-    width: 70vw;
+    width: 35vw;
     z-index: 2;
     align-items: center;
     justify-content: center;
@@ -102,13 +97,10 @@ const LoginView = styled.div`
 
   .container {
     position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 3;
     height: 75vh;
-    width: inherit;
-    background: #202124;
+    width: 35vw;
+    background: white;
     color: black;
     display: flex;
     align-items: center;
@@ -117,11 +109,11 @@ const LoginView = styled.div`
   .close {
     margin-top: 2rem;
     margin-right: 2rem;
-    z-index: 34;
-    padding: 0;
-    position: absolute;
+    z-index: 34
+    padding:0;
+    position:absolute;
     z-index: 4;
-    right: 0;
-    cursor: pointer;
+    right:0;
+    
   }
 `;

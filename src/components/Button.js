@@ -9,7 +9,7 @@ export default function Button({ color, children, ...rest }) {
 }
 const ButtonS = styled.button`
   border: solid 2px #ebebeb;
-  color: #202124;
+  color: white;
   padding: 0.9rem;
   font-size: 1em;
   margin: 0.3rem;
