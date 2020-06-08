@@ -6,17 +6,16 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import { useMutation } from "@apollo/react-hooks";
-import { REGISTER_USER } from "../../helpers/graphql/mutations";
 
 export default function FormRegister(props) {
-  const [register, { data, loading, error }] = useMutation(REGISTER_USER);
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
+  const [step3, setStep3] = React.useState(true);
   const [phone, setPhone] = React.useState("");
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
+  const [cedula, setCedula] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleStep1 = (e) => {
@@ -45,18 +44,30 @@ export default function FormRegister(props) {
     }
   };
 
-  const handleStep2 = (e) => {
+  const handleStep3 = (e) => {
     if (!fName || !lName || !selectedDate || !region) {
-      setStep2(true);
+      setStep3(true);
       console.log(phone, "telefono");
     } else {
-      setStep2(false);
+      setStep3(false);
       console.log(phone, "telefono");
+    }
+  };
+
+  const handleStep2 = (e) => {
+    if (!cedula || cedula < 1000000 || cedula > 100000000) {
+      setStep2(true);
+    } else {
+      setStep2(false);
     }
   };
 
   const handlePhone = (e) => {
     setPhone(e.target.value);
+  };
+
+  const handleCedula = (e) => {
+    setCedula(e.target.value);
   };
 
   const handleFName = (e) => {
@@ -83,6 +94,7 @@ export default function FormRegister(props) {
           LName: "",
           BDate: "",
           Region: "",
+          Cedula: "",
         }}
         validate={(values) => {
           const errors = {};
@@ -97,7 +109,7 @@ export default function FormRegister(props) {
             errors.Password = "Required Field";
           } else if (values.Password.length < 9) {
             errors.Password = "Password too short";
-          } else if (values.Password !== values.Password2) {
+          } else if (values.Password != values.Password2) {
             errors.Password = "Password doesn't match";
           }
 
@@ -115,62 +127,10 @@ export default function FormRegister(props) {
               Email: values.Email,
               Birthdate: selectedDate,
               Region: region,
+              Cedula: cedula,
             },
           ];
 
-          // const requestBody = {
-          //   query: `
-          //     mutation{
-          //       createUser(userInput: {name: "${submitUser[0].FirstName}", lastName: "${submitUser[0].LastName}", birthdate: "${submitUser[0].Birthdate}", mail: "${submitUser[0].Email}", password: "${submitUser[0].Password}", zone: "${submitUser[0].Region}", cellphone: "${submitUser[0].UserPhone}"}){
-          //         _id
-          //         name
-          //         lastName
-          //         birthdate
-          //         mail
-          //         password
-          //         zone
-          //         cellphone
-          //       }
-          //     }
-          //   `,
-          // };
-          const { data } = await register({
-            variables: {
-              userInput: {
-                name: submitUser[0].FirstName,
-                lastName: submitUser[0].LastName,
-                birthdate: submitUser[0].Birthdate,
-                mail: submitUser[0].Email,
-                password: submitUser[0].Password,
-                zone: submitUser[0].Region,
-                cellphone: submitUser[0].UserPhone,
-              },
-            },
-          });
-
-          /* fetch("https://porta-api.herokuapp.com/graphql", {
-            method: "POST",
-            body: JSON.stringify(requestBody),
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-            .then((res) => {
-              if (res.status !== 200 && res.status !== 201) {
-                throw new Error("Failed!");
-              }
-              return res.json();
-            })
-            .then((resData) => {
-              console.log(resData);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-
-          //console.log(submitUser[0].FirstName);
-             */
-          console.log(data);
           setSubmitting(true);
           console.log(submitUser);
           setStep1(true);
@@ -190,27 +150,61 @@ export default function FormRegister(props) {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            {step2 ? (
+            {step3 ? (
               <div>
-                {step1 ? (
+                {step2 ? (
                   <div>
-                    <Input
-                      value={phone}
-                      label="Enter your phone number"
-                      id="Phone"
-                      name="Phone"
-                      type="text"
-                      onChange={handlePhone}
-                      onBlur={handleBlur}
-                      color={props.color}
-                    />
+                    {step1 ? (
+                      <div>
+                        <Input
+                          value={phone}
+                          label="Enter your phone number"
+                          id="Phone"
+                          name="Phone"
+                          type="text"
+                          onChange={handlePhone}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
 
-                    <div className="button">
-                      <Button color={props.color} onClick={handleStep1} block>
-                        {" "}
-                        CONTINUE{" "}
-                      </Button>
-                    </div>
+                        <div className="button">
+                          <Button
+                            color={props.color}
+                            onClick={handleStep1}
+                            block
+                          >
+                            {" "}
+                            CONTINUE{" "}
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <Input
+                          value={cedula}
+                          label="Enter your ID"
+                          id="Cedula"
+                          name="Cedula"
+                          type="number"
+                          min="1000000"
+                          max="100000000"
+                          onChange={handleCedula}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+
+                        <div className="button">
+                          <Button
+                            color={props.color}
+                            onClick={handleStep2}
+                            block
+                          >
+                            {" "}
+                            CONTINUE{" "}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div>
@@ -266,7 +260,7 @@ export default function FormRegister(props) {
                       </div>
                     </div>
                     <div className="button">
-                      <Button color={props.color} onClick={handleStep2} block>
+                      <Button color={props.color} onClick={handleStep3} block>
                         {" "}
                         CONTINUE{" "}
                       </Button>
@@ -329,7 +323,7 @@ const RegisterView = styled.div`
   justify-content: space-between;
   label {
     font-size: 1em;
-    font-weight: 200;
+    font-weight: 600;
     color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
@@ -364,6 +358,12 @@ const RegisterView = styled.div`
     flex-direction: row;
     width: 100%;
     margin: auto;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #aaa0ed;
+    }
   }
 
   .button {
@@ -373,13 +373,19 @@ const RegisterView = styled.div`
 
   .dos {
     font-size: 1em;
-    font-weight: 200;
+    font-weight: 600;
     color: #fafafa;
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     width: 100%;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px pink;
+    }
   }
 
   .picker {
@@ -390,6 +396,12 @@ const RegisterView = styled.div`
     align-items: center;
     justify-content: center;
     font-family: Roboto;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #aaa0ed;
+    }
   }
 
   .select {
@@ -410,7 +422,7 @@ const RegisterView = styled.div`
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #0a95bf;
+      border-bottom: solid 2px #aaa0ed;
     }
   }
 `;

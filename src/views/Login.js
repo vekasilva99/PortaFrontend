@@ -3,36 +3,33 @@ import FormLogin from "../components/Forms/Login";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-export default function Login() {
-  const [on, setToggle] = React.useState(true);
-
-  const handleToggle = (e) => setToggle(false);
+export default function Login(props) {
   return (
     <div>
-      {on ? (
-        <LoginView>
-          <div className="login-box">
-            <MdClose
-              onClick={handleToggle}
-              className="close"
-              size="1.7rem"
-              color="black"
-            />
-            <div className="container">
-              <h2 className="h2">Log In</h2>
-              <FormLogin color="#0A95BF" />
-              <h3 className="h3">New to Porta?</h3>
-              <h4 className="h4">SIGN UP</h4>
-            </div>
+      <LoginView show={props.show}>
+        <div className="login-box">
+          <MdClose
+            onClick={props.togglerLogin}
+            className="close"
+            size="1.7rem"
+            color="#fafafa"
+          />
+          <div className="container">
+            <h2 className="h2">Log In</h2>
+            <FormLogin color="#00507A" />
+            <h3 className="h3">New to Porta?</h3>
+            <button onClick={props.togglerRegister} className="h4">
+              SIGN UP
+            </button>
           </div>
-        </LoginView>
-      ) : null}
+        </div>
+      </LoginView>
+      )
     </div>
   );
 }
 
 const LoginView = styled.div`
-  background: url(${require("../assets/images/bg1.jpg")}) no-repeat center;
   background-size: cover;
   display: block;
   display: flex;
@@ -45,6 +42,11 @@ const LoginView = styled.div`
   position: fixed;
   top: 0;
   right: 0;
+  transition: all ease-in-out 0.3s;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  z-index: ${(props) => (props.show ? 300 : -1)};
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   &:after {
     position: absolute;
     top: 0;
@@ -53,54 +55,64 @@ const LoginView = styled.div`
     width: 100%;
     z-index: 1;
     height: 100%;
-    background: white;
+    background: #202124;
     opacity: 0.4;
   }
   .h2 {
-    color: black;
-    font-family: Roboto;
-    font-size: 1.5em;
+    color: #fafafa;
+    font-size: 2em;
+    font-weight: 500;
+    letter-spacing: 1px;
     position: absolute;
     top: 2rem;
   }
   .h3 {
-    color: black;
+    color: #fafafa;
     bottom: 3rem;
     position: absolute;
-    font-family: Roboto;
     font-size: 0.9em;
   }
   .h4 {
-    color: black;
     bottom: 1.5rem;
+    margin: 0;
     position: absolute;
-    font-family: Roboto;
     font-size: 0.8em;
-    font-weight: 600;
-    color: #0a95bf;
+    color: #00507a;
+    font-weight: 300;
+    border: none;
+    cursor: pointer;
+    background: #202124;
+    &:focus {
+      outline: none;
+    }
   }
 
   .login-box {
     position: absolute;
+    transform-origin: center center;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
     height: 75vh;
-    width: 95%;
-    max-width: 500px;
+    width: 70vw;
     z-index: 2;
     align-items: center;
     justify-content: center;
+    transition: transform ease-in-out 0.3s;
+    transform: translate(-50%, -50%)
+      rotateY(${(props) => (props.show ? "0" : "90deg")});
   }
 
   .container {
     position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 3;
     height: 75vh;
     width: inherit;
-    background: white;
+    background: #202124;
     color: black;
     display: flex;
     align-items: center;
@@ -114,5 +126,6 @@ const LoginView = styled.div`
     position: absolute;
     z-index: 4;
     right: 0;
+    cursor: pointer;
   }
 `;

@@ -1,35 +1,39 @@
 import React from "react";
-import FormLoginAdmin from "../components/Forms/LoginAdmin";
+import FormRegister from "../components/Forms/RegisterDriver";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-export default function LoginAdmin() {
+export default function RegisterDriver(props) {
   const [on, setToggle] = React.useState(true);
 
   const handleToggle = (e) => setToggle(false);
   return (
     <div>
-      {on ? (
-        <LoginView>
+      {props.show ? (
+        <RegisterView>
           <div className="login-box">
-            {/* <MdClose
-              onClick={handleToggle}
+            <MdClose
+              onClick={props.togglerRegisterD}
               className="close"
               size="1.7rem"
-              color="black"
-            /> */}
+              color="#fafafa"
+            />
             <div className="container">
-              <h2 className="h2">Log In</h2>
-              <FormLoginAdmin color="#F89262" />
+              <h2 className="h2">Register</h2>
+              <FormRegister color="#EE462F" />
+              <h3 className="h3">Already have an account?</h3>
+              <button onClick={props.togglerLoginD} className="h4">
+                SIGN IN
+              </button>
             </div>
           </div>
-        </LoginView>
+        </RegisterView>
       ) : null}
     </div>
   );
 }
 
-const LoginView = styled.div`
+const RegisterView = styled.div`
   background-size: cover;
   display: block;
   display: flex;
@@ -72,10 +76,17 @@ const LoginView = styled.div`
   }
   .h4 {
     bottom: 1.5rem;
+    margin: 0;
     position: absolute;
     font-size: 0.8em;
-    font-weight: 600;
-    color: #f89262;
+    color: #ee462f;
+    font-weight: 300;
+    border: none;
+    cursor: pointer;
+    background: #202124;
+    &:focus {
+      outline: none;
+    }
   }
 
   .login-box {
@@ -85,8 +96,8 @@ const LoginView = styled.div`
     transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
-    height: 100vh;
-    width: 100vw;
+    height: 75vh;
+    width: 70vw;
     z-index: 2;
     align-items: center;
     justify-content: center;
@@ -98,7 +109,7 @@ const LoginView = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    height: 100vh;
+    height: 75vh;
     width: inherit;
     background: #202124;
     color: black;
