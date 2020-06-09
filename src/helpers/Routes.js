@@ -9,12 +9,18 @@ import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
 import UserHome from "../views/UserHome";
+import SeeDrivers from "../views/SeeDrivers";
 
 export default function Routes() {
   return (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
+      <Route
+        exact
+        path="/seedrivers"
+        render={(props) => <SeeDrivers {...props} />}
+      />
       <Route
         exact
         path="/register"
