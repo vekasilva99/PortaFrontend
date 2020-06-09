@@ -15,6 +15,7 @@ export default function FormLogin(props) {
   useEffect(() => {
     if (data) {
       console.log("hola1");
+      console.log(data.sesionLogin.token)
       localStorage.setItem("token", data.sesionLogin.token);
     }
   }, [data, loading]);
