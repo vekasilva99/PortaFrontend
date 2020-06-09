@@ -4,21 +4,30 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { LOGIN_SESION } from "../../helpers/graphql/queries";
+import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
+import { useDispatch } from "react-redux";
+
 export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [isRepartidor, setIsRepartidor] = useState(false);
 
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN_SESION);
+  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (data) {
-      console.log("hola1");
-      console.log(data.sesionLogin.token)
-      localStorage.setItem("token", data.sesionLogin.token);
+      localStorage.setItem("token", data.userLogin.token.toString());
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          token: data.userLogin.token,
+        },
+      });
     }
-  }, [data, loading]);
+  }, [data, dispatch, loading]);
   return (
     <Formik
       initialValues={{
@@ -73,7 +82,7 @@ export default function FormLogin(props) {
         isSubmitting,
         /* and other goodies */
       }) =>
-        loading && !data ? (
+        loading ? (
           <Spinner></Spinner>
         ) : data ? (
           <Redirect to="/user" />
