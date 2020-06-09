@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "../views/Home";
 import Login from "../views/Login";
@@ -10,8 +10,44 @@ import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
 import UserHome from "../views/UserHome";
 
+import { CURRENT_USER } from "./graphql/queries";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import Spinner from "../components/Spinner";
+import GuardRoute from "./GuardRoutes";
+
 export default function Routes() {
-  return (
+  const [CurrentUser, { data, loading }] = useLazyQuery(CURRENT_USER, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  const { token } = useSelector((state) => ({
+    ...state.User,
+  }));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const response = localStorage.getItem("token");
+    if (response) {
+      CurrentUser();
+    }
+  }, [CurrentUser, token]);
+
+  useEffect(() => {
+    if (data && data.currentUser) {
+      const response = localStorage.getItem("token");
+      dispatch({
+        type: "CURRENT_USER",
+        payload: {
+          token: response,
+          ...data.currentUser,
+        },
+      });
+    }
+  }, [data, dispatch, token]);
+
+  return !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
@@ -43,7 +79,15 @@ export default function Routes() {
       />
       <Route exact path="/user" render={(props) => <UserHome {...props} />} />
 
+      <GuardRoute
+        exact
+        path="/prueba"
+        isAuth={data && data.currentUser ? data.currentUser : null}
+        component={UserHome}
+      />
       <Redirect exact from="*" to="/" />
     </Switch>
+  ) : (
+    <Spinner />
   );
 }
