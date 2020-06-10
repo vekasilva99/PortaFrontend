@@ -10,10 +10,14 @@ import ItemsCarousel from "react-items-carousel";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { MdStar } from "react-icons/md";
 import { FaQuoteLeft } from "react-icons/fa";
+import { Formik } from "formik";
+import Input from "./Input";
+import StarRating from "./StarRating";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const chevronWidth = 10;
+  const chevronWidth = 50;
+
   return (
     <FormStyle>
       <div className="edit">
@@ -24,15 +28,18 @@ export default function DriverProfile(props) {
         <div className="navb">
           <button className="saveB2" type="submit">
             {" "}
-            <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />{" "}
+            <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
           </button>
         </div>
         <div className="Profile-name">
-          <h1>Valeska Silva</h1>
+          <div className="group">
+            <h1>Valeska Silva</h1>
+            <StarRating />
+          </div>
           <h2>04241952718</h2>
           <div className="group">
             <h2>4.50</h2>
-            <MdStar className="star" color="#ef0023" size="1.1em" />
+            <MdStar className="star" color="#00507a" size="1.1em" />
           </div>
         </div>
         <div className="Profile-content">
@@ -45,12 +52,12 @@ export default function DriverProfile(props) {
               gutter={0}
               leftChevron={
                 <button>
-                  <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />
+                  {/* <IoIosArrowDropleftCircle color="#ef0023" size="4rem" /> */}
                 </button>
               }
               rightChevron={
                 <button>
-                  <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />
+                  {/* <IoIosArrowDropleftCircle color="#ef0023" size="4rem" /> */}
                 </button>
               }
               outsideChevron
@@ -58,22 +65,69 @@ export default function DriverProfile(props) {
               freeScrolling={true}
             >
               <div className="card">
-                <FaQuoteLeft className="quote" color="#ef0023" size="0.5em" />
+                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
                 <h3>Third card</h3>
               </div>
               <div className="card">
-                <FaQuoteLeft className="quote" color="#ef0023" size="0.5em" />
+                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
                 <h3>Third card</h3>
               </div>
               <div className="card">
-                <FaQuoteLeft className="quote" color="#ef0023" size="0.5em" />
+                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
                 <h3>Third card</h3>
               </div>
               <div className="card">
-                <FaQuoteLeft className="quote" color="#ef0023" size="0.5em" />
+                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
                 <h3>Third card</h3>
               </div>
             </ItemsCarousel>
+            <h2>Add Comment</h2>
+            <Formik
+              initialValues={{
+                Comentario: "",
+              }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.Comentario) {
+                  errors.Comentario = "Required Field";
+                }
+
+                return errors;
+              }}
+              onSubmit={async (values, { setSubmitting, resetForm }) => {
+                setSubmitting(true);
+                console.log(values);
+                setSubmitting(false);
+                resetForm();
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+              }) => (
+                <form className="comment" onSubmit={handleSubmit}>
+                  <input
+                    value={values.Comentario}
+                    id="Comentario"
+                    name="Comentario"
+                    type="textarea"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+
+                  <button className="add" type="submit" block>
+                    {" "}
+                    ADD{" "}
+                  </button>
+                </form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
@@ -83,34 +137,18 @@ export default function DriverProfile(props) {
 const FormStyle = styled.section`
   display: flex;
   position: relative;
-  width: 60vw;
-  height: 80vh;
+  width: 90vw;
   margin-left: 0;
   margin-top: 0;
-
+  
   .photo {
     border-radius: 500px;
-    border: solid 0.2em #ef0023;
+    border: solid 0.2em #00507a;
     width: 13vw;
     height: 13vw;
     margin-left: 1vw;
   }
-  button {
-    display: none;
-  }
-  .settings {
-    border-radius: 500px;
-    margin-left: 0;
-    left: 0;
-    margin-top: 8vw;
-    display: flex;
-    position: absolute;
-    padding: 1em;
-    border: solid 0.1em #ef0023;
-    width: 2vw;
-    height: 2vw;
-    background: white;
-  }
+
 
   .edit {
     width: 15vw;
@@ -121,9 +159,10 @@ const FormStyle = styled.section`
     position: relative;
   }
 
+  
+
   .Form {
-    width: 60vw;
-    height: 80vh;
+    width: 90vw;
     margin-left: 0;
     margin-top: 0;
     display: flex;
@@ -141,25 +180,20 @@ const FormStyle = styled.section`
   }
 
   .Profile-content {
-    margin-top: 30vh;
+    margin-top: 25vh;
     margin-left: 2em;
-    width: 70vw;
-    height: 55vh;
+    width: 80vw;
     display: flex;
     position: fixed;
     flex-direction: column;
   }
+
   .icon {
     width: 2rem;
     height: 2rem;
   }
 
-  .Fname-Lname {
-    display: flex;
-    flex-direction: row;
-    height: 4vh;
-  }
-  .Profile-name > h1 {
+  .group > h1 {
     font-size: 1.8em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -174,6 +208,7 @@ const FormStyle = styled.section`
     color: #202124;
     display: inline-block;
   }
+
   .Profile-name > h2 {
     font-size: 1.2em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -189,12 +224,13 @@ const FormStyle = styled.section`
     color: #202124;
   
   }
+
   .Profile-content > h1 {
     font-size: 1.8em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 200;
-    margin-left: 0;
+    margin-left: 2em;
     margin-top: 0;
     margin-bottom: 1em;
     padding-top: 0;
@@ -205,6 +241,82 @@ const FormStyle = styled.section`
     display: inline-block;
   }
 
+  .comment{
+      display:flex;
+      flex-direction:column;
+      
+  }
+  input {
+
+    color: #202124;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    border: none;
+    webkit-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
+    moz-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
+    outline: none;
+    opacity: 0.8;
+    margin-top: 1em;
+    height: 15vh;
+    width: 21vw;
+    margin-left:1em;
+    transition: all ease-in-out 0.5s;
+    border-radius:0.2em;
+    &:focus {
+        opacity: 1;
+        outline: none;
+        webkit-box-shadow: 0px 0px 16px 1px rgba(0, 80, 120, 0.2);
+    moz-box-shadow: 0px 0px 16px 1px rgba(0, 80, 120, 0.2);
+    box-shadow: 0px 0px 16px 1px rgba(0, 80, 120, 0.2);
+      }
+  }
+
+  .add{
+    border: solid 2px #00507a;
+    color: white;
+    padding: 0.6rem;
+    font-size: 0.7em;
+    width: 8vw;
+    display: flex;
+    font-weight: 600;
+    cursor: pointer;
+    background: #00507a;
+    border-radius: 500px;
+    transition: all ease-in-out 0.3s;
+    justify-content: center;
+    margin-top:1em;
+    margin-left:1em;
+
+    &:hover {
+      opacity: 0.8;
+      background: #00507a;
+      color: white;
+      border-color: #00507a;
+    }
+    &:focus {
+      opacity: 0.8;
+      outline: none;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: 200;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 4vh;
+    width: auto;
+    color: #202124;
+    display: inline-block;
+   
+  }
   .group > h2 {
     font-size: 1.2em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -243,6 +355,7 @@ const FormStyle = styled.section`
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 300;
+    border-radius:0.2em;
 
   }
 
@@ -313,7 +426,7 @@ const FormStyle = styled.section`
     .group {
       display: flex;
       flex-direction: row;
-      width: 10vw;
+      width: 60vw;
     }
 
     .nav {

@@ -34,7 +34,7 @@ export default function NavbarDriver(props) {
         </li>
         <li>
           <button onClick={props.togglerSidebar} className="link2">
-            USER
+            DRIVER
           </button>
         </li>
       </ul>

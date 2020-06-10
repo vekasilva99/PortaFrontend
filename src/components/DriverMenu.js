@@ -17,12 +17,12 @@ export default function DriverMenu(props) {
         <ul className="nav-links">
           <li>
             <NavLink to="/admin" className="link">
-              REQUEST A DELIVERY
+              REQUEST TO BE A DRIVER
             </NavLink>
           </li>
           <li>
             <NavLink to="/admin/users" className="link">
-              MY DELIVERIES
+              MY TRIPS
             </NavLink>
           </li>
           <li>
@@ -98,8 +98,8 @@ const StyledSidebar = styled.nav`
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
     &:hover {
-      color: #00507a;
-      border-left: 2.5px solid #00507a;
+      color: #ef0023;
+      border-left: 2.5px solid #ef0023;
       background: #333333;
     }
     &:focus {

@@ -6,21 +6,18 @@ import { FaUserAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
-import user from "../../assets/images/user.png";
+import driver from "../../assets/images/delivery.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { CURRENT_USER } from "../../helpers/graphql/queries/index";
-import { useQuery } from "@apollo/react-hooks";
 
-export default function UserProfileForm(props) {
+export default function DriverEditProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const { loading, error, data } = useQuery(CURRENT_USER);
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -33,17 +30,12 @@ export default function UserProfileForm(props) {
   const handleRegion = (e) => {
     setRegion(e.target.value);
   };
-
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-
-  console.log(data);
   return (
     <FormStyle>
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
-        <img className="photo" src={user} />
-        <MdModeEdit className="settings" color="#00507a" />
+        <img className="photo" src={driver} />
+        <MdModeEdit className="settings" color="#ef0023" />
       </div>
       <div className="Form">
         <Formik
@@ -55,6 +47,7 @@ export default function UserProfileForm(props) {
             LName: "Silva",
             BDate: new Date(moment()),
             Region: "Hatillo",
+            Cedula: 27159591,
           }}
           validate={(values) => {
             const errors = {};
@@ -114,11 +107,11 @@ export default function UserProfileForm(props) {
               <div className="navb">
                 <button className="saveB2" type="submit">
                   {" "}
-                  <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
+                  <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />{" "}
                 </button>
               </div>
               <div className="Profile-name">
-                <h1>{data.currentUser.name}</h1>
+                <h1>Valeska Silva</h1>
                 <input
                   className="phone"
                   value={values.Phone}
@@ -144,7 +137,7 @@ export default function UserProfileForm(props) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
@@ -160,7 +153,7 @@ export default function UserProfileForm(props) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
@@ -176,7 +169,26 @@ export default function UserProfileForm(props) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    <MdKeyboardArrowRight className="icon" color="#ef0023" />
+                  </div>
+                </div>
+                <div className="label">
+                  <h2>Cedula</h2>
+                  <div className="group">
+                    <input
+                      className="mail"
+                      value={values.Cedula}
+                      label="Enter your ID"
+                      id="Cedula"
+                      name="Cedula"
+                      type="number"
+                      min="1000000"
+                      max="100000000"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={props.color}
+                    />
+                    <MdKeyboardArrowRight className="icon" color="#ef0023" />
                   </div>
                 </div>
                 <div className="label">
@@ -189,7 +201,7 @@ export default function UserProfileForm(props) {
                       onChange={handleChange}
                       placeholderText="Choose a Date"
                     />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    <MdKeyboardArrowRight className="icon" color="#ef0023" />
                   </div>
                 </div>
                 <div className="label">
@@ -206,7 +218,7 @@ export default function UserProfileForm(props) {
                       <option value="Hatillo" label="El Hatillo" />
                       <option value="Baruta" label="Baruta" />
                     </select>
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
@@ -233,7 +245,7 @@ const FormStyle = styled.section`
 
   .photo {
     border-radius: 500px;
-    border: solid 0.2em #00507a;
+    border: solid 0.2em #ef0023;
     width: 13vw;
     height: 13vw;
     margin-left: 1vw;
@@ -249,7 +261,7 @@ const FormStyle = styled.section`
     display: flex;
     position: absolute;
     padding: 1em;
-    border: solid 0.1em #00507a;
+    border: solid 0.1em #ef0023;
     width: 2vw;
     height: 2vw;
     background: white;
@@ -350,7 +362,7 @@ const FormStyle = styled.section`
     &:focus {
       opacity: 0.8;
       outline: none;
-      border-bottom: solid 2px #00507a;
+      border-bottom: solid 2px #ef0023;
     }
   }
 
@@ -371,7 +383,7 @@ const FormStyle = styled.section`
     &:focus {
       opacity: 0.8;
       outline: none;
-      border-bottom: solid 2px #00507a;
+      border-bottom: solid 2px #ef0023;
     }
   }
   .label {
@@ -400,7 +412,7 @@ const FormStyle = styled.section`
     display: none;
   }
   .saveB {
-    border: solid 2px #00507a;
+    border: solid 2px #ef0023;
     color: white;
     padding: 0.9rem;
     font-size: 0.8em;
@@ -408,16 +420,16 @@ const FormStyle = styled.section`
     display: flex;
     font-weight: 600;
     cursor: pointer;
-    background: #00507a;
+    background: #ef0023;
     border-radius: 500px;
     transition: all ease-in-out 0.3s;
     justify-content: center;
 
     &:hover {
       opacity: 0.8;
-      background: #00507a;
+      background: #ef0023;
       color: white;
-      border-color: #00507a;
+      border-color: #ef0023;
     }
     &:focus {
       opacity: 0.8;
@@ -453,7 +465,7 @@ const FormStyle = styled.section`
       margin-top: 7vw;
       margin-left: 40vw;
       padding: 0.1em;
-      border: solid 0.1em #00507a;
+      border: solid 0.1em #ef0023;
       width: 8vw;
       height: 8vw;
       background: white;
@@ -517,7 +529,7 @@ const FormStyle = styled.section`
       align-items: left;
       padding-top: 0.5em;
       padding-bottom: 0.5em;
-      border-top: solid 2px #00507a;
+      border-top: solid 2px #ef0023;
     }
 
     .label > h2 {
@@ -586,7 +598,7 @@ const FormStyle = styled.section`
       &:focus {
         opacity: 0.8;
         outline: none;
-        border-bottom: solid 2px #00507a;
+        border-bottom: solid 2px #ef0023;
       }
     }
 

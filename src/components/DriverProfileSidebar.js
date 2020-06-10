@@ -10,12 +10,12 @@ export default function DriverProfileSidebar() {
         <ul className="nav-links">
           <li>
             <NavLink to="/admin" className="link">
-              REQUEST A DELIVERY
+              REQUEST TO BE A DRIVER
             </NavLink>
           </li>
           <li>
             <NavLink to="/admin/users" className="link">
-              MY DELIVERIES
+              MY TRIPS
             </NavLink>
           </li>
           <li>
