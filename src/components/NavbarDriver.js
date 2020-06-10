@@ -5,7 +5,7 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 
-export default function Navbar(props) {
+export default function NavbarDriver(props) {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => {
@@ -29,12 +29,12 @@ export default function Navbar(props) {
       <ul className="nav-links">
         <li>
           <button onClick={props.togglerLogin} className="link">
-            LOG IN
+            LOG OUT
           </button>
         </li>
         <li>
-          <button onClick={props.togglerRegister} className="link2">
-            SIGN UP
+          <button onClick={props.togglerSidebar} className="link2">
+            USER
           </button>
         </li>
       </ul>
@@ -53,6 +53,7 @@ const StyledNavbar = styled.nav`
   top: 0;
   left: 0;
   background: #202124;
+  z-index: 5;
 
   .toggle {
     display: flex;
@@ -133,5 +134,9 @@ const StyledNavbar = styled.nav`
     &:focus {
       outline: none;
     }
+  }
+
+  @media only screen and (max-width: 734px) {
+    display: none;
   }
 `;

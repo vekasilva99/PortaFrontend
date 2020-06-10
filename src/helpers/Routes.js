@@ -9,6 +9,8 @@ import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
 import UserHome from "../views/UserHome";
+import UserProfile from "../views/UserProfile";
+import DriverProfile from "../views/DriverProfile";
 
 export default function Routes() {
   return (
@@ -42,6 +44,16 @@ export default function Routes() {
         render={(props) => <AdminUsers {...props} />}
       />
       <Route exact path="/user" render={(props) => <UserHome {...props} />} />
+      <Route
+        exact
+        path="/user/userprofile"
+        render={(props) => <UserProfile {...props} />}
+      />
+      <Route
+        exact
+        path="/driver/driverprofile"
+        render={(props) => <DriverProfile {...props} />}
+      />
 
       <Redirect exact from="*" to="/" />
     </Switch>
