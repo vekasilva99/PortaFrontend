@@ -64,7 +64,9 @@ export const GET_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      rating
+      rating{
+        score
+      }
       createdAt
       updatedAt
     }
@@ -124,7 +126,9 @@ export const CURRENT_DRIVER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      rating
+      rating{
+        score
+      }
       createdAt
       updatedAt
     }
@@ -164,7 +168,9 @@ export const NEW_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      rating
+      rating{
+        score
+      }
       createdAt
       updatedAt
     }

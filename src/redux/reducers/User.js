@@ -3,8 +3,13 @@ import { LOGIN, LOGOUT, UPDATE_USER, CURRENT_USER } from "../actionTypes";
 const initialState = {
   token: null,
   userId: null,
-  userImg: null,
   name: null,
+  lastName: null,
+  birthdate: null,
+  mail: null,
+  zone:null,
+  cellphone:null,
+  createdAt:null
 };
 
 export default function (state = initialState, action) {
@@ -20,21 +25,29 @@ export default function (state = initialState, action) {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, userId, userImg, name, username, posts } = action.payload;
+      const { token, userId, name, lastName, birthdate, mail, zone, cellphone, createdAt} = action.payload;
       return {
         token: token,
-        userId,
-        userImg,
-        name,
-        username,
+        userId: userId,
+        name: name,
+        lastName: lastName,
+        birthdate: birthdate,
+        mail: mail,
+        zone: cellphone,
+        createdAt: createdAt
       };
     }
     case UPDATE_USER: {
-      const { userImg, name } = action.payload;
+      const { name, lastName, birthdate, mail, zone, cellphone, createdAt } = action.payload;
       return {
         ...state,
-        userImg,
         name,
+        lastName,
+        birthdate,
+        mail,
+        zone,
+        cellphone,
+        createdAt
       };
     }
 

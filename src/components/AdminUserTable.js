@@ -14,14 +14,14 @@ export default function AdminTable(props) {
   //Usuarios
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
   //Repartidores
-  const { loading, error, data } = useQuery(GET_REPARTIDORES);
+  // const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
   // const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(NEW_USERS);
   //Nuevos repartidores
   // const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(NEW_REPARTIDORES);
   // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  // if (loading) return "Loading...";
+  // if (error) return `Error! ${error.message}`;
 
   if (loadingU) return "Loading...";
   if (errorU) return `Error! ${errorU.message}`;
@@ -92,7 +92,7 @@ export default function AdminTable(props) {
           </NavLink>
         </li> */}
       </ul>
-      {dataU.users.map((user) => (
+      {dataU.costumers.map((user) => (
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
@@ -121,7 +121,7 @@ export default function AdminTable(props) {
           </li>
           {/* <li className="link">
             <NavLink className="item" to="/">
-              {user.signindate}
+              {user.createdAt}
             </NavLink>
           </li> */}
         </ul>
