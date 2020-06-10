@@ -95,7 +95,7 @@ export default function AdminRequestTable(props) {
           </NavLink>
         </li> */}
       </ul>
-      {dataU.users.map((user) => (
+      {dataU.costumers.map((user) => (
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
