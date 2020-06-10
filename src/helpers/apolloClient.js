@@ -3,11 +3,9 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { setContext } from "apollo-link-context";
 import { HttpLink } from "apollo-link-http";
 
-//const endpoint = "https://examplee/graphql";
-
-const cache = new InMemoryCache();
-const link = new HttpLink({
+const httpLink = new HttpLink({
   uri: "https://porta-api.herokuapp.com/graphql",
+  //uri: "http://localhost:4000/graphql"
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -23,8 +21,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  cache,
-  link,
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
 });
 
 export default client;
