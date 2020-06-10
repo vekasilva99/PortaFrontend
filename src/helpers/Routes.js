@@ -82,9 +82,6 @@ export default function Routes() {
         path="/admin/users"
         render={(props) => <AdminUsers {...props} />}
       />
-<<<<<<< HEAD
-      
-=======
       <Route
         exact
         path="/admin/requests"
@@ -96,7 +93,6 @@ export default function Routes() {
         render={(props) => <AdminRequest {...props} />}
       />
       <Route exact path="/user" render={(props) => <UserHome {...props} />} />
->>>>>>> 07a990780d90680a73ca0787e566649560849c0a
       <Route
         exact
         path="/user/userprofile"

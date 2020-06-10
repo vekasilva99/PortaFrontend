@@ -13,6 +13,9 @@ import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { CURRENT_USER } from "../../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_USER } from "../../helpers/graphql/mutations";
+
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
@@ -21,6 +24,7 @@ export default function UserProfileForm(props) {
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const { loading, error, data } = useQuery(CURRENT_USER);
+  const [update, { data: dataU, loading: loadingU, error: errorU}] = useMutation(UPDATE_USER);
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -48,11 +52,11 @@ export default function UserProfileForm(props) {
       <div className="Form">
         <Formik
           initialValues={{
-            Email: "vekasilva99@gmail.com",
+            Email: data.currentUser.mail,
             Password: "211ce496Vale",
-            Phone: "04241952718",
-            FName: "Valeska",
-            LName: "Silva",
+            Phone: data.currentUser.cellphone,
+            FName: data.currentUser.name,
+            LName: data.currentUser.lastName,
             BDate: new Date(moment()),
             Region: "Hatillo",
           }}
@@ -96,6 +100,25 @@ export default function UserProfileForm(props) {
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
+
+
+
+
+            const { dataU } = await update({
+              variables: {
+                updateInput: {
+                  id: data.currentUser._id,
+                  name: values.FName,
+                  lastName: values.LName,
+                  mail:values.Email,
+                  birthdate: new Date(),
+                  zone: values.Region
+                },
+              },
+            });
+
+
+
 
             setSubmitting(false);
             resetForm();
