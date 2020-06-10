@@ -106,6 +106,8 @@ export default function Routes() {
         path="/user/userprofile"
         render={(props) => <UserProfile {...props} />}
       />
+      
+      
       <Route
         exact
         path="/user/driverprofile/1"
@@ -124,7 +126,7 @@ export default function Routes() {
 
       <GuardRoute
         exact
-        path="/prueba"
+        path="/user"
         isAuth={data && data.currentUser ? data.currentUser : null}
         component={UserHome}
       />

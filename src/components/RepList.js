@@ -4,21 +4,46 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import {
+  GET_USERS,
+  GET_REPARTIDORES,
+  NEW_USERS,
+  NEW_REPARTIDORES,
+} from "../helpers/graphql/queries";
+import { useQuery } from "@apollo/react-hooks";
 
 export default function RepList(props) {
   const [sidebar, setSidebar] = React.useState(false);
+
+  //Repartidores
+  const { loading, error, data } = useQuery(GET_REPARTIDORES);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  function handleClick(name) {
+    alert(`hello, ${name}`);
+  }
   return (
     <StyledRepList>
-      <div className="repart">
-        <h2>Nombre Apellido</h2>
-        <button className="next">
-          <img src="/nextblue.png" alt="Next" className="nextbut" />
-        </button>
+      <div className="container">
+        {data.drivers.map((repartidor) => (
+          <div className="repart">
+            <h2>
+              {repartidor.name} {repartidor.lastName}
+            </h2>
+            <button
+              className="next"
+              onClick={() => handleClick(repartidor._id)}
+            >
+              <img src="/nextblue.png" alt="Next" className="nextbut" />
+            </button>
+          </div>
+        ))}
       </div>
     </StyledRepList>
   );
@@ -27,6 +52,7 @@ const StyledRepList = styled.nav`
   margin: 0;
   padding: 0;
   display: flexbox;
+  flex-direction: column;
   align-content: center;
 
   h2 {
@@ -37,7 +63,12 @@ const StyledRepList = styled.nav`
   .repart {
     padding: 5px;
     border-top: 1px solid #00507a;
-    border-bottom: 1px solid #00507a;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
   }
 
   .next {
