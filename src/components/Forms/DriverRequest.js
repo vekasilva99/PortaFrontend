@@ -280,19 +280,6 @@ const FormStyle = styled.section`
   button {
     display: none;
   }
-  .settings {
-    border-radius: 500px;
-    margin-left: 0;
-    left: 0;
-    margin-top: 8vw;
-    display: flex;
-    position: absolute;
-    padding: 1em;
-    border: solid 0.1em #ef0023;
-    width: 2vw;
-    height: 2vw;
-    background: white;
-  }
 
   .edit {
     width: 15vw;

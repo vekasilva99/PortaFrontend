@@ -21,6 +21,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
 import GuardRoute from "./GuardRoutes";
+import SeeDrivers from "../views/SeeDrivers";
+import MapRep from "../views/MapRep";
 
 export default function Routes() {
   const [CurrentUser, { data, loading }] = useLazyQuery(CURRENT_USER, {
@@ -56,6 +58,12 @@ export default function Routes() {
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
+      <Route
+        exact
+        path="/seedrivers"
+        render={(props) => <SeeDrivers {...props} />}
+      />
+      <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
       <Route
         exact
         path="/register"

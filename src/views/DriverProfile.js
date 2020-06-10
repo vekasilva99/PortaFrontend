@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colorPrimary } from "../helpers/styles";
-import NavbarDriver from "../components/NavbarDriver";
+import NavbarIn from "../components/NavIn";
 import DriverMenu from "../components/DriverMenu";
 import DriverProfileSidebar from "../components/DriverProfileSidebar";
 import DriverProfileForm from "../components/DriverProfile";
@@ -16,7 +16,8 @@ export default function DriverProfile() {
   return (
     <HomeStyle>
       {" "}
-      <NavbarDriver togglerSidebar={handlingSidebar} />
+      <NavbarIn></NavbarIn>
+      {/* <NavbarDriver togglerSidebar={handlingSidebar} /> */}
       {/* <div className="edit">
         <FaUserAlt className="photo" color="#00507a" />
         <MdModeEdit className="settings" color="#00507a" />

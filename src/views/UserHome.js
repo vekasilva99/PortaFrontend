@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colorPrimary } from "../helpers/styles";
-import Button from "../components/Button";
-import Input from "../components/Input";
 import Navbar from "../components/Navbar";
+import NavbarIn from "../components/NavIn";
 import AdminSidebar from "../components/AdminSidebar";
 import Login from "./Login";
 import LoginDriver from "./LoginDriver";
@@ -57,7 +56,8 @@ export default function UserHome() {
   // console.log(loggedUser);
   return (
     <HomeStyle>
-      <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} />
+      <NavbarIn />
+      {/* <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} /> */}
       {login ? (
         <Login
           show={login}

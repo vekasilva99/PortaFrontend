@@ -4,6 +4,7 @@ import { colorPrimary } from "../helpers/styles";
 import NavbarAdmin from "../components/NavbarAdmin";
 import AdminSidebar from "../components/AdminSidebar";
 import NavbarUser from "../components/NavbarUser";
+import NavbarIn from "../components/NavIn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
@@ -18,7 +19,8 @@ export default function UserProfile() {
   return (
     <HomeStyle>
       {" "}
-      <NavbarUser togglerSidebar={handlingSidebar} />
+      <NavbarIn />
+      {/* <NavbarUser togglerSidebar={handlingSidebar} /> */}
       <UserMenu show={sidebar} />
       {/* <div className="edit">
         <FaUserAlt className="photo" color="#00507a" />

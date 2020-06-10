@@ -48,6 +48,7 @@ const StyledNavbar = styled.nav`
   align-items: center;
   justify-content: flex-end;
   font-family: Roboto;
+  z-index: 3;
   height: 4rem;
   width: 100%;
   top: 0;
