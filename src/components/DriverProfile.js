@@ -6,11 +6,10 @@ import styled from "styled-components";
 import delivery from "../assets/images/delivery.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
+import ItemsCarousel from "react-items-carousel";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { MdStar } from "react-icons/md";
 import { FaQuoteLeft } from "react-icons/fa";
-import ItemsCarousel from "react-items-carousel";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
@@ -244,6 +243,7 @@ const FormStyle = styled.section`
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 300;
+
   }
 
   .card > h3 {
