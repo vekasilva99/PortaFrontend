@@ -5,7 +5,7 @@ import { HttpLink } from "apollo-link-http";
 
 const httpLink = new HttpLink({
   uri: "https://porta-api.herokuapp.com/graphql",
-  //uri: "http://localhost:4000/graphql"
+  // uri: "http://localhost:4000/graphql"
 });
 
 const authLink = setContext((_, { headers }) => {

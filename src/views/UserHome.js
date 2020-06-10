@@ -23,6 +23,8 @@ export default function UserHome() {
   const [registerD, setRegisterD] = React.useState(false);
   const { loading, error, data } = useQuery(CURRENT_USER);
 
+  console.log(data);
+
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
@@ -92,7 +94,7 @@ export default function UserHome() {
           <option key={user.id}>{user.name}</option>
         ))}
       </select> */}
-        <h1>Usuario</h1>
+        <h1>{data.currentUser.name} {data.currentUser.lastName}</h1>
         <h2>Hasta tu puerta</h2>
         <button className="boton">Más información ></button>
       </div>

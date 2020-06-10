@@ -118,22 +118,7 @@ export default function FormRegister(props) {
             },
           ];
 
-          // const requestBody = {
-          //   query: `
-          //     mutation{
-          //       createUser(userInput: {name: "${submitUser[0].FirstName}", lastName: "${submitUser[0].LastName}", birthdate: "${submitUser[0].Birthdate}", mail: "${submitUser[0].Email}", password: "${submitUser[0].Password}", zone: "${submitUser[0].Region}", cellphone: "${submitUser[0].UserPhone}"}){
-          //         _id
-          //         name
-          //         lastName
-          //         birthdate
-          //         mail
-          //         password
-          //         zone
-          //         cellphone
-          //       }
-          //     }
-          //   `,
-          // };
+          
           const { data } = await register({
             variables: {
               userInput: {
@@ -144,32 +129,12 @@ export default function FormRegister(props) {
                 password: submitUser[0].Password,
                 zone: submitUser[0].Region,
                 cellphone: submitUser[0].UserPhone,
+                role: "COSTUMER"
               },
             },
           });
 
-          /* fetch("https://porta-api.herokuapp.com/graphql", {
-            method: "POST",
-            body: JSON.stringify(requestBody),
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-            .then((res) => {
-              if (res.status !== 200 && res.status !== 201) {
-                throw new Error("Failed!");
-              }
-              return res.json();
-            })
-            .then((resData) => {
-              console.log(resData);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-
-          //console.log(submitUser[0].FirstName);
-             */
+          
           console.log(data);
           setSubmitting(true);
           console.log(submitUser);
