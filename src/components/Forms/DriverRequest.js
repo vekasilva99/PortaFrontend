@@ -6,13 +6,13 @@ import { FaUserAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
-import user from "../../assets/images/user.png";
+import driver from "../../assets/images/delivery.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
-export default function UserProfileForm(props) {
+export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
@@ -34,61 +34,59 @@ export default function UserProfileForm(props) {
     <FormStyle>
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
-        <img className="photo" src={user} />
-        <MdModeEdit className="settings" color="#00507a" />
+        <img className="photo" src={driver} />
       </div>
       <div className="Form">
         <Formik
           initialValues={{
-            Email: "vekasilva99@gmail.com",
-            Password: "211ce496Vale",
-            Phone: "04241952718",
-            FName: "Valeska",
-            LName: "Silva",
-            BDate: new Date(moment()),
-            Region: "Hatillo",
+            Licencia: "170202476964",
+            Seguro: "8Z1TJ29667V372989",
+            Placa: "FBW54R",
+            Vehiculo: "carro",
+            Carnet: "1801051029170359ZG688W39",
+            Experiencia: "1 año",
           }}
           validate={(values) => {
             const errors = {};
             console.log(values);
-            if (!values.Email) {
-              errors.Email = "Required Field";
+            if (!values.Licencia) {
+              errors.Licencia = "Required Field";
+            } else if (values.Licencia.length != 12) {
+              errors.Licencia = "Invalid License";
             } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+              !/^\+?([0-9]{4})?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/i.test(
+                values.Licencia
+              )
             ) {
-              errors.Email = "Invalid Email";
-              console.log("sa");
+              errors.Licencia = "Invalid License";
             }
-            if (!values.Password) {
-              errors.Password = "Required Field";
-            } else if (values.Password.length < 9) {
-              errors.Password = "Password too short";
-              console.log("entra 2");
+            if (!values.Seguro) {
+              errors.Seguro = "Required Field";
+            } else if (values.Seguro.length != 17) {
+              errors.Seguro = "Invalid Security";
             }
-            if (
-              values.Phone.slice(0, 4) == "0424" ||
-              values.Phone.slice(0, 4) == "0414" ||
-              values.Phone.slice(0, 4) == "0412" ||
-              values.Phone.slice(0, 4) == "0416"
-            ) {
-              console.log("entra 2");
-            } else {
-              errors.Phone = "Invalid Phone Code";
+            if (!values.Placa) {
+              errors.Placa = "Required Field";
+            } else if (values.Placa.length != 6) {
+              errors.Phone = "Invalid License Plate";
             }
-            if (
-              !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(
-                values.Phone
-              ) ||
-              values.Phone == ""
-            ) {
-              errors.Phone = "Invalid Phone Number";
+            if (!values.Vehiculo) {
+              errors.Vehiculo = "Required Field";
+            }
+            if (!values.Carnet) {
+              errors.Carnet = "Required Field";
+            } else if (values.Carnet.length != 24) {
+              errors.Carnet = "Invalid License";
+            }
+            if (!values.Experiencia) {
+              errors.Experiencia = "Required Field";
             }
             console.log(errors);
             return errors;
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
-
+            console.log(values);
             setSubmitting(false);
             resetForm();
           }}
@@ -106,105 +104,112 @@ export default function UserProfileForm(props) {
               <div className="navb">
                 <button className="saveB2" type="submit">
                   {" "}
-                  <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
+                  <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />{" "}
                 </button>
               </div>
               <div className="Profile-name">
                 <h1>Valeska Silva</h1>
-                <input
-                  className="phone"
-                  value={values.Phone}
-                  label="Enter your Phone"
-                  id="Phone"
-                  name="Phone"
-                  type="text"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
               </div>
               <div className="Profile-content">
                 <div className="label">
-                  <h2>First Name</h2>
+                  <h2>Licencia</h2>
                   <div className="group">
                     <input
                       className="mail"
-                      value={values.FName}
-                      label="Enter your First Name"
-                      id="FName"
-                      name="FName"
+                      value={values.Licencia}
+                      id="Licencia"
+                      name="Licencia"
                       type="text"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
-                  <h2>Last Name</h2>
+                  <h2>Placa del Vehiculo</h2>
                   <div className="group">
                     <input
                       className="mail"
-                      value={values.LName}
-                      label="Enter your Last Name"
-                      id="LName"
-                      name="LName"
+                      value={values.Placa}
+                      id="Placa"
+                      name="Placa"
                       type="text"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
-                  <h2>Email</h2>
+                  <h2>Seguro del Vehiculo</h2>
                   <div className="group">
                     <input
                       className="mail"
-                      value={values.Email}
-                      label="Enter your Email"
-                      id="Email"
+                      value={values.Seguro}
+                      id="Seguro"
                       type="text"
-                      name="Email"
+                      name="Seguro"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    <MdKeyboardArrowRight className="icon" color="#ef0023" />
                   </div>
                 </div>
                 <div className="label">
-                  <h2>Birthdate</h2>
+                  <h2>Carnet de Circulación</h2>
                   <div className="group">
-                    <DatePicker
+                    <input
                       className="mail"
-                      selected={values.BDate}
-                      maxDate={new Date(moment())}
+                      value={values.Carnet}
+                      id="Carnet"
+                      name="Carnet"
+                      type="text"
                       onChange={handleChange}
-                      placeholderText="Choose a Date"
+                      onBlur={handleBlur}
                     />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    <MdKeyboardArrowRight className="icon" color="#ef0023" />
                   </div>
                 </div>
                 <div className="label">
-                  <h2>Region</h2>
+                  <h2>Años de Experiencia</h2>
                   <div className="group">
                     <select
                       className="select"
-                      name="Region"
-                      value={values.Region}
+                      name="Experiencia"
+                      value={values.Experiencia}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      <option value="" label="Choose a Region" />
-                      <option value="Hatillo" label="El Hatillo" />
-                      <option value="Baruta" label="Baruta" />
+                      <option value="" label="Choose a Experience Time" />
+                      <option value="6 meses" label="6 months" />
+                      <option value="1 año" label="1 year" />
+                      <option value="Mas de 1 año" label="More than a year" />
                     </select>
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
+                  </div>
+                </div>
+                <div className="label">
+                  <h2>Tipo de Vehiculo</h2>
+                  <div className="group">
+                    <select
+                      className="select"
+                      name="Vehiculo"
+                      value={values.Vehiculo}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="" label="Choose a Vehicle" />
+                      <option value="carro" label="Car" />
+                      <option value="moto" label="Motorcycle" />
+                    </select>
+                    <MdKeyboardArrowRight color="#ef0023" className="icon" />
                   </div>
                 </div>
                 <div className="label">
                   <button className="saveB" type="submit" block>
                     {" "}
-                    SAVE CHANGES{" "}
+                    SEND REQUEST{" "}
                   </button>
                 </div>
               </div>
@@ -225,7 +230,7 @@ const FormStyle = styled.section`
 
   .photo {
     border-radius: 500px;
-    border: solid 0.2em #00507a;
+    border: solid 0.2em #ef0023;
     width: 13vw;
     height: 13vw;
     margin-left: 1vw;
@@ -241,7 +246,7 @@ const FormStyle = styled.section`
     display: flex;
     position: absolute;
     padding: 1em;
-    border: solid 0.1em #00507a;
+    border: solid 0.1em #ef0023;
     width: 2vw;
     height: 2vw;
     background: white;
@@ -342,7 +347,7 @@ const FormStyle = styled.section`
     &:focus {
       opacity: 0.8;
       outline: none;
-      border-bottom: solid 2px #00507a;
+      border-bottom: solid 2px #ef0023;
     }
   }
 
@@ -363,7 +368,7 @@ const FormStyle = styled.section`
     &:focus {
       opacity: 0.8;
       outline: none;
-      border-bottom: solid 2px #00507a;
+      border-bottom: solid 2px #ef0023;
     }
   }
   .label {
@@ -392,7 +397,7 @@ const FormStyle = styled.section`
     display: none;
   }
   .saveB {
-    border: solid 2px #00507a;
+    border: solid 2px #ef0023;
     color: white;
     padding: 0.9rem;
     font-size: 0.8em;
@@ -400,16 +405,16 @@ const FormStyle = styled.section`
     display: flex;
     font-weight: 600;
     cursor: pointer;
-    background: #00507a;
+    background: #ef0023;
     border-radius: 500px;
     transition: all ease-in-out 0.3s;
     justify-content: center;
 
     &:hover {
       opacity: 0.8;
-      background: #00507a;
+      background: #ef0023;
       color: white;
-      border-color: #00507a;
+      border-color: #ef0023;
     }
     &:focus {
       opacity: 0.8;
@@ -445,7 +450,7 @@ const FormStyle = styled.section`
       margin-top: 7vw;
       margin-left: 40vw;
       padding: 0.1em;
-      border: solid 0.1em #00507a;
+      border: solid 0.1em #ef0023;
       width: 8vw;
       height: 8vw;
       background: white;
@@ -509,7 +514,7 @@ const FormStyle = styled.section`
       align-items: left;
       padding-top: 0.5em;
       padding-bottom: 0.5em;
-      border-top: solid 2px #00507a;
+      border-top: solid 2px #ef0023;
     }
 
     .label > h2 {
@@ -578,7 +583,7 @@ const FormStyle = styled.section`
       &:focus {
         opacity: 0.8;
         outline: none;
-        border-bottom: solid 2px #00507a;
+        border-bottom: solid 2px #ef0023;
       }
     }
 

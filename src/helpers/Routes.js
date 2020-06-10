@@ -10,8 +10,9 @@ import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
 import UserHome from "../views/UserHome";
 import UserProfile from "../views/UserProfile";
+import DriverEditProfile from "../views/DriverEditProfile";
 import DriverProfile from "../views/DriverProfile";
-
+import DriverRequest from "../views/DriverRequest";
 import { CURRENT_USER } from "./graphql/queries";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useDispatch } from "react-redux";
@@ -87,8 +88,18 @@ export default function Routes() {
       />
       <Route
         exact
-        path="/driver/driverprofile"
+        path="/user/driverprofile/1"
         render={(props) => <DriverProfile {...props} />}
+      />
+      <Route
+        exact
+        path="/driver/driverprofile"
+        render={(props) => <DriverEditProfile {...props} />}
+      />
+      <Route
+        exact
+        path="/driver/request"
+        render={(props) => <DriverRequest {...props} />}
       />
 
       <GuardRoute
