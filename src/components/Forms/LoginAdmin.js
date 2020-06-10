@@ -4,17 +4,17 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { ADMIN_LOGIN } from "../../helpers/graphql/queries";
+import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
 export default function FormLoginAdmin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [isRepartidor, setIsRepartidor] = useState(false);
 
-  const [login, { data, loading, error }] = useLazyQuery(ADMIN_LOGIN);
+  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.adminLogin);
+      localStorage.setItem("token", data.userLogin.token);
     }
   }, [data, loading]);
   return (
