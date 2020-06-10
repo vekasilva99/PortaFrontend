@@ -302,3 +302,141 @@ const HomeStyle = styled.div`
     }
   }
 `;
+
+// const HomeStyle = styled.div`
+//   background: white;
+//   height: 100vh;
+//   position: relative;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+//   top: 0;
+//   left: 0;
+
+//   .infoPorta {
+//     text-align: center;
+//     color: rgb(29, 29, 31);
+//     position: relative;
+//     margin-top: 3rem;
+//     position: relative;
+//     z-index: 1;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     .content {
+//       position: absolute;
+//       top: 0%;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+//     h2 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.3em;
+//       word-spacing: 5px;
+//       padding-top: 0.5rem;
+//     }
+//     h1 {
+//       font-weight: 500;
+//       margin: 0px;
+//       font-size: 2em;
+//       letter-spacing: 0.15em;
+//       padding-top: 3rem;
+//     }
+//   }
+//   .usuarios > div {
+//     margin-top: 0.5rem;
+//     background-repeat: no-repeat;
+//     background-position: center;
+//     text-align: center;
+//     color: rgb(29, 29, 31);
+//   }
+
+//   .boton {
+//     color: rgb(2, 102, 204);
+//     background-color: transparent;
+//     border: none;
+//     cursor: pointer;
+//   }
+//   .infoPorta > button {
+//     font-size: 25px;
+//     padding-top: 0.5rem;
+//   }
+//   .usuarios {
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     grid-gap: 0.5rem;
+//     grid-auto-rows: auto;
+//   }
+//   .cliente {
+//     z-index: 1;
+//     position: relative;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     div {
+//       position: absolute;
+//       top: 0;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+//     h1 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.2em;
+//       letter-spacing: 1px;
+//       padding-top: 2.5rem;
+//     }
+//     button {
+//       font-size: 15px;
+//       cursor: pointer;
+//       padding-top: 1rem;
+//     }
+//   }
+
+//   .repartidor {
+//     z-index: 1;
+//     position: relative;
+//     img {
+//       max-width: 100%;
+//       position: relative;
+//       z-index: 0;
+//     }
+//     div {
+//       position: absolute;
+//       top: 0;
+//       left: 50%;
+//       transform: translate(-50%, 0);
+//     }
+
+//     h1 {
+//       font-weight: 300;
+//       margin: 0px;
+//       font-size: 1.2em;
+//       letter-spacing: 1px;
+//       padding-top: 2.5rem;
+//     }
+//     button {
+//       font-size: 1.1em;
+//       cursor: pointer;
+
+//       padding-top: 1rem;
+//     }
+//   }
+//   @media screen and (max-width: 600px) {
+//     .infoPorta {
+//       h1 {
+//         font-size: 1.5em;
+//       }
+//       h2 {
+//         font-size: 1em;
+//       }
+//       button {
+//         font-size: 0.9em;
+//       }
+//     }
+//   }

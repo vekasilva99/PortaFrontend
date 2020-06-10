@@ -35,7 +35,7 @@ export default function UserProfileForm(props) {
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
         <img className="photo" src={user} />
-        <MdModeEdit className="settings" color="#00507a" />
+        <MdModeEdit className="settings" color="#00507a" size="1em" />
       </div>
       <div className="Form">
         <Formik
@@ -240,10 +240,10 @@ const FormStyle = styled.section`
     margin-top: 8vw;
     display: flex;
     position: absolute;
-    padding: 1em;
+    padding: 0.2em;
     border: solid 0.1em #00507a;
-    width: 2vw;
-    height: 2vw;
+    width: 4vw;
+    height: 4vw;
     background: white;
   }
 

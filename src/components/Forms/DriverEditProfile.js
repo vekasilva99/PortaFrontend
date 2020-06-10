@@ -3,8 +3,8 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { FaUserAlt } from "react-icons/fa";
-import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { MdModeEdit } from "react-icons/md";
 import styled from "styled-components";
 import driver from "../../assets/images/delivery.png";
 import DatePicker from "react-datepicker";
@@ -35,7 +35,7 @@ export default function DriverEditProfileForm(props) {
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
         <img className="photo" src={driver} />
-        <MdModeEdit className="settings" color="#ef0023" />
+        <MdModeEdit className="settings" color="#ef0023" size="1em" />
       </div>
       <div className="Form">
         <Formik
@@ -260,10 +260,10 @@ const FormStyle = styled.section`
     margin-top: 8vw;
     display: flex;
     position: absolute;
-    padding: 1em;
+    padding: 0.2em;
     border: solid 0.1em #ef0023;
-    width: 2vw;
-    height: 2vw;
+    width: 4vw;
+    height: 4vw;
     background: white;
   }
 
