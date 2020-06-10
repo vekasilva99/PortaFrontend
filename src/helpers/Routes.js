@@ -7,7 +7,9 @@ import LoginDriver from "../views/LoginDriver";
 import RegisterUser2 from "../views/RegisterUser2";
 import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
+import AdminRequests from "../views/AdminRequests";
 import AdminHome from "../views/AdminHome";
+import AdminRequest from "../views/AdminRequest";
 import UserHome from "../views/UserHome";
 import UserProfile from "../views/UserProfile";
 import DriverEditProfile from "../views/DriverEditProfile";
@@ -79,6 +81,16 @@ export default function Routes() {
         exact
         path="/admin/users"
         render={(props) => <AdminUsers {...props} />}
+      />
+      <Route
+        exact
+        path="/admin/requests"
+        render={(props) => <AdminRequests {...props} />}
+      />
+      <Route
+        exact
+        path="/admin/requests/1"
+        render={(props) => <AdminRequest {...props} />}
       />
       <Route exact path="/user" render={(props) => <UserHome {...props} />} />
       <Route
