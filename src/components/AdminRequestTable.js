@@ -7,7 +7,7 @@ import {
   GET_REPARTIDORES,
   NEW_USERS,
   NEW_REPARTIDORES,
-  GET_REQUESTS
+  GET_REQUESTS,
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -21,7 +21,9 @@ export default function AdminRequestTable(props) {
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
 
   //REQUESTS
-  const { data: dataR, error: errorR, loading: loadingR } = useQuery(GET_REQUESTS);
+  const { data: dataR, error: errorR, loading: loadingR } = useQuery(
+    GET_REQUESTS
+  );
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
@@ -38,10 +40,14 @@ export default function AdminRequestTable(props) {
 
   console.log(dataR);
 
+  function handleClick(name) {
+    alert(`hello, ${name}`);
+  }
+
   return (
     <StyledTable>
       <div className="title">
-        <h1>Users</h1>
+        <h1>Requests</h1>
         <BsCircleFill size="1.8rem" color="#202124" className="circle">
           2
         </BsCircleFill>
@@ -64,27 +70,27 @@ export default function AdminRequestTable(props) {
       <ul className="header">
         <li className="link2">
           <NavLink className="item2" to="/">
-            NAME
+            DRIVER
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            LAST NAME
+            EXPERIENCE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            BIRTHDATE
+            VEHICLE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            MAIL
+            LICENSE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            CELLPHONE
+            SEGURO
           </NavLink>
         </li>
         {/* <li className="link2">
@@ -93,31 +99,31 @@ export default function AdminRequestTable(props) {
           </NavLink>
         </li> */}
       </ul>
-      {dataU.costumers.map((user) => (
-        <ul className="nav-links">
+      {dataR.solicitudes.map((user) => (
+        <ul className="nav-links" onClick={() => handleClick(user._id)}>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.name}
+              {user.repartidorID.name} {user.repartidorID.lastName}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.lastName}
+              {user.experience}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.birthdate}
+              {user.vehiculo}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.mail}
+              {user.licencia}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.cellphone}
+              {user.seguroVehiculo}
             </NavLink>
           </li>
           {/* <li className="link">
