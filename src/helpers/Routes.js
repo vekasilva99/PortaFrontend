@@ -10,6 +10,7 @@ import AdminUsers from "../views/AdminUsers";
 import AdminHome from "../views/AdminHome";
 import UserHome from "../views/UserHome";
 import SeeDrivers from "../views/SeeDrivers";
+import MapRep from "../views/MapRep";
 
 export default function Routes() {
   return (
@@ -21,6 +22,7 @@ export default function Routes() {
         path="/seedrivers"
         render={(props) => <SeeDrivers {...props} />}
       />
+      <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
       <Route
         exact
         path="/register"
