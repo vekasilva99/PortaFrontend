@@ -16,6 +16,7 @@ export default function AdminRequestTable(props) {
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
+  let [path, setPath] = React.useState("/admin/requests/");
 
   //Usuarios
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
@@ -100,7 +101,7 @@ export default function AdminRequestTable(props) {
         </li> */}
       </ul>
       {dataR.solicitudes.map((user) => (
-        <ul className="nav-links" onClick={() => handleClick(user._id)}>
+        <NavLink className="nav-links" to={path + user._id}>
           <li className="link">
             <NavLink className="item" to="/">
               {user.repartidorID.name} {user.repartidorID.lastName}
@@ -131,7 +132,7 @@ export default function AdminRequestTable(props) {
               {user.signindate}
             </NavLink>
           </li> */}
-        </ul>
+        </NavLink>
       ))}
     </StyledTable>
   );
@@ -165,6 +166,7 @@ const StyledTable = styled.nav`
     flex-flow: row nowrap;
     margin-left: 20vw;
     width: 70%;
+    text-decoration: none;
     align-self: center;
     justify-content: space-around;
     list-style: none;

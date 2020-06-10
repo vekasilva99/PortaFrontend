@@ -4,6 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { Redirect } from "react-router-dom";
 import {
   GET_USERS,
   GET_REPARTIDORES,
@@ -14,6 +15,7 @@ import { useQuery } from "@apollo/react-hooks";
 
 export default function RepList(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  let [path, setPath] = React.useState("/user/driverprofile/");
 
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
@@ -28,6 +30,7 @@ export default function RepList(props) {
   function handleClick(name) {
     alert(`hello, ${name}`);
   }
+
   return (
     <StyledRepList>
       <div className="container">
@@ -36,12 +39,9 @@ export default function RepList(props) {
             <h2>
               {repartidor.name} {repartidor.lastName}
             </h2>
-            <button
-              className="next"
-              onClick={() => handleClick(repartidor._id)}
-            >
+            <NavLink to={path + repartidor._id} className="next">
               <img src="/nextblue.png" alt="Next" className="nextbut" />
-            </button>
+            </NavLink>
           </div>
         ))}
       </div>
