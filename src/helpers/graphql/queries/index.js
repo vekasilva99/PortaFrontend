@@ -206,3 +206,29 @@ export const NEW_REPARTIDORES = gql`
     }
   }
 `;
+
+export const SELECTED_DRIVER = gql`
+  query($driverId: ID!) {
+    selectedDriver(driverId: $driverId) {
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      rating{
+        score
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
