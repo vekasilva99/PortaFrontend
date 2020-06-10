@@ -97,7 +97,7 @@ export default function Routes() {
       />
       <Route
         exact
-        path="/admin/requests/1"
+        path="/admin/requests/:id"
         render={(props) => <AdminRequest {...props} />}
       />
       <Route exact path="/user" render={(props) => <UserHome {...props} />} />
@@ -106,11 +106,10 @@ export default function Routes() {
         path="/user/userprofile"
         render={(props) => <UserProfile {...props} />}
       />
-      
-      
+
       <Route
         exact
-        path="/user/driverprofile/1"
+        path="/user/driverprofile/:id"
         render={(props) => <DriverProfile {...props} />}
       />
       <Route
