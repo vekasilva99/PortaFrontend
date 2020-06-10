@@ -1,28 +1,5 @@
 import gql from "graphql-tag";
 
-export const LOGIN_SESION = gql`
-   query ($mail: String! , $password: String!) {
-      sesionLogin(mail: $mail, password: $password){
-        sesionId
-        token
-        tokenExpiration
-      }
-   }
- 
-`;
-
-export const CURRENT_SESION_USER = gql`
-   {
-      currentSesionUser{
-         name
-         lastName
-         sesion{
-            _id
-    	      mail
-         }
-      }
-   }
-`;
 
 export const LOGIN_USER = gql`
   query($mail: String!, $password: String!) {
@@ -56,7 +33,7 @@ export const DRIVER_LOGIN = gql`
 
 export const GET_USERS = gql`
   {
-    users {
+    costumers {
       _id
       name
       lastName
@@ -72,7 +49,7 @@ export const GET_USERS = gql`
 
 export const GET_REPARTIDORES = gql`
   {
-    repartidores {
+    drivers {
       _id
       cedula
       name
@@ -90,6 +67,17 @@ export const GET_REPARTIDORES = gql`
       rating
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const LIST_OF_REPARTIDORES = gql`
+  {
+    drivers {
+      _id
+      name
+      lastName
+      mail
     }
   }
 `;
@@ -161,7 +149,7 @@ export const NEW_USERS = gql`
 
 export const NEW_REPARTIDORES = gql`
   {
-    newestRepartidores {
+    newestDrivers {
       _id
       cedula
       name

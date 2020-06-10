@@ -79,7 +79,7 @@ export default function Routes() {
         path="/admin/users"
         render={(props) => <AdminUsers {...props} />}
       />
-      <Route exact path="/user" render={(props) => <UserHome {...props} />} />
+      
       <Route
         exact
         path="/user/userprofile"
@@ -93,7 +93,7 @@ export default function Routes() {
 
       <GuardRoute
         exact
-        path="/prueba"
+        path="/user"
         isAuth={data && data.currentUser ? data.currentUser : null}
         component={UserHome}
       />
