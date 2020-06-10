@@ -73,6 +73,36 @@ export const GET_REPARTIDORES = gql`
   }
 `;
 
+export const GET_REQUESTS = gql`
+  {
+    solicitudes{
+    _id
+    experience
+    vehiculo
+    licencia
+    carnetCirculacion
+    seguroVehiculo
+    status
+    repartidorID{
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+    }
+  }
+  }
+`;
+
 export const LIST_OF_REPARTIDORES = gql`
   {
     drivers {

@@ -7,6 +7,7 @@ import {
   GET_REPARTIDORES,
   NEW_USERS,
   NEW_REPARTIDORES,
+  GET_REQUESTS
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -18,27 +19,24 @@ export default function AdminRequestTable(props) {
 
   //Usuarios
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
+
+  //REQUESTS
+  const { data: dataR, error: errorR, loading: loadingR } = useQuery(GET_REQUESTS);
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
   // const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(NEW_USERS);
-  //Nuevos repartidores
-  // const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(NEW_REPARTIDORES);
-  // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
+
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  if (loadingU) return "Loading...";
-  if (errorU) return `Error! ${errorU.message}`;
+  if (loadingR) return "Loading...";
+  if (errorR) return `Error! ${errorR.message}`;
 
   // if (loadingNU) return "Loading...";
   // if (errorNU) return `Error! ${errorNU.message}`;
 
-  // if (loadingNR) return "Loading...";
-  // if (errorNR) return `Error! ${errorNR.message}`;
-
-  // if (u_loading) return 'Loading...';
-  // if (u_error) return `Error! ${r_error.message}`;
+  console.log(dataR);
 
   return (
     <StyledTable>
