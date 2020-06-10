@@ -67,6 +67,13 @@ export const GET_REPARTIDORES = gql`
       rating{
         score
       }
+      comments{
+        content
+        user{
+    	  	name
+          lastName
+        }
+      }
       createdAt
       updatedAt
     }
@@ -227,6 +234,41 @@ export const SELECTED_DRIVER = gql`
       rating{
         score
       }
+      comments{
+        content
+        user{
+    	  	name
+          lastName
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const SELECTED_REQUEST = gql`
+  query($solicitudId: ID!) {
+    selectedRequest(solicitudId: $solicitudId) {
+      _id
+    vehiculo
+    licencia
+    repartidorID{
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+    }
       createdAt
       updatedAt
     }
