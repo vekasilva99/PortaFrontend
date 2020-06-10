@@ -4,7 +4,6 @@ import { colorPrimary } from "../helpers/styles";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Navbar from "../components/Navbar";
-import AdminSidebar from "../components/AdminSidebar";
 import Login from "./Login";
 import LoginDriver from "./LoginDriver";
 import Register2 from "./RegisterUser2";

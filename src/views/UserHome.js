@@ -9,6 +9,8 @@ import Login from "./Login";
 import LoginDriver from "./LoginDriver";
 import Register2 from "./RegisterUser2";
 import RegisterDriver from "./RegisterDriver";
+import { CURRENT_USER } from "../helpers/graphql/queries";
+import { useQuery } from "@apollo/react-hooks";
 
 export default function UserHome() {
   const [on, setToggle] = React.useState(true);
@@ -19,6 +21,13 @@ export default function UserHome() {
   const [loginD, setLoginD] = React.useState(false);
   const [register, setRegister] = React.useState(false);
   const [registerD, setRegisterD] = React.useState(false);
+  const { loading, error, data } = useQuery(CURRENT_USER);
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  console.log("Aqui va");
+  // console.log(data);
 
   const handlingLoginD = (e) => {
     setLoginD(!loginD);
@@ -41,6 +50,9 @@ export default function UserHome() {
     setRegister(false);
     setLoginD(false);
   };
+
+  // const loggedUser = data.user.map();
+  // console.log(loggedUser);
   return (
     <HomeStyle>
       <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} />
@@ -75,6 +87,11 @@ export default function UserHome() {
 
       {/* <AdminSidebar show={sidebar} /> */}
       <div className="infoPorta">
+        {/* <select name="userTest">
+        {data.user.map((user) => (
+          <option key={user.id}>{user.name}</option>
+        ))}
+      </select> */}
         <h1>Usuario</h1>
         <h2>Hasta tu puerta</h2>
         <button className="boton">Más información ></button>

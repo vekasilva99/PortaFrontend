@@ -10,7 +10,7 @@ import {
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
-export default function AdminTable(props) {
+export default function AdminRequestTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
@@ -21,23 +21,24 @@ export default function AdminTable(props) {
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
-  const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(
-    NEW_USERS
-  );
+  // const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(NEW_USERS);
   //Nuevos repartidores
-  const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(
-    NEW_REPARTIDORES
-  );
-  const { u_loading, u_error, u_data } = useQuery(GET_USERS);
+  // const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(NEW_REPARTIDORES);
+  // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
-  if (loadingNU) return "Loading...";
-  if (errorNU) return `Error! ${errorNU.message}`;
+  if (loadingU) return "Loading...";
+  if (errorU) return `Error! ${errorU.message}`;
 
-  if (loadingNR) return "Loading...";
-  if (errorNR) return `Error! ${errorNR.message}`;
+  // if (loadingNU) return "Loading...";
+  // if (errorNU) return `Error! ${errorNU.message}`;
 
-  if (u_loading) return "Loading...";
-  if (u_error) return `Error! ${u_error.message}`;
+  // if (loadingNR) return "Loading...";
+  // if (errorNR) return `Error! ${errorNR.message}`;
+
+  // if (u_loading) return 'Loading...';
+  // if (u_error) return `Error! ${r_error.message}`;
 
   return (
     <StyledTable>
@@ -47,6 +48,20 @@ export default function AdminTable(props) {
           2
         </BsCircleFill>
       </div>
+
+      {/* Prueba repartidores */}
+      {/* <select name="driverTest">
+        {dataNR.repartidores.map((repartidor) => (
+          <option key={repartidor.id}>{repartidor.name}</option>
+        ))}
+      </select> */}
+
+      {/* Prueba USUARIOS */}
+      {/* <select name="userTest">
+        {dataNU.users.map((user) => (
+          <option key={user.id}>{user.name}</option>
+        ))}
+      </select> */}
 
       <ul className="header">
         <li className="link2">
@@ -74,19 +89,14 @@ export default function AdminTable(props) {
             CELLPHONE
           </NavLink>
         </li>
-        <li className="link2">
-          <NavLink className="item2" to="/">
+        {/* <li className="link2">
+          <NavLink className="item" to="/">
             DATE
           </NavLink>
-        </li>
+        </li> */}
       </ul>
-      {users.map((user) => (
+      {dataU.users.map((user) => (
         <ul className="nav-links">
-          <li className="link">
-            <NavLink className="item" to="/">
-              {user.id}
-            </NavLink>
-          </li>
           <li className="link">
             <NavLink className="item" to="/">
               {user.name}
@@ -94,32 +104,31 @@ export default function AdminTable(props) {
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.age}
+              {user.lastName}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.birthdate}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.mail}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.cellphone}
             </NavLink>
           </li>
+          {/* <li className="link">
+            <NavLink className="item" to="/">
+              {user.signindate}
+            </NavLink>
+          </li> */}
         </ul>
       ))}
-
-      <li className="container">
-        <NavLink to="/admin/users" className="button">
-          SHOW MORE
-        </NavLink>
-      </li>
     </StyledTable>
   );
 }
@@ -128,7 +137,7 @@ const StyledTable = styled.nav`
   flex-flow: column;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  height: 50vh;
+  height: auto;
   width: 100%;
   margin-top: 0;
   .title {

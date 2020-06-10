@@ -1,101 +1,184 @@
 import gql from "graphql-tag";
-export const LOGIN_USER = gql`
+
+export const LOGIN_SESION = gql`
    query ($mail: String! , $password: String!) {
-        userLogin(mail: $mail, password: $password){
-        userId
+      sesionLogin(mail: $mail, password: $password){
+        sesionId
         token
         tokenExpiration
-    }
+      }
    }
  
+`;
+
+export const CURRENT_SESION_USER = gql`
+   {
+      currentSesionUser{
+         name
+         lastName
+         sesion{
+            _id
+    	      mail
+         }
+      }
+   }
+`;
+
+export const LOGIN_USER = gql`
+  query($mail: String!, $password: String!) {
+    userLogin(mail: $mail, password: $password) {
+      userId
+      token
+      tokenExpiration
+    }
+  }
 `;
 
 export const ADMIN_LOGIN = gql`
-   query ($mail: String! , $password: String!) {
-        adminLogin(mail: $mail, password: $password){
-            adminId
-            token
-            tokenExpiration
+  query($mail: String!, $password: String!) {
+    adminLogin(mail: $mail, password: $password) {
+      adminId
+      token
+      tokenExpiration
     }
-   }
- 
+  }
+`;
+
+export const DRIVER_LOGIN = gql`
+  query($mail: String!, $password: String!) {
+    repartidorLogin(mail: $mail, password: $password) {
+      repartidorId
+      token
+      tokenExpiration
+    }
+  }
 `;
 
 export const GET_USERS = gql`
-   {
-      users{
-         _id
-         name
-         lastName
-         birthdate
-         mail
-         zone
-         cellphone
-         signinDate
-      }
-   }
+  {
+    users {
+      _id
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const GET_REPARTIDORES = gql`
-   {
-      repartidores{
-         _id
-         name
-         lastName
-         birthdate
-         mail
-         zone
-         hiringDate
-         cellphone
-      }
-   }
+  {
+    repartidores {
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      rating
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const CURRENT_USER = gql`
-   {
-      currentUser{
-         _id
-         name
-         lastName
-      }
-   }
+  {
+    currentUser {
+      _id
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const CURRENT_ADMIN = gql`
-   {
-      currentAdmin{
-         _id
-         mail
-      }
-   }
+  {
+    currentAdmin {
+      _id
+      mail
+    }
+  }
+`;
+
+export const CURRENT_DRIVER = gql`
+  {
+    currentRepartidor {
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      rating
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const NEW_USERS = gql`
-   {
-      newestUsers{
-         _id
-         name
-         lastName
-         birthdate
-         mail
-         zone
-         cellphone
-         signinDate
-     }
-   }
+  {
+    newestUsers {
+      _id
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      createdAt
+      updatedAt
+    }
+  }
 `;
 
 export const NEW_REPARTIDORES = gql`
-   {
-      newestRepartidores{
-         _id
-         name
-         lastName
-         birthdate
-         mail
-         zone
-         hiringDate
-         cellphone
-     }
-   }
+  {
+    newestRepartidores {
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      rating
+      createdAt
+      updatedAt
+    }
+  }
 `;

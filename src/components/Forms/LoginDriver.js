@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { ADMIN_LOGIN, LOGIN_USER } from "../../helpers/graphql/queries";
+import { DRIVER_LOGIN } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
 export default function FormLoginDriver(props) {
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  const [login, { data, loading, error }] = useLazyQuery(DRIVER_LOGIN);
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.userLogin);
+      localStorage.setItem("token", data.repartidorLogin);
     }
   }, [data, loading]);
   return (
@@ -113,9 +114,9 @@ export default function FormLoginDriver(props) {
         isSubmitting,
         /* and other goodies */
       }) =>
-        loading ? (
-          <Spinner></Spinner>
-        ) : (
+      loading ? (
+        <Spinner></Spinner>
+      ) :data ? <Redirect to="/admin"/>: (
           <form onSubmit={handleSubmit}>
             <Input
               value={values.Email}
