@@ -33,7 +33,7 @@ export default function DriverProfile(props) {
         </div>
         <div className="Profile-name">
           <div className="group">
-            <h1>Valeska Silva</h1>
+            <h1>john wick</h1>
             <StarRating />
           </div>
           <h2>04241952718</h2>
@@ -66,19 +66,19 @@ export default function DriverProfile(props) {
             >
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Great Service!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Amazing!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Thank you!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Great!</h3>
               </div>
             </ItemsCarousel>
             <h2>Add Comment</h2>
