@@ -47,3 +47,12 @@ export const REVIEW_REQUEST = gql`
     }
   }
 `;
+
+export const CREATE_COMENT = gql`
+  mutation($user: ID!, $repartidor:ID!, $content: String!) {
+    createComment(user: $user, repartidor: $repartidor, content: $content) {
+      _id
+      content
+    }
+  }
+`;

@@ -116,4 +116,16 @@ const LoginView = styled.div`
     right: 0;
     cursor: pointer;
   }
+
+  @media only screen and (max-width: 734px) {
+    .login-box {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .container {
+      height: 100vh;
+      width: 100vw;
+    }
+  }
 `;

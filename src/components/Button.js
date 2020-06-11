@@ -33,4 +33,8 @@ const ButtonS = styled.button`
     outline: none;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   }
+
+  @media only screen and (max-width: 734px) {
+    width: 80vw;
+  }
 `;
