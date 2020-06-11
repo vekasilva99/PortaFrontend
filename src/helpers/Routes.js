@@ -100,7 +100,6 @@ export default function Routes() {
         path="/admin/requests/:id"
         render={(props) => <AdminRequest {...props} />}
       />
-      <Route exact path="/user" render={(props) => <UserHome {...props} />} />
       <Route
         exact
         path="/user/userprofile"
