@@ -5,6 +5,7 @@ import styled from "styled-components";
 import driver from "../assets/images/delivery.png";
 import "react-datepicker/dist/react-datepicker.css";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { useParams } from "react-router";
 
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
@@ -12,6 +13,9 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+
+  let { id } = useParams();
+  console.log({ id });
 
   const handleFName = (e) => {
     setFName(e.target.value);

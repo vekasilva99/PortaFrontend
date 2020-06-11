@@ -13,10 +13,14 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { Formik } from "formik";
 import Input from "./Input";
 import StarRating from "./StarRating";
+import { useParams } from "react-router";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 50;
+
+  let { id } = useParams();
+  console.log({ id });
 
   return (
     <FormStyle>
