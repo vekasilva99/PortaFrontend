@@ -48,7 +48,7 @@ export const REVIEW_REQUEST = gql`
   }
 `;
 
-export const CREATE_COMENT = gql`
+export const CREATE_COMMENT = gql`
   mutation($user: ID!, $repartidor:ID!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
@@ -57,7 +57,7 @@ export const CREATE_COMENT = gql`
   }
 `;
 
-export const UPDATE_COMENT = gql`
+export const UPDATE_COMMENT = gql`
   mutation($commentId: ID!, $content: String!) {
     updateComment(commentId: $commentId, content: $content) {
       _id

@@ -17,7 +17,7 @@ import { useParams } from "react-router";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { SELECTED_DRIVER, CURRENT_USER } from "../helpers/graphql/queries/index";
-import { CREATE_COMENT } from "../helpers/graphql/mutations/index";
+import { CREATE_COMMENT } from "../helpers/graphql/mutations/index";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
@@ -25,7 +25,7 @@ export default function DriverProfile(props) {
 
   let { id } = useParams();
   console.log({ id });
-  const [comment, { data: dataC, error: errorC, loading: loadingC }] = useMutation(CREATE_COMENT);
+  const [comment, { data: dataC, error: errorC, loading: loadingC }] = useMutation(CREATE_COMMENT);
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(CURRENT_USER);
 
   const { loading, error, data, } = useQuery(SELECTED_DRIVER, {
