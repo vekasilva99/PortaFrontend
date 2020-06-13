@@ -78,4 +78,13 @@ export const CHANGE_AVAILABLE = gql`
 `;
 
 
+export const RATE_DRIVER = gql`
+  mutation($user: ID!, $repartidor: ID!, $score: Int!) {
+    createRate(user: $user, repartidor: $repartidor, score: $score) {
+      _id
+      score
+    }
+  }
+`;
+
 
