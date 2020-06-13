@@ -64,6 +64,7 @@ export default function FormLogin(props) {
           variables: {
             mail: Email,
             password: Password,
+            role: "COSTUMER"
           },
         });
         setSubmitting(true);

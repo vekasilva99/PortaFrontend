@@ -53,6 +53,7 @@ export default function FormLoginDriver(props) {
           variables: {
             mail: Email,
             password: Password,
+            role: "DRIVER"
           },
         });
         setSubmitting(true);

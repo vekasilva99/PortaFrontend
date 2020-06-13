@@ -51,55 +51,12 @@ export default function FormLoginAdmin(props) {
           return;
         }
         console.log("llega aca");
-        /*   let requestBody = {
-          query: `
-            query{
-              userLogin(mail: "${email}", password: "${password}"){
-                userId
-                token
-                tokenExpiration
-              }
-            `,
-          };
-        } else {
-          requestBody = {
-            query: `
-              query{
-                adminLogin(mail: "${email}", password: "${password}"){
-                  adminId
-                  token
-                  tokenExpiration
-                }
-              }
-            `,
-          };
-        }
-
-        fetch("https://porta-api.herokuapp.com/graphql/", {
-          method: "POST",
-          body: JSON.stringify(requestBody),
-          headers: {
-            "Content-type": "application/json",
-          },
-        })
-          .then((res) => {
-            if (res.status !== 200 && res.status !== 201) {
-              throw new Error("Failed!");
-            }
-            return res.json();
-          })
-          .then((resData) => {
-            console.log(resData);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-   */
 
         login({
           variables: {
             mail: Email,
             password: Password,
+            role: "ADMIN"
           },
         });
         setSubmitting(true);

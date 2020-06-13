@@ -56,3 +56,26 @@ export const CREATE_COMENT = gql`
     }
   }
 `;
+
+export const UPDATE_COMENT = gql`
+  mutation($commentId: ID!, $content: String!) {
+    updateComment(commentId: $commentId, content: $content) {
+      _id
+      content
+    }
+  }
+`;
+
+export const CHANGE_AVAILABLE = gql`
+  {
+    changeAvailable{
+      _id
+      available
+      name
+      lastName
+    }
+  }
+`;
+
+
+
