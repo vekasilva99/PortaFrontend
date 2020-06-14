@@ -217,6 +217,7 @@ export const SELECTED_DRIVER = gql`
       comments{
         content
         user{
+          _id
     	  	name
           lastName
         }
