@@ -215,6 +215,7 @@ export const SELECTED_DRIVER = gql`
         score
       }
       comments{
+        _id
         content
         user{
           _id
