@@ -100,11 +100,7 @@ export default function Routes() {
         path="/admin/requests/:id"
         render={(props) => <AdminRequest {...props} />}
       />
-      <Route
-        exact
-        path="/user/userprofile"
-        render={(props) => <UserProfile {...props} />}
-      />
+      
 
       <Route
         exact
@@ -120,6 +116,19 @@ export default function Routes() {
         exact
         path="/driver/request"
         render={(props) => <DriverRequest {...props} />}
+      />
+
+      {/* <Route
+        exact
+        path="/user/userprofile"
+        render={(props) => <UserProfile {...props} />}
+      /> */}
+
+      <GuardRoute
+        exact
+        path="/user/userprofile"
+        isAuth={data && data.currentUser ? data.currentUser : null}
+        component={UserProfile}
       />
 
       <GuardRoute

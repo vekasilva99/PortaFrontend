@@ -6,6 +6,10 @@ import driver from "../assets/images/delivery.png";
 import "react-datepicker/dist/react-datepicker.css";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { useParams } from "react-router";
+import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { SELECTED_REQUEST } from "../helpers/graphql/queries/index";
+import { REVIEW_REQUEST } from "../helpers/graphql/mutations/index";
 
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
@@ -16,6 +20,17 @@ export default function DriverRequestForm(props) {
 
   let { id } = useParams();
   console.log({ id });
+
+  const { loading, error, data, } = useQuery(SELECTED_REQUEST, {
+    variables: { 
+      solicitudId: id
+    }
+  });
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  console.log(data);
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -41,45 +56,45 @@ export default function DriverRequestForm(props) {
           </button>
         </div>
         <div className="Profile-name">
-          <h1>Valeska Silva</h1>
-          <h2>04241952718</h2>
-          <h2>27159591</h2>
+          <h1>{data.selectedRequest.repartidor.name} {data.selectedRequest.repartidor.lastName}</h1>
+          <h2>{data.selectedRequest.repartidor.cellphone}</h2>
+          <h2>{data.selectedRequest.repartidor.cedula}</h2>
         </div>
         <div className="Profile-content">
           <div className="label">
             <h2>Licencia</h2>
             <div className="group">
-              <h2>Licencia</h2>
+              <h2>{data.selectedRequest.licencia}</h2>
             </div>
           </div>
           <div className="label">
             <h2>Placa del Vehiculo</h2>
             <div className="group">
-              <h2>Placa del Vehiculo</h2>
+              <h2>{data.selectedRequest.placaVehiculo}</h2>
             </div>
           </div>
           <div className="label">
             <h2>Seguro del Vehiculo</h2>
             <div className="group">
-              <h2>Seguro del Vehiculo</h2>
+              <h2>{data.selectedRequest.seguroVehiculo}</h2>
             </div>
           </div>
           <div className="label">
             <h2>Carnet de Circulación</h2>
             <div className="group">
-              <h2>Carnet de Circulación</h2>
+              <h2>{data.selectedRequest.carnetCirculacion}</h2>
             </div>
           </div>
           <div className="label">
             <h2>Años de Experiencia</h2>
             <div className="group">
-              <h2>Años de Experiencia</h2>
+              <h2>{data.selectedRequest.experience}</h2>
             </div>
           </div>
           <div className="label">
             <h2>Tipo de Vehiculo</h2>
             <div className="group">
-              <h2>Tipo de Vehiculo</h2>
+              <h2>{data.selectedRequest.vehiculo}</h2>
             </div>
           </div>
           <div className="solicitud">

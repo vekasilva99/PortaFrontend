@@ -104,7 +104,7 @@ export default function AdminRequestTable(props) {
         <NavLink className="nav-links" to={path + user._id}>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.repartidorID.name} {user.repartidorID.lastName}
+              {user.repartidor.name} {user.repartidor.lastName}
             </NavLink>
           </li>
           <li className="link">

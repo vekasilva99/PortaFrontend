@@ -44,6 +44,7 @@ export const GET_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      placaVehiculo
       rating{
         score
       }
@@ -70,7 +71,8 @@ export const GET_REQUESTS = gql`
     carnetCirculacion
     seguroVehiculo
     status
-    repartidorID{
+    placaVehiculo
+    repartidor{
       _id
       cedula
       name
@@ -185,6 +187,7 @@ export const NEW_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      placaVehiculo
       rating{
         score
       }
@@ -211,6 +214,7 @@ export const SELECTED_DRIVER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      placaVehiculo
       rating{
         score
       }
@@ -235,7 +239,11 @@ export const SELECTED_REQUEST = gql`
       _id
     vehiculo
     licencia
-    repartidorID{
+    experience
+    seguroVehiculo
+    carnetCirculacion
+    placaVehiculo
+    repartidor{
       _id
       cedula
       name

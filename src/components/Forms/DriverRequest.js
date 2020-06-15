@@ -114,7 +114,8 @@ export default function DriverRequestForm(props) {
                   licencia: values.Licencia,
                   experience:values.Experiencia,
                   carnetCirculacion: values.Carnet,
-                  seguroVehiculo: values.Seguro
+                  seguroVehiculo: values.Seguro,
+                  placaVehiculo: values.Placa
                 },
               },
             });
