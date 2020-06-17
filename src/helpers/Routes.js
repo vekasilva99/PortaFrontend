@@ -127,7 +127,7 @@ export default function Routes() {
       <GuardRoute
         exact
         path="/user/userprofile"
-        isAuth={data && data.currentUser ? data.currentUser : null}
+        isAuth={data ? data.currentUser : null}
         component={UserProfile}
       />
 

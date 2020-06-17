@@ -2,12 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
+import {
+  NEW_REPARTIDORES
+} from "../helpers/graphql/queries";
+import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminDriverTable(props) {
+  const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(
+    NEW_REPARTIDORES
+  );
+  
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
+
+  if (loadingNR) return "Loading...";
+  if (errorNR) return `Error! ${errorNR.message}`;
   return (
     <StyledTable>
       <div className="title">
@@ -49,36 +60,36 @@ export default function AdminDriverTable(props) {
           </NavLink>
         </li>
       </ul>
-      {users.map((user) => (
+      {dataNR.newestDrivers.map((driver) => (
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
-              {user.id}
+              {driver._id}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.name}
+              {driver.name}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.age}
+              {driver.birthdate}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {driver.mail}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {driver.cellphone}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {driver.createdAt}
             </NavLink>
           </li>
         </ul>
