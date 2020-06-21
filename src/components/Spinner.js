@@ -1,7 +1,8 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-export default function Button() {
-  return <SpinnerS></SpinnerS>;
+import { colorPrimary } from "../helpers/styles";
+export default function Button({ color }) {
+  return <SpinnerS color={color}></SpinnerS>;
 }
 const Animation = keyframes`
   0% {
@@ -23,8 +24,9 @@ const SpinnerS = styled.div`
     height: 3rem;
     margin: auto;
     border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 6px solid ${(props) => (props.color ? props.color : "#fff")};
+    border-color: ${(props) => (props.color ? props.color : "#fff")} transparent
+      ${(props) => (props.color ? props.color : "#fff")} transparent;
     animation: ${Animation} 1.2s linear infinite;
   }
 `;

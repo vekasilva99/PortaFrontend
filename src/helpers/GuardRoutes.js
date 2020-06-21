@@ -10,9 +10,7 @@ export default function GuardRoutes({ component: Component, isAuth, ...rest }) {
         isAuth ? (
           <Component {...props} />
         ) : (
-          <Redirect
-            to={{ pathname: "/", state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
         )
       }
     />

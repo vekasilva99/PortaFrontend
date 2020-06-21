@@ -8,9 +8,8 @@ import Login from "./Login";
 import LoginDriver from "./LoginDriver";
 import Register2 from "./RegisterUser2";
 import RegisterDriver from "./RegisterDriver";
-import { CURRENT_USER } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
-
+import { useSelector } from "react-redux";
 export default function UserHome() {
   const [on, setToggle] = React.useState(true);
 
@@ -20,12 +19,10 @@ export default function UserHome() {
   const [loginD, setLoginD] = React.useState(false);
   const [register, setRegister] = React.useState(false);
   const [registerD, setRegisterD] = React.useState(false);
-  const { loading, error, data } = useQuery(CURRENT_USER);
 
-  console.log(data);
-
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  const { name, lastName } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   console.log("Aqui va");
   // console.log(data);
@@ -94,7 +91,9 @@ export default function UserHome() {
           <option key={user.id}>{user.name}</option>
         ))}
       </select> */}
-        <h1>{data.currentUser.name} {data.currentUser.lastName}</h1>
+        <h1>
+          {name} {lastName}
+        </h1>
         <h2>Hasta tu puerta</h2>
         <button className="boton">Más información ></button>
       </div>
