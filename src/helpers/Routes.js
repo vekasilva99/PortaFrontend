@@ -37,13 +37,16 @@ export default function Routes() {
   useEffect(() => {
     const response = localStorage.getItem("token");
     if (response) {
+      console.log("llega Response");
       CurrentUser();
     }
   }, [CurrentUser, token]);
 
   useEffect(() => {
     if (data && data.currentUser) {
+      console.log("llega Use effect");
       const response = localStorage.getItem("token");
+      CurrentUser();
       dispatch({
         type: "CURRENT_USER",
         payload: {
@@ -53,7 +56,7 @@ export default function Routes() {
       });
     }
   }, [data, dispatch, token]);
-
+  //console.log("data Routes" + data.currentUser);
   return !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
@@ -127,7 +130,7 @@ export default function Routes() {
       <GuardRoute
         exact
         path="/user/userprofile"
-        isAuth={data ? data.currentUser : null}
+        isAuth={data && data.currentUser ? data.currentUser : null}
         component={UserProfile}
       />
 
