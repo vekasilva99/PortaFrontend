@@ -17,15 +17,43 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const [accept, setAccept] = React.useState(null);
+  const [revRequest, { data: dataR, error: errorR, loading: loadingR }] = useMutation(REVIEW_REQUEST);
 
   let { id } = useParams();
   console.log({ id });
 
-  const { loading, error, data, } = useQuery(SELECTED_REQUEST, {
-    variables: { 
-      solicitudId: id
-    }
+  const { loading, error, data } = useQuery(SELECTED_REQUEST, {
+    variables: {
+      solicitudId: id,
+    },
   });
+
+  const acceptRequest = async (e) => {
+    setAccept(true);
+
+    const { REVIEW_REQUEST } = await revRequest({
+      variables: {
+        reviewInput: {
+          id: data.selectedRequest._id,
+          vehiculo: data.selectedRequest.vehiculo,
+          licencia: data.selectedRequest.licencia,
+          experience: data.selectedRequest.experience,
+          carnetCirculacion: data.selectedRequest.carnetCirculacion,
+          seguroVehiculo: data.selectedRequest.seguroVehiculo,
+          placaVehiculo: data.selectedRequest.placaVehiculo,
+          status: true,
+        },
+      },
+    });
+
+    console.log(accept);
+  };
+
+  const denyRequest = (e) => {
+    setAccept(false);
+    console.log(accept);
+  };
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
@@ -56,7 +84,10 @@ export default function DriverRequestForm(props) {
           </button>
         </div>
         <div className="Profile-name">
-          <h1>{data.selectedRequest.repartidor.name} {data.selectedRequest.repartidor.lastName}</h1>
+          <h1>
+            {data.selectedRequest.repartidor.name}{" "}
+            {data.selectedRequest.repartidor.lastName}
+          </h1>
           <h2>{data.selectedRequest.repartidor.cellphone}</h2>
           <h2>{data.selectedRequest.repartidor.cedula}</h2>
         </div>
@@ -98,11 +129,16 @@ export default function DriverRequestForm(props) {
             </div>
           </div>
           <div className="solicitud">
-            <button className="saveB" type="submit" block>
+            <button
+              className="saveB"
+              type="submit"
+              onClick={acceptRequest}
+              block
+            >
               {" "}
               ACCEPT{" "}
             </button>
-            <button className="saveB" type="submit" block>
+            <button className="saveB" type="submit" onClick={denyRequest} block>
               {" "}
               DECLINE{" "}
             </button>

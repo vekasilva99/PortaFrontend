@@ -20,9 +20,10 @@ export default function UserHome() {
   const [register, setRegister] = React.useState(false);
   const [registerD, setRegisterD] = React.useState(false);
 
-  const { name, lastName } = useSelector((state) => ({
+  const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
   }));
+
 
   console.log("Aqui va");
   // console.log(data);
@@ -95,19 +96,19 @@ export default function UserHome() {
           {name} {lastName}
         </h1>
         <h2>Hasta tu puerta</h2>
-        <button className="boton">Más información ></button>
+        <button className="boton">Más información </button>
       </div>
       <div className="usuarios">
         <div className="cliente">
           <h1>Cliente</h1>
           <button onClick={handlingLogin} className="boton">
-            Log In >
+            Log In 
           </button>
         </div>
         <div className="repartidor">
           <h1>Repartidor</h1>
           <button onClick={handlingLoginD} className="boton">
-            Log In >
+            Log In 
           </button>
         </div>
       </div>

@@ -16,25 +16,19 @@ import StarRating from "./StarRating";
 import { useParams } from "react-router";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  SELECTED_DRIVER,
-  CURRENT_USER,
-} from "../helpers/graphql/queries/index";
+import { SELECTED_DRIVER } from "../helpers/graphql/queries/index";
 import { CREATE_COMMENT } from "../helpers/graphql/mutations/index";
+import { useSelector } from "react-redux";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 50;
 
   let { id } = useParams();
-  console.log({ id });
   const [
     comment,
     { data: dataC, error: errorC, loading: loadingC },
   ] = useMutation(CREATE_COMMENT);
-  const { data: dataU, error: errorU, loading: loadingU } = useQuery(
-    CURRENT_USER
-  );
 
   const { loading, error, data } = useQuery(SELECTED_DRIVER, {
     variables: {
@@ -42,10 +36,9 @@ export default function DriverProfile(props) {
     },
   });
 
-  console.log(data);
-
-  if (loadingU) return "Loading...";
-  if (errorU) return `Error! ${errorU.message}`;
+  const { _id, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
@@ -131,7 +124,7 @@ export default function DriverProfile(props) {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 const { CREATE_COMENT } = await comment({
                   variables: {
-                    user: dataU.currentUser._id,
+                    user: _id,
                     repartidor: data.selectedDriver._id,
                     content: values.Comentario,
                   },
