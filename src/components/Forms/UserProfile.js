@@ -16,7 +16,6 @@ import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_USER } from "../../helpers/graphql/mutations";
 
-
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -24,7 +23,10 @@ export default function UserProfileForm(props) {
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const { loading, error, data } = useQuery(CURRENT_USER);
-  const [update, { data: dataU, loading: loadingU, error: errorU}] = useMutation(UPDATE_USER);
+  const [
+    update,
+    { data: dataU, loading: loadingU, error: errorU },
+  ] = useMutation(UPDATE_USER);
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -38,6 +40,10 @@ export default function UserProfileForm(props) {
     setRegion(e.target.value);
   };
 
+  const photo = (e) => {
+    console.log("Foto");
+  };
+
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
@@ -47,7 +53,9 @@ export default function UserProfileForm(props) {
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
         <img className="photo" src={user} />
-        <MdModeEdit className="settings" color="#00507a" size="1em" />
+        <button onClick={photo} className="settings">
+          <MdModeEdit className="pen" color="#00507a" size="1em" />
+        </button>
       </div>
       <div className="Form">
         <Formik
@@ -101,24 +109,18 @@ export default function UserProfileForm(props) {
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
 
-
-
-
             const { dataU } = await update({
               variables: {
                 updateInput: {
                   id: data.currentUser._id,
                   name: values.FName,
                   lastName: values.LName,
-                  mail:values.Email,
+                  mail: values.Email,
                   birthdate: new Date(),
-                  zone: values.Region
+                  zone: values.Region,
                 },
               },
             });
-
-
-
 
             setSubmitting(false);
             resetForm();
@@ -276,6 +278,33 @@ const FormStyle = styled.section`
     width: 4vw;
     height: 4vw;
     background: white;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    outline:none;
+
+    z-index:100;
+    &:hover {
+      cursor:pointer;
+      outline:none;
+    }
+   
+
+  }
+
+  .pen {
+    border-radius: 500px;
+    left: 0;
+    display: flex;
+    position: relative;
+    width: 3vw;
+    height: 3vw;
+    background: none;
+    align-self:center;
+
+
+    
   }
 
   .edit {

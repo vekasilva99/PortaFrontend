@@ -119,7 +119,8 @@ const StyledSidebar = styled.nav`
   }
 
   .logo {
-    width: 6vw;
+    width: 12vw;
+    background: pink;
     position: fixed;
     display: flex;
     align-self: center;
@@ -128,6 +129,6 @@ const StyledSidebar = styled.nav`
     padding: 2.5rem;
     top: 0;
     left: 0;
-    z-index: 50;
+    z-index: 100;
   }
 `;
