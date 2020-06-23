@@ -16,34 +16,53 @@ import StarRating from "./StarRating";
 import { useParams } from "react-router";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
-import { SELECTED_DRIVER, CURRENT_USER } from "../helpers/graphql/queries/index";
+import { SELECTED_DRIVER } from "../helpers/graphql/queries/index";
 import { CREATE_COMMENT } from "../helpers/graphql/mutations/index";
+import { useSelector } from "react-redux";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const [ratingAll, setRatingAll] = useState(0);
   const chevronWidth = 50;
 
   let { id } = useParams();
-  console.log({ id });
-  const [comment, { data: dataC, error: errorC, loading: loadingC }] = useMutation(CREATE_COMMENT);
-  const { data: dataU, error: errorU, loading: loadingU } = useQuery(CURRENT_USER);
+  const [
+    comment,
+    { data: dataC, error: errorC, loading: loadingC },
+  ] = useMutation(CREATE_COMMENT);
 
-  const { loading, error, data, } = useQuery(SELECTED_DRIVER, {
-    variables: { 
-      driverId: id
-    }
+  const { loading, error, data } = useQuery(SELECTED_DRIVER, {
+    variables: {
+      driverId: id,
+    },
   });
 
-  console.log(data);
+  const { _id, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
 
-  if (loadingU) return 'Loading...';
-  if (errorU) return `Error! ${errorU.message}`;
-
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+  console.log(data);
+  const getAllRatin = (rating) => {
+    let content = 0;
+    for (let item of rating) {
+      content = content + item.score;
+    }
+    content = content / rating.length;
+    return content;
+  };
 
-  
+  const getUserRatin = (rating) => {
+    let content = 0;
+    for (let item of rating) {
+      if (_id === item.user._id) {
+        content = item.score;
+      }
+    }
 
+    return content;
+  };
 
   return (
     <FormStyle>
@@ -60,12 +79,14 @@ export default function DriverProfile(props) {
         </div>
         <div className="Profile-name">
           <div className="group">
-            <h1>{data.selectedDriver.name} {data.selectedDriver.lastName}</h1>
-            <StarRating />
+            <h1>
+              {data.selectedDriver.name} {data.selectedDriver.lastName}
+            </h1>
+            <StarRating rating={getUserRatin(data.selectedDriver.rating)} />
           </div>
           <h2>{data.selectedDriver.cellphone}</h2>
           <div className="group">
-            <h2>4.50</h2>
+            <h2>{getAllRatin(data.selectedDriver.rating)}</h2>
             <MdStar className="star" color="#00507a" size="1.1em" />
           </div>
         </div>
@@ -91,22 +112,12 @@ export default function DriverProfile(props) {
               chevronWidth={chevronWidth}
               freeScrolling={true}
             >
-              <div className="card">
-                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Great Service!</h3>
-              </div>
-              <div className="card">
-                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Amazing!</h3>
-              </div>
-              <div className="card">
-                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Thank you!</h3>
-              </div>
-              <div className="card">
-                <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Great!</h3>
-              </div>
+              {data.selectedDriver.comments.map((comment) => (
+                <div className="card">
+                  <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
+                  <h3>{comment.content}</h3>
+                </div>
+              ))}
             </ItemsCarousel>
             <h2>Add Comment</h2>
             <Formik
@@ -122,16 +133,13 @@ export default function DriverProfile(props) {
                 return errors;
               }}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                
-                
                 const { CREATE_COMENT } = await comment({
                   variables: {
-                    user: dataU.currentUser._id,
+                    user: _id,
                     repartidor: data.selectedDriver._id,
-                    content: values.Comentario
+                    content: values.Comentario,
                   },
                 });
-
 
                 setSubmitting(true);
                 console.log(values);

@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdStar } from "react-icons/md";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { RATE_DRIVER } from "../helpers/graphql/mutations/index";
+import { useMutation } from "@apollo/react-hooks";
 
 export default function StarRating(props) {
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(props.rating);
   const [hover, setHover] = useState(null);
+
+  const [rate, { data: dataR, error: errorR, loading: loadingR }] = useMutation(
+    RATE_DRIVER
+  );
+
+  let { id } = useParams();
+  console.log("id driver STAR: " + id);
+
+  const { _id, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
+  console.log("user: " + _id);
 
   return (
     <RatingStyle>
@@ -17,7 +33,16 @@ export default function StarRating(props) {
               type="radio"
               name="rate"
               value={ratingValue}
-              onClick={() => setRating(ratingValue)}
+              onClick={async () => {
+                setRating(ratingValue);
+                const { RATE_DRIVER } = await rate({
+                  variables: {
+                    user: _id,
+                    repartidor: id,
+                    score: ratingValue,
+                  },
+                });
+              }}
             ></input>
             <MdStar
               className="star"

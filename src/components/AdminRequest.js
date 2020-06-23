@@ -18,6 +18,7 @@ export default function DriverRequestForm(props) {
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [accept, setAccept] = React.useState(null);
+  const [revRequest, { data: dataR, error: errorR, loading: loadingR }] = useMutation(REVIEW_REQUEST);
 
   let { id } = useParams();
   console.log({ id });
@@ -28,8 +29,24 @@ export default function DriverRequestForm(props) {
     },
   });
 
-  const acceptRequest = (e) => {
+  const acceptRequest = async (e) => {
     setAccept(true);
+
+    const { REVIEW_REQUEST } = await revRequest({
+      variables: {
+        reviewInput: {
+          id: data.selectedRequest._id,
+          vehiculo: data.selectedRequest.vehiculo,
+          licencia: data.selectedRequest.licencia,
+          experience: data.selectedRequest.experience,
+          carnetCirculacion: data.selectedRequest.carnetCirculacion,
+          seguroVehiculo: data.selectedRequest.seguroVehiculo,
+          placaVehiculo: data.selectedRequest.placaVehiculo,
+          status: true,
+        },
+      },
+    });
+
     console.log(accept);
   };
 

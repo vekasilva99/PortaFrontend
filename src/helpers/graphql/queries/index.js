@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
 
-
 export const LOGIN_USER = gql`
   query($mail: String!, $password: String!, $role: String!) {
     userLogin(mail: $mail, password: $password, role: $role) {
@@ -45,13 +44,13 @@ export const GET_REPARTIDORES = gql`
       carnetCirculacion
       seguroVehiculo
       placaVehiculo
-      rating{
+      rating {
         score
       }
-      comments{
+      comments {
         content
-        user{
-    	  	name
+        user {
+          name
           lastName
         }
       }
@@ -63,32 +62,32 @@ export const GET_REPARTIDORES = gql`
 
 export const GET_REQUESTS = gql`
   {
-    solicitudes{
-    _id
-    experience
-    vehiculo
-    licencia
-    carnetCirculacion
-    seguroVehiculo
-    status
-    placaVehiculo
-    repartidor{
+    solicitudes {
       _id
-      cedula
-      name
-      lastName
-      birthdate
-      mail
-      zone
-      cellphone
-      available
-      workingStatus
+      experience
       vehiculo
       licencia
       carnetCirculacion
       seguroVehiculo
+      status
+      placaVehiculo
+      repartidor {
+        _id
+        cedula
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+      }
     }
-  }
   }
 `;
 
@@ -107,6 +106,7 @@ export const CURRENT_USER = gql`
   {
     currentUser {
       _id
+      role
       name
       lastName
       birthdate
@@ -145,7 +145,7 @@ export const CURRENT_DRIVER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      rating{
+      rating {
         score
       }
       createdAt
@@ -188,7 +188,7 @@ export const NEW_REPARTIDORES = gql`
       carnetCirculacion
       seguroVehiculo
       placaVehiculo
-      rating{
+      rating {
         score
       }
       createdAt
@@ -215,15 +215,20 @@ export const SELECTED_DRIVER = gql`
       carnetCirculacion
       seguroVehiculo
       placaVehiculo
-      rating{
+      rating {
         score
+        user {
+          _id
+          name
+          lastName
+        }
       }
-      comments{
+      comments {
         _id
         content
-        user{
+        user {
           _id
-    	  	name
+          name
           lastName
         }
       }
@@ -237,28 +242,28 @@ export const SELECTED_REQUEST = gql`
   query($solicitudId: ID!) {
     selectedRequest(solicitudId: $solicitudId) {
       _id
-    vehiculo
-    licencia
-    experience
-    seguroVehiculo
-    carnetCirculacion
-    placaVehiculo
-    repartidor{
-      _id
-      cedula
-      name
-      lastName
-      birthdate
-      mail
-      zone
-      cellphone
-      available
-      workingStatus
       vehiculo
       licencia
-      carnetCirculacion
+      experience
       seguroVehiculo
-    }
+      carnetCirculacion
+      placaVehiculo
+      repartidor {
+        _id
+        cedula
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+      }
       createdAt
       updatedAt
     }
