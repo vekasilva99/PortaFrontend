@@ -107,6 +107,7 @@ export const CURRENT_USER = gql`
   {
     currentUser {
       _id
+      role
       name
       lastName
       birthdate
