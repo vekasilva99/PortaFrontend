@@ -5,6 +5,9 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import NavbarOn from "../components/NavOn";
 import Pedido from "../components/Pedidos";
+import { useMutation } from "@apollo/react-hooks";
+import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
+import { useSelector } from "react-redux";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(true);
@@ -12,6 +15,14 @@ export default function MapRep() {
 
   const handleToggle = (e) => setToggle(false);
   const handleChangeChk = (e) => setToggle(!online);
+
+  //const [changeAv, { data: dataA, error: errorA, loading: loadingA }] = useMutation(CHANGE_AVAILABLE);
+
+  const { role, available } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  console.log(available);
 
   return (
     <StyleMapRep>

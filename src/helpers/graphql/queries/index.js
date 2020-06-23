@@ -113,6 +113,12 @@ export const CURRENT_USER = gql`
       mail
       zone
       cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
       createdAt
       updatedAt
     }

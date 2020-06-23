@@ -68,13 +68,6 @@ export default function Routes() {
       <Route exact path="/login" render={(props) => <Login {...props} />} />
       
 
-      <Route 
-        exact 
-        path="/maprep" 
-        render={(props) => 
-        <MapRep {...props} />} 
-      />
-
       <Route
         exact
         path="/registerdriver"
@@ -117,6 +110,14 @@ export default function Routes() {
         isAuth={token}
         isLoading={called && loading}
         component={AdminRequest}
+      />
+
+      <GuardRoutesDriver
+        exact
+        path="/maprep"
+        isAuth={token}
+        isLoading={called && loading}
+        component={MapRep}
       />
 
       <GuardRoutesDriver

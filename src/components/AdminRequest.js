@@ -29,6 +29,11 @@ export default function DriverRequestForm(props) {
     },
   });
 
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  console.log("request id " + data.selectedRequest._id);
+
   const acceptRequest = async (e) => {
     setAccept(true);
 
@@ -50,13 +55,28 @@ export default function DriverRequestForm(props) {
     console.log(accept);
   };
 
-  const denyRequest = (e) => {
+  const denyRequest = async (e) => {
     setAccept(false);
+
+    const { REVIEW_REQUEST } = await revRequest({
+      variables: {
+        reviewInput: {
+          id: data.selectedRequest._id,
+          vehiculo: data.selectedRequest.vehiculo,
+          licencia: data.selectedRequest.licencia,
+          experience: data.selectedRequest.experience,
+          carnetCirculacion: data.selectedRequest.carnetCirculacion,
+          seguroVehiculo: data.selectedRequest.seguroVehiculo,
+          placaVehiculo: data.selectedRequest.placaVehiculo,
+          status: false,
+        },
+      },
+    });
+
     console.log(accept);
   };
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  
 
   console.log(data);
 
