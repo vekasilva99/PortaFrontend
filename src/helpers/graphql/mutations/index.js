@@ -67,7 +67,7 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const CHANGE_AVAILABLE = gql`
-  {
+{
     changeAvailable{
       _id
       available

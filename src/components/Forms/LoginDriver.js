@@ -86,7 +86,7 @@ export default function FormLoginDriver(props) {
       }) =>
       loading ? (
         <Spinner></Spinner>
-      ) :data ? <Redirect to="/driver/request"/>: (
+      ) :data ? <Redirect to="/maprep"/>: (
           <form onSubmit={handleSubmit}>
             <Input
               value={values.Email}

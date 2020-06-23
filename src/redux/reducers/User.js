@@ -10,6 +10,16 @@ const initialState = {
   zone:null,
   cellphone:null,
   role: null,
+  available: null,
+  workingStatus: null,
+  experience: null,
+  vehiculo: null,
+  licencia: null,
+  carnetCirculacion: null,
+  seguroVehiculo: null,
+  placaVehiculo: null,
+  rating: null,
+  comments: null,
   createdAt:null
 };
 
@@ -26,7 +36,7 @@ export default function (state = initialState, action) {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, createdAt} = action.payload;
+      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt} = action.payload;
       return {
         token: token,
         _id: _id,
@@ -37,11 +47,21 @@ export default function (state = initialState, action) {
         zone: zone,
         cellphone: cellphone,
         role: role,
+        available: available,
+        workingStatus: workingStatus,
+        experience: experience,
+        vehiculo: vehiculo,
+        licencia: licencia,
+        carnetCirculacion: carnetCirculacion,
+        seguroVehiculo: seguroVehiculo,
+        placaVehiculo: placaVehiculo,
+        rating: rating,
+        comments: comments,
         createdAt: createdAt
       };
     }
     case UPDATE_USER: {
-      const { name, lastName, birthdate, mail, zone, cellphone, role, createdAt } = action.payload;
+      const { name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt } = action.payload;
       return {
         ...state,
         name,
@@ -51,6 +71,16 @@ export default function (state = initialState, action) {
         zone,
         cellphone,
         role,
+        available,
+        workingStatus,
+        experience,
+        vehiculo,
+        licencia,
+        carnetCirculacion,
+        seguroVehiculo,
+        placaVehiculo,
+        rating,
+        comments,
         createdAt
       };
     }
