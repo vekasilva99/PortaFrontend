@@ -19,7 +19,7 @@ export default function FormLoginAdmin(props) {
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.userLogin.token.toString());
+      localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
         payload: {

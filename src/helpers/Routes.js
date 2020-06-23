@@ -80,7 +80,7 @@ export default function Routes() {
         path="/registerdriver"
         render={(props) => <RegisterDriver {...props} />}
       />
-      
+
       <Route
         exact
         path="/adminlogin"
@@ -173,11 +173,7 @@ export default function Routes() {
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
-      <Route
-        exact
-        path="/seedrivers"
-        render={(props) => <SeeDrivers {...props} />}
-      />
+    
       <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
       <Route
         exact
@@ -199,7 +195,7 @@ export default function Routes() {
         path="/driverlogin"
         render={(props) => <LoginDriver {...props} />}
       />
-      <Route exact path="/admin" render={(props) => <AdminHome {...props} />} />
+      {/* <Route exact path="/admin" render={(props) => <AdminHome {...props} />} />
       <Route
         exact
         path="/admin/users"
@@ -218,6 +214,12 @@ export default function Routes() {
 
       <Route
         exact
+        path="/user/seedrivers"
+        render={(props) => <SeeDrivers {...props} />}
+      />
+
+      <Route
+        exact
         path="/user/driverprofile/:id"
         render={(props) => <DriverProfile {...props} />}
       />
@@ -230,7 +232,7 @@ export default function Routes() {
         exact
         path="/driver/request"
         render={(props) => <DriverRequest {...props} />}
-      />
+      /> */}
 
       {/* <Route
         exact

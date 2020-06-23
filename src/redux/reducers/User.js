@@ -2,7 +2,7 @@ import { LOGIN, LOGOUT, UPDATE_USER, CURRENT_USER } from "../actionTypes";
 
 const initialState = {
   token: null,
-  userId: null,
+  _id: null,
   name: null,
   lastName: null,
   birthdate: null,
@@ -26,10 +26,10 @@ export default function (state = initialState, action) {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, userId, name, lastName, birthdate, mail, zone, cellphone, role, createdAt} = action.payload;
+      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, createdAt} = action.payload;
       return {
         token: token,
-        userId: userId,
+        _id: _id,
         name: name,
         lastName: lastName,
         birthdate: birthdate,

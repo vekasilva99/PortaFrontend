@@ -6,13 +6,25 @@ import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
+import { useDispatch } from "react-redux";
+
 export default function FormLoginDriver(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (data) {
       localStorage.setItem("token", data.userLogin.token);
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          token: data.userLogin.token,
+        },
+      });
     }
-  }, [data, loading]);
+  }, [data, dispatch, loading]);
+
   return (
     <Formik
       initialValues={{
