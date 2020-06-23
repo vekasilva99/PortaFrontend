@@ -44,14 +44,25 @@ export default function UserProfileForm(props) {
   console.log(data);
   return (
     <FormStyle>
+      
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
-        <img className="photo" src={user} />
-        <MdModeEdit className="settings" color="#00507a" />
+
+        <img className="photo" src='https://hipertextual.com/files/2018/04/Thanos.jpg' />
+           
       </div>
+
       <div className="Form">
+
+      <div>
+        <form action="api/uploadImage" method='POST'>
+            <input type="file" name="image" id='hola'></input>
+            <MdModeEdit className="settings" color="#00507a" for='hola' />
+         </form>
+      </div>
+      
         <Formik
-          initialValues={{
+          initialValues = {{
             Email: data.currentUser.mail,
             Password: "211ce496Vale",
             Phone: data.currentUser.cellphone,
@@ -60,7 +71,8 @@ export default function UserProfileForm(props) {
             BDate: new Date(moment()),
             Region: "Hatillo",
           }}
-          validate={(values) => {
+
+          validate = {(values) => {
             const errors = {};
             console.log(values);
             if (!values.Email) {
@@ -101,9 +113,6 @@ export default function UserProfileForm(props) {
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
 
-
-
-
             const { dataU } = await update({
               variables: {
                 updateInput: {
@@ -116,9 +125,6 @@ export default function UserProfileForm(props) {
                 },
               },
             });
-
-
-
 
             setSubmitting(false);
             resetForm();

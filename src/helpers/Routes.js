@@ -97,9 +97,7 @@ export default function Routes() {
         exact
         path="/user/userprofile"
         render={(props) => <UserProfile {...props} />}
-      />
-      
-      
+      />   
       <Route
         exact
         path="/user/driverprofile/1"
