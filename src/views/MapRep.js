@@ -8,8 +8,10 @@ import Pedido from "../components/Pedidos";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(true);
+  const [online, setOnline] = React.useState(false);
 
   const handleToggle = (e) => setToggle(false);
+  const handleChangeChk = (e) => setToggle(!online);
 
   return (
     <StyleMapRep>
@@ -19,7 +21,11 @@ export default function MapRep() {
           <h1>Pedidos para tí</h1>
           <h5>Se encuentra disponible?</h5>
           <label class="switch">
-            <input type="checkbox"></input>
+            <input
+              type="checkbox"
+              defaultChecked={online}
+              onChange={handleChangeChk}
+            ></input>
             <span class="slider round"></span>
           </label>
           <Pedido></Pedido>
