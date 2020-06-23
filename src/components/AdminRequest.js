@@ -17,15 +17,26 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const [accept, setAccept] = React.useState(null);
 
   let { id } = useParams();
   console.log({ id });
 
-  const { loading, error, data, } = useQuery(SELECTED_REQUEST, {
-    variables: { 
-      solicitudId: id
-    }
+  const { loading, error, data } = useQuery(SELECTED_REQUEST, {
+    variables: {
+      solicitudId: id,
+    },
   });
+
+  const acceptRequest = (e) => {
+    setAccept(true);
+    console.log(accept);
+  };
+
+  const denyRequest = (e) => {
+    setAccept(false);
+    console.log(accept);
+  };
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
@@ -56,7 +67,10 @@ export default function DriverRequestForm(props) {
           </button>
         </div>
         <div className="Profile-name">
-          <h1>{data.selectedRequest.repartidor.name} {data.selectedRequest.repartidor.lastName}</h1>
+          <h1>
+            {data.selectedRequest.repartidor.name}{" "}
+            {data.selectedRequest.repartidor.lastName}
+          </h1>
           <h2>{data.selectedRequest.repartidor.cellphone}</h2>
           <h2>{data.selectedRequest.repartidor.cedula}</h2>
         </div>
@@ -98,11 +112,16 @@ export default function DriverRequestForm(props) {
             </div>
           </div>
           <div className="solicitud">
-            <button className="saveB" type="submit" block>
+            <button
+              className="saveB"
+              type="submit"
+              onClick={acceptRequest}
+              block
+            >
               {" "}
               ACCEPT{" "}
             </button>
-            <button className="saveB" type="submit" block>
+            <button className="saveB" type="submit" onClick={denyRequest} block>
               {" "}
               DECLINE{" "}
             </button>
