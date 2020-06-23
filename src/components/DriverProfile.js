@@ -25,21 +25,23 @@ export default function DriverProfile(props) {
   const chevronWidth = 50;
 
   let { id } = useParams();
-  const [comment, { data: dataC, error: errorC, loading: loadingC }] = useMutation(CREATE_COMMENT);
+  const [
+    comment,
+    { data: dataC, error: errorC, loading: loadingC },
+  ] = useMutation(CREATE_COMMENT);
 
-  const { loading, error, data, } = useQuery(SELECTED_DRIVER, {
-    variables: { 
-      driverId: id
-    }
+  const { loading, error, data } = useQuery(SELECTED_DRIVER, {
+    variables: {
+      driverId: id,
+    },
   });
 
   const { _id, name, lastName, role } = useSelector((state) => ({
     ...state.User,
   }));
 
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
-
 
   return (
     <FormStyle>
@@ -56,7 +58,9 @@ export default function DriverProfile(props) {
         </div>
         <div className="Profile-name">
           <div className="group">
-            <h1>{data.selectedDriver.name} {data.selectedDriver.lastName}</h1>
+            <h1>
+              {data.selectedDriver.name} {data.selectedDriver.lastName}
+            </h1>
             <StarRating />
           </div>
           <h2>{data.selectedDriver.cellphone}</h2>
@@ -118,16 +122,13 @@ export default function DriverProfile(props) {
                 return errors;
               }}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                
-                
                 const { CREATE_COMENT } = await comment({
                   variables: {
                     user: _id,
                     repartidor: data.selectedDriver._id,
-                    content: values.Comentario
+                    content: values.Comentario,
                   },
                 });
-
 
                 setSubmitting(true);
                 console.log(values);
