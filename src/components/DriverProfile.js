@@ -68,7 +68,7 @@ export default function DriverProfile(props) {
             <h1>
               {data.selectedDriver.name} {data.selectedDriver.lastName}
             </h1>
-            <StarRating selectedDriver={data.selectedDriver.id} />
+            <StarRating />
           </div>
           <h2>{data.selectedDriver.cellphone}</h2>
           <div className="group">
