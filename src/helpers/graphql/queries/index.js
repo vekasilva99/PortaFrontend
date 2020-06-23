@@ -2,29 +2,9 @@ import gql from "graphql-tag";
 
 
 export const LOGIN_USER = gql`
-  query($mail: String!, $password: String!) {
-    userLogin(mail: $mail, password: $password) {
+  query($mail: String!, $password: String!, $role: String!) {
+    userLogin(mail: $mail, password: $password, role: $role) {
       userId
-      token
-      tokenExpiration
-    }
-  }
-`;
-
-export const ADMIN_LOGIN = gql`
-  query($mail: String!, $password: String!) {
-    adminLogin(mail: $mail, password: $password) {
-      adminId
-      token
-      tokenExpiration
-    }
-  }
-`;
-
-export const DRIVER_LOGIN = gql`
-  query($mail: String!, $password: String!) {
-    repartidorLogin(mail: $mail, password: $password) {
-      repartidorId
       token
       tokenExpiration
     }
@@ -64,12 +44,51 @@ export const GET_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      placaVehiculo
       rating{
         score
+      }
+      comments{
+        content
+        user{
+    	  	name
+          lastName
+        }
       }
       createdAt
       updatedAt
     }
+  }
+`;
+
+export const GET_REQUESTS = gql`
+  {
+    solicitudes{
+    _id
+    experience
+    vehiculo
+    licencia
+    carnetCirculacion
+    seguroVehiculo
+    status
+    placaVehiculo
+    repartidor{
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+    }
+  }
   }
 `;
 
@@ -88,6 +107,7 @@ export const CURRENT_USER = gql`
   {
     currentUser {
       _id
+      role
       name
       lastName
       birthdate
@@ -168,9 +188,78 @@ export const NEW_REPARTIDORES = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      placaVehiculo
       rating{
         score
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const SELECTED_DRIVER = gql`
+  query($driverId: ID!) {
+    selectedDriver(driverId: $driverId) {
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      placaVehiculo
+      rating{
+        score
+      }
+      comments{
+        _id
+        content
+        user{
+          _id
+    	  	name
+          lastName
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const SELECTED_REQUEST = gql`
+  query($solicitudId: ID!) {
+    selectedRequest(solicitudId: $solicitudId) {
+      _id
+    vehiculo
+    licencia
+    experience
+    seguroVehiculo
+    carnetCirculacion
+    placaVehiculo
+    repartidor{
+      _id
+      cedula
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+    }
       createdAt
       updatedAt
     }

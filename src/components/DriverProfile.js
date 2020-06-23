@@ -13,10 +13,37 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { Formik } from "formik";
 import Input from "./Input";
 import StarRating from "./StarRating";
+import { useParams } from "react-router";
+import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { SELECTED_DRIVER, CURRENT_USER } from "../helpers/graphql/queries/index";
+import { CREATE_COMMENT } from "../helpers/graphql/mutations/index";
 
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const chevronWidth = 50;
+
+  let { id } = useParams();
+  console.log({ id });
+  const [comment, { data: dataC, error: errorC, loading: loadingC }] = useMutation(CREATE_COMMENT);
+  const { data: dataU, error: errorU, loading: loadingU } = useQuery(CURRENT_USER);
+
+  const { loading, error, data, } = useQuery(SELECTED_DRIVER, {
+    variables: { 
+      driverId: id
+    }
+  });
+
+  console.log(data);
+
+  if (loadingU) return 'Loading...';
+  if (errorU) return `Error! ${errorU.message}`;
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  
+
 
   return (
     <FormStyle>
@@ -33,10 +60,10 @@ export default function DriverProfile(props) {
         </div>
         <div className="Profile-name">
           <div className="group">
-            <h1>Valeska Silva</h1>
+            <h1>{data.selectedDriver.name} {data.selectedDriver.lastName}</h1>
             <StarRating />
           </div>
-          <h2>04241952718</h2>
+          <h2>{data.selectedDriver.cellphone}</h2>
           <div className="group">
             <h2>4.50</h2>
             <MdStar className="star" color="#00507a" size="1.1em" />
@@ -66,19 +93,19 @@ export default function DriverProfile(props) {
             >
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Great Service!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Amazing!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Thank you!</h3>
               </div>
               <div className="card">
                 <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
-                <h3>Third card</h3>
+                <h3>Great!</h3>
               </div>
             </ItemsCarousel>
             <h2>Add Comment</h2>
@@ -95,6 +122,17 @@ export default function DriverProfile(props) {
                 return errors;
               }}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                
+                
+                const { CREATE_COMENT } = await comment({
+                  variables: {
+                    user: dataU.currentUser._id,
+                    repartidor: data.selectedDriver._id,
+                    content: values.Comentario
+                  },
+                });
+
+
                 setSubmitting(true);
                 console.log(values);
                 setSubmitting(false);

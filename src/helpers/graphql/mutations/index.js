@@ -29,3 +29,62 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const DRIVER_REQUEST = gql`
+  mutation($solicitudInput: SolicitudInput!) {
+    createSolicitud(solicitudInput: $solicitudInput) {
+      _id
+      
+    }
+  }
+`;
+
+export const REVIEW_REQUEST = gql`
+  mutation($reviewInput: ReviewInput!) {
+    reviewSolicitud(reviewInput: $reviewInput) {
+      _id
+      
+    }
+  }
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation($user: ID!, $repartidor:ID!, $content: String!) {
+    createComment(user: $user, repartidor: $repartidor, content: $content) {
+      _id
+      content
+    }
+  }
+`;
+
+export const UPDATE_COMMENT = gql`
+  mutation($commentId: ID!, $content: String!) {
+    updateComment(commentId: $commentId, content: $content) {
+      _id
+      content
+    }
+  }
+`;
+
+export const CHANGE_AVAILABLE = gql`
+  {
+    changeAvailable{
+      _id
+      available
+      name
+      lastName
+    }
+  }
+`;
+
+
+export const RATE_DRIVER = gql`
+  mutation($user: ID!, $repartidor: ID!, $score: Int!) {
+    createRate(user: $user, repartidor: $repartidor, score: $score) {
+      _id
+      score
+    }
+  }
+`;
+
+

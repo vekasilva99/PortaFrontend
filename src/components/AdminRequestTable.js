@@ -7,6 +7,7 @@ import {
   GET_REPARTIDORES,
   NEW_USERS,
   NEW_REPARTIDORES,
+  GET_REQUESTS,
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
@@ -15,35 +16,39 @@ export default function AdminRequestTable(props) {
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
+  let [path, setPath] = React.useState("/admin/requests/");
 
   //Usuarios
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
+
+  //REQUESTS
+  const { data: dataR, error: errorR, loading: loadingR } = useQuery(
+    GET_REQUESTS
+  );
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
   // const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(NEW_USERS);
-  //Nuevos repartidores
-  // const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(NEW_REPARTIDORES);
-  // const { u_loading, u_error, u_data } = useQuery(GET_USERS);
+
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  if (loadingU) return "Loading...";
-  if (errorU) return `Error! ${errorU.message}`;
+  if (loadingR) return "Loading...";
+  if (errorR) return `Error! ${errorR.message}`;
 
   // if (loadingNU) return "Loading...";
   // if (errorNU) return `Error! ${errorNU.message}`;
 
-  // if (loadingNR) return "Loading...";
-  // if (errorNR) return `Error! ${errorNR.message}`;
+  console.log(dataR);
 
-  // if (u_loading) return 'Loading...';
-  // if (u_error) return `Error! ${r_error.message}`;
+  function handleClick(name) {
+    alert(`hello, ${name}`);
+  }
 
   return (
     <StyledTable>
       <div className="title">
-        <h1>Users</h1>
+        <h1>Requests</h1>
         <BsCircleFill size="1.8rem" color="#202124" className="circle">
           2
         </BsCircleFill>
@@ -66,27 +71,27 @@ export default function AdminRequestTable(props) {
       <ul className="header">
         <li className="link2">
           <NavLink className="item2" to="/">
-            NAME
+            DRIVER
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            LAST NAME
+            EXPERIENCE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            BIRTHDATE
+            VEHICLE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            MAIL
+            LICENSE
           </NavLink>
         </li>
         <li className="link2">
           <NavLink className="item2" to="/">
-            CELLPHONE
+            SEGURO
           </NavLink>
         </li>
         {/* <li className="link2">
@@ -95,31 +100,31 @@ export default function AdminRequestTable(props) {
           </NavLink>
         </li> */}
       </ul>
-      {dataU.users.map((user) => (
-        <ul className="nav-links">
+      {dataR.solicitudes.map((user) => (
+        <NavLink className="nav-links" to={path + user._id}>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.name}
+              {user.repartidor.name} {user.repartidor.lastName}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.lastName}
+              {user.experience}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.birthdate}
+              {user.vehiculo}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.mail}
+              {user.licencia}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.cellphone}
+              {user.seguroVehiculo}
             </NavLink>
           </li>
           {/* <li className="link">
@@ -127,7 +132,7 @@ export default function AdminRequestTable(props) {
               {user.signindate}
             </NavLink>
           </li> */}
-        </ul>
+        </NavLink>
       ))}
     </StyledTable>
   );
@@ -161,6 +166,7 @@ const StyledTable = styled.nav`
     flex-flow: row nowrap;
     margin-left: 20vw;
     width: 70%;
+    text-decoration: none;
     align-self: center;
     justify-content: space-around;
     list-style: none;

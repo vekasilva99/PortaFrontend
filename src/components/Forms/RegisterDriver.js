@@ -6,8 +6,11 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
+import { useMutation } from "@apollo/react-hooks";
+import { REGISTER_USER } from "../../helpers/graphql/mutations";
 
 export default function FormRegister(props) {
+  const [register, { data, loading, error }] = useMutation(REGISTER_USER);
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
   const [step3, setStep3] = React.useState(true);
@@ -130,6 +133,28 @@ export default function FormRegister(props) {
               Cedula: cedula,
             },
           ];
+
+
+
+          const { data } = await register({
+            variables: {
+              userInput: {
+                name: submitUser[0].FirstName,
+                lastName: submitUser[0].LastName,
+                birthdate: submitUser[0].Birthdate,
+                mail: submitUser[0].Email,
+                password: submitUser[0].Password,
+                zone: submitUser[0].Region,
+                cellphone: submitUser[0].UserPhone,
+                cedula: submitUser[0].Cedula,
+                role: "DRIVER"
+              },
+            },
+          });
+
+
+
+
 
           setSubmitting(true);
           console.log(submitUser);

@@ -47,9 +47,14 @@ export default function UserProfileForm(props) {
       
       <div className="edit">
         {/* <FaUserAlt className="photo" color="#00507a" /> */}
+<<<<<<< HEAD
 
         <img className="photo" src='https://hipertextual.com/files/2018/04/Thanos.jpg' />
            
+=======
+        <img className="photo" src={user} />
+        <MdModeEdit className="settings" color="#00507a" size="1em" />
+>>>>>>> Gus
       </div>
 
       <div className="Form">
@@ -277,10 +282,10 @@ const FormStyle = styled.section`
     margin-top: 8vw;
     display: flex;
     position: absolute;
-    padding: 1em;
+    padding: 0.2em;
     border: solid 0.1em #00507a;
-    width: 2vw;
-    height: 2vw;
+    width: 4vw;
+    height: 4vw;
     background: white;
   }
 

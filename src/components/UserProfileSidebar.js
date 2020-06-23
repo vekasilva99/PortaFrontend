@@ -9,17 +9,17 @@ export default function UserProfileSidebar() {
       <div className="container">
         <ul className="nav-links">
           <li>
-            <NavLink to="/admin" className="link">
+            <NavLink to="/" className="link">
               REQUEST A DELIVERY
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/users" className="link">
+            <NavLink to="/" className="link">
               MY DELIVERIES
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/user/userprofile" className="link">
               PROFILE SETTINGS
             </NavLink>
           </li>

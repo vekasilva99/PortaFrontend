@@ -71,4 +71,10 @@ const StyleInput = styled.div`
       border-bottom: solid 2px ${(props) => props.color} !important;
     }
   }
+
+  @media only screen and (max-width: 734px) {
+    input {
+      width: 80vw;
+    }
+  }
 `;

@@ -16,28 +16,16 @@ export default function AdminTable(props) {
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
 
-  //Usuarios
-  const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
-  //Repartidores
-  const { loading, error, data } = useQuery(GET_REPARTIDORES);
   //Nuevos usuarios
   const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(
     NEW_USERS
   );
-  //Nuevos repartidores
-  const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(
-    NEW_REPARTIDORES
-  );
-  const { u_loading, u_error, u_data } = useQuery(GET_USERS);
 
   if (loadingNU) return "Loading...";
   if (errorNU) return `Error! ${errorNU.message}`;
 
-  if (loadingNR) return "Loading...";
-  if (errorNR) return `Error! ${errorNR.message}`;
-
-  if (u_loading) return "Loading...";
-  if (u_error) return `Error! ${u_error.message}`;
+  
+    console.log(new Date().toISOString());
 
   return (
     <StyledTable>
@@ -80,11 +68,11 @@ export default function AdminTable(props) {
           </NavLink>
         </li>
       </ul>
-      {users.map((user) => (
+      {dataNU.newestUsers.map((user) => (
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
-              {user.id}
+              {user._id}
             </NavLink>
           </li>
           <li className="link">
@@ -94,22 +82,22 @@ export default function AdminTable(props) {
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.age}
+            {user.birthdate}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.mail}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.cellphone}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.createdAt}
             </NavLink>
           </li>
         </ul>

@@ -11,6 +11,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { CURRENT_USER } from "../../helpers/graphql/queries/index";
+import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { DRIVER_REQUEST } from "../../helpers/graphql/mutations/index";
 
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
@@ -18,6 +22,12 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const { loading, error, data } = useQuery(CURRENT_USER);
+  const [makeRequest, { data: dataU, loading: loadingU, error: errorU}] = useMutation(DRIVER_REQUEST);
+  console.log(data);
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -85,6 +95,39 @@ export default function DriverRequestForm(props) {
             return errors;
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
+
+
+
+
+
+
+
+
+
+
+
+            const { dataU } = await makeRequest({
+              variables: {
+                solicitudInput: {
+                  repartidorID: data.currentUser._id,
+                  vehiculo: values.Vehiculo,
+                  licencia: values.Licencia,
+                  experience:values.Experiencia,
+                  carnetCirculacion: values.Carnet,
+                  seguroVehiculo: values.Seguro,
+                  placaVehiculo: values.Placa
+                },
+              },
+            });
+
+
+
+
+
+
+
+
+
             setSubmitting(true);
             console.log(values);
             setSubmitting(false);
@@ -237,19 +280,6 @@ const FormStyle = styled.section`
   }
   button {
     display: none;
-  }
-  .settings {
-    border-radius: 500px;
-    margin-left: 0;
-    left: 0;
-    margin-top: 8vw;
-    display: flex;
-    position: absolute;
-    padding: 1em;
-    border: solid 0.1em #ef0023;
-    width: 2vw;
-    height: 2vw;
-    background: white;
   }
 
   .edit {

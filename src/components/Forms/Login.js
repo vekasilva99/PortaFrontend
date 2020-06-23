@@ -64,6 +64,7 @@ export default function FormLogin(props) {
           variables: {
             mail: Email,
             password: Password,
+            role: "COSTUMER"
           },
         });
         setSubmitting(true);
@@ -85,9 +86,13 @@ export default function FormLogin(props) {
         loading ? (
           <Spinner></Spinner>
         ) : data ? (
+<<<<<<< HEAD
 
           <Redirect to="/user" />
 
+=======
+          <Redirect to="/user" />
+>>>>>>> Gus
         ) : (
           <form onSubmit={handleSubmit}>
             <Input

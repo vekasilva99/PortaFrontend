@@ -9,6 +9,7 @@ const initialState = {
   mail: null,
   zone:null,
   cellphone:null,
+  role: null,
   createdAt:null
 };
 
@@ -25,7 +26,7 @@ export default function (state = initialState, action) {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, userId, name, lastName, birthdate, mail, zone, cellphone, createdAt} = action.payload;
+      const { token, userId, name, lastName, birthdate, mail, zone, cellphone, role, createdAt} = action.payload;
       return {
         token: token,
         userId: userId,
@@ -33,12 +34,14 @@ export default function (state = initialState, action) {
         lastName: lastName,
         birthdate: birthdate,
         mail: mail,
-        zone: cellphone,
+        zone: zone,
+        cellphone: cellphone,
+        role: role,
         createdAt: createdAt
       };
     }
     case UPDATE_USER: {
-      const { name, lastName, birthdate, mail, zone, cellphone, createdAt } = action.payload;
+      const { name, lastName, birthdate, mail, zone, cellphone, role, createdAt } = action.payload;
       return {
         ...state,
         name,
@@ -47,6 +50,7 @@ export default function (state = initialState, action) {
         mail,
         zone,
         cellphone,
+        role,
         createdAt
       };
     }
