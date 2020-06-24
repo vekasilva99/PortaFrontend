@@ -23,13 +23,14 @@ export default function MapRep() {
   const dispatch = useDispatch();
 
   const handleToggle = (e) => setToggle(false);
+
   const handleChangeChk = async (e) => {
     setToggle(!online);
     const { dataA } = await changeAv();
     dispatch({
       type: "UPDATE_USER",
       payload: {
-        role: !role,
+        available: !available,
       },
     });
   };

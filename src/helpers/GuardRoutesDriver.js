@@ -8,7 +8,7 @@ export default function GuardRoutesDriver({ component: Component, isAuth, ...res
   const { role } = useSelector((state) => ({
     ...state.User,
   }));
-
+  
   return (
     <Route
       {...rest}

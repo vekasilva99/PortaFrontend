@@ -26,10 +26,11 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOGIN: {
-      const { token } = action.payload;
+      const { token, role } = action.payload;
       return {
         ...state,
         token,
+        role
       };
     }
     case LOGOUT: {
@@ -61,27 +62,11 @@ export default function (state = initialState, action) {
       };
     }
     case UPDATE_USER: {
-      const { name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt } = action.payload;
+      //const { name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt } = action.payload;
+      const params = action.payload;
       return {
         ...state,
-        name,
-        lastName,
-        birthdate,
-        mail,
-        zone,
-        cellphone,
-        role,
-        available,
-        workingStatus,
-        experience,
-        vehiculo,
-        licencia,
-        carnetCirculacion,
-        seguroVehiculo,
-        placaVehiculo,
-        rating,
-        comments,
-        createdAt
+        ...params
       };
     }
 

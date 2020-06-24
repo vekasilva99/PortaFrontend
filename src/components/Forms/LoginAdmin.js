@@ -24,6 +24,7 @@ export default function FormLoginAdmin(props) {
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
+          role: "ADMIN"
         },
       });
     }

@@ -19,11 +19,12 @@ export default function FormLogin(props) {
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem("token", data.userLogin.token.toString());
+      localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
+          role: "COSTUMER"
         },
       });
     }

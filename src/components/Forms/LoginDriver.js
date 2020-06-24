@@ -20,6 +20,7 @@ export default function FormLoginDriver(props) {
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
+          role: "DRIVER"
         },
       });
     }
