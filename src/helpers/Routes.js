@@ -31,7 +31,7 @@ export default function Routes() {
     fetchPolicy: "cache-and-network",
   });
 
-  const { token } = useSelector((state) => ({
+  const { token, name } = useSelector((state) => ({
     ...state.User,
   }));
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function Routes() {
     }
   }, [data, dispatch]);
 
-  return token && !loading ? (
+  return name && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
@@ -144,8 +144,7 @@ export default function Routes() {
 
       <Redirect exact from="*" to="/" />
     </Switch>
-  ) : (!token && !loading && data && !data.currentUser) ||
-    (!token && !loading && error) ? (
+  ) : !name && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />

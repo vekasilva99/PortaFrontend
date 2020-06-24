@@ -61,6 +61,7 @@ const StyleInput = styled.div`
     opacity: 0.8;
     margin-top: 1.5rem;
     padding: 0.3rem 0.5rem;
+    margin-left: 0;
     width: 25vw;
 
     &:focus {

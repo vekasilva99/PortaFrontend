@@ -23,6 +23,7 @@ export default function Home() {
     setLoginD(!loginD);
     setLogin(false);
     setRegister(false);
+    setRegisterD(false);
   };
   const handlingRegister = (e) => {
     setRegister(!register);
@@ -30,7 +31,7 @@ export default function Home() {
     setLoginD(false);
   };
   const handlingRegisterD = (e) => {
-    setRegisterD(!register);
+    setRegisterD(!registerD);
     setLogin(false);
     setLoginD(false);
   };
