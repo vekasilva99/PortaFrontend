@@ -35,7 +35,7 @@ const StyleInput = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  margin: auto;
+
   align-items: center;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -59,7 +59,6 @@ const StyleInput = styled.div`
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin: 0.3rem;
     margin-top: 1.5rem;
     padding: 0.3rem 0.5rem;
     width: 25vw;

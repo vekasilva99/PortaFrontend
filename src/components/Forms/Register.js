@@ -118,7 +118,6 @@ export default function FormRegister(props) {
             },
           ];
 
-          
           const { data } = await register({
             variables: {
               userInput: {
@@ -129,12 +128,11 @@ export default function FormRegister(props) {
                 password: submitUser[0].Password,
                 zone: submitUser[0].Region,
                 cellphone: submitUser[0].UserPhone,
-                role: "COSTUMER"
+                role: "COSTUMER",
               },
             },
           });
 
-          
           console.log(data);
           setSubmitting(true);
           console.log(submitUser);
@@ -204,7 +202,7 @@ export default function FormRegister(props) {
                     <div className="input2">
                       <div className="picker">
                         <div>
-                          <label className="dos">Select your Birthdate</label>
+                          <label className="dos">Choose Birthdate</label>
                           <DatePicker
                             selected={selectedDate}
                             maxDate={new Date(moment())}
@@ -291,6 +289,8 @@ export default function FormRegister(props) {
 const RegisterView = styled.div`
   display: flex;
   flex-wrap: wrap;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   justify-content: space-between;
   label {
     font-size: 1em;
@@ -328,7 +328,8 @@ const RegisterView = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin: auto;
+    left: 0;
+    max-width: 600px;
   }
 
   .button {
@@ -339,22 +340,24 @@ const RegisterView = styled.div`
   .dos {
     font-size: 1em;
     font-weight: 200;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #fafafa;
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 90%;
   }
 
   .picker {
     display: flex;
     flex-direction: column;
-    max-width: 600px;
-    margin: auto;
     align-items: center;
     justify-content: center;
     font-family: Roboto;
+    padding: 0.3rem 0.5rem;
+    background: red;
   }
 
   .select {
@@ -369,8 +372,8 @@ const RegisterView = styled.div`
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
     margin-top: 1rem;
+    margin-left: 0;
     padding: 0.3rem 0.5rem;
-    width: 100%;
     &:focus {
       opacity: 1;
       outline: none;

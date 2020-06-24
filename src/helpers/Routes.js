@@ -16,7 +16,7 @@ import DriverEditProfile from "../views/DriverEditProfile";
 import DriverProfile from "../views/DriverProfile";
 import DriverRequest from "../views/DriverRequest";
 import { CURRENT_USER } from "./graphql/queries";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import GuardRoute from "./GuardRoutes";
@@ -27,12 +27,9 @@ import MapRep from "../views/MapRep";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
-  const [CurrentUser, { data, loading, error, called }] = useLazyQuery(
-    CURRENT_USER,
-    {
-      fetchPolicy: "cache-and-network",
-    }
-  );
+  const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
+    fetchPolicy: "cache-and-network",
+  });
 
   const { token } = useSelector((state) => ({
     ...state.User,
@@ -40,18 +37,12 @@ export default function Routes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const response = localStorage.getItem("token");
-    if (response) {
-      console.log("llega Response");
-      CurrentUser();
-    }
-  }, [CurrentUser, token]);
+    refetch();
+  }, [refetch, token]);
 
   useEffect(() => {
     if (data && data.currentUser) {
-      console.log("llega Use effect");
       const response = localStorage.getItem("token");
-      CurrentUser();
       dispatch({
         type: "CURRENT_USER",
         payload: {
@@ -62,11 +53,10 @@ export default function Routes() {
     }
   }, [data, dispatch]);
 
-  return token && called && !loading ? (
+  return token && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
-      
 
       <Route
         exact
@@ -84,7 +74,6 @@ export default function Routes() {
         exact
         path="/admin"
         isAuth={token}
-        isLoading={called && loading}
         component={AdminHome}
       />
 
@@ -92,7 +81,6 @@ export default function Routes() {
         exact
         path="/admin/users"
         isAuth={token}
-        isLoading={called && loading}
         component={AdminUsers}
       />
 
@@ -100,7 +88,6 @@ export default function Routes() {
         exact
         path="/admin/requests"
         isAuth={token}
-        isLoading={called && loading}
         component={AdminRequests}
       />
 
@@ -108,7 +95,6 @@ export default function Routes() {
         exact
         path="/admin/requests/:id"
         isAuth={token}
-        isLoading={called && loading}
         component={AdminRequest}
       />
 
@@ -116,7 +102,6 @@ export default function Routes() {
         exact
         path="/maprep"
         isAuth={token}
-        isLoading={called && loading}
         component={MapRep}
       />
 
@@ -124,7 +109,6 @@ export default function Routes() {
         exact
         path="/driver/driverprofile"
         isAuth={token}
-        isLoading={called && loading}
         component={DriverEditProfile}
       />
 
@@ -132,7 +116,6 @@ export default function Routes() {
         exact
         path="/driver/request"
         isAuth={token}
-        isLoading={called && loading}
         component={DriverRequest}
       />
 
@@ -140,23 +123,15 @@ export default function Routes() {
         exact
         path="/user/userprofile"
         isAuth={token}
-        isLoading={called && loading}
         component={UserProfile}
       />
 
-      <GuardRoute
-        exact
-        path="/user"
-        isAuth={token}
-        isLoading={called && loading}
-        component={UserHome}
-      />
+      <GuardRoute exact path="/user" isAuth={token} component={UserHome} />
 
       <GuardRoute
         exact
         path="/user/seedrivers"
         isAuth={token}
-        isLoading={called && loading}
         component={SeeDrivers}
       />
 
@@ -164,18 +139,18 @@ export default function Routes() {
         exact
         path="/user/driverprofile/:id"
         isAuth={token}
-        isLoading={called && loading}
         component={DriverProfile}
       />
 
       <Redirect exact from="*" to="/" />
     </Switch>
-  ) : called && !loading && data && !data.currentUser ? (
+  ) : (!token && !loading && data && !data.currentUser) ||
+    (!token && !loading && error) ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
-    
-      {/* <Route exact path="/maprep" render={(props) => <MapRep {...props} />} /> */}
+
+      <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
       <Route
         exact
         path="/register"

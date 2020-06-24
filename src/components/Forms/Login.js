@@ -6,7 +6,7 @@ import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -14,6 +14,9 @@ export default function FormLogin(props) {
   const [isRepartidor, setIsRepartidor] = useState(false);
 
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  const { name } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   const dispatch = useDispatch();
 
@@ -65,7 +68,7 @@ export default function FormLogin(props) {
           variables: {
             mail: Email,
             password: Password,
-            role: "COSTUMER"
+            role: "COSTUMER",
           },
         });
         setSubmitting(true);
@@ -86,7 +89,7 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
-        ) : data ? (
+        ) : name ? (
           <Redirect to="/user" />
         ) : (
           <form onSubmit={handleSubmit}>
