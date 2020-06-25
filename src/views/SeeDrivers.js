@@ -7,18 +7,20 @@ import NavbarIn from "../components/NavIn";
 import SideIn from "../components/SideIn";
 import RepList from "../components/RepList";
 import UserProfileSidebar from "../components/UserProfileSidebar";
+import UserMenu from "../components/UserMenu";
 import { useSelector } from "react-redux";
 
 export default function SeeDrivers() {
   const [on, setToggle] = React.useState(true);
 
-  const handleToggle = (e) => setToggle(false);
+  const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
   }));
   return (
     <DriveList>
-      <NavbarIn name={name} />
+      <NavbarIn name={name} toggle={handleToggle} />
+      <UserMenu show={on} />
       <div className="page">
         <div className="sid">
           {/* <SideIn></SideIn> */}

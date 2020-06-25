@@ -23,7 +23,7 @@ export default function UserProfile() {
   return (
     <HomeStyle>
       {" "}
-      <NavbarIn name={name} />
+      <NavbarIn name={name} toggle={setSidebar} />
       {/* <NavbarUser togglerSidebar={handlingSidebar} /> */}
       <UserMenu show={sidebar} />
       {/* <div className="edit">

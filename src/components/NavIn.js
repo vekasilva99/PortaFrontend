@@ -59,7 +59,7 @@ export default function NavbarIn(props) {
               LOG OUT
             </button>
 
-            <button onClick={profile} className="link2">
+            <button onClick={props.toggle} className="link2">
               {props.name.toUpperCase()}
             </button>
 
@@ -87,6 +87,7 @@ const StyledNavbarIn = styled.nav`
     top: 0;
     left: 0;
     background: #1d1d1f;
+    z-index: 4;
   }
 
   .toggle {
@@ -103,6 +104,7 @@ const StyledNavbarIn = styled.nav`
     left: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    z-index: 4;
   }
 
   .nav-links {
@@ -113,6 +115,7 @@ const StyledNavbarIn = styled.nav`
     width: 20vw;
     list-style: none;
     margin-right: 1rem;
+    z-index: 4;
   }
   .link {
     display: flex;
@@ -131,6 +134,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
 
+    z-index: 4;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -156,6 +160,7 @@ const StyledNavbarIn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 4;
 
     &:hover {
       background: #333333;
@@ -176,6 +181,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     border-radius: 20px;
+    z-index: 4;
     &:hover {
       background: #333333;
       color: #fafafa;
