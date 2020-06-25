@@ -37,16 +37,13 @@ export default function NavbarAdmin(props) {
       </div>
       {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
       <ul className="nav-links">
-        <li>
-          <NavLink to="/" className="link">
-            LOG OUT
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/" className="link2">
-            PROFILE
-          </NavLink>
-        </li>
+        <button to="/" className="link">
+          LOG OUT
+        </button>
+
+        <button to="/" className="link2">
+          PROFILE
+        </button>
       </ul>
     </StyledNavbar>
   );
@@ -109,15 +106,15 @@ const StyledNavbar = styled.nav`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
-    align-items: right;
-    width: 18vw;
+    align-items: center;
+    width: 20vw;
     list-style: none;
     margin-right: 1rem;
   }
-
   .link {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
@@ -143,12 +140,13 @@ const StyledNavbar = styled.nav`
   .link2 {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.8vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
     border: 1.5px solid #202124;
     border-radius: 5vw;
     cursor: pointer;
