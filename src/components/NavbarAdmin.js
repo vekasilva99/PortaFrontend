@@ -1,16 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function NavbarAdmin(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  const [log, setLog] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const logOut = (e) => {
+    console.log("log Out");
+    setLog(true);
+    console.log(log);
+  };
+
+  React.useEffect(() => {
+    if (log) {
+      localStorage.clear();
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  }, [log]);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
+
+  const { mail } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   let style;
   if (sidebar) {
@@ -19,36 +42,36 @@ export default function NavbarAdmin(props) {
     style = "open";
   }
   return (
-    <StyledNavbar>
-      <div className="toggle">
-        <div>
-          <TiThMenuOutline
-            onClick={() => {
-              props.togglerSidebar();
-              handlingSidebar();
-            }}
-            className={style}
-            size="1.7rem"
-            color="#fafafa"
-          />
-          {/* <FiMail className={style} size="1.7rem" color="#ff8600" />
-          <FaRegUser className={style} size="1.7rem" color="#ff8600" /> */}
-        </div>
+    <>
+      {log ? <Redirect to="/adminlogin" /> : null}
+      <div>
+        <StyledNavbar>
+          <div className="toggle">
+            <div>
+              <TiThMenuOutline
+                onClick={() => {
+                  props.togglerSidebar();
+                  handlingSidebar();
+                }}
+                className={style}
+                size="1.7rem"
+                color="#fafafa"
+              />
+            </div>
+          </div>
+
+          <ul className="nav-links">
+            <button className="link" onClick={logOut}>
+              LOG OUT
+            </button>
+
+            <button to="/" className="link2">
+              PROFILE
+            </button>
+          </ul>
+        </StyledNavbar>
       </div>
-      {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-      <ul className="nav-links">
-        <li>
-          <NavLink to="/" className="link">
-            LOG OUT
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/" className="link2">
-            PROFILE
-          </NavLink>
-        </li>
-      </ul>
-    </StyledNavbar>
+    </>
   );
 }
 const StyledNavbar = styled.nav`
@@ -109,15 +132,15 @@ const StyledNavbar = styled.nav`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
-    align-items: right;
-    width: 18vw;
+    align-items: center;
+    width: 20vw;
     list-style: none;
     margin-right: 1rem;
   }
-
   .link {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
@@ -130,6 +153,7 @@ const StyledNavbar = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 200;
 
     &:hover {
       background: #333333;
@@ -143,12 +167,13 @@ const StyledNavbar = styled.nav`
   .link2 {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.8vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
     border: 1.5px solid #202124;
     border-radius: 5vw;
     cursor: pointer;

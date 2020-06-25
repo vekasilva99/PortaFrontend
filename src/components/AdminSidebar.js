@@ -15,6 +15,7 @@ export default function AdminSidebar(props) {
     <StyledSidebar>
       <div className={style}>
         <img className="logo" src={logo3} alt="Logo" />
+
         <ul className="nav-links">
           <li>
             <NavLink to="/admin" className="link">
@@ -59,6 +60,8 @@ const StyledSidebar = styled.nav`
     margin-top: 0;
     margin-left: 0;
     z-index: 100;
+    display: flex;
+    justify-content: center;
   }
 
   .close {
@@ -73,6 +76,8 @@ const StyledSidebar = styled.nav`
     margin-top: 0;
     margin-left: 0;
     z-index: 100;
+    display: flex;
+    justify-content: center;
   }
   .nav-links {
     position: fixed;
@@ -119,16 +124,10 @@ const StyledSidebar = styled.nav`
   }
 
   .logo {
-    width: 12vw;
-    background: pink;
+    width: 6.5vw;
     position: fixed;
     display: flex;
-    align-self: center;
-    justify-content: center;
-    margin: 2rem;
-    padding: 2.5rem;
-    top: 0;
-    left: 0;
     z-index: 100;
+    margin-top: 7vh;
   }
 `;
