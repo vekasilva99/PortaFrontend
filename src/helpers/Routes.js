@@ -58,7 +58,6 @@ export default function Routes() {
   return name && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
-      <Route exact path="/login" render={(props) => <Login {...props} />} />
 
       <Route
         exact
