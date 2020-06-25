@@ -11,10 +11,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { CURRENT_USER } from "../../helpers/graphql/queries/index";
-import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_USER } from "../../helpers/graphql/mutations";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
@@ -22,7 +23,13 @@ export default function UserProfileForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const { loading, error, data } = useQuery(CURRENT_USER);
+
+  const { _id, role, name, lastName, birthdate, mail, zone, cellphone} = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  const dispatch = useDispatch();
+
   const [
     update,
     { data: dataU, loading: loadingU, error: errorU },
@@ -44,10 +51,6 @@ export default function UserProfileForm(props) {
     console.log("Foto");
   };
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-
-  console.log(data);
   return (
     <FormStyle>
       <div className="edit">
@@ -60,13 +63,13 @@ export default function UserProfileForm(props) {
       <div className="Form">
         <Formik
           initialValues={{
-            Email: data.currentUser.mail,
+            Email: mail,
             Password: "211ce496Vale",
-            Phone: data.currentUser.cellphone,
-            FName: data.currentUser.name,
-            LName: data.currentUser.lastName,
+            Phone: cellphone,
+            FName: name,
+            LName: lastName,
             BDate: new Date(moment()),
-            Region: "Hatillo",
+            Region: zone,
           }}
           validate={(values) => {
             const errors = {};
@@ -112,13 +115,24 @@ export default function UserProfileForm(props) {
             const { dataU } = await update({
               variables: {
                 updateInput: {
-                  id: data.currentUser._id,
+                  id: _id,
                   name: values.FName,
                   lastName: values.LName,
                   mail: values.Email,
                   birthdate: new Date(),
                   zone: values.Region,
                 },
+              },
+            });
+
+            dispatch({
+              type: "UPDATE_USER",
+              payload: {
+                name: values.FName,
+                lastName: values.LName,
+                mail: values.Email,
+                birthdate: new Date(),
+                zone: values.Region,
               },
             });
 
@@ -143,7 +157,7 @@ export default function UserProfileForm(props) {
                 </button>
               </div>
               <div className="Profile-name">
-                <h1>{data.currentUser.name}</h1>
+                <h1>{name}</h1>
                 <input
                   className="phone"
                   value={values.Phone}

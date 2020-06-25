@@ -13,7 +13,7 @@ export default function RegisterDriver(props) {
         <RegisterView>
           <div className="login-box">
             <MdClose
-              onClick={props.togglerRegisterD}
+              onClick={props.togglerRegister}
               className="close"
               size="1.7rem"
               color="#fafafa"
@@ -22,7 +22,7 @@ export default function RegisterDriver(props) {
               <h2 className="h2">Register</h2>
               <FormRegister color="#EE462F" />
               <h3 className="h3">Already have an account?</h3>
-              <button onClick={props.togglerLoginD} className="h4">
+              <button onClick={props.togglerLogin} className="h4">
                 SIGN IN
               </button>
             </div>

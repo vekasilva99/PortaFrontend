@@ -24,9 +24,10 @@ const SpinnerS = styled.div`
     height: 3rem;
     margin: auto;
     border-radius: 50%;
-    border: 6px solid ${(props) => (props.color ? props.color : "#fff")};
-    border-color: ${(props) => (props.color ? props.color : "#fff")} transparent
-      ${(props) => (props.color ? props.color : "#fff")} transparent;
+    border: 6px solid ${(props) => (props.color ? props.color : "#202124")};
+    border-color: ${(props) => (props.color ? props.color : "#202124")}
+      transparent ${(props) => (props.color ? props.color : "#202124")}
+      transparent;
     animation: ${Animation} 1.2s linear infinite;
   }
 `;

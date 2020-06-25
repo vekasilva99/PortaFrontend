@@ -27,16 +27,13 @@ export default function Navbar(props) {
       </div>
       {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
       <ul className="nav-links">
-        <li>
-          <button onClick={props.togglerLogin} className="link">
-            LOG IN
-          </button>
-        </li>
-        <li>
-          <button onClick={props.togglerRegister} className="link2">
-            SIGN UP
-          </button>
-        </li>
+        <button onClick={props.togglerLogin} className="link">
+          LOG IN
+        </button>
+
+        <button onClick={props.togglerRegister} className="link2">
+          SIGN UP
+        </button>
       </ul>
     </StyledNavbar>
   );
@@ -47,13 +44,14 @@ const StyledNavbar = styled.nav`
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-end;
-  font-family: Roboto;
   z-index: 3;
   height: 4rem;
   width: 100%;
   top: 0;
   left: 0;
   background: #202124;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
   .toggle {
     display: flex;
@@ -67,7 +65,7 @@ const StyledNavbar = styled.nav`
     margin-left: 2vw;
   }
   .toggle > h2 {
-    font-weight: 500;
+    font-weight: 400;
     margin-left: 2vw;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -77,8 +75,8 @@ const StyledNavbar = styled.nav`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
-    align-items: right;
-    width: 15vw;
+    align-items: center;
+    width: 20vw;
     list-style: none;
     margin-right: 1rem;
   }
@@ -91,8 +89,8 @@ const StyledNavbar = styled.nav`
     font-size: 0.7em;
     text-decoration: none;
     padding: 0.8vw;
-    padding-left: 1.8vw;
-    padding-right: 1.8vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
     border: 1.5px solid #202124;
     border-radius: 5vw;
     cursor: pointer;

@@ -8,19 +8,32 @@ import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(true);
   const [online, setOnline] = React.useState(false);
 
-  const handleToggle = (e) => setToggle(false);
-  const handleChangeChk = (e) => setToggle(!online);
-
-  //const [changeAv, { data: dataA, error: errorA, loading: loadingA }] = useMutation(CHANGE_AVAILABLE);
-
+  const [changeAv, { data: dataA, error: errorA, loading: loadingA }] = useMutation(CHANGE_AVAILABLE);
+  
   const { role, available } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const dispatch = useDispatch();
+
+  const handleToggle = (e) => setToggle(false);
+
+  const handleChangeChk = async (e) => {
+    setToggle(!online);
+    const { dataA } = await changeAv();
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        available: !available,
+      },
+    });
+  };
 
   console.log(available);
 

@@ -134,8 +134,6 @@ export default function FormRegister(props) {
             },
           ];
 
-
-
           const { data } = await register({
             variables: {
               userInput: {
@@ -147,14 +145,10 @@ export default function FormRegister(props) {
                 zone: submitUser[0].Region,
                 cellphone: submitUser[0].UserPhone,
                 cedula: submitUser[0].Cedula,
-                role: "DRIVER"
+                role: "DRIVER",
               },
             },
           });
-
-
-
-
 
           setSubmitting(true);
           console.log(submitUser);
@@ -256,32 +250,30 @@ export default function FormRegister(props) {
                       />
                     </div>
                     <div className="input2">
-                      <div className="picker">
-                        <div>
-                          <label className="dos">Select your Birthdate</label>
-                          <DatePicker
-                            selected={selectedDate}
-                            maxDate={new Date(moment())}
-                            onChange={(date) => setSelectedDate(date)}
-                            placeholderText="Choose a Date"
-                          />
-                        </div>
+                      <div>
+                        <label className="dos">Select your Birthdate</label>
+                        <DatePicker
+                          className="picker"
+                          selected={selectedDate}
+                          maxDate={new Date(moment())}
+                          onChange={(date) => setSelectedDate(date)}
+                          placeholderText="Choose a Date"
+                        />
                       </div>
-                      <div className="picker">
-                        <div>
-                          <label className="dos">Select your Region</label>
-                          <select
-                            name="region"
-                            value={region}
-                            onChange={handleRegion}
-                            onBlur={handleBlur}
-                            className="select"
-                          >
-                            <option value="" label="Choose a Region" />
-                            <option value="Hatillo" label="El Hatillo" />
-                            <option value="Baruta" label="Baruta" />
-                          </select>
-                        </div>
+
+                      <div>
+                        <label className="dos">Select your Region</label>
+                        <select
+                          name="region"
+                          value={region}
+                          onChange={handleRegion}
+                          onBlur={handleBlur}
+                          className="select"
+                        >
+                          <option value="" label="Choose a Region" />
+                          <option value="Hatillo" label="El Hatillo" />
+                          <option value="Baruta" label="Baruta" />
+                        </select>
                       </div>
                     </div>
                     <div className="button">
@@ -348,7 +340,7 @@ const RegisterView = styled.div`
   justify-content: space-between;
   label {
     font-size: 1em;
-    font-weight: 600;
+    font-weight: 200;
     color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
@@ -356,6 +348,7 @@ const RegisterView = styled.div`
   }
   input {
     background: none;
+    font-weight: 200;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     color: ${(props) => props.color};
@@ -377,18 +370,13 @@ const RegisterView = styled.div`
       border-bottom: solid 2px ${(props) => props.color};
     }
   }
-
   .input2 {
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin: auto;
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px #aaa0ed;
-    }
+    max-width: 600px;
+    align-items: center;
+    justify-content: center;
   }
 
   .button {
@@ -398,34 +386,31 @@ const RegisterView = styled.div`
 
   .dos {
     font-size: 1em;
-    font-weight: 600;
+    font-weight: 200;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #fafafa;
     cursor: pointer;
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px pink;
-    }
+    width: inerit;
   }
 
   .picker {
     display: flex;
     flex-direction: column;
-    max-width: 600px;
-    margin: auto;
     align-items: center;
     justify-content: center;
     font-family: Roboto;
+    margin-bottom: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #aaa0ed;
+      border-bottom: solid 2px #ee462f;
     }
   }
 
@@ -440,14 +425,16 @@ const RegisterView = styled.div`
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin-top: 1rem;
-    padding: 0.3rem 0.5rem;
-    width: 100%;
+    margin-top: 1.1rem;
+    margin-bottom: 0;
+    margin-left: 0;
+    bottom: 0;
+    padding-bottom: 0.35rem;
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #aaa0ed;
+      border-bottom: solid 2px #ee462f;
     }
   }
 `;
