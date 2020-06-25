@@ -24,7 +24,6 @@ export default function UserHome() {
     ...state.User,
   }));
 
-
   console.log("Aqui va");
   // console.log(data);
 
@@ -54,7 +53,7 @@ export default function UserHome() {
   // console.log(loggedUser);
   return (
     <HomeStyle>
-      <NavbarIn />
+      <NavbarIn name={name} />
       {/* <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} /> */}
       {login ? (
         <Login
@@ -102,13 +101,13 @@ export default function UserHome() {
         <div className="cliente">
           <h1>Cliente</h1>
           <button onClick={handlingLogin} className="boton">
-            Log In 
+            Log In
           </button>
         </div>
         <div className="repartidor">
           <h1>Repartidor</h1>
           <button onClick={handlingLoginD} className="boton">
-            Log In 
+            Log In
           </button>
         </div>
       </div>
