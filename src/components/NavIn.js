@@ -4,15 +4,36 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 export default function NavbarIn(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  const [log, setLog] = React.useState(false);
+  const [toProfile, setToProfile] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
-  const logOut = (e) => {};
+  const logOut = (e) => {
+    console.log("log Out");
+    setLog(true);
+    console.log(log);
+  };
+  const profile = (e) => {
+    setToProfile(true);
+  };
+
+  React.useEffect(() => {
+    if (log) {
+      localStorage.clear();
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  }, [log]);
 
   let style;
   if (sidebar) {
@@ -21,32 +42,36 @@ export default function NavbarIn(props) {
     style = "open";
   }
   return (
-    <StyledNavbarIn>
-      <div className="fondo">
-        <div className="toggle">
-          <img src="/LogoCliente.png" alt="Logo" className="logo" />
-          <div>
-            <h2>Porta</h2>
+    <>
+      {log ? <Redirect to="/" /> : null}
+      {toProfile ? <Redirect to="/user/userprofile" /> : null}
+      <StyledNavbarIn>
+        <div className="fondo">
+          <div className="toggle">
+            <img src="/LogoCliente.png" alt="Logo" className="logo" />
+            <div>
+              <h2>Porta</h2>
+            </div>
           </div>
-        </div>
-        {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-        <ul className="nav-links">
-          <button onClick={logOut} className="link">
-            LOG OUT
-          </button>
-
-          <button onClick={props.togglerRegister} className="link2">
-            {props.name.toUpperCase()}
-          </button>
-
-          <li>
-            <button className="link3">
-              <img src="/user.png" alt="User" className="userbut" />
+          {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
+          <ul className="nav-links">
+            <button onClick={logOut} className="link">
+              LOG OUT
             </button>
-          </li>
-        </ul>
-      </div>
-    </StyledNavbarIn>
+
+            <button onClick={props.toggle} className="link2">
+              {props.name.toUpperCase()}
+            </button>
+
+            <li>
+              <button className="link3">
+                <img src="/user.png" alt="User" className="userbut" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </StyledNavbarIn>
+    </>
   );
 }
 const StyledNavbarIn = styled.nav`
@@ -62,6 +87,7 @@ const StyledNavbarIn = styled.nav`
     top: 0;
     left: 0;
     background: #1d1d1f;
+    z-index: 4;
   }
 
   .toggle {
@@ -78,6 +104,7 @@ const StyledNavbarIn = styled.nav`
     left: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    z-index: 4;
   }
 
   .nav-links {
@@ -88,6 +115,7 @@ const StyledNavbarIn = styled.nav`
     width: 20vw;
     list-style: none;
     margin-right: 1rem;
+    z-index: 4;
   }
   .link {
     display: flex;
@@ -106,6 +134,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
 
+    z-index: 4;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -131,6 +160,7 @@ const StyledNavbarIn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 4;
 
     &:hover {
       background: #333333;
@@ -151,6 +181,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     border-radius: 20px;
+    z-index: 4;
     &:hover {
       background: #333333;
       color: #fafafa;
