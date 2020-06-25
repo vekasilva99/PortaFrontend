@@ -12,7 +12,7 @@ export default function GuardRoutesDriver({
     <Route
       {...rest}
       render={(props) =>
-        role === "DRIVER" ? (
+        role == "DRIVER" ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: "/", state: { from: props.location } }} />
