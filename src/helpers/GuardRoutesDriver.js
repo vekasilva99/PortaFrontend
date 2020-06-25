@@ -3,17 +3,16 @@ import { useQuery } from "@apollo/react-hooks";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function GuardRoutesDriver({ component: Component, isAuth, ...rest }) {
-  
-  const { role } = useSelector((state) => ({
-    ...state.User,
-  }));
-  
+export default function GuardRoutesDriver({
+  component: Component,
+  role,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuth && role === "DRIVER" ? (
+        role == "DRIVER" ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: "/", state: { from: props.location } }} />
