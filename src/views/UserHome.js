@@ -54,7 +54,6 @@ export default function UserHome() {
   return (
     <HomeStyle>
       <NavbarIn name={name} />
-      {/* <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} /> */}
       {login ? (
         <Login
           show={login}
@@ -84,13 +83,7 @@ export default function UserHome() {
         />
       ) : null}
 
-      {/* <AdminSidebar show={sidebar} /> */}
       <div className="infoPorta">
-        {/* <select name="userTest">
-        {data.user.map((user) => (
-          <option key={user.id}>{user.name}</option>
-        ))}
-      </select> */}
         <h1>
           {name} {lastName}
         </h1>

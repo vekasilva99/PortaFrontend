@@ -19,6 +19,7 @@ export default function RepList(props) {
 
   //Repartidores
   const { loading, error, data } = useQuery(GET_REPARTIDORES);
+  console.log(data);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
