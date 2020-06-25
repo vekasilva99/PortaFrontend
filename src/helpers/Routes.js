@@ -149,7 +149,6 @@ export default function Routes() {
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 
-      <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
       <Route
         exact
         path="/register"
