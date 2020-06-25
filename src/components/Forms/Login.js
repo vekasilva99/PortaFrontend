@@ -33,7 +33,7 @@ export default function FormLogin(props) {
         },
       });
     }
-  }, [data]);
+  }, [data, dispatch]);
   return (
     <>
       {log ? <Redirect to="/user" /> : null}
