@@ -23,13 +23,10 @@ export default function UserProfile() {
   return (
     <HomeStyle>
       {" "}
-      <NavbarIn name={name} toggle={setSidebar} />
-      {/* <NavbarUser togglerSidebar={handlingSidebar} /> */}
-      <UserMenu show={sidebar} />
-      {/* <div className="edit">
-        <FaUserAlt className="photo" color="#00507a" />
-        <MdModeEdit className="settings" color="#00507a" />
-      </div> */}
+      <div className="show">
+        <NavbarIn name={name} toggle={setSidebar} />
+        <UserMenu show={sidebar} />
+      </div>
       <div className="form">
         <UserProfileForm />
       </div>
@@ -98,6 +95,10 @@ const HomeStyle = styled.section`
       margin-top: 0;
       display: flex;
       position: fixed;
+    }
+
+    .show {
+      display: none;
     }
   }
 `;
