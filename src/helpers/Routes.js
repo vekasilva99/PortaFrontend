@@ -24,6 +24,7 @@ import GuardRoutesAdmin from "./GuardRoutesAdmin";
 import GuardRoutesDriver from "./GuardRoutesDriver";
 import SeeDrivers from "../views/SeeDrivers";
 import MapRep from "../views/MapRep";
+import MapCli from "../views/MapCli";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
@@ -140,6 +141,8 @@ export default function Routes() {
         role={role}
         component={DriverProfile}
       />
+
+      <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} />
 
       <Redirect exact from="*" to="/" />
     </Switch>
