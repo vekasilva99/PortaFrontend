@@ -20,6 +20,9 @@ export const GET_USERS = gql`
       mail
       zone
       cellphone
+      orders{
+        _id
+      }
       createdAt
       updatedAt
     }
@@ -53,6 +56,9 @@ export const GET_REPARTIDORES = gql`
           name
           lastName
         }
+      }
+      orders{
+        _id
       }
       createdAt
       updatedAt
@@ -270,6 +276,32 @@ export const SELECTED_REQUEST = gql`
         carnetCirculacion
         seguroVehiculo
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_ORDERS = gql`
+  {
+    orders {
+      _id
+      user{
+        _id
+        name
+        lastName
+      }
+      repartidor{
+        _id
+        name
+        lastName
+      }
+      pickUp
+      deliver
+      km
+      price
+      status
+      succeeded
       createdAt
       updatedAt
     }

@@ -87,4 +87,28 @@ export const RATE_DRIVER = gql`
   }
 `;
 
+export const MAKE_ORDER = gql`
+  mutation($orderInput: OrderInput!) {
+    createOrder(orderInput: $orderInput) {
+      _id
+      pickUp
+      deliver
+      km
+      price
+    }
+  }
+`;
+
+export const ACCEPT_ORDER = gql`
+  mutation($orderId: ID!, $repartidor: ID!) {
+    acceptOrder(orderId: $orderId, repartidor: $repartidor) {
+      _id
+      pickUp
+      deliver
+      km
+      price
+    }
+  }
+`;
+
 

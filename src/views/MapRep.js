@@ -7,13 +7,19 @@ import NavbarOn from "../components/NavOn";
 import DriverMenu from "../components/DriverMenu";
 import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
+import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(true);
   const [online, setOnline] = React.useState(false);
+
+  const { data, error, loading } = useQuery(
+    GET_ORDERS
+  );
 
   const [
     changeAv,
