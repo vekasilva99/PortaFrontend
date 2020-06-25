@@ -31,7 +31,7 @@ export default function FormLogin(props) {
         },
       });
     }
-  }, [data, dispatch, loading]);
+  }, [data]);
   return (
     <Formik
       initialValues={{

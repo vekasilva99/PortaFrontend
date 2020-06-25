@@ -31,7 +31,7 @@ export default function Routes() {
     fetchPolicy: "cache-and-network",
   });
 
-  const { token, name } = useSelector((state) => ({
+  const { token, name, role } = useSelector((state) => ({
     ...state.User,
   }));
   const dispatch = useDispatch();
@@ -43,6 +43,7 @@ export default function Routes() {
   useEffect(() => {
     if (data && data.currentUser) {
       const response = localStorage.getItem("token");
+      console.log(data.currentUser);
       dispatch({
         type: "CURRENT_USER",
         payload: {
@@ -70,81 +71,72 @@ export default function Routes() {
         render={(props) => <LoginAdmin {...props} />}
       />
 
-      <GuardRoutesAdmin
-        exact
-        path="/admin"
-        isAuth={token}
-        component={AdminHome}
-      />
+      <GuardRoutesAdmin exact path="/admin" role={role} component={AdminHome} />
 
       <GuardRoutesAdmin
         exact
         path="/admin/users"
-        isAuth={token}
+        role={role}
         component={AdminUsers}
       />
 
       <GuardRoutesAdmin
         exact
         path="/admin/requests"
-        isAuth={token}
+        role={role}
         component={AdminRequests}
       />
 
       <GuardRoutesAdmin
         exact
         path="/admin/requests/:id"
-        isAuth={token}
+        role={role}
         component={AdminRequest}
       />
 
-      <GuardRoutesDriver
-        exact
-        path="/maprep"
-        isAuth={token}
-        component={MapRep}
-      />
+      <GuardRoutesDriver exact path="/maprep" role={role} component={MapRep} />
 
       <GuardRoutesDriver
         exact
         path="/driver/driverprofile"
-        isAuth={token}
+        role={role}
         component={DriverEditProfile}
       />
 
       <GuardRoutesDriver
         exact
         path="/driver/request"
-        isAuth={token}
+        role={role}
         component={DriverRequest}
       />
 
       <GuardRoute
         exact
         path="/user/userprofile"
-        isAuth={token}
+        role={role}
         component={UserProfile}
       />
 
-      <GuardRoute exact path="/user" isAuth={token} component={UserHome} />
+      <GuardRoute exact path="/user" role={role} component={UserHome} />
 
       <GuardRoute
         exact
         path="/user/seedrivers"
-        isAuth={token}
+        role={role}
         component={SeeDrivers}
       />
 
       <GuardRoute
         exact
         path="/user/driverprofile/:id"
-        isAuth={token}
+        role={role}
         component={DriverProfile}
       />
 
       <Redirect exact from="*" to="/" />
     </Switch>
-  ) : !name && !loading ? (
+  ) : (!name && !loading && !data) ||
+    (!name && !loading && data && !data.currentUser) ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
