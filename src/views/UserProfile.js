@@ -10,16 +10,20 @@ import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { FaUserAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export default function UserProfile() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
+  const { name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   return (
     <HomeStyle>
       {" "}
-      <NavbarIn />
+      <NavbarIn name={name} />
       {/* <NavbarUser togglerSidebar={handlingSidebar} /> */}
       <UserMenu show={sidebar} />
       {/* <div className="edit">

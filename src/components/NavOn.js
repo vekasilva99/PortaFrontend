@@ -4,13 +4,32 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 export default function NavbarOn(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  const [log, setLog] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
+
+  const logOut = (e) => {
+    console.log("log Out");
+    setLog(true);
+    console.log(log);
+  };
+
+  React.useEffect(() => {
+    if (log) {
+      localStorage.clear();
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  }, [log]);
 
   let style;
   if (sidebar) {
@@ -19,34 +38,35 @@ export default function NavbarOn(props) {
     style = "open";
   }
   return (
-    <StyledNavbarOn>
-      <div className="fondo">
-        <div className="toggle">
-          <img src="/LogoRepartidor.png" alt="Logo" className="logo" />
-          <div>
-            <h2>Porta</h2>
+    <>
+      {log ? <Redirect to="/" /> : null}
+      <StyledNavbarOn>
+        <div className="fondo">
+          <div className="toggle">
+            <img src="/LogoRepartidor.png" alt="Logo" className="logo" />
+            <div>
+              <h2>Porta</h2>
+            </div>
           </div>
-        </div>
-        {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-        <ul className="nav-links">
-          <li>
-            <button onClick={props.togglerLogin} className="link">
-              PEDIR
+          {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
+          <ul className="nav-links">
+            <button onClick={logOut} className="link">
+              LOG OUT
             </button>
-          </li>
-          <li>
+
             <button onClick={props.togglerRegister} className="link2">
               NOMBRE
             </button>
-          </li>
-          <li>
-            <button className="link3">
-              <img src="/user.png" alt="User" className="userbut" />
-            </button>
-          </li>
-        </ul>
-      </div>
-    </StyledNavbarOn>
+
+            <li>
+              <button className="link3">
+                <img src="/user.png" alt="User" className="userbut" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </StyledNavbarOn>
+    </>
   );
 }
 const StyledNavbarOn = styled.nav`
@@ -84,20 +104,27 @@ const StyledNavbarOn = styled.nav`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
-    align-items: right;
+    align-items: center;
+    width: 20vw;
     list-style: none;
+    margin-right: 1rem;
   }
-
   .link {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
+    font-weight: 300;
+    font-size: 0.7em;
     text-decoration: none;
-    border: solid #202124;
+    padding: 0.8vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    border: 1.5px solid #202124;
+    border-radius: 5vw;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
-    border-radius: 20px;
 
     &:hover {
       background: #333333;
@@ -111,13 +138,20 @@ const StyledNavbarOn = styled.nav`
   .link2 {
     display: flex;
     color: #fafafa;
+    font-weight: 600;
+    font-weight: 300;
+    font-size: 0.7em;
     text-decoration: none;
-    border: solid #202124;
+    padding: 0.8vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
+    border: 1.5px solid #202124;
+    border-radius: 5vw;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
-    border-radius: 20px;
+
     &:hover {
       background: #333333;
       color: #fafafa;
