@@ -44,23 +44,23 @@ const StyledSidebar = styled.nav`
     top: 0;
     right: 0;
     width: 20vw;
-    transition: transform 0.3s ease-in;
-    margin-right: 1em;
-    margin-top: 11.5vh;
+    transition: transform 0.4s ease-in;
+    margin-right: 0.2em;
+    margin-top: 5.2em;
     z-index: 1;
   }
 
   .close {
-    transform: translateY(-35vh);
+    transform: translateY(-50vh);
     height: 20%;
     background: #202124;
     position: fixed;
     top: 0;
     right: 0;
     width: 20vw;
-    transition: transform 0.3s ease-in;
-    margin-right: 1em;
-    margin-top: 11.5vh;
+    transition: transform 0.4s ease-in;
+    margin-right: 0.2em;
+    margin-top: 7.1em;
     z-index: 1;
   }
   .nav-links {

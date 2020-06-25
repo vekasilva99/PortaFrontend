@@ -54,8 +54,8 @@ export default function NavbarOn(props) {
               LOG OUT
             </button>
 
-            <button onClick={props.togglerRegister} className="link2">
-              NOMBRE
+            <button onClick={props.toggle} className="link2">
+              {props.name.toUpperCase()}
             </button>
 
             <li>
@@ -77,11 +77,11 @@ const StyledNavbarOn = styled.nav`
     align-items: center;
     justify-content: flex-end;
     font-family: Roboto;
-    /* z-index: 3; */
     width: 100%;
     top: 0;
     left: 0;
     background: #1d1d1f;
+    z-index: 4;
   }
 
   .toggle {
@@ -98,6 +98,7 @@ const StyledNavbarOn = styled.nav`
     left: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    z-index: 4;
   }
 
   .nav-links {
@@ -108,6 +109,7 @@ const StyledNavbarOn = styled.nav`
     width: 20vw;
     list-style: none;
     margin-right: 1rem;
+    z-index: 4;
   }
   .link {
     display: flex;
@@ -125,6 +127,7 @@ const StyledNavbarOn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 4;
 
     &:hover {
       background: #333333;
@@ -151,6 +154,7 @@ const StyledNavbarOn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 4;
 
     &:hover {
       background: #333333;
@@ -171,6 +175,7 @@ const StyledNavbarOn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     border-radius: 20px;
+    z-index: 4;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -182,6 +187,7 @@ const StyledNavbarOn = styled.nav`
   }
   .userbut {
     width: 15px;
+    z-index: 4;
   }
 
   @media only screen and (min-width: 735px) {

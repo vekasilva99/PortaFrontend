@@ -4,6 +4,7 @@ import { colorPrimary } from "../helpers/styles";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import NavbarOn from "../components/NavOn";
+import DriverMenu from "../components/DriverMenu";
 import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
@@ -14,15 +15,18 @@ export default function MapRep() {
   const [on, setToggle] = React.useState(true);
   const [online, setOnline] = React.useState(false);
 
-  const [changeAv, { data: dataA, error: errorA, loading: loadingA }] = useMutation(CHANGE_AVAILABLE);
-  
-  const { role, available } = useSelector((state) => ({
+  const [
+    changeAv,
+    { data: dataA, error: errorA, loading: loadingA },
+  ] = useMutation(CHANGE_AVAILABLE);
+
+  const { role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
 
   const dispatch = useDispatch();
 
-  const handleToggle = (e) => setToggle(false);
+  const handleToggle = (e) => setToggle(!on);
 
   const handleChangeChk = async (e) => {
     setToggle(!online);
@@ -39,7 +43,8 @@ export default function MapRep() {
 
   return (
     <StyleMapRep>
-      <NavbarOn></NavbarOn>
+      <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
+      <DriverMenu show={on} />
       <div className="fondoMap">
         <div className="busqueda">
           <h1>Pedidos para tí</h1>
