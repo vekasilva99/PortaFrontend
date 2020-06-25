@@ -6,11 +6,14 @@ import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLoginDriver(props) {
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
-  
+  const { name, role } = useSelector((state) => ({
+    ...state.User,
+  }));
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export default function FormLoginDriver(props) {
           role: "DRIVER"
         },
       });
+      console.log("login role driver" + role);
     }
   }, [data, dispatch, loading]);
 

@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function GuardRoutes({ component: Component, role, ...rest }) {
+  console.log("Rol guardianUsuario " + role);
   return (
     <Route
       {...rest}

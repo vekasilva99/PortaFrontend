@@ -14,7 +14,7 @@ export default function FormLogin(props) {
   const [isRepartidor, setIsRepartidor] = useState(false);
 
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
-  const { name } = useSelector((state) => ({
+  const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
 
@@ -30,6 +30,7 @@ export default function FormLogin(props) {
           role: "COSTUMER"
         },
       });
+      console.log("login role" + role);
     }
   }, [data]);
   return (
@@ -89,7 +90,7 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
-        ) : name ? (
+        ) : data ? (
           <Redirect to="/user" />
         ) : (
           <form onSubmit={handleSubmit}>
