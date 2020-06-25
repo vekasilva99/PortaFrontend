@@ -12,7 +12,7 @@ export default function GuardRoutesAdmin({
     <Route
       {...rest}
       render={(props) =>
-        role === "ADMIN" ? (
+        role == "ADMIN" ? (
           <Component {...props} />
         ) : (
           <Redirect
