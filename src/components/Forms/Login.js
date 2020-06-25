@@ -27,11 +27,11 @@ export default function FormLogin(props) {
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
-          role: "COSTUMER"
+          role: "COSTUMER",
         },
       });
     }
-  }, [data]);
+  }, [data, dispatch]);
   return (
     <Formik
       initialValues={{
@@ -89,7 +89,7 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
-        ) : name ? (
+        ) : name && data ? (
           <Redirect to="/user" />
         ) : (
           <form onSubmit={handleSubmit}>
