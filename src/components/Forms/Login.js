@@ -34,7 +34,7 @@ export default function FormLogin(props) {
       });
       console.log("login role" + role);
     }
-  }, [data]);
+  }, [data, dispatch]);
   return (
     <>
       {log ? <Redirect to="/user" /> : null}
@@ -94,7 +94,7 @@ export default function FormLogin(props) {
       }) =>
         loading ? (
           <Spinner></Spinner>
-        ) : data ? (
+        ) : name && data ? (
           <Redirect to="/user" />
         ) : (
           <form onSubmit={handleSubmit}>
