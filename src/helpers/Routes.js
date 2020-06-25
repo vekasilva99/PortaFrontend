@@ -24,6 +24,7 @@ import GuardRoutesAdmin from "./GuardRoutesAdmin";
 import GuardRoutesDriver from "./GuardRoutesDriver";
 import SeeDrivers from "../views/SeeDrivers";
 import MapRep from "../views/MapRep";
+import MapCli from "../views/MapCli";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
@@ -56,7 +57,6 @@ export default function Routes() {
   return name && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
-      <Route exact path="/login" render={(props) => <Login {...props} />} />
 
       <Route
         exact
@@ -142,6 +142,8 @@ export default function Routes() {
         component={DriverProfile}
       />
 
+      <GuardRoute exact path="/mapcli" isAuth={token} component={MapCli} />
+
       <Redirect exact from="*" to="/" />
     </Switch>
   ) : !name && !loading ? (
@@ -149,7 +151,8 @@ export default function Routes() {
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 
-      <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
+      {/* <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
+      <Route exact path="/mapcli" render={(props) => <MapCli {...props} />} /> */}
       <Route
         exact
         path="/register"
