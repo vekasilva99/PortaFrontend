@@ -16,12 +16,12 @@ export default function DriverMenu(props) {
       <div className={style}>
         <ul className="nav-links">
           <li>
-            <NavLink to="/admin" className="link">
+            <NavLink to="/" className="link">
               REQUEST TO BE A DRIVER
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/users" className="link">
+            <NavLink to="/" className="link">
               MY TRIPS
             </NavLink>
           </li>

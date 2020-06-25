@@ -12,7 +12,6 @@ export default function FormLogin(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [isRepartidor, setIsRepartidor] = useState(false);
-  const [log, setLog] = React.useState(false);
 
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   const { name, role } = useSelector((state) => ({
@@ -23,7 +22,6 @@ export default function FormLogin(props) {
 
   useEffect(() => {
     if (data) {
-      setLog(true);
       localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
@@ -36,47 +34,45 @@ export default function FormLogin(props) {
     }
   }, [data, dispatch]);
   return (
-    <>
-      {log ? <Redirect to="/user" /> : null}
-      <Formik
-        initialValues={{
-          Email: "",
-          Password: "",
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.Email) {
-            errors.Email = "Required Field";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-          ) {
-            errors.Email = "Invalid Email";
-          }
-          if (!values.Password) {
-            errors.Password = "Required Field";
-          } else if (values.Password.length < 9) {
-            errors.Password = "Password too short";
-          }
+    <Formik
+      initialValues={{
+        Email: "",
+        Password: "",
+      }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.Email) {
+          errors.Email = "Required Field";
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+        ) {
+          errors.Email = "Invalid Email";
+        }
+        if (!values.Password) {
+          errors.Password = "Required Field";
+        } else if (values.Password.length < 9) {
+          errors.Password = "Password too short";
+        }
 
-          return errors;
-        }}
-        onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
-          /// code here
-          //event.preventDefault();
+        return errors;
+      }}
+      onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
+        /// code here
+        //event.preventDefault();
 
-          if (Email.trim() === 0 || Password.trim() === 0) {
-            return;
-          }
-          console.log("llega aca");
+        if (Email.trim() === 0 || Password.trim() === 0) {
+          return;
+        }
+        console.log("llega aca");
 
-          login({
-            variables: {
-              mail: Email,
-              password: Password,
-              role: "COSTUMER",
-            },
-          });
-          setSubmitting(true);
+        login({
+          variables: {
+            mail: Email,
+            password: Password,
+            role: "COSTUMER",
+          },
+        });
+        setSubmitting(true);
 
         setSubmitting(false);
         resetForm();
@@ -109,24 +105,23 @@ export default function FormLogin(props) {
               color={props.color}
             />
 
-              <Input
-                value={values.Password}
-                label="Enter your password"
-                id="Password"
-                type="password"
-                name="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                color={props.color}
-              />
-              <Button color={props.color} type="submit" block>
-                {" "}
-                SIGN IN{" "}
-              </Button>
-            </form>
-          )
-        }
-      </Formik>
-    </>
+            <Input
+              value={values.Password}
+              label="Enter your password"
+              id="Password"
+              type="password"
+              name="Password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              color={props.color}
+            />
+            <Button color={props.color} type="submit" block>
+              {" "}
+              SIGN IN{" "}
+            </Button>
+          </form>
+        )
+      }
+    </Formik>
   );
 }
