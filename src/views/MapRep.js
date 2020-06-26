@@ -16,9 +16,6 @@ import { GET_ORDERS } from "../helpers/graphql/queries/index";
 export default function MapRep() {
   const [on, setToggle] = React.useState(false);
   const [online, setOnline] = React.useState(false);
-  const { dataO, error, loading } = useQuery(GET_ORDERS);
-
-  console.log(dataO);
 
   const [
     changeAv,
@@ -33,6 +30,7 @@ export default function MapRep() {
 
   const handleToggle = (e) => setToggle(!on);
   const handleOnline = (e) => setToggle(!available);
+  const handlePedido = (e) => setOnline();
 
   const handleChangeChk = async (e) => {
     setOnline(!available);
@@ -59,11 +57,12 @@ export default function MapRep() {
             <input
               type="checkbox"
               defaultChecked={available}
+              value={available}
               onChange={handleChangeChk}
             ></input>
             <span class="slider round"></span>
           </label>
-          {available ? <Pedido /> : null}
+          {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
         </div>
         <div className="clear"></div>
       </div>

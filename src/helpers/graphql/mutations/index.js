@@ -91,10 +91,20 @@ export const MAKE_ORDER = gql`
   mutation($orderInput: OrderInput!) {
     createOrder(orderInput: $orderInput) {
       _id
+      user {
+        _id
+        name
+        lastName
+      }
       pickUp
       deliver
       km
       price
+      status
+      succeeded
+      createdAt
+      updatedAt
+    
     }
   }
 `;

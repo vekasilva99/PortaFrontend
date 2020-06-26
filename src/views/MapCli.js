@@ -49,8 +49,8 @@ export default function UserHome() {
       variables: {
         orderInput: {
           user: _id,
-          pickUp: "Soy un pickup",
-          deliver: "Soy un deliver",
+          pickUp: "SoP",
+          deliver: "SoD",
           km: 1500,
           price: 2000,
         },

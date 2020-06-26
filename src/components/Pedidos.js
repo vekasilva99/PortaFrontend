@@ -5,10 +5,14 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+// import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { useQuery } from "@apollo/react-hooks";
-import { useSelector } from "react-redux";
+import { useSubscription } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
+import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -16,14 +20,36 @@ export default function Pedido(props) {
   const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
     fetchPolicy: "network-only",
   });
-  console.log(data);
-  const { role, name, lastName, available } = useSelector((state) => ({
+
+  const [
+    acceptOrder,
+    { data: dataO, error: errorO, loading: loadingO },
+  ] = useMutation(ACCEPT_ORDER);
+
+  const { _id, role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
 
-  const accept = (e, id) => {
+  const dispatch = useDispatch();
+
+  const accept = async (e, id) => {
     const orden = id;
     console.log(orden);
+    console.log("id rep " + _id);
+
+    const { dataO } = await acceptOrder({
+      variables: {
+        orderId: orden,
+        repartidor: _id,
+      },
+    });
+
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        available: false,
+      },
+    });
   };
 
   React.useEffect(() => {
@@ -94,7 +120,7 @@ const StyledPedido = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: ${(props) => (props.loading ? "center" : "start")};
-  height: 50vh;
+  height: 60vh;
   overflow-x: hidden;
   overflow-y: auto;
   .order {
@@ -107,6 +133,7 @@ const StyledPedido = styled.nav`
     align-self: center;
     animation: ${Animation} 1s ease-in-out;
     background:transparent;
+    height:300px;
   }
 
   .textb {

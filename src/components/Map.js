@@ -200,7 +200,7 @@ export default function Map() {
           <Marker
             position={{ lat: user.lat, lng: user.lng }}
             icon={{
-              url: "/LogoCliente.png",
+              url: "/ClienteMap.png",
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
               scaledSize: new window.google.maps.Size(30, 30),
@@ -211,7 +211,7 @@ export default function Map() {
           <Marker
             position={{ lat: pack.lat, lng: pack.lng }}
             icon={{
-              url: "/LogoMain.png",
+              url: "/PackageMap.png",
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
               scaledSize: new window.google.maps.Size(30, 30),
@@ -251,7 +251,7 @@ function Locate({ panTo, handleUserChange }) {
           );
         }}
       >
-        <img src="/Cliente2.png" alt="compass" />
+        <img src="/ClienteMap.png" alt="compass" />
       </button>
     </StyledMap>
   );
@@ -347,8 +347,6 @@ z-index:10;
   .locate img {
     width: 5em;
     cursor: pointer;
-    border-radius:500px;
-    border: 2px solid #00507a;
   }
   .clear {
     grid-area: clear;
