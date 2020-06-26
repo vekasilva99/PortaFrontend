@@ -11,6 +11,7 @@ import UserMenu from "../components/UserMenu";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import "date-fns";
+import Map from "../components/Map";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -49,6 +50,9 @@ export default function UserHome() {
       <NavbarIn name={name} toggle={handleToggle} />
       <UserMenu show={on} />
       <div className="fondoMap">
+        <div className="google">
+          <Map />
+        </div>
         <div className="busqueda">
           <h1>Realiza un pedido</h1>
           <div className="rutas">
@@ -82,15 +86,19 @@ export default function UserHome() {
 }
 
 const StyleMapRep = styled.div`
-  position: absolute;
-  background: white;
-  height: 100vh;
-  width: 100vw;
+  background: pink;
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 
+  .google {
+    position absolute
+    margin-top: 60px;
+    width: 100vw;
+    height: 100vh;
+  }
   .fondoMap {
-    background-image: url("/mapa.png");
     height: 100%;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -117,6 +125,7 @@ const StyleMapRep = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
+      z-index:2000;
       h1 {
         font-size: 60px;
         font-weight: 600;
