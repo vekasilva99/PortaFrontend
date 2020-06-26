@@ -4,9 +4,22 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
+
+  const { data, error, loading } = useQuery(
+    GET_ORDERS
+  );
+
+  console.log(data);
+
+  const { role, name, lastName, available } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
