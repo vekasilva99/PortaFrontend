@@ -8,9 +8,11 @@ import { GET_ORDERS } from "../helpers/graphql/queries/index";
 // import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { useQuery } from "@apollo/react-hooks";
 import { useSubscription } from "@apollo/react-hooks";
-import { useSelector } from "react-redux";
+import { useMutation } from "@apollo/react-hooks";
+import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
+import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -19,13 +21,35 @@ export default function Pedido(props) {
     fetchPolicy: "network-only",
   });
 
-  const { role, name, lastName, available } = useSelector((state) => ({
+  const [
+    acceptOrder,
+    { data: dataO, error: errorO, loading: loadingO },
+  ] = useMutation(ACCEPT_ORDER);
+
+  const { _id, role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
 
-  const accept = (e, id) => {
+  const dispatch = useDispatch();
+
+  const accept = async (e, id) => {
     const orden = id;
     console.log(orden);
+    console.log("id rep " + _id);
+
+    const { dataO } = await acceptOrder({
+      variables: {
+        orderId: orden,
+        repartidor: _id,
+      },
+    });
+    
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        available: false,
+      },
+    });
   };
 
   React.useEffect(() => {
