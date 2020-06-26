@@ -43,7 +43,7 @@ export default function Pedido(props) {
         repartidor: _id,
       },
     });
-    
+
     dispatch({
       type: "UPDATE_USER",
       payload: {
@@ -120,7 +120,7 @@ const StyledPedido = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: ${(props) => (props.loading ? "center" : "start")};
-  height: 50vh;
+  height: 60vh;
   overflow-x: hidden;
   overflow-y: auto;
   .order {
@@ -133,6 +133,7 @@ const StyledPedido = styled.nav`
     align-self: center;
     animation: ${Animation} 1s ease-in-out;
     background:transparent;
+    height:300px;
   }
 
   .textb {
