@@ -25,28 +25,27 @@ export default function Navbar(props) {
             <h2>Porta</h2>
           </div>
         </div>
-        <button onClick={props.togglerRegister} className="link2">
-          SIGN UP
-        </button>
-        <li>
-          <button className="link3">
-            <FiLogIn
-              onClick={props.togglerLogin}
-              size="2em"
-              className="userbut"
-            />
-          </button>
-        </li>
-        <li>
-          <button className="link3">
-            <FiUser
-              onClick={props.togglerRegister}
-              size="2em"
-              className="userbut"
-            />
-          </button>
-        </li>
-      </ul>
+        <ul className="navbar-link">
+          <li>
+            <button className="link3">
+              <FiLogIn
+                onClick={props.togglerLogin}
+                size="2em"
+                className="userbut"
+              />
+            </button>
+          </li>
+          <li>
+            <button className="link3">
+              <FiUser
+                onClick={props.togglerRegister}
+                size="2em"
+                className="userbut"
+              />
+            </button>
+          </li>
+        </ul>
+      </div>
     </StyledNavbar>
   );
 }

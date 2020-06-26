@@ -7,33 +7,52 @@ import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
 import { useSelector } from "react-redux";
+import Spinner from "./Spinner";
+import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
 
-  const { data, error, loading } = useQuery(
-    GET_ORDERS
-  );
-
-  console.log(data);
+  const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
+    fetchPolicy: "network-only",
+  });
 
   const { role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
 
-  console.log(data);
+  React.useEffect(() => {
+    const unsubscription = subscribeToMore({
+      document: NOTIFICATION_ADDED_SUSCRIPTION,
+
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newOrder = subscriptionData.data.notificationAdded;
+        if (!prev.orders.find((msg) => msg._id === newOrder._id)) {
+          const res = Object.assign({}, prev, {
+            notifications: [newOrder, ...prev.orders],
+          });
+          return res;
+        } else return prev;
+      },
+    });
+    return () => {
+      unsubscription();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
-  if (loading) return "Loading...";
+  if (loading) return <Spinner />;
   if (error) return `Error ${error.message}`;
 
   return (
     <StyledPedido>
       {data.orders.map((order) => (
-        <div className="order">
+        <div key={order._id} className="order">
           <div className="textb">
             <h2>Pedido</h2>
             <h4>Origen</h4>
@@ -51,12 +70,12 @@ export default function Pedido(props) {
 }
 const StyledPedido = styled.nav`
   margin: 0;
-  padding: 0;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-content: center;
-
+  max-height: 30rem;
+  overflow: auto;
   .order {
     padding: 0;
     margin: 0;

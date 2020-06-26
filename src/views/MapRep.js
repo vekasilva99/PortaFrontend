@@ -75,8 +75,8 @@ const StyleMapRep = styled.div`
   position: absolute;
 
   background: white;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   margin: 0;
   padding: 0;
 
