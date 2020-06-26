@@ -20,7 +20,7 @@ export const GET_USERS = gql`
       mail
       zone
       cellphone
-      orders{
+      orders {
         _id
       }
       createdAt
@@ -57,7 +57,7 @@ export const GET_REPARTIDORES = gql`
           lastName
         }
       }
-      orders{
+      orders {
         _id
       }
       createdAt
@@ -286,16 +286,12 @@ export const GET_ORDERS = gql`
   {
     orders {
       _id
-      user{
+      user {
         _id
         name
         lastName
       }
-      repartidor{
-        _id
-        name
-        lastName
-      }
+
       pickUp
       deliver
       km

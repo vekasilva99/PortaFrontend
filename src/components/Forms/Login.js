@@ -9,21 +9,16 @@ import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLogin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(true);
-  const [isRepartidor, setIsRepartidor] = useState(false);
-  const [log, setLog] = React.useState(false);
-
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
+  const [log, setLog] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data) {
-      setLog(true);
+    if (data && !log) {
       localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
@@ -32,9 +27,10 @@ export default function FormLogin(props) {
           role: "COSTUMER",
         },
       });
+      setLog(true);
       console.log("login role" + role);
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, log, role]);
   return (
     <>
       {log ? <Redirect to="/admin" /> : null}
@@ -93,8 +89,8 @@ export default function FormLogin(props) {
           /* and other goodies */
         }) =>
           loading ? (
-            <Spinner></Spinner>
-          ) : name && data ? (
+            <Spinner color={props.color}></Spinner>
+          ) : log && role == "COSTUMER" && name ? (
             <Redirect to="/user" />
           ) : (
             <form onSubmit={handleSubmit}>

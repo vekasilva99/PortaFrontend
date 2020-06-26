@@ -19,39 +19,33 @@ export default function Navbar(props) {
   }
   return (
     <StyledNavbar>
-      <div className="toggle">
-        <div className="title">
-          <h2>Porta</h2>
+      <div className="navbar-inner">
+        <div className="toggle">
+          <div className="title">
+            <h2>Porta</h2>
+          </div>
         </div>
+        <ul className="navbar-link">
+          <li>
+            <button className="link3">
+              <FiLogIn
+                onClick={props.togglerLogin}
+                size="2em"
+                className="userbut"
+              />
+            </button>
+          </li>
+          <li>
+            <button className="link3">
+              <FiUser
+                onClick={props.togglerRegister}
+                size="2em"
+                className="userbut"
+              />
+            </button>
+          </li>
+        </ul>
       </div>
-      {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-      <ul className="nav-links">
-        <button onClick={props.togglerLogin} className="link">
-          LOG IN
-        </button>
-
-        <button onClick={props.togglerRegister} className="link2">
-          SIGN UP
-        </button>
-        <li>
-          <button className="link3">
-            <FiLogIn
-              onClick={props.togglerLogin}
-              size="2em"
-              className="userbut"
-            />
-          </button>
-        </li>
-        <li>
-          <button className="link3">
-            <FiUser
-              onClick={props.togglerRegister}
-              size="2em"
-              className="userbut"
-            />
-          </button>
-        </li>
-      </ul>
     </StyledNavbar>
   );
 }
@@ -69,21 +63,26 @@ const StyledNavbar = styled.nav`
   background: #202124;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
+  .navbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+  }
   .toggle {
     display: flex;
-    position: fixed;
     flex-flow: row nowrap;
     align-items: center;
-    justify-content: flex-start;
     color: #fafafa;
-    top: 0;
-    left: 0;
-    margin-left: 2vw;
   }
   .title > h2 {
     font-weight: 400;
-    margin-left: 2vw;
+    padding: 0;
+    margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
@@ -93,23 +92,20 @@ const StyledNavbar = styled.nav`
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;
-    width: 20vw;
     list-style: none;
-    margin-right: 1rem;
   }
 
   .link {
     display: flex;
     color: #fafafa;
+    margin-left: 0.3rem;
     font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
-    padding: 0.8vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    padding: 0.4rem 0.8rem;
     border: 1.5px solid #202124;
-    border-radius: 5vw;
+    border-radius: 500px;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
@@ -130,16 +126,17 @@ const StyledNavbar = styled.nav`
   }
   .link2 {
     display: flex;
+
     color: #fafafa;
     font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
-    padding: 0.8vw;
-    padding-left: 1.8vw;
-    padding-right: 1.8vw;
+    padding: 0.4rem 0.8rem;
     border: 1.5px solid #202124;
-    border-radius: 5vw;
+    border-radius: 500px;
+    border: 1.5px solid #202124;
+    border-radius: 500px;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;

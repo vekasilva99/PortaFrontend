@@ -38,7 +38,6 @@ export default function Routes() {
 
   console.log("rutas role " + role);
 
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,18 +45,15 @@ export default function Routes() {
   }, [refetch, token]);
 
   useEffect(() => {
-    if (data && data.currentUser) {
-      const response = localStorage.getItem("token");
-      console.log(data.currentUser);
+    if (data && data.currentUser && !name) {
       dispatch({
         type: "CURRENT_USER",
         payload: {
-          token: response,
           ...data.currentUser,
         },
       });
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, name]);
 
   return name && !loading ? (
     <Switch>
@@ -121,12 +117,7 @@ export default function Routes() {
         component={UserProfile}
       />
 
-      <GuardRoute 
-        exact 
-        path="/user" 
-        role={role} 
-        component={UserHome} 
-      />
+      <GuardRoute exact path="/user" role={role} component={UserHome} />
 
       <GuardRoute
         exact
@@ -222,7 +213,7 @@ export default function Routes() {
   ) : (
     <PageLoading>
       {" "}
-      <Spinner color="blue"></Spinner>
+      <Spinner></Spinner>
     </PageLoading>
   );
 }
