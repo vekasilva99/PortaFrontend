@@ -86,7 +86,7 @@ export default function UserHome() {
 }
 
 const StyleMapRep = styled.div`
-  background: pink;
+  background: #fafafa;
   height: 100%;
   width: 100%;
   margin: 0;

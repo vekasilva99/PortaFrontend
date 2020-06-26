@@ -38,7 +38,6 @@ export default function Routes() {
 
   console.log("rutas role " + role);
 
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -121,12 +120,7 @@ export default function Routes() {
         component={UserProfile}
       />
 
-      <GuardRoute 
-        exact 
-        path="/user" 
-        role={role} 
-        component={UserHome} 
-      />
+      <GuardRoute exact path="/user" role={role} component={UserHome} />
 
       <GuardRoute
         exact

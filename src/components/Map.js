@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Geocoder from "react-native-geocoding";
 import {
   GoogleMap,
   useLoadScript,
@@ -51,6 +52,8 @@ export default function Map() {
     googleMapsApiKey: "AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo",
     libraries,
   });
+
+  Geocoder.init("AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo");
   const [markers, setMarkers] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [pack, setPackage] = React.useState(null);
@@ -65,6 +68,7 @@ export default function Map() {
   const handleSend = (e) => {
     if (user != null && pack != null) {
       console.log("SE PUEDE MANDAR");
+      console.log(user);
     } else {
       console.log("NO SE PUEDE MANDAR");
     }
@@ -82,13 +86,13 @@ export default function Map() {
     });
   });
 
-  const handleUserChange = ({ lat, lng }) => {
-    setUser({ lat, lng });
+  const handleUserChange = ({ lat, lng, address }) => {
+    setUser({ lat, lng, address });
     console.log("User");
     console.log(user);
   };
-  const handlePackageChange = ({ lat, lng }) => {
-    setPackage({ lat, lng });
+  const handlePackageChange = ({ lat, lng, address }) => {
+    setPackage({ lat, lng, address });
     console.log("Package");
     console.log(pack);
   };
@@ -201,11 +205,18 @@ function Locate({ panTo, handleUserChange }) {
         onClick={() => {
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              Geocoder.from(position.coords.latitude, position.coords.longitude)
+                .then((json) => {
+                  var addressComponent = json.results[0].address_components[0];
+                  console.log(addressComponent);
+                  handleUserChange({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    address: addressComponent,
+                  });
+                })
+                .catch((error) => console.warn(error));
               panTo({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              });
-              handleUserChange({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               });
@@ -245,7 +256,7 @@ function Search({ panTo, handleChange, handlePackageChange, placeH }) {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
       console.log(lat, lng);
-      handleChange({ lat, lng });
+      handleChange({ lat, lng, address });
       panTo({ lat, lng });
     } catch (error) {
       console.log("😱 Error: ", error);
