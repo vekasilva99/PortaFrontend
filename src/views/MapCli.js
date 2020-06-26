@@ -44,6 +44,8 @@ export default function UserHome() {
 
   const handleToggle = (e) => setToggle(!on);
 
+  const pedir = (e) => {};
+
   return (
     <StyleMapRep>
       <NavbarIn name={name} toggle={handleToggle} />
@@ -74,7 +76,9 @@ export default function UserHome() {
               />
             </Grid>
           </MuiPickersUtilsProvider>
-          <button className="pedir">Realizar Pedido</button>
+          <button onClick={pedir} className="pedir">
+            Realizar Pedido
+          </button>
         </div>
         <div className="clear"></div>
       </div>
