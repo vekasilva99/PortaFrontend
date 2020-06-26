@@ -5,7 +5,9 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+// import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { useQuery } from "@apollo/react-hooks";
+import { useSubscription } from "@apollo/react-hooks";
 import { useSelector } from "react-redux";
 
 export default function Pedido(props) {
@@ -14,6 +16,10 @@ export default function Pedido(props) {
   const { data, error, loading } = useQuery(
     GET_ORDERS
   );
+
+  // const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+  //   NOTIFICATION_ADDED_SUSCRIPTION
+  // );
 
   console.log(data);
 
