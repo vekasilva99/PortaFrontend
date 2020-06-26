@@ -5,6 +5,7 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import { useQuery } from "@apollo/react-hooks";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
@@ -16,6 +17,7 @@ export default function Pedido(props) {
   );
 
   console.log(data);
+  //console.log(data.orders[0]);
 
   const { role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
