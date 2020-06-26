@@ -53,7 +53,7 @@ export default function UserHome() {
         <div className="google">
           <Map />
         </div>
-        <div className="busqueda">
+        {/* <div className="busqueda">
           <h1>Realiza un pedido</h1>
           <div className="rutas">
             <div className="div1"></div>
@@ -79,7 +79,7 @@ export default function UserHome() {
             </Grid>
           </MuiPickersUtilsProvider>
         </div>
-        <div className="clear"></div>
+        <div className="clear"></div> */}
       </div>
     </StyleMapRep>
   );
@@ -125,7 +125,7 @@ const StyleMapRep = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
-      z-index:2000;
+    
       h1 {
         font-size: 60px;
         font-weight: 600;

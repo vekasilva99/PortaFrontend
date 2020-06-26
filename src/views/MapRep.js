@@ -12,14 +12,11 @@ import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
-import Map from "../components/Map";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(false);
   const [online, setOnline] = React.useState(false);
   const { dataO, error, loading } = useQuery(GET_ORDERS);
-  const mapURL =
-    "https://maps.googleapis.com/maps/api/js?key=AIzaSyBk71nGw7v4e-Ferp0Wuqardh_IMpRnAcE";
 
   console.log(dataO);
 
@@ -54,11 +51,7 @@ export default function MapRep() {
     <StyleMapRep>
       <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
       <DriverMenu show={on} />
-
       <div className="fondoMap">
-        <div className="google">
-          <Map />
-        </div>
         <div className="busqueda">
           <h1>Pedidos para tí</h1>
           <h5>Se encuentra disponible?</h5>
@@ -79,20 +72,14 @@ export default function MapRep() {
 }
 
 const StyleMapRep = styled.div`
-  position: relative;
+  position: absolute;
 
-  background: pink;
-  height: 100%;
-  width: 100%;
+  background: white;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
 
-  .google {
-    position absolute
-    margin-top: 60px;
-    width: 100vw;
-    height: 100vh;
-  }
   .switch {
     position: relative;
     display: inline-block;
@@ -105,8 +92,6 @@ const StyleMapRep = styled.div`
     width: 0;
     height: 0;
   }
-
-
 
   .slider {
     position: absolute;
@@ -156,7 +141,7 @@ const StyleMapRep = styled.div`
   }
 
   .fondoMap {
-    
+    background-image: url("/mapa.png");
     height: 100%;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -174,7 +159,6 @@ const StyleMapRep = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
-      z-index:2000;
       h1 {
         font-size: 60px;
         font-weight: 600;
