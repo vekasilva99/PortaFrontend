@@ -21,6 +21,8 @@ export default function Pedido(props) {
     ...state.User,
   }));
 
+  const accept = (e) => {};
+
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: NOTIFICATION_ADDED_SUSCRIPTION,
@@ -62,7 +64,7 @@ export default function Pedido(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
             </div>
-            <button className="next">
+            <button className="next" onClick={accept}>
               <img src="/nextred.png" alt="Next" className="nextbut" />
             </button>
           </div>
