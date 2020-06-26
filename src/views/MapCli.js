@@ -44,6 +44,8 @@ export default function UserHome() {
 
   const handleToggle = (e) => setToggle(!on);
 
+  const pedir = (e) => {};
+
   return (
     <StyleMapRep>
       <NavbarIn name={name} toggle={handleToggle} />
@@ -74,6 +76,9 @@ export default function UserHome() {
               />
             </Grid>
           </MuiPickersUtilsProvider>
+          <button onClick={pedir} className="pedir">
+            Realizar Pedido
+          </button>
         </div>
         <div className="clear"></div>
       </div>
@@ -89,6 +94,34 @@ const StyleMapRep = styled.div`
   margin: 0;
   padding: 0;
 
+  .pedir {
+    display: flex;
+    color: #fafafa;
+    font-weight: 600;
+    font-weight: 300;
+    font-size: 0.7em;
+    text-decoration: none;
+    padding: 0.8vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
+    border: 1.5px solid #202124;
+    border-radius: 5vw;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    justify-content: flex-end;
+    background: #202124;
+    z-index: 4;
+    justify-self: center;
+
+    &:hover {
+      background: #333333;
+      color: #fafafa;
+      border-color: #333333;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
   .fondoMap {
     background-image: url("/mapa.png");
     height: 100%;
