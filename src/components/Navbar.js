@@ -124,6 +124,10 @@ const StyledNavbar = styled.nav`
       outline: none;
     }
   }
+
+  .link3 {
+    display: none;
+  }
   .link2 {
     display: flex;
     color: #fafafa;

@@ -36,7 +36,7 @@ export default function FormLogin(props) {
   }, [data, dispatch]);
   return (
     <>
-      {log ? <Redirect to="/user" /> : null}
+      {log ? <Redirect to="/admin" /> : null}
       <Formik
         initialValues={{
           Email: "",
@@ -93,6 +93,8 @@ export default function FormLogin(props) {
         }) =>
           loading ? (
             <Spinner></Spinner>
+          ) : name && data ? (
+            <Redirect to="/user" />
           ) : (
             <form onSubmit={handleSubmit}>
               <Input
