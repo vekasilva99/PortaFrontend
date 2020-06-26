@@ -9,14 +9,6 @@ import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLogin(props) {
-<<<<<<< HEAD
-=======
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(true);
-  const [isRepartidor, setIsRepartidor] = useState(false);
-  const [log, setLog] = React.useState(false);
-
->>>>>>> 61ed78cf74d6a71e0bb9756e953045dd3d182f17
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
   const { name, role } = useSelector((state) => ({
     ...state.User,
@@ -82,36 +74,36 @@ export default function FormLogin(props) {
           });
           setSubmitting(true);
 
-        setSubmitting(false);
-        resetForm();
-      }}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        /* and other goodies */
-      }) =>
-        loading ? (
-          <Spinner color={props.color}></Spinner>
-        ) : log && role == "COSTUMER" && name ? (
-          <Redirect to="/user" />
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <Input
-              value={values.Email}
-              label="Enter your email"
-              id="Email"
-              name="Email"
-              type="text"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              color={props.color}
-            />
+          setSubmitting(false);
+          resetForm();
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          /* and other goodies */
+        }) =>
+          loading ? (
+            <Spinner color={props.color}></Spinner>
+          ) : log && role == "COSTUMER" && name ? (
+            <Redirect to="/user" />
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <Input
+                value={values.Email}
+                label="Enter your email"
+                id="Email"
+                name="Email"
+                type="text"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                color={props.color}
+              />
 
               <Input
                 value={values.Password}
