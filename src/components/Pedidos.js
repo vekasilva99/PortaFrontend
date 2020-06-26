@@ -5,10 +5,14 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+// import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { useQuery } from "@apollo/react-hooks";
-import { useSelector } from "react-redux";
+import { useSubscription } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
+import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
+import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -17,9 +21,36 @@ export default function Pedido(props) {
     fetchPolicy: "network-only",
   });
 
-  const { role, name, lastName, available } = useSelector((state) => ({
+  const [
+    acceptOrder,
+    { data: dataO, error: errorO, loading: loadingO },
+  ] = useMutation(ACCEPT_ORDER);
+
+  const { _id, role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const dispatch = useDispatch();
+
+  const accept = async (e, id) => {
+    const orden = id;
+    console.log(orden);
+    console.log("id rep " + _id);
+
+    const { dataO } = await acceptOrder({
+      variables: {
+        orderId: orden,
+        repartidor: _id,
+      },
+    });
+    
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        available: false,
+      },
+    });
+  };
 
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
@@ -62,7 +93,11 @@ export default function Pedido(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
             </div>
-            <button className="next">
+            <button
+              className="next"
+              value={order._id}
+              onClick={() => accept(Event, order._id)}
+            >
               <img src="/nextred.png" alt="Next" className="nextbut" />
             </button>
           </div>
@@ -93,22 +128,28 @@ const StyledPedido = styled.nav`
     margin: 0;
     border-bottom: 1px solid #ef0023;
     display: flex;
+    flex-direction:row;
     justify-self: center;
     align-self: center;
     animation: ${Animation} 1s ease-in-out;
+    background:transparent;
   }
 
   .textb {
-    float: left;
+
+    width:100%
+    background:blue;
   }
   .next {
-    float: right;
+    position:fixed;
+    display:flex;
+    margin-left:265px;
+    align-items:center;
     border: solid transparent;
-    width: 100%;
+    width: fit;
     background: transparent;
   }
   .nextbut {
-    float: right;
     border: solid transparent;
   }
 

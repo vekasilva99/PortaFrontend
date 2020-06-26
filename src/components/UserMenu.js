@@ -16,7 +16,7 @@ export default function UserMenu(props) {
       <div className={style}>
         <ul className="nav-links">
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/user/mapcli" className="link">
               REQUEST A DELIVERY
             </NavLink>
           </li>
@@ -52,7 +52,7 @@ const StyledSidebar = styled.nav`
     transition: transform 0.4s ease-in;
     margin-right: 0.2em;
     margin-top: 7.1em;
-    z-index: 1;
+    z-index: 3000;
   }
 
   .close {
@@ -66,7 +66,7 @@ const StyledSidebar = styled.nav`
     transition: transform 0.4s ease-in;
     margin-right: 0.2em;
     margin-top: 7.1em;
-    z-index: 1;
+    z-index: 3000;
   }
   .nav-links {
     position: fixed;

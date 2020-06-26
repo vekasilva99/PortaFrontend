@@ -16,9 +16,7 @@ import { GET_ORDERS } from "../helpers/graphql/queries/index";
 export default function MapRep() {
   const [on, setToggle] = React.useState(false);
   const [online, setOnline] = React.useState(false);
-  const { dataO, error, loading } = useQuery(GET_ORDERS);
 
-  console.log(dataO);
 
   const [
     changeAv,
