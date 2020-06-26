@@ -24,13 +24,13 @@ export default function Pedido(props) {
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: NOTIFICATION_ADDED_SUSCRIPTION,
-
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const newOrder = subscriptionData.data.notificationAdded;
+
         if (!prev.orders.find((msg) => msg._id === newOrder._id)) {
           const res = Object.assign({}, prev, {
-            notifications: [newOrder, ...prev.orders],
+            orders: [newOrder, ...prev.orders],
           });
           return res;
         } else return prev;
