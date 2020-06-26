@@ -7,6 +7,7 @@ import NavbarIn from "../components/NavIn";
 import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
+import UserMenu from "../components/UserMenu";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import "date-fns";
@@ -27,7 +28,7 @@ export default function UserHome() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
   const [online, setOnline] = React.useState(false);
 
   const [
@@ -35,30 +36,18 @@ export default function UserHome() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, available } = useSelector((state) => ({
+  const { role, name, lastName } = useSelector((state) => ({
     ...state.User,
   }));
 
   const dispatch = useDispatch();
 
-  const handleToggle = (e) => setToggle(false);
-
-  const handleChangeChk = async (e) => {
-    setToggle(!online);
-    const { dataA } = await changeAv();
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        available: !available,
-      },
-    });
-  };
-
-  console.log(available);
+  const handleToggle = (e) => setToggle(!on);
 
   return (
     <StyleMapRep>
-      <NavbarIn></NavbarIn>
+      <NavbarIn name={name} toggle={handleToggle} />
+      <UserMenu show={on} />
       <div className="fondoMap">
         <div className="busqueda">
           <h1>Realiza un pedido</h1>
