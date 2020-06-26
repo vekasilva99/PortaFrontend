@@ -24,7 +24,6 @@ export default function FormLogin(props) {
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
-          role: "COSTUMER",
         },
       });
       setLog(true);
@@ -32,7 +31,7 @@ export default function FormLogin(props) {
       console.log("login role" + role);
     }
   }, [called, data, dispatch, log, role]);
-  return log ? (
+  return log && name ? (
     <Redirect to="/user" />
   ) : (
     <>
