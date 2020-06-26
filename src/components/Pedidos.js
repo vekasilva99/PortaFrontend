@@ -21,7 +21,10 @@ export default function Pedido(props) {
     ...state.User,
   }));
 
-  const accept = (e) => {};
+  const accept = (e, id) => {
+    const orden = id;
+    console.log(orden);
+  };
 
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
@@ -64,7 +67,11 @@ export default function Pedido(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
             </div>
-            <button className="next" onClick={accept}>
+            <button
+              className="next"
+              value={order._id}
+              onClick={() => accept(Event, order._id)}
+            >
               <img src="/nextred.png" alt="Next" className="nextbut" />
             </button>
           </div>
