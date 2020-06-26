@@ -4,35 +4,56 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import { useQuery } from "@apollo/react-hooks";
+import { useSelector } from "react-redux";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
+
+  const { data, error, loading } = useQuery(
+    GET_ORDERS
+  );
+
+  console.log(data);
+
+  const { role, name, lastName, available } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  console.log(data);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
+  if (loading) return "Loading...";
+  if (error) return `Error ${error.message}`;
+
   return (
     <StyledPedido>
-      <div className="order">
-        <div className="textb">
-          <h2>Pedido</h2>
-          <h4>Origen</h4>
-          <h3>Dirección</h3>
-          <h4>Destino</h4>
-          <h3>Dirección</h3>
+      {data.orders.map((order) => (
+        <div className="order">
+          <div className="textb">
+            <h2>Pedido</h2>
+            <h4>Origen</h4>
+            <h3>{order.deliver}</h3>
+            <h4>Destino</h4>
+            <h3>{order.pickUp}</h3>
+          </div>
+          <button className="next">
+            <img src="/nextred.png" alt="Next" className="nextbut" />
+          </button>
         </div>
-        <button className="next">
-          <img src="/nextred.png" alt="Next" className="nextbut" />
-        </button>
-      </div>
+      ))}
     </StyledPedido>
   );
 }
 const StyledPedido = styled.nav`
   margin: 0;
   padding: 0;
-  display: flexbox;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
 
@@ -41,6 +62,9 @@ const StyledPedido = styled.nav`
     margin: 0;
     border-top: 1px solid #ef0023;
     border-bottom: 1px solid #ef0023;
+    display: flex;
+    justify-self: center;
+    align-self: center;
   }
 
   .textb {
@@ -49,7 +73,12 @@ const StyledPedido = styled.nav`
   .next {
     float: right;
     border: solid transparent;
-    background-color: transparent;
+    width: 100%;
+    background: transparent;
+  }
+  .nextbut {
+    float: right;
+    border: solid transparent;
   }
 
   @media only screen and (min-width: 735px) {

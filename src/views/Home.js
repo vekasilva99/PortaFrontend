@@ -265,22 +265,22 @@ const HomeStyle = styled.div`
 
   @media only screen and (max-width: 734px) {
     .infoPorta {
-      height: 500px;
+      height: 700px;
       background-image: url("/Porta3.png");
     }
     .infoPorta > h1 {
-      font-size: 30px;
+      font-size: 50px;
       letter-spacing: 2px;
       padding-top: 2.5rem;
     }
     .infoPorta > h2 {
-      font-size: 18px;
+      font-size: 20px;
       word-spacing: 3px;
       padding-top: 0.3rem;
     }
     .infoPorta > button {
-      font-size: 15px;
-      padding-top: 1rem;
+      font-size: 18px;
+      padding-top: 0.4rem;
     }
     .cliente {
       height: 500px;

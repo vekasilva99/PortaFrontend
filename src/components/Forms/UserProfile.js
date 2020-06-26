@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
-import { FaUserAlt } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
 import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
@@ -15,16 +15,41 @@ import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_USER } from "../../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { Redirect } from "react-router-dom";
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
+  const [log, setLog] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(null);
 
-  const { _id, role, name, lastName, birthdate, mail, zone, cellphone} = useSelector((state) => ({
+  const logOut = (e) => {
+    console.log("log Out");
+    setLog(true);
+    console.log(log);
+  };
+
+  React.useEffect(() => {
+    if (log) {
+      localStorage.clear();
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  }, [log]);
+
+  const {
+    _id,
+    role,
+    name,
+    lastName,
+    birthdate,
+    mail,
+    zone,
+    cellphone,
+  } = useSelector((state) => ({
     ...state.User,
   }));
 
@@ -52,214 +77,224 @@ export default function UserProfileForm(props) {
   };
 
   return (
-    <FormStyle>
-      <div className="edit">
-        {/* <FaUserAlt className="photo" color="#00507a" /> */}
-        <img className="photo" src={user} />
-        <button onClick={photo} className="settings">
-          <MdModeEdit className="pen" color="#00507a" size="1em" />
-        </button>
-      </div>
-      <div className="Form">
-        <Formik
-          initialValues={{
-            Email: mail,
-            Password: "211ce496Vale",
-            Phone: cellphone,
-            FName: name,
-            LName: lastName,
-            BDate: new Date(moment()),
-            Region: zone,
-          }}
-          validate={(values) => {
-            const errors = {};
-            console.log(values);
-            if (!values.Email) {
-              errors.Email = "Required Field";
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-            ) {
-              errors.Email = "Invalid Email";
-              console.log("sa");
-            }
-            if (!values.Password) {
-              errors.Password = "Required Field";
-            } else if (values.Password.length < 9) {
-              errors.Password = "Password too short";
-              console.log("entra 2");
-            }
-            if (
-              values.Phone.slice(0, 4) == "0424" ||
-              values.Phone.slice(0, 4) == "0414" ||
-              values.Phone.slice(0, 4) == "0412" ||
-              values.Phone.slice(0, 4) == "0416"
-            ) {
-              console.log("entra 2");
-            } else {
-              errors.Phone = "Invalid Phone Code";
-            }
-            if (
-              !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(
-                values.Phone
-              ) ||
-              values.Phone == ""
-            ) {
-              errors.Phone = "Invalid Phone Number";
-            }
-            console.log(errors);
-            return errors;
-          }}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            setSubmitting(true);
+    <>
+      {log ? <Redirect to="/" /> : null}
+      <FormStyle>
+        <div className="edit">
+          {/* <FaUserAlt className="photo" color="#00507a" /> */}
+          <img className="photo" src={user} />
+          <button onClick={photo} className="settings">
+            <MdModeEdit className="pen" color="#00507a" size="1em" />
+          </button>
+        </div>
+        <div className="Form">
+          <Formik
+            initialValues={{
+              Email: mail,
+              Password: "211ce496Vale",
+              Phone: cellphone,
+              FName: name,
+              LName: lastName,
+              BDate: new Date(moment()),
+              Region: zone,
+            }}
+            validate={(values) => {
+              const errors = {};
+              console.log(values);
+              if (!values.Email) {
+                errors.Email = "Required Field";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+              ) {
+                errors.Email = "Invalid Email";
+                console.log("sa");
+              }
+              if (!values.Password) {
+                errors.Password = "Required Field";
+              } else if (values.Password.length < 9) {
+                errors.Password = "Password too short";
+                console.log("entra 2");
+              }
+              if (
+                values.Phone.slice(0, 4) == "0424" ||
+                values.Phone.slice(0, 4) == "0414" ||
+                values.Phone.slice(0, 4) == "0412" ||
+                values.Phone.slice(0, 4) == "0416"
+              ) {
+                console.log("entra 2");
+              } else {
+                errors.Phone = "Invalid Phone Code";
+              }
+              if (
+                !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(
+                  values.Phone
+                ) ||
+                values.Phone == ""
+              ) {
+                errors.Phone = "Invalid Phone Number";
+              }
+              console.log(errors);
+              return errors;
+            }}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              setSubmitting(true);
 
-            const { dataU } = await update({
-              variables: {
-                updateInput: {
-                  id: _id,
+              const { dataU } = await update({
+                variables: {
+                  updateInput: {
+                    id: _id,
+                    name: values.FName,
+                    lastName: values.LName,
+                    mail: values.Email,
+                    birthdate: new Date(),
+                    zone: values.Region,
+                  },
+                },
+              });
+
+              dispatch({
+                type: "UPDATE_USER",
+                payload: {
                   name: values.FName,
                   lastName: values.LName,
                   mail: values.Email,
                   birthdate: new Date(),
                   zone: values.Region,
                 },
-              },
-            });
+              });
 
-            dispatch({
-              type: "UPDATE_USER",
-              payload: {
-                name: values.FName,
-                lastName: values.LName,
-                mail: values.Email,
-                birthdate: new Date(),
-                zone: values.Region,
-              },
-            });
-
-            setSubmitting(false);
-            resetForm();
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <div className="navb">
-                <button className="saveB2" type="submit">
-                  {" "}
-                  <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
-                </button>
-              </div>
-              <div className="Profile-name">
-                <h1>{name}</h1>
-                <input
-                  className="phone"
-                  value={values.Phone}
-                  label="Enter your Phone"
-                  id="Phone"
-                  name="Phone"
-                  type="text"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div className="Profile-content">
-                <div className="label">
-                  <h2>First Name</h2>
-                  <div className="group">
-                    <input
-                      className="mail"
-                      value={values.FName}
-                      label="Enter your First Name"
-                      id="FName"
-                      name="FName"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
-                  </div>
-                </div>
-                <div className="label">
-                  <h2>Last Name</h2>
-                  <div className="group">
-                    <input
-                      className="mail"
-                      value={values.LName}
-                      label="Enter your Last Name"
-                      id="LName"
-                      name="LName"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
-                  </div>
-                </div>
-                <div className="label">
-                  <h2>Email</h2>
-                  <div className="group">
-                    <input
-                      className="mail"
-                      value={values.Email}
-                      label="Enter your Email"
-                      id="Email"
-                      type="text"
-                      name="Email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
-                  </div>
-                </div>
-                <div className="label">
-                  <h2>Birthdate</h2>
-                  <div className="group">
-                    <DatePicker
-                      className="mail"
-                      selected={values.BDate}
-                      maxDate={new Date(moment())}
-                      onChange={handleChange}
-                      placeholderText="Choose a Date"
-                    />
-                    <MdKeyboardArrowRight className="icon" color="#00507a" />
-                  </div>
-                </div>
-                <div className="label">
-                  <h2>Region</h2>
-                  <div className="group">
-                    <select
-                      className="select"
-                      name="Region"
-                      value={values.Region}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <option value="" label="Choose a Region" />
-                      <option value="Hatillo" label="El Hatillo" />
-                      <option value="Baruta" label="Baruta" />
-                    </select>
-                    <MdKeyboardArrowRight color="#00507a" className="icon" />
-                  </div>
-                </div>
-                <div className="label">
-                  <button className="saveB" type="submit" block>
+              setSubmitting(false);
+              resetForm();
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <div className="navb">
+                  <button className="saveB2" type="submit">
                     {" "}
-                    SAVE CHANGES{" "}
+                    <IoIosArrowDropleftCircle
+                      color="#00507a"
+                      size="4rem"
+                    />{" "}
+                  </button>
+                  <button className="log" onClick={logOut}>
+                    {" "}
+                    <FiLogIn color="#00507a" size="3.2rem" />{" "}
                   </button>
                 </div>
-              </div>
-            </form>
-          )}
-        </Formik>
-      </div>
-    </FormStyle>
+                <div className="Profile-name">
+                  <h1>{name}</h1>
+                  <input
+                    className="phone"
+                    value={values.Phone}
+                    label="Enter your Phone"
+                    id="Phone"
+                    name="Phone"
+                    type="text"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="Profile-content">
+                  <div className="label">
+                    <h2>First Name</h2>
+                    <div className="group">
+                      <input
+                        className="mail"
+                        value={values.FName}
+                        label="Enter your First Name"
+                        id="FName"
+                        name="FName"
+                        type="text"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    </div>
+                  </div>
+                  <div className="label">
+                    <h2>Last Name</h2>
+                    <div className="group">
+                      <input
+                        className="mail"
+                        value={values.LName}
+                        label="Enter your Last Name"
+                        id="LName"
+                        name="LName"
+                        type="text"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    </div>
+                  </div>
+                  <div className="label">
+                    <h2>Email</h2>
+                    <div className="group">
+                      <input
+                        className="mail"
+                        value={values.Email}
+                        label="Enter your Email"
+                        id="Email"
+                        type="text"
+                        name="Email"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    </div>
+                  </div>
+                  <div className="label">
+                    <h2>Birthdate</h2>
+                    <div className="group">
+                      <DatePicker
+                        className="mail"
+                        selected={values.BDate}
+                        maxDate={new Date(moment())}
+                        onChange={handleChange}
+                        placeholderText="Choose a Date"
+                      />
+                      <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    </div>
+                  </div>
+                  <div className="label">
+                    <h2>Region</h2>
+                    <div className="group">
+                      <select
+                        className="select"
+                        name="Region"
+                        value={values.Region}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      >
+                        <option value="" label="Choose a Region" />
+                        <option value="Hatillo" label="El Hatillo" />
+                        <option value="Baruta" label="Baruta" />
+                      </select>
+                      <MdKeyboardArrowRight color="#00507a" className="icon" />
+                    </div>
+                  </div>
+                  <div className="label">
+                    <button className="saveB" type="submit" block>
+                      {" "}
+                      SAVE CHANGES{" "}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </FormStyle>
+    </>
   );
 }
 const FormStyle = styled.section`
@@ -511,20 +546,33 @@ const FormStyle = styled.section`
     width: 100vw;
     height: 100vh;
     .photo {
-      width: 20vw;
-      height: 20vw;
+      width: 25vw;
+      height: 25vw;
       margin-left: 0;
     }
     .settings {
-      margin-top: 7vw;
-      margin-left: 40vw;
-      padding: 0.1em;
+      margin-top: 7.2vw;
+      margin-left: 37vw;
+      padding: 0.2;
       border: solid 0.1em #00507a;
-      width: 8vw;
-      height: 8vw;
+      width: 12vw;
+      height: 12vw;
       background: white;
       align-self: center;
       justify-self: center;
+    }
+    .pen {
+      border-radius: 500px;
+      left: 0;
+      display: flex;
+      position: relative;
+      width: 7.5vw;
+      height: 7.5vw;
+      background: none;
+      align-self:center;
+  
+  
+      
     }
 
     .edit {
@@ -626,7 +674,7 @@ const FormStyle = styled.section`
       &:focus {
         opacity: 0.8;
         outline: none;
-        broder: none;
+        border: none;
       }
     }
 
@@ -652,7 +700,7 @@ const FormStyle = styled.section`
       &:focus {
         opacity: 0.8;
         outline: none;
-        border-bottom: solid 2px #00507a;
+        border: none;
       }
     }
 
@@ -681,16 +729,42 @@ const FormStyle = styled.section`
       font-weight: 600;
       cursor: pointer;
       background: none;
-      border-radius: 500px;
+      border-radius: none;
       transition: all ease-in-out 0.3s;
       justify-self: center;
       align-self: center;
       margin-top: 0;
+      margin-left:0;
 
       &:focus {
         opacity: 0.8;
         outline: none;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        box-shadow: none;
+        border:none;
+      }
+    }
+    .log {
+      border: none;
+      color: white;
+      padding-right: 1em;
+      font-size: 1em;
+      width: 50vw;
+      display: flex;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border-radius: none;
+      transition: all ease-in-out 0.3s;
+      justify-content: flex-end;
+      align-self: center;
+      margin-top: 0;
+      margin-right:0;
+
+      &:focus {
+        opacity: 0.8;
+        outline: none;
+        box-shadow: none;
+        border:none;
       }
     }
   }

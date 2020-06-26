@@ -9,17 +9,16 @@ import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
-import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { GET_ORDERS } from "../helpers/graphql/queries/index";
 
 export default function MapRep() {
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
   const [online, setOnline] = React.useState(false);
+  const { dataO, error, loading } = useQuery(GET_ORDERS);
 
-  const { data, error, loading } = useQuery(
-    GET_ORDERS
-  );
+  console.log(dataO);
 
   const [
     changeAv,
@@ -33,9 +32,10 @@ export default function MapRep() {
   const dispatch = useDispatch();
 
   const handleToggle = (e) => setToggle(!on);
+  const handleOnline = (e) => setToggle(!available);
 
   const handleChangeChk = async (e) => {
-    setToggle(!online);
+    setOnline(!available);
     const { dataA } = await changeAv();
     dispatch({
       type: "UPDATE_USER",
@@ -58,13 +58,12 @@ export default function MapRep() {
           <label class="switch">
             <input
               type="checkbox"
-              defaultChecked={online}
+              defaultChecked={available}
               onChange={handleChangeChk}
             ></input>
             <span class="slider round"></span>
           </label>
-          <Pedido></Pedido>
-          <Pedido></Pedido>
+          {available ? <Pedido /> : null}
         </div>
         <div className="clear"></div>
       </div>
@@ -74,6 +73,7 @@ export default function MapRep() {
 
 const StyleMapRep = styled.div`
   position: absolute;
+
   background: white;
   height: 100vh;
   width: 100vw;
