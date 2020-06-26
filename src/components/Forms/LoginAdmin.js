@@ -6,22 +6,20 @@ import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
 import Spinner from "../Spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLoginAdmin(props) {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isUser, setIsUser] = useState(true);
-  const [isRepartidor, setIsRepartidor] = useState(false);
-  const [log, setLog] = React.useState(false);
   const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
-
+  const { name, role } = useSelector((state) => ({
+    ...state.User,
+  }));
   const dispatch = useDispatch();
+  const [log, setLog] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      setLog(true);
+    if (data && !log) {
       localStorage.setItem("token", data.userLogin.token);
-      
+
       dispatch({
         type: "LOGIN",
         payload: {
@@ -29,12 +27,12 @@ export default function FormLoginAdmin(props) {
           role: "ADMIN",
         },
       });
+      setLog(true);
     }
-  }, [data, dispatch, loading]);
+  }, [data, dispatch, loading, log]);
 
   return (
     <>
-      {log ? <Redirect to="/admin" /> : null}
       <Formik
         initialValues={{
           Email: "",
@@ -93,7 +91,9 @@ export default function FormLoginAdmin(props) {
           /* and other goodies */
         }) =>
           loading ? (
-            <Spinner></Spinner>
+            <Spinner color={props.color} />
+          ) : log && role == "ADMIN" && name ? (
+            <Redirect to="/admin" />
           ) : (
             <form onSubmit={handleSubmit}>
               <Input

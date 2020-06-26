@@ -13,13 +13,12 @@ export default function FormLoginDriver(props) {
   const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
-  const [log, setLog] = React.useState(false);
+  const [log, setLog] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data) {
-      setLog(true);
+    if (data && !log) {
       localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
@@ -28,13 +27,12 @@ export default function FormLoginDriver(props) {
           role: "DRIVER",
         },
       });
-      console.log("login role driver" + role);
+      setLog(true);
     }
-  }, [data, dispatch, loading]);
+  }, [data, dispatch, log]);
 
   return (
     <>
-      {log ? <Redirect to="/maprep" /> : null}
       <Formik
         initialValues={{
           Email: "",
@@ -93,8 +91,8 @@ export default function FormLoginDriver(props) {
           /* and other goodies */
         }) =>
           loading ? (
-            <Spinner></Spinner>
-          ) : data ? (
+            <Spinner color={props.color} />
+          ) : log && role == "DRIVER" && name ? (
             <Redirect to="/maprep" />
           ) : (
             <form onSubmit={handleSubmit}>
