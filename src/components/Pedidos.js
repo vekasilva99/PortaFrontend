@@ -1,79 +1,120 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { useQuery } from "@apollo/react-hooks";
+import { useSelector } from "react-redux";
+import Spinner from "./Spinner";
+import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
 
+  const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
+    fetchPolicy: "network-only",
+  });
+
   const { role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
-  const { data, error, loading } = useQuery(GET_ORDERS);
 
-  console.log(data);
+  React.useEffect(() => {
+    const unsubscription = subscribeToMore({
+      document: NOTIFICATION_ADDED_SUSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newOrder = subscriptionData.data.notificationAdded;
+
+        if (!prev.orders.find((msg) => msg._id === newOrder._id)) {
+          const res = Object.assign({}, prev, {
+            orders: [newOrder, ...prev.orders],
+          });
+          return res;
+        } else return prev;
+      },
+    });
+    return () => {
+      unsubscription();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
-  if (loading) return "Loading...";
   if (error) return `Error ${error.message}`;
 
   return (
-    <StyledPedido>
-      {data.orders.map((order) => (
-        <div className="order">
-          <div className="textb">
-            <h2>Pedido</h2>
-            <h4>Origen</h4>
-            <h3>{order.deliver}</h3>
-            <h4>Destino</h4>
-            <h3>{order.pickUp}</h3>
+    <StyledPedido loading={loading}>
+      {loading ? (
+        <Spinner />
+      ) : (
+        data.orders.map((order) => (
+          <div key={order._id} className="order">
+            <div className="textb">
+              <h2>Pedido</h2>
+              <h4>Origen</h4>
+              <h3>{order.deliver}</h3>
+              <h4>Destino</h4>
+              <h3>{order.pickUp}</h3>
+            </div>
+            <button className="next">
+              <img src="/nextred.png" alt="Next" className="nextbut" />
+            </button>
           </div>
-          <button className="next">
-            <img src="/nextred.png" alt="Next" className="nextbut" />
-          </button>
-        </div>
-      ))}
+        ))
+      )}
     </StyledPedido>
   );
 }
+const Animation = keyframes`
+from {
+  opacity:0;
+  transform: translateX(-100%);
+}
+
+`;
 const StyledPedido = styled.nav`
   margin: 0;
-  padding: 0;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-content: center;
-
+  align-items: center;
+  justify-content: ${(props) => (props.loading ? "center" : "start")};
+  height: 50vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   .order {
     padding: 0;
     margin: 0;
-    border-top: 1px solid #ef0023;
     border-bottom: 1px solid #ef0023;
     display: flex;
+    flex-direction:row;
     justify-self: center;
     align-self: center;
+    animation: ${Animation} 1s ease-in-out;
+    background:transparent;
   }
 
   .textb {
-    float: left;
+
+    width:100%
+    background:blue;
   }
   .next {
-    float: right;
+    position:fixed;
+    display:flex;
+    margin-left:265px;
+    align-items:center;
     border: solid transparent;
-    width: 100%;
+    width: fit;
     background: transparent;
   }
   .nextbut {
-    float: right;
     border: solid transparent;
   }
 

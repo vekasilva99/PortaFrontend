@@ -19,21 +19,21 @@ export default function Navbar(props) {
   }
   return (
     <StyledNavbar>
-      <div className="toggle">
-        <div className="title">
-          <h2>Porta</h2>
+      <div className="navbar-inner">
+        <div className="toggle">
+          <div className="title">
+            <h2>Porta</h2>
+          </div>
         </div>
-      </div>
-      {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-      <ul className="nav-links">
-        <button onClick={props.togglerLogin} className="link">
-          LOG IN
-        </button>
+        <ul className="nav-links">
+          <button className="link" onClick={props.togglerLogin}>
+            LOG IN
+          </button>
 
-        <button onClick={props.togglerRegister} className="link2">
-          SIGN UP
-        </button>
-        <li>
+          <button to="/" className="link2" onClick={props.togglerRegister}>
+            SIGN UP
+          </button>
+
           <button className="link3">
             <FiLogIn
               onClick={props.togglerLogin}
@@ -41,8 +41,7 @@ export default function Navbar(props) {
               className="userbut"
             />
           </button>
-        </li>
-        <li>
+
           <button className="link3">
             <FiUser
               onClick={props.togglerRegister}
@@ -50,8 +49,8 @@ export default function Navbar(props) {
               className="userbut"
             />
           </button>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </StyledNavbar>
   );
 }
@@ -69,21 +68,26 @@ const StyledNavbar = styled.nav`
   background: #202124;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
+  .navbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+  }
   .toggle {
     display: flex;
-    position: fixed;
     flex-flow: row nowrap;
     align-items: center;
-    justify-content: flex-start;
     color: #fafafa;
-    top: 0;
-    left: 0;
-    margin-left: 2vw;
   }
   .title > h2 {
     font-weight: 400;
-    margin-left: 2vw;
+    padding: 0;
+    margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
@@ -93,11 +97,8 @@ const StyledNavbar = styled.nav`
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;
-    width: 20vw;
     list-style: none;
-    margin-right: 1rem;
   }
-
   .link {
     display: flex;
     color: #fafafa;
@@ -115,6 +116,7 @@ const StyledNavbar = styled.nav`
     justify-content: flex-end;
     background: #202124;
 
+    z-index: 3500;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -123,10 +125,6 @@ const StyledNavbar = styled.nav`
     &:focus {
       outline: none;
     }
-  }
-
-  .link3 {
-    display: none;
   }
   .link2 {
     display: flex;
@@ -144,6 +142,7 @@ const StyledNavbar = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 3500;
 
     &:hover {
       background: #333333;
@@ -154,6 +153,11 @@ const StyledNavbar = styled.nav`
       outline: none;
     }
   }
+
+  .link3 {
+    display: none;
+  }
+
   @media only screen and (min-width: 735px) {
     .fondo {
       height: 70px;

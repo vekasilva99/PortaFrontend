@@ -45,18 +45,15 @@ export default function Routes() {
   }, [refetch, token]);
 
   useEffect(() => {
-    if (data && data.currentUser) {
-      const response = localStorage.getItem("token");
-      console.log(data.currentUser);
+    if (data && data.currentUser && !name) {
       dispatch({
         type: "CURRENT_USER",
         payload: {
-          token: response,
           ...data.currentUser,
         },
       });
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, name]);
 
   return name && !loading ? (
     <Switch>
@@ -216,7 +213,7 @@ export default function Routes() {
   ) : (
     <PageLoading>
       {" "}
-      <Spinner color="blue"></Spinner>
+      <Spinner></Spinner>
     </PageLoading>
   );
 }

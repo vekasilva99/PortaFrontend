@@ -51,27 +51,23 @@ export default function Home() {
         togglerRegister={handlingRegister}
       />
 
-      {loginD ? (
-        <LoginDriver
-          show={loginD}
-          togglerLoginD={handlingLoginD}
-          togglerRegisterD={handlingRegisterD}
-        />
-      ) : null}
-      {register ? (
-        <Register2
-          show={register}
-          togglerLogin={handlingLogin}
-          togglerRegister={handlingRegister}
-        />
-      ) : null}
-      {registerD ? (
-        <RegisterDriver
-          show={registerD}
-          togglerLogin={handlingLoginD}
-          togglerRegister={handlingRegisterD}
-        />
-      ) : null}
+      <LoginDriver
+        show={loginD}
+        togglerLoginD={handlingLoginD}
+        togglerRegisterD={handlingRegisterD}
+      />
+
+      <Register2
+        show={register}
+        togglerLogin={handlingLogin}
+        togglerRegister={handlingRegister}
+      />
+
+      <RegisterDriver
+        show={registerD}
+        togglerLogin={handlingLoginD}
+        togglerRegister={handlingRegisterD}
+      />
 
       {/* <AdminSidebar show={sidebar} /> */}
       <div className="infoPorta">
@@ -99,22 +95,26 @@ export default function Home() {
 
 const HomeStyle = styled.div`
   position: absolute;
-  background: #fafafa;
-  height: 100vh;
-  width: 100vw;
+  background-color: #fafafa;
+  min-height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   top: 0;
   left: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
   .infoPorta {
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
     color: rgb(29, 29, 31);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    margin-top: 5vh;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 4rem;
   }
   .infoPorta > h1 {
     font-weight: 500;
@@ -130,8 +130,6 @@ const HomeStyle = styled.div`
     background-position: center;
     text-align: center;
     color: rgb(29, 29, 31);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
   .cliente > h1 {
     font-weight: 300;
@@ -143,10 +141,17 @@ const HomeStyle = styled.div`
   }
   .boton {
     color: rgb(2, 102, 204);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background-color: transparent;
     border: none;
+    padding: 0.4rem 0.8rem !important;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    text-align: center;
+    text-transform: uppercase;
+    &:hover {
+      opacity: 0.8;
+    }
   }
   @media only screen and (min-width: 1070px) {
     .infoPorta {

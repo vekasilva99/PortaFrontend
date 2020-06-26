@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
+import { useMutation } from "@apollo/react-hooks";
+import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   GoogleMap,
   useLoadScript,
@@ -65,10 +69,32 @@ export default function Map() {
     setSelectedDate(date);
   };
 
-  const handleSend = (e) => {
+  const [
+    makeOrderd,
+    { data: dataM, error: errorM, loading: loadingM },
+  ] = useMutation(MAKE_ORDER);
+
+  const { _id, role, name, lastName } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  const dispatch = useDispatch();
+
+  const handleSend = async (e) => {
     if (user != null && pack != null) {
       console.log("SE PUEDE MANDAR");
       console.log(user);
+      const { dataM } = await makeOrderd({
+        variables: {
+          orderInput: {
+            user: _id,
+            pickUp: user.address,
+            deliver: pack.address,
+            km: 1500,
+            price: 2000,
+          },
+        },
+      });
     } else {
       console.log("NO SE PUEDE MANDAR");
     }
