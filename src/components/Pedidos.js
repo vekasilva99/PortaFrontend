@@ -16,7 +16,7 @@ export default function Pedido(props) {
   const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
     fetchPolicy: "network-only",
   });
-
+  console.log(data);
   const { role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
