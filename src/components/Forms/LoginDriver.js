@@ -31,7 +31,9 @@ export default function FormLoginDriver(props) {
     }
   }, [data, dispatch, log]);
 
-  return (
+  return log ? (
+    <Redirect to="maprep" />
+  ) : (
     <>
       <Formik
         initialValues={{
@@ -92,8 +94,6 @@ export default function FormLoginDriver(props) {
         }) =>
           loading ? (
             <Spinner color={props.color} />
-          ) : log && role == "DRIVER" && name ? (
-            <Redirect to="/maprep" />
           ) : (
             <form onSubmit={handleSubmit}>
               <Input

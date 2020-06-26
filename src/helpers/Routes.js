@@ -41,8 +41,8 @@ export default function Routes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    refetch();
-  }, [refetch, token]);
+    if (token && !name) refetch();
+  }, [name, refetch, token]);
 
   useEffect(() => {
     if (data && data.currentUser && !name) {
