@@ -23,6 +23,11 @@ export default function Pedido(props) {
     ...state.User,
   }));
 
+  const accept = (e, id) => {
+    const orden = id;
+    console.log(orden);
+  };
+
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: NOTIFICATION_ADDED_SUSCRIPTION,
@@ -64,7 +69,11 @@ export default function Pedido(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
             </div>
-            <button className="next">
+            <button
+              className="next"
+              value={order._id}
+              onClick={() => accept(Event, order._id)}
+            >
               <img src="/nextred.png" alt="Next" className="nextbut" />
             </button>
           </div>
@@ -95,22 +104,28 @@ const StyledPedido = styled.nav`
     margin: 0;
     border-bottom: 1px solid #ef0023;
     display: flex;
+    flex-direction:row;
     justify-self: center;
     align-self: center;
     animation: ${Animation} 1s ease-in-out;
+    background:transparent;
   }
 
   .textb {
-    float: left;
+
+    width:100%
+    background:blue;
   }
   .next {
-    float: right;
+    position:fixed;
+    display:flex;
+    margin-left:265px;
+    align-items:center;
     border: solid transparent;
-    width: 100%;
+    width: fit;
     background: transparent;
   }
   .nextbut {
-    float: right;
     border: solid transparent;
   }
 

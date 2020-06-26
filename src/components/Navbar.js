@@ -25,25 +25,30 @@ export default function Navbar(props) {
             <h2>Porta</h2>
           </div>
         </div>
-        <ul className="navbar-link">
-          <li>
-            <button className="link3">
-              <FiLogIn
-                onClick={props.togglerLogin}
-                size="2em"
-                className="userbut"
-              />
-            </button>
-          </li>
-          <li>
-            <button className="link3">
-              <FiUser
-                onClick={props.togglerRegister}
-                size="2em"
-                className="userbut"
-              />
-            </button>
-          </li>
+        <ul className="nav-links">
+          <button className="link" onClick={props.togglerLogin}>
+            LOG IN
+          </button>
+
+          <button to="/" className="link2" onClick={props.togglerRegister}>
+            SIGN UP
+          </button>
+
+          <button className="link3">
+            <FiLogIn
+              onClick={props.togglerLogin}
+              size="2em"
+              className="userbut"
+            />
+          </button>
+
+          <button className="link3">
+            <FiUser
+              onClick={props.togglerRegister}
+              size="2em"
+              className="userbut"
+            />
+          </button>
         </ul>
       </div>
     </StyledNavbar>
@@ -94,22 +99,50 @@ const StyledNavbar = styled.nav`
     align-items: center;
     list-style: none;
   }
-
   .link {
     display: flex;
     color: #fafafa;
-    margin-left: 0.3rem;
     font-weight: 600;
     font-weight: 300;
     font-size: 0.7em;
     text-decoration: none;
-    padding: 0.4rem 0.8rem;
+    padding: 0.8vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
     border: 1.5px solid #202124;
-    border-radius: 500px;
+    border-radius: 5vw;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+
+    z-index: 3500;
+    &:hover {
+      background: #333333;
+      color: #fafafa;
+      border-color: #333333;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .link2 {
+    display: flex;
+    color: #fafafa;
+    font-weight: 600;
+    font-weight: 300;
+    font-size: 0.7em;
+    text-decoration: none;
+    padding: 0.8vw;
+    padding-left: 1.8vw;
+    padding-right: 1.8vw;
+    border: 1.5px solid #202124;
+    border-radius: 5vw;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    justify-content: flex-end;
+    background: #202124;
+    z-index: 3500;
 
     &:hover {
       background: #333333;
@@ -124,33 +157,7 @@ const StyledNavbar = styled.nav`
   .link3 {
     display: none;
   }
-  .link2 {
-    display: flex;
 
-    color: #fafafa;
-    font-weight: 600;
-    font-weight: 300;
-    font-size: 0.7em;
-    text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    border: 1.5px solid #202124;
-    border-radius: 500px;
-    border: 1.5px solid #202124;
-    border-radius: 500px;
-    cursor: pointer;
-    transition: all ease-in-out 0.3s;
-    justify-content: flex-end;
-    background: #202124;
-
-    &:hover {
-      background: #333333;
-      color: #fafafa;
-      border-color: #333333;
-    }
-    &:focus {
-      outline: none;
-    }
-  }
   @media only screen and (min-width: 735px) {
     .fondo {
       height: 70px;
