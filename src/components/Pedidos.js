@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
@@ -26,13 +26,13 @@ export default function Pedido(props) {
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: NOTIFICATION_ADDED_SUSCRIPTION,
-
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const newOrder = subscriptionData.data.notificationAdded;
+
         if (!prev.orders.find((msg) => msg._id === newOrder._id)) {
           const res = Object.assign({}, prev, {
-            notifications: [newOrder, ...prev.orders],
+            orders: [newOrder, ...prev.orders],
           });
           return res;
         } else return prev;
@@ -48,44 +48,56 @@ export default function Pedido(props) {
     setSidebar(!sidebar);
   };
 
-  if (loading) return <Spinner />;
   if (error) return `Error ${error.message}`;
 
   return (
-    <StyledPedido>
-      {data.orders.map((order) => (
-        <div key={order._id} className="order">
-          <div className="textb">
-            <h2>Pedido</h2>
-            <h4>Origen</h4>
-            <h3>{order.deliver}</h3>
-            <h4>Destino</h4>
-            <h3>{order.pickUp}</h3>
+    <StyledPedido loading={loading}>
+      {loading ? (
+        <Spinner />
+      ) : (
+        data.orders.map((order) => (
+          <div key={order._id} className="order">
+            <div className="textb">
+              <h2>Pedido</h2>
+              <h4>Origen</h4>
+              <h3>{order.deliver}</h3>
+              <h4>Destino</h4>
+              <h3>{order.pickUp}</h3>
+            </div>
+            <button className="next">
+              <img src="/nextred.png" alt="Next" className="nextbut" />
+            </button>
           </div>
-          <button className="next">
-            <img src="/nextred.png" alt="Next" className="nextbut" />
-          </button>
-        </div>
-      ))}
+        ))
+      )}
     </StyledPedido>
   );
 }
+const Animation = keyframes`
+from {
+  opacity:0;
+  transform: translateX(-100%);
+}
+
+`;
 const StyledPedido = styled.nav`
   margin: 0;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  align-content: center;
-  max-height: 30rem;
-  overflow: auto;
+  align-items: center;
+  justify-content: ${(props) => (props.loading ? "center" : "start")};
+  height: 50vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   .order {
     padding: 0;
     margin: 0;
-    border-top: 1px solid #ef0023;
     border-bottom: 1px solid #ef0023;
     display: flex;
     justify-self: center;
     align-self: center;
+    animation: ${Animation} 1s ease-in-out;
   }
 
   .textb {
