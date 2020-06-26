@@ -142,7 +142,11 @@ const StyleMapRep = styled.div`
 
   .fondoMap {
     background-image: url("/mapa.png");
-    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
