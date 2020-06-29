@@ -279,7 +279,7 @@ export const GET_ORDERS = gql`
       km
       price
       status
-      succeeded
+      concluded
       createdAt
       updatedAt
     }
