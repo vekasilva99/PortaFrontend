@@ -288,7 +288,7 @@ export const GET_ORDERS = gql`
 
 export const MESSAGES = gql`
   query($user: ID!) {
-    messages($user: ID!) {
+    messages(user: $user) {
       _id
       content
       createdAt
