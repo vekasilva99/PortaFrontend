@@ -4,7 +4,9 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
+//import { LOGIN_USER } from "../../helpers/graphql/mutations";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,6 +26,7 @@ export default function FormLogin(props) {
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
+          role: "COSTUMER"
         },
       });
       setLog(true);

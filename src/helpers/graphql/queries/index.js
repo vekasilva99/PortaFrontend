@@ -3,7 +3,24 @@ import gql from "graphql-tag";
 export const LOGIN_USER = gql`
   query($mail: String!, $password: String!, $role: String!) {
     userLogin(mail: $mail, password: $password, role: $role) {
-      userId
+      user{
+        _id
+        role
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+        createdAt
+        updatedAt
+      }
       token
       tokenExpiration
     }
@@ -125,41 +142,6 @@ export const CURRENT_USER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export const CURRENT_ADMIN = gql`
-  {
-    currentAdmin {
-      _id
-      mail
-    }
-  }
-`;
-
-export const CURRENT_DRIVER = gql`
-  {
-    currentRepartidor {
-      _id
-      cedula
-      name
-      lastName
-      birthdate
-      mail
-      zone
-      cellphone
-      available
-      workingStatus
-      vehiculo
-      licencia
-      carnetCirculacion
-      seguroVehiculo
-      rating {
-        score
-      }
       createdAt
       updatedAt
     }
@@ -300,6 +282,31 @@ export const GET_ORDERS = gql`
       succeeded
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const MESSAGES = gql`
+  query($user: ID!) {
+    messages($user: ID!) {
+      _id
+      content
+      createdAt
+      conversation{
+        _id
+      }
+      sender{
+        _id
+        name
+        lastName
+        mail
+      }
+      receiver{
+        _id
+        name
+        lastName
+        mail
+      }
     }
   }
 `;

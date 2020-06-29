@@ -163,50 +163,6 @@ export default function Routes() {
         path="/driverlogin"
         render={(props) => <LoginDriver {...props} />}
       />
-      {/* <Route exact path="/admin" render={(props) => <AdminHome {...props} />} />
-      <Route
-        exact
-        path="/admin/users"
-        render={(props) => <AdminUsers {...props} />}
-      />
-      <Route
-        exact
-        path="/admin/requests"
-        render={(props) => <AdminRequests {...props} />}
-      />
-      <Route
-        exact
-        path="/admin/requests/:id"
-        render={(props) => <AdminRequest {...props} />}
-      />
-
-      <Route
-        exact
-        path="/user/seedrivers"
-        render={(props) => <SeeDrivers {...props} />}
-      />
-
-      <Route
-        exact
-        path="/user/driverprofile/:id"
-        render={(props) => <DriverProfile {...props} />}
-      />
-      <Route
-        exact
-        path="/driver/driverprofile"
-        render={(props) => <DriverEditProfile {...props} />}
-      />
-      <Route
-        exact
-        path="/driver/request"
-        render={(props) => <DriverRequest {...props} />}
-      /> */}
-
-      {/* <Route
-        exact
-        path="/user/userprofile"
-        render={(props) => <UserProfile {...props} />}
-      /> */}
 
       <Redirect exact from="*" to="/" />
     </Switch>
