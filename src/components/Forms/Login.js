@@ -5,13 +5,19 @@ import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
-import { LOGIN_USER } from "../../helpers/graphql/queries";
-//import { LOGIN_USER } from "../../helpers/graphql/mutations";
+//import { LOGIN_USER } from "../../helpers/graphql/queries";
+import { LOGIN_USER } from "../../helpers/graphql/mutations";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLogin(props) {
-  const [login, { data, loading, error, called }] = useLazyQuery(LOGIN_USER);
+  // const [login, { data, loading, error, called }] = useLazyQuery(LOGIN_USER);
+
+  const [
+    login,
+    { data, loading, error },
+  ] = useMutation(LOGIN_USER);
+
   const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
@@ -19,21 +25,24 @@ export default function FormLogin(props) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (data && data.userLogin && called) {
-      localStorage.setItem("token", data.userLogin.token);
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          token: data.userLogin.token,
-          role: "COSTUMER"
-        },
-      });
-      setLog(true);
 
-      console.log("login role" + role);
-    }
-  }, [called, data, dispatch, log, role]);
+  let route;
+
+  // useEffect(() => {
+  //   if (data && data.userLogin && called) {
+  //     localStorage.setItem("token", data.userLogin.token);
+  //     dispatch({
+  //       type: "LOGIN",
+  //       payload: {
+  //         token: data.userLogin.token,
+  //         role: "COSTUMER"
+  //       },
+  //     });
+  //     setLog(true);
+
+  //     console.log("login role" + role);
+  //   }
+  // }, [called, data, dispatch, log, role]);
   return log && name ? (
     <Redirect to="/user" />
   ) : (
@@ -69,13 +78,35 @@ export default function FormLogin(props) {
           }
           console.log("llega aca");
 
-          login({
-            variables: {
+          //QUERY
+          // login({
+          //   variables: {
+          //     mail: Email,
+          //     password: Password,
+          //     role: "COSTUMER",
+          //   },
+          // });
+
+          const { data } = await login({
+            variables:{
               mail: Email,
               password: Password,
               role: "COSTUMER",
-            },
+            }
           });
+
+          if (data && data.userLogin) {
+            localStorage.setItem("token", data.userLogin.token);
+            dispatch({
+              type: "CURRENT_USER",
+              payload: {
+                token: data.userLogin.token,
+                ...data.userLogin.user,
+              },
+            });
+            
+            setLog(true);
+          }
 
           setSubmitting(false);
           resetForm();

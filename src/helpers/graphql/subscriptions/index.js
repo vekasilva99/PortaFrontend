@@ -15,7 +15,7 @@ export const NOTIFICATION_ADDED_SUSCRIPTION = gql`
       km
       price
       status
-      succeeded
+      concluded
       createdAt
       updatedAt
     }
@@ -37,7 +37,7 @@ export const NOTIFICATION_DELETED_SUSCRIPTION = gql`
       km
       price
       status
-      succeeded
+      concluded
       createdAt
       updatedAt
     }

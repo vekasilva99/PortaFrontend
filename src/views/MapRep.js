@@ -34,7 +34,13 @@ export default function MapRep() {
 
   const handleChangeChk = async (e) => {
     setOnline(!available);
-    const { dataA } = await changeAv();
+
+    const { dataA } = await changeAv({
+      variables:{
+        location:"driver location"
+      }
+    });
+
     dispatch({
       type: "UPDATE_USER",
       payload: {

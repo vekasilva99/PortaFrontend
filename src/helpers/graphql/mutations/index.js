@@ -94,8 +94,8 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const CHANGE_AVAILABLE = gql`
-  mutation{
-    changeAvailable{
+  mutation ($location: String!){
+    changeAvailable(location: $location){
       _id
       available
       name
@@ -128,7 +128,7 @@ export const MAKE_ORDER = gql`
       km
       price
       status
-      succeeded
+      concluded
       createdAt
       updatedAt
     

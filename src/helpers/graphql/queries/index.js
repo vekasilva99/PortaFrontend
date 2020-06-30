@@ -273,7 +273,6 @@ export const GET_ORDERS = gql`
         name
         lastName
       }
-
       pickUp
       deliver
       km

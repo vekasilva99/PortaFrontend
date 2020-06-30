@@ -8,16 +8,21 @@ import DriverProfileSidebar from "../components/DriverProfileSidebar";
 import DriverEditProfileForm from "../components/Forms/DriverEditProfile";
 import { FaUserAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export default function DriverEditProfile() {
   const [sidebar, setSidebar] = React.useState(false);
+
+  const { name } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
 
   return (
     <HomeStyle>
       {" "}
-      <NavbarOn />
+      <NavbarOn name={name}/>
       {/* <NavbarDriver togglerSidebar={handlingSidebar} /> */}
       <DriverMenu show={sidebar} />
       <div className="form">
