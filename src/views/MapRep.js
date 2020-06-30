@@ -12,6 +12,7 @@ import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import MapR from "../components/MapR";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(false);
@@ -46,27 +47,30 @@ export default function MapRep() {
   console.log(available);
 
   return (
-    <StyleMapRep>
-      <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
-      <DriverMenu show={on} />
-      <div className="fondoMap">
-        <div className="busqueda">
-          <h1>Pedidos para tí</h1>
-          <h5>Se encuentra disponible?</h5>
-          <label class="switch">
-            <input
-              type="checkbox"
-              defaultChecked={available}
-              value={available}
-              onChange={handleChangeChk}
-            ></input>
-            <span class="slider round"></span>
-          </label>
-          {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+    <>
+      <StyleMapRep>
+        <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
+        <DriverMenu show={on} />
+        <div className="fondoMap">
+          <div className="busqueda">
+            <h1>Pedidos para tí</h1>
+            <h5>Se encuentra disponible?</h5>
+            <label class="switch">
+              <input
+                type="checkbox"
+                defaultChecked={available}
+                value={available}
+                onChange={handleChangeChk}
+              ></input>
+              <span class="slider round"></span>
+            </label>
+            {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+          </div>
+          <div className="clear"></div>
         </div>
-        <div className="clear"></div>
-      </div>
-    </StyleMapRep>
+      </StyleMapRep>
+      <MapR />
+    </>
   );
 }
 
