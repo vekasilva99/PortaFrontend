@@ -102,6 +102,43 @@ export default function Pedido(props) {
           </div>
         ))
       )}
+
+      <div className="order">
+        <div className="textb">
+          <h2>Pedido</h2>
+          <h4>Origen</h4>
+          <h3>P</h3>
+          <h4>Destino</h4>
+          <h3>P</h3>
+        </div>
+        <button className="next">
+          <img src="/nextred.png" alt="Next" className="nextbut" />
+        </button>
+      </div>
+      <div className="order">
+        <div className="textb">
+          <h2>Pedido</h2>
+          <h4>Origen</h4>
+          <h3>P</h3>
+          <h4>Destino</h4>
+          <h3>P</h3>
+        </div>
+        <button className="next">
+          <img src="/nextred.png" alt="Next" className="nextbut" />
+        </button>
+      </div>
+      <div className="order">
+        <div className="textb">
+          <h2>Pedido</h2>
+          <h4>Origen</h4>
+          <h3>P</h3>
+          <h4>Destino</h4>
+          <h3>P</h3>
+        </div>
+        <button className="next">
+          <img src="/nextred.png" alt="Next" className="nextbut" />
+        </button>
+      </div>
     </StyledPedido>
   );
 }
@@ -119,7 +156,7 @@ const StyledPedido = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: ${(props) => (props.loading ? "center" : "start")};
-  height: 60vh;
+  height: 40vh;
   overflow-x: hidden;
   overflow-y: auto;
   .order {

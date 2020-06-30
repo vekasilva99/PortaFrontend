@@ -52,6 +52,9 @@ export default function MapRep() {
         <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
         <DriverMenu show={on} />
         <div className="fondoMap">
+          <div className="google">
+            <MapR />
+          </div>
           <div className="busqueda">
             <h1>Pedidos para tí</h1>
             <h5>Se encuentra disponible?</h5>
@@ -69,7 +72,6 @@ export default function MapRep() {
           <div className="clear"></div>
         </div>
       </StyleMapRep>
-      <MapR />
     </>
   );
 }
@@ -143,13 +145,14 @@ const StyleMapRep = styled.div`
     border-radius: 50%;
   }
 
+  .google {
+    position absolute
+    margin-top: 60px;
+    width: 100vw;
+    height: 100vh;
+  }
   .fondoMap {
-    background-image: url("/mapa.png");
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+    height: 100%;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -166,6 +169,10 @@ const StyleMapRep = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
+      z-index:3;
+      position:fixed;
+      left:0;
+
       h1 {
         font-size: 60px;
         font-weight: 600;
@@ -201,7 +208,7 @@ const StyleMapRep = styled.div`
 
     .clear {
       grid-area: clear;
-      height: 50vh;
+      height: 2vh;
     }
     .busqueda {
       grid-area: busqueda;

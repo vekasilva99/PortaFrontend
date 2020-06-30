@@ -51,7 +51,7 @@ const center = {
   lng: -66.903603,
 };
 
-export default function Map() {
+export default function MapR() {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo",
     libraries,
@@ -59,17 +59,8 @@ export default function Map() {
 
   Geocoder.init("AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo");
   const [markers, setMarkers] = React.useState(null);
-  const [user, setUser] = React.useState(null);
+  const [location, setLocation] = React.useState(null);
   const [pack, setPackage] = React.useState(null);
-
-  const [
-    makeOrderd,
-    { data: dataM, error: errorM, loading: loadingM },
-  ] = useMutation(MAKE_ORDER);
-
-  const { _id, role, name, lastName } = useSelector((state) => ({
-    ...state.User,
-  }));
 
   const dispatch = useDispatch();
 
@@ -85,6 +76,11 @@ export default function Map() {
       time: new Date(),
     });
   });
+  const handleLocationChange = ({ lat, lng, address }) => {
+    setLocation({ lat, lng, address });
+    console.log("Location");
+    console.log(location);
+  };
 
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
@@ -96,7 +92,7 @@ export default function Map() {
 
   return (
     <>
-      <Locate panTo={panTo} />
+      <Locate panTo={panTo} handleLocationChange={handleLocationChange} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={8}
@@ -105,45 +101,23 @@ export default function Map() {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {/* {markers ? (
+        {location ? (
           <Marker
-            position={{ lat: markers.lat, lng: markers.lng }}
+            position={{ lat: location.lat, lng: location.lng }}
             icon={{
-              url: "/LogoCliente.png",
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
-            }}
-          />
-        ) : null} */}
-        {/* {user ? (
-          <Marker
-            position={{ lat: user.lat, lng: user.lng }}
-            icon={{
-              url: "/ClienteMap.png",
+              url: "/RepartidorFondo.png",
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 15),
               scaledSize: new window.google.maps.Size(30, 30),
             }}
           />
         ) : null}
-        {pack ? (
-          <Marker
-            position={{ lat: pack.lat, lng: pack.lng }}
-            icon={{
-              url: "/PackageMap.png",
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
-            }}
-          />
-        ) : null} */}
       </GoogleMap>
     </>
   );
 }
 
-function Locate({ panTo, handleUserChange }) {
+function Locate({ panTo, handleLocationChange }) {
   return (
     <StyledMap>
       <button
@@ -151,13 +125,17 @@ function Locate({ panTo, handleUserChange }) {
         onClick={() => {
           navigator.geolocation.getCurrentPosition(
             (position) => {
-              Geocoder.from(
-                position.coords.latitude,
-                position.coords.longitude
-              ).then((json) => {
-                var addressComponent = json.results[0].address_components[0];
-                console.log(addressComponent);
-              });
+              Geocoder.from(position.coords.latitude, position.coords.longitude)
+                .then((json) => {
+                  var addressComponent = json.results[0].address_components[0];
+                  console.log(addressComponent);
+                  handleLocationChange({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    address: addressComponent,
+                  });
+                })
+                .catch((error) => console.warn(error));
               panTo({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
@@ -167,71 +145,12 @@ function Locate({ panTo, handleUserChange }) {
           );
         }}
       >
-        <img src="/ClienteMap.png" alt="compass" />
+        <img src="/RepartidorFondo.png" alt="compass" />
       </button>
     </StyledMap>
   );
 }
 
-function Search({ panTo }) {
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 10.480594, lng: () => -66.903603 },
-      radius: 200 * 1000,
-    },
-  });
-
-  const handleInput = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleSelect = async (address) => {
-    setValue(address, false);
-    clearSuggestions();
-    try {
-      const results = await getGeocode({ address });
-      const { lat, lng } = await getLatLng(results[0]);
-      console.log(lat, lng);
-      panTo({ lat, lng });
-    } catch (error) {
-      console.log("😱 Error: ", error);
-    }
-  };
-
-  return (
-    <StyledMap>
-      <div className="search">
-        <Combobox onSelect={handleSelect}>
-          <ComboboxInput
-            style={{ fontFamily: "Roboto" }}
-            value={value}
-            onChange={handleInput}
-            disabled={!ready}
-          />
-
-          <ComboboxPopover style={{ zIndex: 100, fontFamily: "Roboto" }}>
-            <ComboboxList style={{ zIndex: 100 }}>
-              {status === "OK" &&
-                data.map(({ id, description }) => (
-                  <ComboboxOption
-                    key={id}
-                    value={description}
-                    style={{ zIndex: 100 }}
-                  />
-                ))}
-            </ComboboxList>
-          </ComboboxPopover>
-        </Combobox>
-      </div>
-    </StyledMap>
-  );
-}
 const StyledMap = styled.div`
 z-index:10;
   .search {
@@ -262,78 +181,7 @@ z-index:10;
     width: 5em;
     cursor: pointer;
   }
-  .clear {
-    grid-area: clear;
-    height: 20vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-  }
-  .busqueda {
-    background-color: #fafafa;
-    margin: 20px;
-    margin-top: 80px;
-    width: 400px;
-    z-index:1;
- 
 
-    position:absolute;
-    h1 {
-      font-size: 60px;
-      font-weight: 600;
-      color: #fafafa;
-      height: 230px;
-      background-color: rgb(0, 80, 122);
-      margin: 0;
-      padding: 40px;
-    }
-    h2 {
-      font-size: 25px;
-      font-weight: 500;
-      color: #1d1d1f;
-      margin: 0;
-      margin-top: 5%;
-      margin-left: 5%;
-    }
-
-    .div1 {
-      background-image: url("/iconos.png");
-      background-repeat: no-repeat;
-      background-size: 40px;
-      margin-left: 25%;
-      margin-top: 20%;
-    }
-    .rutas {
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-areas:
-        "iconos partida"
-        "iconos llegada";
-    }
-    input {
-      background-color: #ffffff;
-      margin: 5%;
-      border: none;
-      height: 40px;
-      width: 90%;
-      font-size: 20px;
-      font-weight: 500;
-      color: #1d1d1f;
-    }
-
-    .div1 {
-      grid-area: iconos;
-    }
-    .div2 {
-      grid-area: partida;
-      margin: 0;
-    }
-    .div3 {
-      grid-area: llegada;
-      margin: 0;
-    }
-  }
 
   .boton {
     border: solid 2px #00507a;

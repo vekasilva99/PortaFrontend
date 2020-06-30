@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 
 export const LOGIN_USER = gql`
   mutation($mail: String!, $password: String!, $role: String!) {
-    userLogin(mail: $mail, password:$password, role:$role) {
-      user{
+    userLogin(mail: $mail, password: $password, role: $role) {
+      user {
         _id
         role
         name
@@ -61,7 +61,6 @@ export const DRIVER_REQUEST = gql`
   mutation($solicitudInput: SolicitudInput!) {
     createSolicitud(solicitudInput: $solicitudInput) {
       _id
-      
     }
   }
 `;
@@ -70,13 +69,12 @@ export const REVIEW_REQUEST = gql`
   mutation($reviewInput: ReviewInput!) {
     reviewSolicitud(reviewInput: $reviewInput) {
       _id
-      
     }
   }
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation($user: ID!, $repartidor:ID!, $content: String!) {
+  mutation($user: ID!, $repartidor: ID!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
       content
@@ -94,8 +92,8 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const CHANGE_AVAILABLE = gql`
-  mutation{
-    changeAvailable{
+  mutation {
+    changeAvailable {
       _id
       available
       name
@@ -103,7 +101,6 @@ export const CHANGE_AVAILABLE = gql`
     }
   }
 `;
-
 
 export const RATE_DRIVER = gql`
   mutation($user: ID!, $repartidor: ID!, $score: Int!) {
@@ -128,10 +125,9 @@ export const MAKE_ORDER = gql`
       km
       price
       status
-      succeeded
+      concluded
       createdAt
       updatedAt
-    
     }
   }
 `;
@@ -147,5 +143,3 @@ export const ACCEPT_ORDER = gql`
     }
   }
 `;
-
-
