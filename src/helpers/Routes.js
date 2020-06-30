@@ -29,14 +29,12 @@ import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
   });
 
   const { token, name, role } = useSelector((state) => ({
     ...state.User,
   }));
-
-  console.log("rutas role " + role);
 
   const dispatch = useDispatch();
 
@@ -45,7 +43,8 @@ export default function Routes() {
   }, [name, refetch, token]);
 
   useEffect(() => {
-    if (data && data.currentUser && !name) {
+    const tokenL = localStorage.getItem("token");
+    if (tokenL && data && data.currentUser && !name) {
       dispatch({
         type: "CURRENT_USER",
         payload: {
@@ -55,10 +54,8 @@ export default function Routes() {
     }
   }, [data, dispatch, name]);
 
-  return name && !loading ? (
+  return name && role && !loading ? (
     <Switch>
-      <Route exact path="/" render={(props) => <Home {...props} />} />
-
       <Route
         exact
         path="/registerdriver"
@@ -134,11 +131,15 @@ export default function Routes() {
       />
 
       <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} />
-
-      <Redirect exact from="*" to="/" />
+      {role == "COSTUMER" ? (
+        <Redirect exact from="*" to="/user" />
+      ) : role == "DRIVER" ? (
+        <Redirect exact from="*" to="/maprep" />
+      ) : (
+        <Redirect exact from="*" to="/admin" />
+      )}
     </Switch>
-  ) : (!name && !loading && !data) ||
-    (!name && !loading && data && !data.currentUser) ? (
+  ) : !role && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />

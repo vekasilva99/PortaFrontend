@@ -4,32 +4,31 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 export default function NavbarOn(props) {
   const [sidebar, setSidebar] = React.useState(false);
   const [log, setLog] = React.useState(false);
   const dispatch = useDispatch();
-
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
+  const { role, name } = useSelector((state) => ({
+    ...state.User,
+  }));
+  console.log(role, name);
 
   const logOut = (e) => {
-    console.log("log Out");
+    e.preventDefault();
+    console.log("entra");
+    localStorage.clear();
+    dispatch({
+      type: "LOGOUT",
+    });
+    console.log("sale");
     setLog(true);
-    console.log(log);
   };
-
-  React.useEffect(() => {
-    if (log) {
-      localStorage.clear();
-      dispatch({
-        type: "LOGOUT",
-      });
-    }
-  }, [log]);
 
   let style;
   if (sidebar) {
@@ -39,7 +38,7 @@ export default function NavbarOn(props) {
   }
   return (
     <>
-      {log ? <Redirect to="/" /> : null}
+      {log && <Redirect to="/" />}
       <StyledNavbarOn>
         <div className="fondo">
           <div className="toggle">
