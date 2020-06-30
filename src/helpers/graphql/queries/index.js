@@ -135,6 +135,8 @@ export const CURRENT_USER = gql`
       birthdate
       mail
       zone
+      latitud
+      longitud
       cellphone
       available
       workingStatus

@@ -10,6 +10,8 @@ const initialState = {
   zone:null,
   cellphone:null,
   role: null,
+  latitud: null,
+  longitud: null,
   available: null,
   workingStatus: null,
   experience: null,
@@ -37,7 +39,7 @@ export default function (state = initialState, action) {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt} = action.payload;
+      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, latitud, longitud, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt} = action.payload;
       return {
         token: token,
         _id: _id,
@@ -48,6 +50,8 @@ export default function (state = initialState, action) {
         zone: zone,
         cellphone: cellphone,
         role: role,
+        latitud: latitud,
+        longitud: longitud,
         available: available,
         workingStatus: workingStatus,
         experience: experience,

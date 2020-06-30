@@ -12,6 +12,7 @@ import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import MapR from "../components/MapR";
 
 export default function MapRep() {
   const [on, setToggle] = React.useState(false);
@@ -22,7 +23,7 @@ export default function MapRep() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, name, lastName, available } = useSelector((state) => ({
+  const { role, name, lastName, available, latitud, longitud } = useSelector((state) => ({
     ...state.User,
   }));
 
@@ -37,7 +38,8 @@ export default function MapRep() {
 
     const { dataA } = await changeAv({
       variables:{
-        location:"driver location"
+        lat:"driver lat",
+        lng:"driver lng",
       }
     });
 
@@ -45,6 +47,8 @@ export default function MapRep() {
       type: "UPDATE_USER",
       payload: {
         available: !available,
+        lat: "driver lat",
+        lng: "driver lng",
       },
     });
   };
@@ -52,27 +56,32 @@ export default function MapRep() {
   console.log(available);
 
   return (
-    <StyleMapRep>
-      <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
-      <DriverMenu show={on} />
-      <div className="fondoMap">
-        <div className="busqueda">
-          <h1>Pedidos para tí</h1>
-          <h5>Se encuentra disponible?</h5>
-          <label class="switch">
-            <input
-              type="checkbox"
-              defaultChecked={available}
-              value={available}
-              onChange={handleChangeChk}
-            ></input>
-            <span class="slider round"></span>
-          </label>
-          {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+    <>
+      <StyleMapRep>
+        <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
+        <DriverMenu show={on} />
+        <div className="fondoMap">
+          <div className="google">
+            <MapR />
+          </div>
+          <div className="busqueda">
+            <h1>Pedidos para tí</h1>
+            <h5>Se encuentra disponible?</h5>
+            <label class="switch">
+              <input
+                type="checkbox"
+                defaultChecked={available}
+                value={available}
+                onChange={handleChangeChk}
+              ></input>
+              <span class="slider round"></span>
+            </label>
+            {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+          </div>
+          <div className="clear"></div>
         </div>
-        <div className="clear"></div>
-      </div>
-    </StyleMapRep>
+      </StyleMapRep>
+    </>
   );
 }
 
@@ -145,13 +154,14 @@ const StyleMapRep = styled.div`
     border-radius: 50%;
   }
 
+  .google {
+    position absolute
+    margin-top: 60px;
+    width: 100vw;
+    height: 100vh;
+  }
   .fondoMap {
-    background-image: url("/mapa.png");
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+    height: 100%;
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -168,6 +178,10 @@ const StyleMapRep = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
+      z-index:3;
+      position:fixed;
+      left:0;
+
       h1 {
         font-size: 60px;
         font-weight: 600;
@@ -203,7 +217,7 @@ const StyleMapRep = styled.div`
 
     .clear {
       grid-area: clear;
-      height: 50vh;
+      height: 2vh;
     }
     .busqueda {
       grid-area: busqueda;

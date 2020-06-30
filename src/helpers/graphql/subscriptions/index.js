@@ -50,16 +50,16 @@ export const NEW_MESSAGE = gql`
       _id
       content
       createdAt
-      conversation{
+      conversation {
         _id
       }
-      sender{
+      sender {
         _id
         name
         lastName
         mail
       }
-      receiver{
+      receiver {
         _id
         name
         lastName
