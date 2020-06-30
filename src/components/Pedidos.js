@@ -43,12 +43,12 @@ export default function Pedido(props) {
       },
     });
 
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        available: false,
-      },
-    });
+    // dispatch({
+    //   type: "UPDATE_USER",
+    //   payload: {
+    //     available: false,
+    //   },
+    // });
   };
 
   React.useEffect(() => {
@@ -95,50 +95,16 @@ export default function Pedido(props) {
             <button
               className="next"
               value={order._id}
-              onClick={() => accept(Event, order._id)}
+              onClick={() => {
+                accept(Event, order._id);
+                props.handleChangeChk();
+              }}
             >
               <img src="/nextred.png" alt="Next" className="nextbut" />
             </button>
           </div>
         ))
       )}
-
-      <div className="order">
-        <div className="textb">
-          <h2>Pedido</h2>
-          <h4>Origen</h4>
-          <h3>P</h3>
-          <h4>Destino</h4>
-          <h3>P</h3>
-        </div>
-        <button className="next">
-          <img src="/nextred.png" alt="Next" className="nextbut" />
-        </button>
-      </div>
-      <div className="order">
-        <div className="textb">
-          <h2>Pedido</h2>
-          <h4>Origen</h4>
-          <h3>P</h3>
-          <h4>Destino</h4>
-          <h3>P</h3>
-        </div>
-        <button className="next">
-          <img src="/nextred.png" alt="Next" className="nextbut" />
-        </button>
-      </div>
-      <div className="order">
-        <div className="textb">
-          <h2>Pedido</h2>
-          <h4>Origen</h4>
-          <h3>P</h3>
-          <h4>Destino</h4>
-          <h3>P</h3>
-        </div>
-        <button className="next">
-          <img src="/nextred.png" alt="Next" className="nextbut" />
-        </button>
-      </div>
     </StyledPedido>
   );
 }
@@ -159,42 +125,53 @@ const StyledPedido = styled.nav`
   height: 40vh;
   overflow-x: hidden;
   overflow-y: auto;
+
   .order {
     padding: 0;
     margin: 0;
-    border-bottom: 1px solid #ef0023;
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-self: center;
     align-self: center;
     animation: ${Animation} 1s ease-in-out;
-    background:transparent;
-    height:300px;
+    background: transparent;
+    z-index: 5;
+    height: fit-content;
+    margin-bottom:0.5em;
+ 
   }
 
   .textb {
-
-    width:100%
-    background:blue;
+    padding: 0;
+    width: 100%
+    background: transparent;
+    height: max-content;
+    margin-top: 0;
+    border-bottom: 1px solid #ef0023;
+    width: 100%;
+    padding-bottom:0.5em;
+    
   }
   .next {
-    position:fixed;
-    display:flex;
-    margin-left:265px;
-    align-items:center;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    height: fit-content;
     border: solid transparent;
-    width: fit;
     background: transparent;
+
   }
   .nextbut {
     border: solid transparent;
+    display: flex;
+    align-items: center;
   }
 
   @media only screen and (min-width: 735px) {
     .textb {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      padding: 10px;
+
       h2 {
         font-size: 20px;
         font-weight: 400;
@@ -216,13 +193,10 @@ const StyledPedido = styled.nav`
     }
     .order {
       width: 80%;
-      height: 115px;
     }
     .next {
-      height: 110px;
     }
     .nextbut {
-      margin-top: 10px;
       height: 30px;
     }
   }

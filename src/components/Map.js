@@ -7,6 +7,7 @@ import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
 import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import Spinner from "./Spinner";
 import {
   GoogleMap,
   useLoadScript,
@@ -75,11 +76,12 @@ export default function Map() {
     fetchPolicy: "network-only",
   });
 
+  console.log(data);
+
   const [
     makeOrderd,
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
-
 
   const { _id, role, name, lastName } = useSelector((state) => ({
     ...state.User,
@@ -197,17 +199,24 @@ export default function Map() {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {/* {markers ? (
-          <Marker
-            position={{ lat: markers.lat, lng: markers.lng }}
-            icon={{
-              url: "/LogoCliente.png",
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15),
-              scaledSize: new window.google.maps.Size(30, 30),
-            }}
-          />
-        ) : null} */}
+        {loading ? (
+          <Spinner />
+        ) : (
+          data.driversAroundMe.map((repartidor) => (
+            <Marker
+              position={{
+                lat: Number(repartidor.latitud),
+                lng: Number(repartidor.longitud),
+              }}
+              icon={{
+                url: "/RepartidorFondo.png",
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+                scaledSize: new window.google.maps.Size(30, 30),
+              }}
+            />
+          ))
+        )}
         {user ? (
           <Marker
             position={{ lat: user.lat, lng: user.lng }}

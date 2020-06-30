@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export const LOGIN_USER = gql`
   query($mail: String!, $password: String!, $role: String!) {
     userLogin(mail: $mail, password: $password, role: $role) {
-      user{
+      user {
         _id
         role
         name
@@ -293,16 +293,16 @@ export const MESSAGES = gql`
       _id
       content
       createdAt
-      conversation{
+      conversation {
         _id
       }
-      sender{
+      sender {
         _id
         name
         lastName
         mail
       }
-      receiver{
+      receiver {
         _id
         name
         lastName
@@ -314,7 +314,7 @@ export const MESSAGES = gql`
 
 export const DRIVERS_AROUND = gql`
   {
-    driversAroundMe{
+    driversAroundMe {
       _id
       role
       name
@@ -331,6 +331,8 @@ export const DRIVERS_AROUND = gql`
       seguroVehiculo
       createdAt
       updatedAt
+      longitud
+      latitud
     }
   }
 `;

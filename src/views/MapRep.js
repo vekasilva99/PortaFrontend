@@ -23,9 +23,11 @@ export default function MapRep() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, name, lastName, available, latitud, longitud } = useSelector((state) => ({
-    ...state.User,
-  }));
+  const { role, name, lastName, available, latitud, longitud } = useSelector(
+    (state) => ({
+      ...state.User,
+    })
+  );
 
   const dispatch = useDispatch();
 
@@ -37,10 +39,10 @@ export default function MapRep() {
     setOnline(!available);
 
     const { dataA } = await changeAv({
-      variables:{
-        lat:"driver lat",
-        lng:"driver lng",
-      }
+      variables: {
+        lat: "driver lat",
+        lng: "driver lng",
+      },
     });
 
     dispatch({
@@ -72,6 +74,7 @@ export default function MapRep() {
                 type="checkbox"
                 defaultChecked={available}
                 value={available}
+                checked={available}
                 onChange={handleChangeChk}
               ></input>
               <span class="slider round"></span>
