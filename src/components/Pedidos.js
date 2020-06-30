@@ -5,7 +5,6 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
-// import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { useQuery } from "@apollo/react-hooks";
 import { useSubscription } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";

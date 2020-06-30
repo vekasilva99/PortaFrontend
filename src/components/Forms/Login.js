@@ -4,12 +4,14 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../helpers/graphql/queries";
+//import { LOGIN_USER } from "../../helpers/graphql/mutations";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLogin(props) {
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  const [login, { data, loading, error, called }] = useLazyQuery(LOGIN_USER);
   const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
@@ -18,22 +20,24 @@ export default function FormLogin(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data && !log) {
+    if (data && data.userLogin && called) {
       localStorage.setItem("token", data.userLogin.token);
       dispatch({
         type: "LOGIN",
         payload: {
           token: data.userLogin.token,
-          role: "COSTUMER",
+          role: "COSTUMER"
         },
       });
       setLog(true);
+
       console.log("login role" + role);
     }
-  }, [data, dispatch, log, role]);
-  return (
+  }, [called, data, dispatch, log, role]);
+  return log && name ? (
+    <Redirect to="/user" />
+  ) : (
     <>
-      {log ? <Redirect to="/admin" /> : null}
       <Formik
         initialValues={{
           Email: "",
@@ -59,7 +63,7 @@ export default function FormLogin(props) {
         onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
           /// code here
           //event.preventDefault();
-
+          setSubmitting(true);
           if (Email.trim() === 0 || Password.trim() === 0) {
             return;
           }
@@ -72,7 +76,6 @@ export default function FormLogin(props) {
               role: "COSTUMER",
             },
           });
-          setSubmitting(true);
 
           setSubmitting(false);
           resetForm();
@@ -90,8 +93,6 @@ export default function FormLogin(props) {
         }) =>
           loading ? (
             <Spinner color={props.color}></Spinner>
-          ) : log && role == "COSTUMER" && name ? (
-            <Redirect to="/user" />
           ) : (
             <form onSubmit={handleSubmit}>
               <Input

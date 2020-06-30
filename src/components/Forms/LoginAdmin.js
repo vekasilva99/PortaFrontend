@@ -31,7 +31,9 @@ export default function FormLoginAdmin(props) {
     }
   }, [data, dispatch, loading, log]);
 
-  return (
+  return log && name ? (
+    <Redirect to="/admin" />
+  ) : (
     <>
       <Formik
         initialValues={{
@@ -92,8 +94,6 @@ export default function FormLoginAdmin(props) {
         }) =>
           loading ? (
             <Spinner color={props.color} />
-          ) : log && role == "ADMIN" && name ? (
-            <Redirect to="/admin" />
           ) : (
             <form onSubmit={handleSubmit}>
               <Input
