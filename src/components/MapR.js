@@ -52,11 +52,12 @@ const center = {
 };
 
 export default function MapR() {
-
   //DRIVER DATA HERE
-  const { role, name, lastName, available, latitud, longitud } = useSelector((state) => ({
-    ...state.User,
-  }));
+  const { role, name, lastName, available, latitud, longitud } = useSelector(
+    (state) => ({
+      ...state.User,
+    })
+  );
 
   const [
     changeLocation,
@@ -90,24 +91,24 @@ export default function MapR() {
       time: new Date(),
     });
   });
-  
+
   const handleLocationChange = async ({ lat, lng, address }) => {
     setLocation({ lat, lng, address });
     console.log("Location");
     console.log(location);
 
     const { dataL } = await changeLocation({
-      variables:{
-        lat:"driver lat",
-        lng:"driver lng",
-      }
+      variables: {
+        lat: lat.toString(),
+        lng: lng.toString(),
+      },
     });
 
     dispatch({
       type: "UPDATE_USER",
       payload: {
-        lat: "driver lat",
-        lng: "driver lng",
+        lat: lat.toString(),
+        lng: lng.toString(),
       },
     });
   };
