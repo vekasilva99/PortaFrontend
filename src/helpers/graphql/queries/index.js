@@ -311,3 +311,26 @@ export const MESSAGES = gql`
     }
   }
 `;
+
+export const DRIVERS_AROUND = gql`
+  {
+    driversAroundMe{
+      _id
+      role
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      createdAt
+      updatedAt
+    }
+  }
+`;

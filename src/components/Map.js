@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
 import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -69,10 +71,15 @@ export default function Map() {
     setSelectedDate(date);
   };
 
+  const { data, error, loading } = useQuery(DRIVERS_AROUND, {
+    fetchPolicy: "network-only",
+  });
+
   const [
     makeOrderd,
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
+
 
   const { _id, role, name, lastName } = useSelector((state) => ({
     ...state.User,
@@ -130,6 +137,11 @@ export default function Map() {
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+
+  console.log(data);
 
   return (
     <>
