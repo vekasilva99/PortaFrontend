@@ -1,23 +1,32 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import SideBar from "../components/Home/SideBar.js";
+import Chat from "../components/Home/Chat.js";
+import { useSelector } from "react-redux";
 
-export default function ChatClient(props) {
+export default function Home({ updateUser }) {
+  const [isOpenSideBar, setIsOpenSideBar] = useState(true);
+  const [postId, setPostId] = useState();
+  const { toggle } = useSelector((state) => ({ ...state.Toggle }));
+  const onClick = () => {
+    setIsOpenSideBar(!isOpenSideBar);
+  };
+  const closeSideBar = () => {
+    if (isOpenSideBar) setIsOpenSideBar(false);
+  };
+  const changePost = (idPost) => {
+    setPostId(idPost);
+  };
   return (
-    <ChatClientStyle>
-      <h1>Hi</h1>
-    </ChatClientStyle>
+    <div className="Home">
+      <SideBar
+        onClick={onClick}
+        closeSideBar={closeSideBar}
+        isOpenSideBar={toggle}
+        changePost={changePost}
+        postId={postId}
+      />
+      <Chat onClick={onClick} postId={postId} />
+    </div>
   );
 }
-
-const ChatClientStyle = styled.div`
-  background-size: cover;
-  display: block;
-  display: flex;
-  min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  position: fixed;
-`;
