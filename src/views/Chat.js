@@ -14,15 +14,22 @@ import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
 import InputMessage from "../components/inputMessage";
-
+import { useQuery } from "@apollo/react-hooks";
+import { MESSAGES } from "../helpers/graphql/queries/index";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
-  const { name, lastName, _id, role } = useSelector((state) => ({
+  const { name, lastName, _id, role, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 
+  const { data, error, loading, subscribeToMore } = useQuery(MESSAGES, {
+    fetchPolicy: "network-only",
+    variables: {
+      order: currentOrder._id,
+    },
+  });
   const options = {
     timeZone: "UTC",
     month: "numeric",
@@ -41,7 +48,12 @@ export default function AdminHome() {
       </div>
       <div className="form">
         <div className="chat">
-          <Messages />
+          {data && (
+            <Messages
+              subscribeToMore={subscribeToMore}
+              messages={data.messages}
+            />
+          )}
         </div>
         <div className="send">
           <InputMessage />
