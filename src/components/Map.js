@@ -161,6 +161,15 @@ export default function Map() {
   // if (loadingS) return "Loading...";
   // if (errorS) return `Error! ${errorS.message}`;
 
+  if(dataS && dataS.orderUpdate){
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        currentOrder: dataS.orderUpdate,
+      },
+    });
+  }
+
   console.log(data);
 
   return (
