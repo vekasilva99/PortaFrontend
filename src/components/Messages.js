@@ -61,10 +61,11 @@ export default function Messages({
     return messages.map((message) => (
       <div key={message._id} className="d-flex flex-column w-100 ">
         <CardMessage
-          userId={_id}
+          userId={message.sender}
           options={options}
           name={name}
           content={message.content}
+          {...message}
         />
       </div>
     ));

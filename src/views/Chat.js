@@ -30,6 +30,8 @@ export default function AdminHome() {
       order: currentOrder._id,
     },
   });
+
+  console.log(data);
   const options = {
     timeZone: "UTC",
     month: "numeric",
