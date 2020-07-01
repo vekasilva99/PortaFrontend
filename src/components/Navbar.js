@@ -68,10 +68,13 @@ const StyledNavbar = styled.nav`
   background: #202124;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
   .navbar-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -94,6 +97,8 @@ const StyledNavbar = styled.nav`
 
   .nav-links {
     display: flex;
+    margin: 0;
+    padding: 0;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;

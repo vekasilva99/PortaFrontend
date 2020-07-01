@@ -75,6 +75,8 @@ const StyledNavbar = styled.nav`
 
   .nav-links {
     display: flex;
+    margin: 0;
+    padding: 0;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: right;

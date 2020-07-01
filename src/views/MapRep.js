@@ -23,11 +23,17 @@ export default function MapRep() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, name, lastName, available, latitud, longitud, currentOrder } = useSelector(
-    (state) => ({
-      ...state.User,
-    })
-  );
+  const {
+    role,
+    name,
+    lastName,
+    available,
+    latitud,
+    longitud,
+    currentOrder,
+  } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   console.log("current order");
   console.log(currentOrder);
@@ -60,10 +66,9 @@ export default function MapRep() {
 
   return (
     <>
+      <NavbarOn name={name} toggle={handleToggle} />
+      <DriverMenu show={on} />
       <StyleMapRep>
-        <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
-        <DriverMenu show={on} />
-
         <MapR />
 
         <div className="fondoMap">
