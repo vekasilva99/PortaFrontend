@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NEW_MESSAGE } from "../helpers/graphql/subscriptions/index";
+import { MESSAGES } from "../helpers/graphql/queries/index";
 import CardMessage from "../components/Cards/CardMessage";
 import { MDBBtn, MDBRow } from "mdbreact";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Spinner from "./Spinner";
+import { useQuery } from "@apollo/react-hooks";
 
 export default function Messages({
   messages,
@@ -14,7 +16,7 @@ export default function Messages({
   hasNextPage,
   postId,
 }) {
-  const { _id, name } = useSelector((state) => ({
+  const { _id, name, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 

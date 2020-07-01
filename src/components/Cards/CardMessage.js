@@ -40,7 +40,7 @@ export default function CardMessage({
 const StyledCard = styled.div`
   height: 5vh;
   width: 50%;
-  margin: 1em;
+  margin: 1.5em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   .cardMessage {
