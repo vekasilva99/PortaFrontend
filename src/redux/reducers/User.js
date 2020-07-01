@@ -22,6 +22,7 @@ const initialState = {
   placaVehiculo: null,
   rating: null,
   comments: null,
+  currentOrder:null,
   createdAt: null,
 };
 
@@ -61,6 +62,7 @@ export default function (state = initialState, action) {
         placaVehiculo,
         rating,
         comments,
+        currentOrder,
         createdAt,
       } = action.payload;
       return {
@@ -85,6 +87,7 @@ export default function (state = initialState, action) {
         placaVehiculo: placaVehiculo,
         rating: rating,
         comments: comments,
+        currentOrder: currentOrder,
         createdAt: createdAt,
       };
     }

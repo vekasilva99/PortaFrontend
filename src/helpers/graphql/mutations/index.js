@@ -20,6 +20,50 @@ export const LOGIN_USER = gql`
         licencia
         carnetCirculacion
         seguroVehiculo
+        currentOrder{
+          _id
+          pickUp
+          deliver
+          km
+          price
+          status
+          user{
+            _id
+            role
+            name
+            lastName
+            birthdate
+            mail
+          }
+          repartidor{
+            _id
+            role
+            name
+            lastName
+            birthdate
+            mail
+          }
+          messages{
+            content
+            createdAt
+            sender{
+              _id
+              role
+              name
+              lastName
+              birthdate
+              mail
+            }
+            receiver{
+              _id
+              role
+              name
+              lastName
+              birthdate
+              mail
+            }
+          }
+        }
         createdAt
         updatedAt
       }

@@ -27,6 +27,75 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const CURRENT_USER = gql`
+  {
+    currentUser {
+      _id
+      role
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      latitud
+      longitud
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      currentOrder{
+          _id
+          pickUp
+          deliver
+          km
+          price
+          status
+          user{
+            _id
+            role
+            name
+            lastName
+            birthdate
+            mail
+          }
+          repartidor{
+            _id
+            role
+            name
+            lastName
+            birthdate
+            mail
+          }
+          messages{
+            content
+            createdAt
+            sender{
+              _id
+              role
+              name
+              lastName
+              birthdate
+              mail
+            }
+            receiver{
+              _id
+              role
+              name
+              lastName
+              birthdate
+              mail
+            }
+          }
+        }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const GET_USERS = gql`
   {
     costumers {
@@ -121,31 +190,6 @@ export const LIST_OF_REPARTIDORES = gql`
       name
       lastName
       mail
-    }
-  }
-`;
-
-export const CURRENT_USER = gql`
-  {
-    currentUser {
-      _id
-      role
-      name
-      lastName
-      birthdate
-      mail
-      zone
-      latitud
-      longitud
-      cellphone
-      available
-      workingStatus
-      vehiculo
-      licencia
-      carnetCirculacion
-      seguroVehiculo
-      createdAt
-      updatedAt
     }
   }
 `;
