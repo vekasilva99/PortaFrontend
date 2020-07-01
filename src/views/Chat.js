@@ -52,6 +52,7 @@ export default function AdminHome() {
             <Messages
               subscribeToMore={subscribeToMore}
               messages={data.messages}
+              currentOrder={currentOrder._id}
             />
           )}
         </div>

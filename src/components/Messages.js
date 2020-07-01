@@ -12,7 +12,7 @@ export default function Messages({
   moreMessages,
   loading1,
   hasNextPage,
-  postId,
+  currentOrder,
 }) {
   const { _id, name } = useSelector((state) => ({
     ...state.User,
@@ -28,29 +28,26 @@ export default function Messages({
     minute: "numeric",
   };
 
-  // useEffect(() => {
-  //   const unsubscription = subscribeToMore({
-  //     document: MESSAGE_ADDED_SUBSCRIPTION,
-  //     variables: { postId: postId },
-  //     updateQuery: (prev, { subscriptionData }) => {
-  //       if (!subscriptionData.data) return prev;
-  //       const newMessage = subscriptionData.data.messageAdded;
-  //       if (!prev.messages.messages.find((msg) => msg._id === newMessage._id)) {
-  //         const res = Object.assign({}, prev, {
-  //           messages: {
-  //             ...prev.messages,
-  //             messages: [newMessage, ...prev.messages.messages],
-  //           },
-  //         });
-  //         return res;
-  //       } else return prev;
-  //     },
-  //   });
-  //   return () => {
-  //     unsubscription();
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [postId]);
+  useEffect(() => {
+    const unsubscription = subscribeToMore({
+      document: NEW_MESSAGE,
+      variables: { userId: _id, orderId: currentOrder },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newMessage = subscriptionData.data.newMessage;
+        if (!prev.messages.messages.find((msg) => msg._id === newMessage._id)) {
+          const res = Object.assign({}, prev, {
+            messages: [newMessage, ...prev.messages],
+          });
+          return res;
+        } else return prev;
+      },
+    });
+    return () => {
+      unsubscription();
+    };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentOrder]);
 
   const Message = ({ messages }) => {
     return messages.map((message) => (
@@ -65,10 +62,10 @@ export default function Messages({
     ));
   };
 
-  // React.useEffect(() => {
-  //   scrollBottom();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [messages[0]]);
+  React.useEffect(() => {
+    scrollBottom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages[0]]);
 
   const scrollBottom = () =>
     (messageRef.current.scrollTop = messageRef.current.scrollHeight);
