@@ -49,8 +49,6 @@ export default function MapRep() {
       type: "UPDATE_USER",
       payload: {
         available: !available,
-        lat: "driver lat",
-        lng: "driver lng",
       },
     });
   };

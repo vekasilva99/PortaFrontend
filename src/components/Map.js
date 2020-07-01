@@ -7,6 +7,8 @@ import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
 import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useSubscription } from "@apollo/react-hooks";
+import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
 import Spinner from "./Spinner";
 import {
   GoogleMap,
@@ -91,6 +93,15 @@ export default function Map() {
     ...state.User,
   }));
 
+  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+    ORDER_UPDATE,
+    {
+      variables: {
+        userId: _id,
+      },
+    }
+  );
+
   const dispatch = useDispatch();
 
   const handleSend = async (e) => {
@@ -147,52 +158,87 @@ export default function Map() {
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
+  // if (loadingS) return "Loading...";
+  // if (errorS) return `Error! ${errorS.message}`;
+
   console.log(data);
 
   return (
     <>
       <StyledMap>
         <div className="fondoMap">
-          <div className="busqueda">
-            <h1>Realiza un pedido</h1>
-            <div className="rutas">
-              <div className="div1"></div>
-              <div className="div2">
-                <Search
-                  panTo={panTo}
-                  handleChange={handleUserChange}
-                  placeH="Where Are You?"
-                />
+          {dataS ? (
+            <div className="busqueda">
+              <h1>Orden Actual</h1>
+              <div className="rutas">
+                <div className="div4"></div>
+                <div className="div2">
+                  <div className="texto">
+                    <h2>Repartidor</h2>
+                    <h3>
+                      {dataS.orderUpdate.repartidor.name}{" "}
+                      {dataS.orderUpdate.repartidor.lastName}
+                    </h3>
+                  </div>
+                </div>
+                <div className="div3">
+                  <div className="texto">
+                    <h2>Origen</h2>
+                    <h3>{dataS.orderUpdate.pickUp}</h3>
+                    <h2>Destino</h2>
+                    <h3>{dataS.orderUpdate.deliver}</h3>
+                  </div>
+                </div>
               </div>
-              <div className="div3">
-                <Search
-                  panTo={panTo}
-                  handleChange={handlePackageChange}
-                  placeH="Where is Your Package?"
-                />
-              </div>
-            </div>
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container justify="space-around">
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="time-picker"
-                  label="Time picker"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change time",
-                  }}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
-            <div className="botonContainer">
-              <button className="boton" onClick={handleSend}>
-                ACCEPT
-              </button>
+              <div className="botonContainer">
+                <button className="boton" onClick={handleSend}>
+                  CHAT
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="busqueda">
+              <h1>Realiza un pedido</h1>
+              <div className="rutas">
+                <div className="div1"></div>
+                <div className="div2">
+                  <Search
+                    panTo={panTo}
+                    handleChange={handleUserChange}
+                    placeH="Where Are You?"
+                  />
+                </div>
+                <div className="div3">
+                  <Search
+                    panTo={panTo}
+                    handleChange={handlePackageChange}
+                    placeH="Where is Your Package?"
+                  />
+                </div>
+              </div>
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                  <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    label="Time picker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+              <div className="botonContainer">
+                <button className="boton" onClick={handleSend}>
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          )}
           <div className="clear"></div>
         </div>
       </StyledMap>
@@ -467,6 +513,14 @@ const StyledMap = styled.div`
         width: 78%;
       }
 
+      .div4 {
+        grid-area: iconos;
+      }
+      .div4 {
+        z-index: 2030;
+        width: 78%;
+      }
+
       .div1 {
         grid-area: iconos;
       }
@@ -477,6 +531,8 @@ const StyledMap = styled.div`
         margin-left: -22%;
         display: flex;
         position: relative;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         .search {
           display: flex;
           position: absolute;
@@ -498,6 +554,32 @@ const StyledMap = styled.div`
             border: none;
           }
         }
+        .texto{
+          width:100%;
+          height:100%;
+          background:transparent;
+          display:flex;
+          flex-direction:column;
+          margin-left:1em;
+          h2{
+            font-size: 18px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+          
+  
+          }
+          h3{
+            font-size: 22px;
+            font-weight: 300;
+            color: #1d1d1f;
+            margin: 0;
+           
+  
+          }
+        }
+
+        
       }
       .div3 {
         grid-area: llegada;
@@ -525,6 +607,31 @@ const StyledMap = styled.div`
           &:focus {
             outline: none;
             border: none;
+          }
+        }
+        .texto{
+          
+          width:100%;
+          height:100%;
+          background:transparent;
+          display:flex;
+          flex-direction:column;
+          margin-left:1em;
+          h2{
+            font-size: 18px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+          margin-top:0.5em;
+  
+          }
+          h3{
+            font-size: 22px;
+            font-weight: 300;
+            color: #1d1d1f;
+            margin: 0;
+            
+  
           }
         }
       }

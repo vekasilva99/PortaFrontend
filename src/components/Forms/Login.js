@@ -43,6 +43,20 @@ export default function FormLogin(props) {
   //     console.log("login role" + role);
   //   }
   // }, [called, data, dispatch, log, role]);
+
+  useEffect(() => {
+    if (data && data.userLogin) {
+      
+      if(data.userLogin.user.role === "COSTUMER"){
+        route = "/user"
+      }else if(data.userLogin.user.role === "ADMIN"){
+        route = "/admin"
+      }else{
+        route = "/maprep"
+      }
+      console.log("ruta" + route);
+    }
+  }, [data, route]);
   return log && name ? (
     <Redirect to="/user" />
   ) : (
