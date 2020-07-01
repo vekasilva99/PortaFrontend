@@ -7,20 +7,29 @@ import AdminTable from "../components/AdminUserDashboardTable";
 import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 import CardMessage from "../components/Cards/CardMessage";
+import Messages from "../components/Messages";
 import NavbarIn from "../components/NavIn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
-
+import InputMessage from "../components/inputMessage";
+import { useQuery } from "@apollo/react-hooks";
+import { MESSAGES } from "../helpers/graphql/queries/index";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
-  const { name, lastName, _id, role } = useSelector((state) => ({
+  const { name, lastName, _id, role, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 
+  const { data, error, loading, subscribeToMore } = useQuery(MESSAGES, {
+    fetchPolicy: "network-only",
+    variables: {
+      order: currentOrder._id,
+    },
+  });
   const options = {
     timeZone: "UTC",
     month: "numeric",
@@ -38,14 +47,18 @@ export default function AdminHome() {
         <UserMenu show={sidebar} />
       </div>
       <div className="form">
-        <CardMessage
-          content="Hola"
-          date="2020-10-12"
-          user={_id}
-          name={name}
-          userId={_id}
-          options={options}
-        />
+        <div className="chat">
+          {data && (
+            <Messages
+              subscribeToMore={subscribeToMore}
+              messages={data.messages}
+              currentOrder={currentOrder._id}
+            />
+          )}
+        </div>
+        <div className="send">
+          <InputMessage />
+        </div>
       </div>
       <UserProfileSidebar />
       <div className="content"></div>
@@ -103,6 +116,17 @@ const HomeStyle = styled.section`
     display: flex;
     position: absolute;
     background: red;
+    flex-direction: column;
+    .chat {
+      width: 100%;
+      height: 100%;
+    }
+    .send {
+      width: 100%;
+      display: flex;
+      background: green;
+      height: 20%;
+    }
   }
 
   @media only screen and (max-width: 734px) {

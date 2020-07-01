@@ -45,8 +45,8 @@ export const NOTIFICATION_DELETED_SUSCRIPTION = gql`
 `;
 
 export const NEW_MESSAGE = gql`
-  subscription($userId: ID!, $orderId:ID!){
-    newMessage(userId: $userId, orderId:$orderId){
+  subscription($orderId: String!) {
+    newMessage(orderId: $orderId) {
       _id
       content
       createdAt
