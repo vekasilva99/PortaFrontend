@@ -6,14 +6,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Spinner from "./Spinner";
 
-export default function Messages({
-  messages,
-  subscribeToMore,
-  moreMessages,
-  loading1,
-  hasNextPage,
-  currentOrder,
-}) {
+export default function Messages({ messages, subscribeToMore, currentOrder }) {
   const { _id, name } = useSelector((state) => ({
     ...state.User,
   }));
@@ -31,13 +24,14 @@ export default function Messages({
   useEffect(() => {
     const unsubscription = subscribeToMore({
       document: NEW_MESSAGE,
-      variables: { userId: _id, orderId: currentOrder },
+      variables: { orderId: currentOrder },
       updateQuery: (prev, { subscriptionData }) => {
+        console.log("entra");
         if (!subscriptionData.data) return prev;
         const newMessage = subscriptionData.data.newMessage;
-        if (!prev.messages.messages.find((msg) => msg._id === newMessage._id)) {
+        if (!prev.messages.find((msg) => msg._id === newMessage._id)) {
           const res = Object.assign({}, prev, {
-            messages: [newMessage, ...prev.messages],
+            messages: [...prev.messages, newMessage],
           });
           return res;
         } else return prev;
