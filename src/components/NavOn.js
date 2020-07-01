@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
-import { FiMail } from "react-icons/fi";
-import { FaRegUser } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 
 export default function NavbarOn(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -14,14 +16,30 @@ export default function NavbarOn(props) {
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
-  const { role, name } = useSelector((state) => ({
+
+  const [
+    changeAv,
+    { data: dataA, error: errorA, loading: loadingA },
+  ] = useMutation(CHANGE_AVAILABLE);
+
+  const { role, name, available } = useSelector((state) => ({
     ...state.User,
   }));
   console.log(role, name);
 
-  const logOut = (e) => {
+  const logOut = async (e) => {
     e.preventDefault();
     console.log("entra");
+
+    if(available){
+      const { dataA } = await changeAv({
+        variables: {
+          lat: "driver lat",
+          lng: "driver lng",
+        },
+      });
+    }
+
     localStorage.clear();
     dispatch({
       type: "LOGOUT",
@@ -58,8 +76,13 @@ export default function NavbarOn(props) {
             </button>
 
             <li>
-              <button className="link3">
-                <img src="/user.png" alt="User" className="userbut" />
+              <div className="link3">
+                <FiLogIn onClick={logOut} size="2em" className="userbut" />
+              </div>
+            </li>
+            <li>
+              <button onClick={props.toggle} className="link3">
+                <FiMenu size="2em" className="userbut" />
               </button>
             </li>
           </ul>
@@ -191,11 +214,11 @@ const StyledNavbarOn = styled.nav`
 
   @media only screen and (min-width: 735px) {
     .fondo {
-      height: 60px;
+      height: 70px;
       padding-right: 1rem;
     }
     .toggle {
-      height: 60px;
+      height: 70px;
       padding-left: 1rem;
       font-size: 20px;
     }
@@ -207,11 +230,11 @@ const StyledNavbarOn = styled.nav`
 
   @media only screen and (max-width: 734px) {
     .fondo {
-      height: 50px;
+      height: 70px;
       padding-right: 0.5rem;
     }
     .toggle {
-      height: 50px;
+      height: 70px;
       padding-left: 0.5rem;
       font-size: 15px;
     }
@@ -227,6 +250,37 @@ const StyledNavbarOn = styled.nav`
     }
     .link3 {
       display: block;
+      color: #fafafa;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all ease-in-out 0.3s;
+      justify-content: flex-end;
+      padding-left: 0;
+      padding-right: 0;
+      background: #1d1d1f;
+      border-radius: 0;
+      z-index: 4;
+      &:focus {
+        outline: none;
+        background: #1d1d1f;
+      }
+    }
+
+    .userbut {
+      width: 50px;
+      background: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      width: 30vw;
+      list-style: none;
+      margin-right: 1em;
+      z-index: 4;
     }
   }
 `;

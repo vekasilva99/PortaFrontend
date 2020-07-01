@@ -16,12 +16,12 @@ export default function UserMenu(props) {
       <div className={style}>
         <ul className="nav-links">
           <li>
-            <NavLink to="/user/mapcli" className="link">
+            <NavLink to="/user" className="link">
               REQUEST A DELIVERY
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/user/chat" className="link">
               MY DELIVERIES
             </NavLink>
           </li>

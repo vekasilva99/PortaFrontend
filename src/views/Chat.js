@@ -3,22 +3,33 @@ import styled from "styled-components";
 import { colorPrimary } from "../helpers/styles";
 import NavbarAdmin from "../components/NavbarAdmin";
 import AdminSidebar from "../components/AdminSidebar";
-import NavbarUser from "../components/NavbarUser";
+import AdminTable from "../components/AdminUserDashboardTable";
+import AdminDriverTable from "../components/AdminDriverDashboardTable";
+import RequestsTable from "../components/RequestsDashboardTable";
+import CardMessage from "../components/Cards/CardMessage";
 import NavbarIn from "../components/NavIn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
-import { FaUserAlt } from "react-icons/fa";
-import { MdModeEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
+import InputMessage from "../components/inputMessage";
 
-export default function UserProfile() {
+export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
   const { name, lastName, _id, role } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const options = {
+    timeZone: "UTC",
+    month: "numeric",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
 
   return (
     <HomeStyle>
@@ -28,7 +39,19 @@ export default function UserProfile() {
         <UserMenu show={sidebar} />
       </div>
       <div className="form">
-        <UserProfileForm />
+        <div className="chat">
+          <CardMessage
+            content="Hola"
+            date="2020-10-12"
+            user={_id}
+            name={name}
+            userId={_id}
+            options={options}
+          />
+        </div>
+        <div className="send">
+          <InputMessage />
+        </div>
       </div>
       <UserProfileSidebar />
       <div className="content"></div>
@@ -84,7 +107,19 @@ const HomeStyle = styled.section`
     margin-left: 292px;
     margin-top: 80px;
     display: flex;
-    position: fixed;
+    position: absolute;
+    background: red;
+    flex-direction: column;
+    .chat {
+      width: 100%;
+      height: 100%;
+    }
+    .send {
+      width: 100%;
+      display: flex;
+      background: green;
+      height: 20%;
+    }
   }
 
   @media only screen and (max-width: 734px) {

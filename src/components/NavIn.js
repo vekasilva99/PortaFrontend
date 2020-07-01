@@ -37,7 +37,7 @@ export default function NavbarIn(props) {
           <div className="toggle">
             <img src="/LogoCliente.png" alt="Logo" className="logo" />
             <div>
-              <h2>Portadd</h2>
+              <h2>Porta</h2>
             </div>
           </div>
           {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}

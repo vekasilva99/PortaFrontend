@@ -43,8 +43,12 @@ import {
 
 const libraries = ["places", "directions"];
 const mapContainerStyle = {
-  height: "100%",
-  width: "100%",
+  height: "100vh",
+  width: "100vw",
+  top: "0",
+  left: "0",
+  display: "flex",
+  position: "absolute",
 };
 const options = {
   styles: mapStyles,
@@ -85,18 +89,18 @@ export default function Map() {
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
 
-
-  const { _id, role, name, lastName } = useSelector((state) => ({
+  const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 
-  const { data: dataS, error: errorS, loading: loadingS} = useSubscription(ORDER_UPDATE, {
-    variables:{
-      userId: _id
+  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+    ORDER_UPDATE,
+    {
+      variables: {
+        userId: _id,
+      },
     }
-  })
-  
-  
+  );
 
   const dispatch = useDispatch();
 
@@ -162,46 +166,80 @@ export default function Map() {
   return (
     <>
       <StyledMap>
-        <div className="busqueda">
-        <h1>{ dataS ? dataS.orderUpdate.pickUp : ""}</h1>
-          <h1>Realiza un pedido</h1>
-          <div className="rutas">
-            <div className="div1"></div>
-            <div className="div2">
-              <Search
-                panTo={panTo}
-                handleChange={handleUserChange}
-                placeH="Where Are You?"
-              />
-            </div>
-            <div className="div3">
-              <Search
-                panTo={panTo}
-                handleChange={handlePackageChange}
-                placeH="Where is Your Package?"
-              />
-            </div>
-          </div>
+        <div className="fondoMap">
+          {currentOrder ? (
+            <div className="busqueda">
+              <h1>Orden Actual</h1>
+              <div className="rutas">
+                <div className="div4"></div>
+                <div className="div2">
+                  <div className="texto">
+                    <h2>Repartidor</h2>
+                    <h3>
+                      {currentOrder.repartidor.name}{" "}
+                      {currentOrder.repartidor.lastName}
+                    </h3>
+                  </div>
+                </div>
+                <div className="div3">
+                  <div className="texto">
+                    <h2>Origen</h2>
+                    <h3>{currentOrder.pickUp}</h3>
+                    <h2>Destino</h2>
+                    <h3>{currentOrder.deliver}</h3>
+                  </div>
+                </div>
+              </div>
 
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
-              <KeyboardTimePicker
-                margin="normal"
-                id="time-picker"
-                label="Time picker"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-          <div className="clear">
-            <button className="boton" onClick={handleSend}>
-              ACCEPT
-            </button>
-          </div>
+              <div className="botonContainer">
+                <button className="boton" onClick={handleSend}>
+                  CHAT
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="busqueda">
+              <h1>Realiza un pedido</h1>
+              <div className="rutas">
+                <div className="div1"></div>
+                <div className="div2">
+                  <Search
+                    panTo={panTo}
+                    handleChange={handleUserChange}
+                    placeH="Where Are You?"
+                  />
+                </div>
+                <div className="div3">
+                  <Search
+                    panTo={panTo}
+                    handleChange={handlePackageChange}
+                    placeH="Where is Your Package?"
+                  />
+                </div>
+              </div>
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                  <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    label="Time picker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+              <div className="botonContainer">
+                <button className="boton" onClick={handleSend}>
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="clear"></div>
         </div>
       </StyledMap>
 
@@ -337,14 +375,14 @@ function Search({ panTo, handleChange, handlePackageChange, placeH }) {
             placeholder={placeH}
           />
 
-          <ComboboxPopover style={{ zIndex: 100, fontFamily: "Roboto" }}>
-            <ComboboxList style={{ zIndex: 100 }}>
+          <ComboboxPopover style={{ zIndex: 2500, fontFamily: "Roboto" }}>
+            <ComboboxList style={{ zIndex: 2500 }}>
               {status === "OK" &&
                 data.map(({ id, description }) => (
                   <ComboboxOption
                     key={id}
                     value={description}
-                    style={{ zIndex: 100 }}
+                    style={{ zIndex: 2500 }}
                   />
                 ))}
             </ComboboxList>
@@ -355,23 +393,16 @@ function Search({ panTo, handleChange, handlePackageChange, placeH }) {
   );
 }
 const StyledMap = styled.div`
-z-index:10;
-  .search {
-      position:relative;
-      width:100%
-      max-width:400px;
-      z-index:1000;
-      
+  .fondoMap {
+    display: flex;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: transparent;
+    overflow: hidden;
   }
-
-  .search input {
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    width: 100%;
-  }
-
-
-
   .locate {
     position: absolute;
     top: 5rem;
@@ -384,78 +415,7 @@ z-index:10;
     width: 5em;
     cursor: pointer;
   }
-  .clear {
-    grid-area: clear;
-    height: 20vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-  }
-  .busqueda {
-    background-color: #fafafa;
-    margin: 20px;
-    margin-top: 80px;
-    width: 400px;
-    z-index:1;
- 
-
-    position:absolute;
-    h1 {
-      font-size: 60px;
-      font-weight: 600;
-      color: #fafafa;
-      height: 230px;
-      background-color: rgb(0, 80, 122);
-      margin: 0;
-      padding: 40px;
-    }
-    h2 {
-      font-size: 25px;
-      font-weight: 500;
-      color: #1d1d1f;
-      margin: 0;
-      margin-top: 5%;
-      margin-left: 5%;
-    }
-
-    .div1 {
-      background-image: url("/iconos.png");
-      background-repeat: no-repeat;
-      background-size: 40px;
-      margin-left: 25%;
-      margin-top: 20%;
-    }
-    .rutas {
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-areas:
-        "iconos partida"
-        "iconos llegada";
-    }
-    input {
-      background-color: #ffffff;
-      margin: 5%;
-      border: none;
-      height: 40px;
-      width: 90%;
-      font-size: 20px;
-      font-weight: 500;
-      color: #1d1d1f;
-    }
-
-    .div1 {
-      grid-area: iconos;
-    }
-    .div2 {
-      grid-area: partida;
-      margin: 0;
-    }
-    .div3 {
-      grid-area: llegada;
-      margin: 0;
-    }
-  }
+  
 
   .boton {
     border: solid 2px #00507a;
@@ -482,5 +442,367 @@ z-index:10;
       outline: none;
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
-}
+  }
+
+  @media only screen and (min-width: 735px) {
+    .fondoMap {
+      display: grid;
+      grid-template-columns: 30% 70%;
+      grid-auto-rows: auto;
+    }
+    .MuiPickersToolbar-toolbar {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      background-color: rgb(0, 80, 122) !important;
+    }
+    .MuiGrid-container {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      background: #fafafa;
+      margin-top: -5%;
+    }
+
+    .busqueda {
+      background-color: transparent;
+      margin: 20px;
+      margin-top: 80px;
+      width: 400px;
+      z-index: 2020;
+      h1 {
+        font-size: 60px;
+        font-weight: 600;
+        color: #fafafa;
+        height: 230px;
+        background-color: rgb(0, 80, 122);
+        margin: 0;
+        padding: 40px;
+      }
+      h2 {
+        font-size: 25px;
+        font-weight: 500;
+        color: #1d1d1f;
+        margin: 0;
+        margin-top: 5%;
+        margin-left: 5%;
+      }
+
+      .rutas {
+        margin: 0;
+        padding-top: 20%;
+        padding-bottom: 15%;
+        padding-left: 9%;
+        padding-right: 9%;
+        width: 100%;
+        height: 35vh;
+        background: #fafafa;
+        display: grid;
+        grid-template-areas:
+          "iconos partida partida"
+          "iconos llegada llegada";
+      }
+      .div1 {
+        background-image: url("/iconos.png");
+        background-repeat: no-repeat;
+        background-size: 40px;
+        z-index: 2030;
+        width: 78%;
+      }
+
+      .div4 {
+        grid-area: iconos;
+      }
+      .div4 {
+        z-index: 2030;
+        width: 78%;
+      }
+
+      .div1 {
+        grid-area: iconos;
+      }
+      .div2 {
+        grid-area: partida;
+        background: transparent;
+        width: 122%;
+        margin-left: -22%;
+        display: flex;
+        position: relative;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        .search {
+          display: flex;
+          position: absolute;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          height: 100%;
+          z-index: 2030;
+        }
+
+        .search input {
+          font-size: 1.5rem;
+          height: 90%;
+          background: transparent;
+          outline: none;
+          border: none;
+          &:focus {
+            outline: none;
+            border: none;
+          }
+        }
+        .texto{
+          width:100%;
+          height:100%;
+          background:transparent;
+          display:flex;
+          flex-direction:column;
+          margin-left:1em;
+          h2{
+            font-size: 18px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+          
+  
+          }
+          h3{
+            font-size: 22px;
+            font-weight: 300;
+            color: #1d1d1f;
+            margin: 0;
+           
+  
+          }
+        }
+
+        
+      }
+      .div3 {
+        grid-area: llegada;
+        background: transparent;
+        width: 122%;
+        margin-left: -22%;
+        display: flex;
+        position: relative;
+        .search {
+          display: flex;
+          position: absolute;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          height: 100%;
+          z-index: 2030;
+        }
+
+        .search input {
+          font-size: 1.5rem;
+          height: 90%;
+          background: transparent;
+          outline: none;
+          border: none;
+          &:focus {
+            outline: none;
+            border: none;
+          }
+        }
+        .texto{
+          
+          width:100%;
+          height:100%;
+          background:transparent;
+          display:flex;
+          flex-direction:column;
+          margin-left:1em;
+          h2{
+            font-size: 18px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+          margin-top:0.5em;
+  
+          }
+          h3{
+            font-size: 22px;
+            font-weight: 300;
+            color: #1d1d1f;
+            margin: 0;
+            
+  
+          }
+        }
+      }
+
+      .botonContainer {
+        width: 100%;
+        background: #fafafa;
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 734px) {
+    .fondoMap {
+      display: grid;
+      grid-template-areas:
+        "clear"
+        "busqueda";
+    }
+
+    .MuiPickersToolbar-toolbar {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      background-color: rgb(0, 80, 122) !important;
+      margin-top: 0;
+    }
+    .MuiGrid-container {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      background: #fafafa;
+      margin-top: 0;
+    }
+
+    .busqueda {
+      grid-area: busqueda;
+      background-color: #fafafa;
+      z-index: 2020;
+      margin:0;
+      height: fit-content;
+      h1 {
+        font-size: 30px;
+        font-weight: 400;
+        color: #fafafa;
+        height: 80px;
+        background-color: rgb(0, 80, 122);
+        margin: 0;
+        padding: 20px;
+        width: 1;
+      }
+      h5 {
+        font-size: 25px;
+        font-weight: 500;
+        color: #1d1d1f;
+        margin: 0;
+        margin-top: 5%;
+        margin-left: 15%;
+      }
+      .rutas {
+        margin: 0;
+        padding-top: 10%;
+        padding-bottom: 10%;
+        padding-left: 9%;
+        padding-right: 9%;
+        width: 100%;
+        height: 20vh;
+        background: #fafafa;
+        display: grid;
+        grid-template-areas:
+          "iconos partida partida"
+          "iconos llegada llegada";
+      }
+      .div1 {
+        background-image: url("/iconos.png");
+        background-repeat: no-repeat;
+        background-size: 38px;
+        z-index: 2030;
+        width: 78%;
+       
+      }
+
+      .div1 {
+        grid-area: iconos;
+      }
+      .div2 {
+        grid-area: partida;
+        background: #fafafa;
+        width: 122%;
+        margin-left: -22%;
+        display: flex;
+        position: relative;
+
+        .search {
+          display: flex;
+          position: absolute;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          height: 100%;
+          z-index: 2030;
+        }
+
+        .search input {
+          font-size: 1.5rem;
+          height: 90%;
+          background: transparent;
+          outline: none;
+          border: none;
+          &:focus {
+            outline: none;
+            border: none;
+          }
+        }
+      }
+        .div3 {
+          grid-area: llegada;
+          background: #fafafa;
+          width: 122%;
+          margin-left: -22%;
+          display: flex;
+          position: relative;
+          
+          .search {
+            display: flex;
+            position: absolute;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            height: 100%;
+            z-index: 2030;
+          }
+
+          .search input {
+            font-size: 1.5rem;
+            height: 90%;
+            background: transparent;
+            outline: none;
+            border: none;
+            &:focus {
+              outline: none;
+              border: none;
+            }
+          }
+        }
+      }
+
+      .botonContainer {
+        width: 100%;
+        background: #fafafa;
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .boton {
+        width: 60vw;
+      }
+    }
+
+    .clear {
+      grid-area: clear;
+      height: 52vh;
+    
+    }
+  }
 `;

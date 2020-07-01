@@ -45,12 +45,12 @@ export const NOTIFICATION_DELETED_SUSCRIPTION = gql`
 `;
 
 export const NEW_MESSAGE = gql`
-  subscription {
-    newMessage {
+  subscription($userId: ID!, $orderId:ID!){
+    newMessage(userId: $userId, orderId:$orderId){
       _id
       content
       createdAt
-      conversation {
+      order {
         _id
       }
       sender {
@@ -71,12 +71,19 @@ export const NEW_MESSAGE = gql`
 
 export const ORDER_UPDATE = gql`
   subscription($userId: ID!) {
-    orderUpdate (userId: $userId){
+    orderUpdate(userId: $userId) {
       _id
       user {
         _id
         name
         lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
       }
       pickUp
       deliver
