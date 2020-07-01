@@ -203,3 +203,29 @@ export const UPDATE_LOCATION_DRIVER = gql`
     }
   }
 `;
+
+export const CREATE_MESSAGE = gql`
+  mutation($messageInput: MessageInput!) {
+    createMessage(messageInput: $messageInput) {
+      _id
+      content
+      createdAt
+      order {
+        _id
+      }
+      sender {
+        _id
+        name
+        lastName
+        mail
+      }
+      receiver {
+        _id
+        name
+        lastName
+        mail
+      }
+    }
+  }
+`;
+
