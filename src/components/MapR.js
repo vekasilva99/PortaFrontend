@@ -38,8 +38,13 @@ import {
 
 const libraries = ["places", "directions"];
 const mapContainerStyle = {
-  height: "100%",
-  width: "100%",
+  height: "100vh",
+  width: "100vw",
+  top: "0",
+  left: "0",
+  display: "flex",
+  position: "absolute",
+  zIndex: "1",
 };
 const options = {
   styles: mapStyles,
@@ -183,23 +188,6 @@ function Locate({ panTo, handleLocationChange }) {
 }
 
 const StyledMap = styled.div`
-z-index:10;
-  .search {
-      position:relative;
-      width:100%
-      max-width:400px;
-      z-index:1000;
-      
-  }
-
-  .search input {
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    width: 100%;
-  }
-
-
-
   .locate {
     position: absolute;
     top: 5rem;
@@ -212,7 +200,6 @@ z-index:10;
     width: 5em;
     cursor: pointer;
   }
-
 
   .boton {
     border: solid 2px #00507a;
@@ -239,5 +226,5 @@ z-index:10;
       outline: none;
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
-}
+  }
 `;

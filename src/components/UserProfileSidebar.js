@@ -9,7 +9,7 @@ export default function UserProfileSidebar() {
       <div className="container">
         <ul className="nav-links">
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/user" className="link">
               REQUEST A DELIVERY
             </NavLink>
           </li>

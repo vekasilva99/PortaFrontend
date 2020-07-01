@@ -114,7 +114,7 @@ export default function Routes() {
         component={UserProfile}
       />
 
-      <GuardRoute exact path="/user" role={role} component={UserHome} />
+      <GuardRoute exact path="/user" role={role} component={MapCli} />
 
       <GuardRoute
         exact
@@ -130,7 +130,7 @@ export default function Routes() {
         component={DriverProfile}
       />
 
-      <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} />
+      {/* <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} /> */}
       {role == "COSTUMER" ? (
         <Redirect exact from="*" to="/user" />
       ) : role == "DRIVER" ? (

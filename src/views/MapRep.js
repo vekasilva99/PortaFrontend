@@ -62,10 +62,10 @@ export default function MapRep() {
       <StyleMapRep>
         <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
         <DriverMenu show={on} />
+
+        <MapR />
+
         <div className="fondoMap">
-          <div className="google">
-            <MapR />
-          </div>
           <div className="busqueda">
             <h1>Pedidos para tí</h1>
             <h5>Se encuentra disponible?</h5>
@@ -89,13 +89,16 @@ export default function MapRep() {
 }
 
 const StyleMapRep = styled.div`
-  position: absolute;
-
-  background: white;
-  min-height: 100vh;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  .fondoMap {
+    display: flex;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: purple;
+    overflow: hidden;
+  }
 
   .switch {
     position: relative;
@@ -157,33 +160,19 @@ const StyleMapRep = styled.div`
     border-radius: 50%;
   }
 
-  .google {
-    position absolute
-    margin-top: 60px;
-    width: 100vw;
-    height: 100vh;
-  }
-  .fondoMap {
-    height: 100%;
-    width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
   @media only screen and (min-width: 735px) {
     .fondoMap {
       display: grid;
       grid-template-columns: 30% 70%;
       grid-auto-rows: auto;
     }
+
     .busqueda {
       background-color: #fafafa;
       margin: 20px;
       margin-top: 80px;
       width: 400px;
-      z-index:3;
-      position:fixed;
-      left:0;
+      z-index: 3000;
 
       h1 {
         font-size: 60px;
@@ -202,11 +191,11 @@ const StyleMapRep = styled.div`
         margin-top: 5%;
         margin-left: 15%;
       }
-    }
-    .switch {
-      margin-left: 42%;
-      margin-top: 15px;
-      margin-bottom: 20px;
+      .switch {
+        margin-left: 42%;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
     }
   }
 
@@ -218,13 +207,14 @@ const StyleMapRep = styled.div`
         "busqueda";
     }
 
-    .clear {
-      grid-area: clear;
-      height: 2vh;
-    }
     .busqueda {
       grid-area: busqueda;
       background-color: #fafafa;
+      z-index: 2020;
+      margin: 0;
+      bottom: 0;
+      height: fit-content;
+      min-height: 48vh;
       h1 {
         font-size: 30px;
         font-weight: 400;
@@ -233,7 +223,7 @@ const StyleMapRep = styled.div`
         background-color: #ef0023;
         margin: 0;
         padding: 20px;
-        width: 100vw;
+        width: 1;
       }
       h5 {
         font-size: 25px;
@@ -243,11 +233,16 @@ const StyleMapRep = styled.div`
         margin-top: 5%;
         margin-left: 15%;
       }
+      .switch {
+        margin-left: 42%;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
     }
-    .switch {
-      margin-left: 20%;
-      margin-top: 15px;
-      margin-bottom: 20px;
+
+    .clear {
+      grid-area: clear;
+      height: 52vh;
     }
   }
 `;

@@ -201,20 +201,36 @@ const StyledPedido = styled.nav`
     }
   }
   @media only screen and (max-width: 734px) {
-    h2 {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      font-size: 15px;
+    .textb {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+      h2 {
+        font-size: 20px;
+        font-weight: 400;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+      h3 {
+        font-size: 15px;
+        font-weight: 300;
+        margin: 0;
+        margin-left: 10px;
+      }
+      h4 {
+        font-size: 10px;
+        font-weight: 200;
+        margin: 0;
+        margin-left: 10px;
+      }
     }
-    .repart {
-      width: 90%;
+    .order {
+      width: 80%;
     }
     .next {
-      width: 50px;
-      height: 50px;
     }
     .nextbut {
-      width: 10px;
+      height: 30px;
     }
   }
 `;

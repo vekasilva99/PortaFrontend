@@ -73,7 +73,7 @@ export default function Home() {
       <div className="infoPorta">
         <h1>Porta</h1>
         <h2>Hasta tu puerta</h2>
-        <button className="boton">Más información ></button>
+        <button className="boton">Más información</button>
       </div>
       <div className="usuarios">
         <div className="cliente">
@@ -110,7 +110,6 @@ const HomeStyle = styled.div`
     background-position: center;
     text-align: center;
     color: rgb(29, 29, 31);
-    background-attachment: fixed;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -145,10 +144,11 @@ const HomeStyle = styled.div`
     border: none;
     padding: 0.4rem 0.8rem !important;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 400;
     margin-top: 0.3rem;
     text-align: center;
-    text-transform: uppercase;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     &:hover {
       opacity: 0.8;
     }
