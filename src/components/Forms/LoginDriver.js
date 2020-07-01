@@ -13,10 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function FormLoginDriver(props) {
   //const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
 
-  const [
-    login,
-    { data, loading, error },
-  ] = useMutation(LOGIN_USER);
+  const [login, { data, loading, error }] = useMutation(LOGIN_USER);
 
   const { name, role } = useSelector((state) => ({
     ...state.User,
@@ -86,11 +83,11 @@ export default function FormLoginDriver(props) {
           // });
 
           const { data } = await login({
-            variables:{
+            variables: {
               mail: Email,
               password: Password,
               role: "DRIVER",
-            }
+            },
           });
 
           if (data && data.userLogin) {
@@ -102,7 +99,7 @@ export default function FormLoginDriver(props) {
                 ...data.userLogin.user,
               },
             });
-            
+
             setLog(true);
           }
 

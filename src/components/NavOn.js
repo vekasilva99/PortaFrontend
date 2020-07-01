@@ -1,50 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink, withRouter } from "react-router-dom";
-import { TiThMenuOutline } from "react-icons/ti";
 import { FiLogIn } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { useMutation } from "@apollo/react-hooks";
-import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
+import { Redirect, Link } from "react-router-dom";
 
-export default function NavbarOn(props) {
+export default function NavbarIn(props) {
   const [sidebar, setSidebar] = React.useState(false);
   const [log, setLog] = React.useState(false);
   const dispatch = useDispatch();
+
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
-  const [
-    changeAv,
-    { data: dataA, error: errorA, loading: loadingA },
-  ] = useMutation(CHANGE_AVAILABLE);
-
-  const { role, name, available } = useSelector((state) => ({
-    ...state.User,
-  }));
-  console.log(role, name);
-
-  const logOut = async (e) => {
+  const logOut = (e) => {
     e.preventDefault();
-    console.log("entra");
-
-    if(available){
-      const { dataA } = await changeAv({
-        variables: {
-          lat: "driver lat",
-          lng: "driver lng",
-        },
-      });
-    }
-
     localStorage.clear();
     dispatch({
       type: "LOGOUT",
     });
-    console.log("sale");
     setLog(true);
   };
 
@@ -57,7 +32,7 @@ export default function NavbarOn(props) {
   return (
     <>
       {log && <Redirect to="/" />}
-      <StyledNavbarOn>
+      <StyledNavbarIn>
         <div className="fondo">
           <div className="toggle">
             <img src="/LogoRepartidor.png" alt="Logo" className="logo" />
@@ -67,7 +42,7 @@ export default function NavbarOn(props) {
           </div>
           {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
           <ul className="nav-links">
-            <button onClick={logOut} className="link">
+            <button onClick={logOut} className="link" tag={Link} to="/">
               LOG OUT
             </button>
 
@@ -87,11 +62,11 @@ export default function NavbarOn(props) {
             </li>
           </ul>
         </div>
-      </StyledNavbarOn>
+      </StyledNavbarIn>
     </>
   );
 }
-const StyledNavbarOn = styled.nav`
+const StyledNavbarIn = styled.nav`
   .fondo {
     display: flex;
     position: fixed;
@@ -99,11 +74,12 @@ const StyledNavbarOn = styled.nav`
     align-items: center;
     justify-content: flex-end;
     font-family: Roboto;
+    /* z-index: 3; */
     width: 100%;
     top: 0;
     left: 0;
     background: #1d1d1f;
-    z-index: 4;
+    z-index: 3500;
   }
 
   .toggle {
@@ -120,7 +96,7 @@ const StyledNavbarOn = styled.nav`
     left: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    z-index: 4;
+    z-index: 3500;
   }
 
   .nav-links {
@@ -131,7 +107,7 @@ const StyledNavbarOn = styled.nav`
     width: 20vw;
     list-style: none;
     margin-right: 1rem;
-    z-index: 4;
+    z-index: 3500;
   }
   .link {
     display: flex;
@@ -149,8 +125,8 @@ const StyledNavbarOn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
-    z-index: 4;
 
+    z-index: 3500;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -176,7 +152,7 @@ const StyledNavbarOn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
-    z-index: 4;
+    z-index: 3500;
 
     &:hover {
       background: #333333;
@@ -197,7 +173,7 @@ const StyledNavbarOn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     border-radius: 20px;
-    z-index: 4;
+    z-index: 3500;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -209,7 +185,6 @@ const StyledNavbarOn = styled.nav`
   }
   .userbut {
     width: 15px;
-    z-index: 4;
   }
 
   @media only screen and (min-width: 735px) {
