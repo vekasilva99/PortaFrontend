@@ -3,7 +3,24 @@ import gql from "graphql-tag";
 export const LOGIN_USER = gql`
   query($mail: String!, $password: String!, $role: String!) {
     userLogin(mail: $mail, password: $password, role: $role) {
-      userId
+      user {
+        _id
+        role
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+        createdAt
+        updatedAt
+      }
       token
       tokenExpiration
     }
@@ -20,6 +37,9 @@ export const GET_USERS = gql`
       mail
       zone
       cellphone
+      orders {
+        _id
+      }
       createdAt
       updatedAt
     }
@@ -53,6 +73,9 @@ export const GET_REPARTIDORES = gql`
           name
           lastName
         }
+      }
+      orders {
+        _id
       }
       createdAt
       updatedAt
@@ -112,6 +135,8 @@ export const CURRENT_USER = gql`
       birthdate
       mail
       zone
+      latitud
+      longitud
       cellphone
       available
       workingStatus
@@ -119,41 +144,6 @@ export const CURRENT_USER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export const CURRENT_ADMIN = gql`
-  {
-    currentAdmin {
-      _id
-      mail
-    }
-  }
-`;
-
-export const CURRENT_DRIVER = gql`
-  {
-    currentRepartidor {
-      _id
-      cedula
-      name
-      lastName
-      birthdate
-      mail
-      zone
-      cellphone
-      available
-      workingStatus
-      vehiculo
-      licencia
-      carnetCirculacion
-      seguroVehiculo
-      rating {
-        score
-      }
       createdAt
       updatedAt
     }
@@ -272,6 +262,77 @@ export const SELECTED_REQUEST = gql`
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const GET_ORDERS = gql`
+  {
+    orders {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      pickUp
+      deliver
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const MESSAGES = gql`
+  query($user: ID!) {
+    messages(user: $user) {
+      _id
+      content
+      createdAt
+      conversation {
+        _id
+      }
+      sender {
+        _id
+        name
+        lastName
+        mail
+      }
+      receiver {
+        _id
+        name
+        lastName
+        mail
+      }
+    }
+  }
+`;
+
+export const DRIVERS_AROUND = gql`
+  {
+    driversAroundMe {
+      _id
+      role
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      createdAt
+      updatedAt
+      longitud
+      latitud
     }
   }
 `;

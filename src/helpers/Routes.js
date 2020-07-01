@@ -29,35 +29,33 @@ import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
   });
 
-  const { token, name } = useSelector((state) => ({
+  const { token, name, role } = useSelector((state) => ({
     ...state.User,
   }));
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    refetch();
-  }, [refetch, token]);
+    if (token && !name) refetch();
+  }, [name, refetch, token]);
 
   useEffect(() => {
-    if (data && data.currentUser) {
-      const response = localStorage.getItem("token");
+    const tokenL = localStorage.getItem("token");
+    if (tokenL && data && data.currentUser && !name) {
       dispatch({
         type: "CURRENT_USER",
         payload: {
-          token: response,
           ...data.currentUser,
         },
       });
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, name]);
 
-  return name && !loading ? (
+  return name && role && !loading ? (
     <Switch>
-      <Route exact path="/" render={(props) => <Home {...props} />} />
-
       <Route
         exact
         path="/registerdriver"
@@ -70,89 +68,82 @@ export default function Routes() {
         render={(props) => <LoginAdmin {...props} />}
       />
 
-      <GuardRoutesAdmin
-        exact
-        path="/admin"
-        isAuth={token}
-        component={AdminHome}
-      />
+      <GuardRoutesAdmin exact path="/admin" role={role} component={AdminHome} />
 
       <GuardRoutesAdmin
         exact
         path="/admin/users"
-        isAuth={token}
+        role={role}
         component={AdminUsers}
       />
 
       <GuardRoutesAdmin
         exact
         path="/admin/requests"
-        isAuth={token}
+        role={role}
         component={AdminRequests}
       />
 
       <GuardRoutesAdmin
         exact
         path="/admin/requests/:id"
-        isAuth={token}
+        role={role}
         component={AdminRequest}
       />
 
-      <GuardRoutesDriver
-        exact
-        path="/maprep"
-        isAuth={token}
-        component={MapRep}
-      />
+      <GuardRoutesDriver exact path="/maprep" role={role} component={MapRep} />
 
       <GuardRoutesDriver
         exact
         path="/driver/driverprofile"
-        isAuth={token}
+        role={role}
         component={DriverEditProfile}
       />
 
       <GuardRoutesDriver
         exact
         path="/driver/request"
-        isAuth={token}
+        role={role}
         component={DriverRequest}
       />
 
       <GuardRoute
         exact
         path="/user/userprofile"
-        isAuth={token}
+        role={role}
         component={UserProfile}
       />
 
-      <GuardRoute exact path="/user" isAuth={token} component={UserHome} />
+      <GuardRoute exact path="/user" role={role} component={UserHome} />
 
       <GuardRoute
         exact
         path="/user/seedrivers"
-        isAuth={token}
+        role={role}
         component={SeeDrivers}
       />
 
       <GuardRoute
         exact
         path="/user/driverprofile/:id"
-        isAuth={token}
+        role={role}
         component={DriverProfile}
       />
 
-      <GuardRoute exact path="/mapcli" isAuth={token} component={MapCli} />
-
-      <Redirect exact from="*" to="/" />
+      <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} />
+      {role == "COSTUMER" ? (
+        <Redirect exact from="*" to="/user" />
+      ) : role == "DRIVER" ? (
+        <Redirect exact from="*" to="/maprep" />
+      ) : (
+        <Redirect exact from="*" to="/admin" />
+      )}
     </Switch>
-  ) : !name && !loading ? (
+  ) : !role && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 
-      {/* <Route exact path="/maprep" render={(props) => <MapRep {...props} />} />
-      <Route exact path="/mapcli" render={(props) => <MapCli {...props} />} /> */}
       <Route
         exact
         path="/register"
@@ -173,57 +164,13 @@ export default function Routes() {
         path="/driverlogin"
         render={(props) => <LoginDriver {...props} />}
       />
-      {/* <Route exact path="/admin" render={(props) => <AdminHome {...props} />} />
-      <Route
-        exact
-        path="/admin/users"
-        render={(props) => <AdminUsers {...props} />}
-      />
-      <Route
-        exact
-        path="/admin/requests"
-        render={(props) => <AdminRequests {...props} />}
-      />
-      <Route
-        exact
-        path="/admin/requests/:id"
-        render={(props) => <AdminRequest {...props} />}
-      />
-
-      <Route
-        exact
-        path="/user/seedrivers"
-        render={(props) => <SeeDrivers {...props} />}
-      />
-
-      <Route
-        exact
-        path="/user/driverprofile/:id"
-        render={(props) => <DriverProfile {...props} />}
-      />
-      <Route
-        exact
-        path="/driver/driverprofile"
-        render={(props) => <DriverEditProfile {...props} />}
-      />
-      <Route
-        exact
-        path="/driver/request"
-        render={(props) => <DriverRequest {...props} />}
-      /> */}
-
-      {/* <Route
-        exact
-        path="/user/userprofile"
-        render={(props) => <UserProfile {...props} />}
-      /> */}
 
       <Redirect exact from="*" to="/" />
     </Switch>
   ) : (
     <PageLoading>
       {" "}
-      <Spinner color="blue"></Spinner>
+      <Spinner></Spinner>
     </PageLoading>
   );
 }

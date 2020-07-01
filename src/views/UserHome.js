@@ -6,14 +6,15 @@ import NavbarIn from "../components/NavIn";
 import AdminSidebar from "../components/AdminSidebar";
 import Login from "./Login";
 import LoginDriver from "./LoginDriver";
+import UserMenu from "../components/UserMenu";
 import Register2 from "./RegisterUser2";
 import RegisterDriver from "./RegisterDriver";
 import { useQuery } from "@apollo/react-hooks";
 import { useSelector } from "react-redux";
 export default function UserHome() {
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
 
-  const handleToggle = (e) => setToggle(false);
+  const handleToggle = (e) => setToggle(!on);
 
   const [login, setLogin] = React.useState(false);
   const [loginD, setLoginD] = React.useState(false);
@@ -53,8 +54,8 @@ export default function UserHome() {
   // console.log(loggedUser);
   return (
     <HomeStyle>
-      <NavbarIn name={name} />
-      {/* <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} /> */}
+      <NavbarIn name={name} toggle={handleToggle} />
+      <UserMenu show={on} />
       {login ? (
         <Login
           show={login}
@@ -84,13 +85,7 @@ export default function UserHome() {
         />
       ) : null}
 
-      {/* <AdminSidebar show={sidebar} /> */}
       <div className="infoPorta">
-        {/* <select name="userTest">
-        {data.user.map((user) => (
-          <option key={user.id}>{user.name}</option>
-        ))}
-      </select> */}
         <h1>
           {name} {lastName}
         </h1>

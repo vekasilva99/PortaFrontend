@@ -1,5 +1,34 @@
 import gql from "graphql-tag";
 
+export const LOGIN_USER = gql`
+  mutation($mail: String!, $password: String!, $role: String!) {
+    userLogin(mail: $mail, password: $password, role: $role) {
+      user {
+        _id
+        role
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        latitud
+        longitud
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+        createdAt
+        updatedAt
+      }
+      token
+      tokenExpiration
+    }
+  }
+`;
+
 export const REGISTER_USER = gql`
   mutation($userInput: UserInput!) {
     createUser(userInput: $userInput) {
@@ -34,7 +63,6 @@ export const DRIVER_REQUEST = gql`
   mutation($solicitudInput: SolicitudInput!) {
     createSolicitud(solicitudInput: $solicitudInput) {
       _id
-      
     }
   }
 `;
@@ -43,13 +71,12 @@ export const REVIEW_REQUEST = gql`
   mutation($reviewInput: ReviewInput!) {
     reviewSolicitud(reviewInput: $reviewInput) {
       _id
-      
     }
   }
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation($user: ID!, $repartidor:ID!, $content: String!) {
+  mutation($user: ID!, $repartidor: ID!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
       content
@@ -67,8 +94,8 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const CHANGE_AVAILABLE = gql`
-  mutation{
-    changeAvailable{
+  mutation ($lat: String!, $lng: String!){
+    changeAvailable(lat: $lat, lng:$lng){
       _id
       available
       name
@@ -76,7 +103,6 @@ export const CHANGE_AVAILABLE = gql`
     }
   }
 `;
-
 
 export const RATE_DRIVER = gql`
   mutation($user: ID!, $repartidor: ID!, $score: Int!) {
@@ -87,4 +113,49 @@ export const RATE_DRIVER = gql`
   }
 `;
 
+export const MAKE_ORDER = gql`
+  mutation($orderInput: OrderInput!) {
+    createOrder(orderInput: $orderInput) {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      pickUp
+      deliver
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
+export const ACCEPT_ORDER = gql`
+  mutation($orderId: ID!, $repartidor: ID!) {
+    acceptOrder(orderId: $orderId, repartidor: $repartidor) {
+      _id
+      pickUp
+      deliver
+      km
+      price
+    }
+  }
+`;
+
+export const UPDATE_LOCATION_DRIVER = gql`
+  mutation($lat: String!, $lng: String!) {
+    updateLocationDriver(lat: $lat, lng:$lng) {
+      _id
+      latitud
+      longitud
+      mail
+      password
+      zone
+      cellphone
+    }
+  }
+`;

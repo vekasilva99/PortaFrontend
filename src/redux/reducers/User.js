@@ -7,9 +7,11 @@ const initialState = {
   lastName: null,
   birthdate: null,
   mail: null,
-  zone:null,
-  cellphone:null,
+  zone: null,
+  cellphone: null,
   role: null,
+  latitud: null,
+  longitud: null,
   available: null,
   workingStatus: null,
   experience: null,
@@ -20,7 +22,7 @@ const initialState = {
   placaVehiculo: null,
   rating: null,
   comments: null,
-  createdAt:null
+  createdAt: null,
 };
 
 export default function (state = initialState, action) {
@@ -30,14 +32,37 @@ export default function (state = initialState, action) {
       return {
         ...state,
         token,
-        role
+        role,
       };
     }
     case LOGOUT: {
       return initialState;
     }
     case CURRENT_USER: {
-      const { token, _id, name, lastName, birthdate, mail, zone, cellphone, role, available, workingStatus, experience, vehiculo, licencia, carnetCirculacion, seguroVehiculo, placaVehiculo, rating, comments, createdAt} = action.payload;
+      const {
+        token,
+        _id,
+        name,
+        lastName,
+        birthdate,
+        mail,
+        zone,
+        cellphone,
+        role,
+        latitud,
+        longitud,
+        available,
+        workingStatus,
+        experience,
+        vehiculo,
+        licencia,
+        carnetCirculacion,
+        seguroVehiculo,
+        placaVehiculo,
+        rating,
+        comments,
+        createdAt,
+      } = action.payload;
       return {
         token: token,
         _id: _id,
@@ -48,6 +73,8 @@ export default function (state = initialState, action) {
         zone: zone,
         cellphone: cellphone,
         role: role,
+        latitud: latitud,
+        longitud: longitud,
         available: available,
         workingStatus: workingStatus,
         experience: experience,
@@ -58,7 +85,7 @@ export default function (state = initialState, action) {
         placaVehiculo: placaVehiculo,
         rating: rating,
         comments: comments,
-        createdAt: createdAt
+        createdAt: createdAt,
       };
     }
     case UPDATE_USER: {
@@ -66,7 +93,7 @@ export default function (state = initialState, action) {
       const params = action.payload;
       return {
         ...state,
-        ...params
+        ...params,
       };
     }
 

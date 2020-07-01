@@ -4,34 +4,22 @@ import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
 export default function LoginAdmin() {
-  const [on, setToggle] = React.useState(true);
-
-  const handleToggle = (e) => setToggle(false);
   return (
     <div>
-      {on ? (
-        <LoginView>
-          <div className="login-box">
-            {/* <MdClose
-              onClick={handleToggle}
-              className="close"
-              size="1.7rem"
-              color="black"
-            /> */}
-            <div className="container">
-              <h2 className="h2">Log In</h2>
-              <FormLoginAdmin color="#F89262" />
-            </div>
+      <LoginView>
+        <div className="login-box">
+          <div className="container">
+            <h2 className="h2">Log In</h2>
+            <FormLoginAdmin color="#F89262" />
           </div>
-        </LoginView>
-      ) : null}
+        </div>
+      </LoginView>
     </div>
   );
 }
 
 const LoginView = styled.div`
   background-size: cover;
-  display: block;
   display: flex;
   min-height: 100vh;
   height: 100vh;
@@ -61,8 +49,6 @@ const LoginView = styled.div`
     font-size: 2em;
     font-weight: 500;
     letter-spacing: 1px;
-    position: absolute;
-    top: 2rem;
   }
   .h3 {
     color: #fafafa;
@@ -85,24 +71,26 @@ const LoginView = styled.div`
     transform: translate(-50%, -50%);
     color: #002e64;
     background: white;
-    height: 100vh;
+    background: #202124;
+    min-height: 100vh;
     width: 100vw;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
   .container {
     position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    padding: auto;
+    max-width: 100%;
     z-index: 3;
-    height: 100vh;
+    min-height: 50vh;
     width: inherit;
-    background: #202124;
     color: black;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
@@ -115,17 +103,5 @@ const LoginView = styled.div`
     z-index: 4;
     right: 0;
     cursor: pointer;
-  }
-
-  @media only screen and (max-width: 734px) {
-    .login-box {
-      height: 100vh;
-      width: 100vw;
-    }
-
-    .container {
-      height: 100vh;
-      width: 100vw;
-    }
   }
 `;

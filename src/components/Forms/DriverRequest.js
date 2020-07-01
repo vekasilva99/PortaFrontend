@@ -11,10 +11,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { CURRENT_USER } from "../../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import { DRIVER_REQUEST } from "../../helpers/graphql/mutations/index";
+import { useSelector } from "react-redux";
 
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
@@ -22,12 +22,11 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const { loading, error, data } = useQuery(CURRENT_USER);
   const [makeRequest, { data: dataU, loading: loadingU, error: errorU}] = useMutation(DRIVER_REQUEST);
-  console.log(data);
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  const { _id, name, lastName, cellphone } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -109,7 +108,7 @@ export default function DriverRequestForm(props) {
             const { dataU } = await makeRequest({
               variables: {
                 solicitudInput: {
-                  repartidorID: data.currentUser._id,
+                  repartidorID: _id,
                   vehiculo: values.Vehiculo,
                   licencia: values.Licencia,
                   experience:values.Experiencia,
@@ -150,8 +149,9 @@ export default function DriverRequestForm(props) {
                   <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />{" "}
                 </button>
               </div>
+              
               <div className="Profile-name">
-                <h1>Valeska Silva</h1>
+                <h1>{name} {lastName}</h1>
               </div>
               <div className="Profile-content">
                 <div className="label">

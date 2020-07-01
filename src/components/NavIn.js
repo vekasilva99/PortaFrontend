@@ -1,18 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink, withRouter } from "react-router-dom";
-import { TiThMenuOutline } from "react-icons/ti";
-import { FiMail } from "react-icons/fi";
-import { FaRegUser } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, Link } from "react-router-dom";
 
 export default function NavbarIn(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  const [log, setLog] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
 
-  const logOut = (e) => {};
+  const logOut = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    dispatch({
+      type: "LOGOUT",
+    });
+    setLog(true);
+  };
 
   let style;
   if (sidebar) {
@@ -21,32 +30,40 @@ export default function NavbarIn(props) {
     style = "open";
   }
   return (
-    <StyledNavbarIn>
-      <div className="fondo">
-        <div className="toggle">
-          <img src="/LogoCliente.png" alt="Logo" className="logo" />
-          <div>
-            <h2>Porta</h2>
+    <>
+      {log && <Redirect to="/" />}
+      <StyledNavbarIn>
+        <div className="fondo">
+          <div className="toggle">
+            <img src="/LogoCliente.png" alt="Logo" className="logo" />
+            <div>
+              <h2>Portadd</h2>
+            </div>
           </div>
-        </div>
-        {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-        <ul className="nav-links">
-          <button onClick={logOut} className="link">
-            LOG OUT
-          </button>
-
-          <button onClick={props.togglerRegister} className="link2">
-            {props.name.toUpperCase()}
-          </button>
-
-          <li>
-            <button className="link3">
-              <img src="/user.png" alt="User" className="userbut" />
+          {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
+          <ul className="nav-links">
+            <button onClick={logOut} className="link" tag={Link} to="/">
+              LOG OUT
             </button>
-          </li>
-        </ul>
-      </div>
-    </StyledNavbarIn>
+
+            <button onClick={props.toggle} className="link2">
+              {props.name.toUpperCase()}
+            </button>
+
+            <li>
+              <div className="link3">
+                <FiLogIn onClick={logOut} size="2em" className="userbut" />
+              </div>
+            </li>
+            <li>
+              <button onClick={props.toggle} className="link3">
+                <FiMenu size="2em" className="userbut" />
+              </button>
+            </li>
+          </ul>
+        </div>
+      </StyledNavbarIn>
+    </>
   );
 }
 const StyledNavbarIn = styled.nav`
@@ -62,6 +79,7 @@ const StyledNavbarIn = styled.nav`
     top: 0;
     left: 0;
     background: #1d1d1f;
+    z-index: 3500;
   }
 
   .toggle {
@@ -78,6 +96,7 @@ const StyledNavbarIn = styled.nav`
     left: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    z-index: 3500;
   }
 
   .nav-links {
@@ -88,6 +107,7 @@ const StyledNavbarIn = styled.nav`
     width: 20vw;
     list-style: none;
     margin-right: 1rem;
+    z-index: 3500;
   }
   .link {
     display: flex;
@@ -106,6 +126,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
 
+    z-index: 3500;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -131,6 +152,7 @@ const StyledNavbarIn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 3500;
 
     &:hover {
       background: #333333;
@@ -151,6 +173,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     border-radius: 20px;
+    z-index: 3500;
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -166,11 +189,11 @@ const StyledNavbarIn = styled.nav`
 
   @media only screen and (min-width: 735px) {
     .fondo {
-      height: 60px;
+      height: 70px;
       padding-right: 1rem;
     }
     .toggle {
-      height: 60px;
+      height: 70px;
       padding-left: 1rem;
       font-size: 20px;
     }
@@ -182,11 +205,11 @@ const StyledNavbarIn = styled.nav`
 
   @media only screen and (max-width: 734px) {
     .fondo {
-      height: 50px;
+      height: 70px;
       padding-right: 0.5rem;
     }
     .toggle {
-      height: 50px;
+      height: 70px;
       padding-left: 0.5rem;
       font-size: 15px;
     }
@@ -202,6 +225,37 @@ const StyledNavbarIn = styled.nav`
     }
     .link3 {
       display: block;
+      color: #fafafa;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all ease-in-out 0.3s;
+      justify-content: flex-end;
+      padding-left: 0;
+      padding-right: 0;
+      background: #1d1d1f;
+      border-radius: 0;
+      z-index: 4;
+      &:focus {
+        outline: none;
+        background: #1d1d1f;
+      }
+    }
+
+    .userbut {
+      width: 50px;
+      background: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      width: 30vw;
+      list-style: none;
+      margin-right: 1em;
+      z-index: 4;
     }
   }
 `;

@@ -1,16 +1,39 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function NavbarAdmin(props) {
   const [sidebar, setSidebar] = React.useState(false);
+  const [log, setLog] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const logOut = (e) => {
+    console.log("log Out");
+    setLog(true);
+    console.log(log);
+  };
+
+  React.useEffect(() => {
+    if (log) {
+      localStorage.clear();
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  }, [log]);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
+
+  const { mail } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   let style;
   if (sidebar) {
@@ -19,33 +42,36 @@ export default function NavbarAdmin(props) {
     style = "open";
   }
   return (
-    <StyledNavbar>
-      <div className="toggle">
-        <div>
-          <TiThMenuOutline
-            onClick={() => {
-              props.togglerSidebar();
-              handlingSidebar();
-            }}
-            className={style}
-            size="1.7rem"
-            color="#fafafa"
-          />
-          {/* <FiMail className={style} size="1.7rem" color="#ff8600" />
-          <FaRegUser className={style} size="1.7rem" color="#ff8600" /> */}
-        </div>
-      </div>
-      {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
-      <ul className="nav-links">
-        <button to="/" className="link">
-          LOG OUT
-        </button>
+    <>
+      {log ? <Redirect to="/adminlogin" /> : null}
+      <div>
+        <StyledNavbar>
+          <div className="toggle">
+            <div>
+              <TiThMenuOutline
+                onClick={() => {
+                  props.togglerSidebar();
+                  handlingSidebar();
+                }}
+                className={style}
+                size="1.7rem"
+                color="#fafafa"
+              />
+            </div>
+          </div>
 
-        <button to="/" className="link2">
-          PROFILE
-        </button>
-      </ul>
-    </StyledNavbar>
+          <ul className="nav-links">
+            <button className="link" onClick={logOut}>
+              LOG OUT
+            </button>
+
+            <button to="/" className="link2">
+              PROFILE
+            </button>
+          </ul>
+        </StyledNavbar>
+      </div>
+    </>
   );
 }
 const StyledNavbar = styled.nav`
@@ -127,6 +153,7 @@ const StyledNavbar = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
+    z-index: 200;
 
     &:hover {
       background: #333333;

@@ -8,6 +8,7 @@ export default function GuardRoutesDriver({
   role,
   ...rest
 }) {
+  console.log("Rol guardianUsuario " + role);
   return (
     <Route
       {...rest}

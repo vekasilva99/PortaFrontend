@@ -10,22 +10,23 @@ import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { FaUserAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export default function UserProfile() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
+  const { name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   return (
     <HomeStyle>
       {" "}
-      <NavbarIn />
-      {/* <NavbarUser togglerSidebar={handlingSidebar} /> */}
-      <UserMenu show={sidebar} />
-      {/* <div className="edit">
-        <FaUserAlt className="photo" color="#00507a" />
-        <MdModeEdit className="settings" color="#00507a" />
-      </div> */}
+      <div className="show">
+        <NavbarIn name={name} toggle={setSidebar} />
+        <UserMenu show={sidebar} />
+      </div>
       <div className="form">
         <UserProfileForm />
       </div>
@@ -94,6 +95,10 @@ const HomeStyle = styled.section`
       margin-top: 0;
       display: flex;
       position: fixed;
+    }
+
+    .show {
+      display: none;
     }
   }
 `;

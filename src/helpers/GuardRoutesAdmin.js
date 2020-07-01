@@ -7,7 +7,9 @@ export default function GuardRoutesAdmin({
   component: Component,
   role,
   ...rest
-}) {
+}){
+  console.log("role guardianAdmin " + role);
+
   return (
     <Route
       {...rest}
