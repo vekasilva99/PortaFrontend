@@ -121,14 +121,14 @@ const HomeStyle = styled.section`
     flex-direction: column;
     .chat {
       width: 100%;
-      background: pink;
+      background: #fafafa;
       height: 70vh;
       overflow-y: scroll;
     }
     .send {
       width: 100%;
       display: flex;
-      background: green;
+
       height: 10vh;
     }
   }

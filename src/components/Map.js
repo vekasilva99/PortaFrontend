@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useSubscription } from "@apollo/react-hooks";
 import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
 import Spinner from "./Spinner";
+import { NavLink, withRouter } from "react-router-dom";
 import {
   GoogleMap,
   useLoadScript,
@@ -201,9 +202,9 @@ export default function Map() {
               </div>
 
               <div className="botonContainer">
-                <button className="boton" onClick={handleSend}>
+                <NavLink to="/user/chat" className="boton" onClick={handleSend}>
                   CHAT
-                </button>
+                </NavLink>
               </div>
             </div>
           ) : (
