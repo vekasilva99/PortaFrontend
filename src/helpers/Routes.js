@@ -27,6 +27,7 @@ import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
+import ChatClient from "../views/ChatClient";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
     fetchPolicy: "network-only",
@@ -143,6 +144,11 @@ export default function Routes() {
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route exact path="/login" render={(props) => <Login {...props} />} />
+      <Route
+        exact
+        path="/chatclient"
+        render={(props) => <ChatClient {...props} />}
+      />
 
       <Route
         exact
