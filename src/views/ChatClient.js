@@ -18,14 +18,7 @@ export default function Home({ updateUser }) {
     setPostId(idPost);
   };
   return (
-    <div className="Home">
-      <SideBar
-        onClick={onClick}
-        closeSideBar={closeSideBar}
-        isOpenSideBar={toggle}
-        changePost={changePost}
-        postId={postId}
-      />
+    <div className="ChatCliente">
       <Chat onClick={onClick} postId={postId} />
     </div>
   );
