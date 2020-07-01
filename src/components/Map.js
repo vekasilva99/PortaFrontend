@@ -7,6 +7,8 @@ import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
 import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useSubscription } from "@apollo/react-hooks";
+import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
 import Spinner from "./Spinner";
 import {
   GoogleMap,
@@ -83,9 +85,18 @@ export default function Map() {
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
 
+
   const { _id, role, name, lastName } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const { data: dataS, error: errorS, loading: loadingS} = useSubscription(ORDER_UPDATE, {
+    variables:{
+      userId: _id
+    }
+  })
+  
+  
 
   const dispatch = useDispatch();
 
@@ -143,12 +154,16 @@ export default function Map() {
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
+  // if (loadingS) return "Loading...";
+  // if (errorS) return `Error! ${errorS.message}`;
+
   console.log(data);
 
   return (
     <>
       <StyledMap>
         <div className="busqueda">
+        <h1>{ dataS ? dataS.orderUpdate.pickUp : ""}</h1>
           <h1>Realiza un pedido</h1>
           <div className="rutas">
             <div className="div1"></div>

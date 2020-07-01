@@ -131,14 +131,21 @@ export default function Routes() {
         component={DriverProfile}
       />
 
-      <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} />
+      <GuardRoute
+        exact 
+        path="/user/mapcli" 
+        role={role} 
+        component={MapCli} 
+      />
+
       {role == "COSTUMER" ? (
-        <Redirect exact from="*" to="/user" />
+        <Redirect exact from="*" to="/user/mapcli" />
       ) : role == "DRIVER" ? (
         <Redirect exact from="*" to="/maprep" />
       ) : (
         <Redirect exact from="*" to="/admin" />
       )}
+
     </Switch>
   ) : !role && !loading ? (
     <Switch>

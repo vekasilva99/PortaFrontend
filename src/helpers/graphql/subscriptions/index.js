@@ -68,3 +68,24 @@ export const NEW_MESSAGE = gql`
     }
   }
 `;
+
+export const ORDER_UPDATE = gql`
+  subscription($userId: ID!) {
+    orderUpdate (userId: $userId){
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      pickUp
+      deliver
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
