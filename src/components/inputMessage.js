@@ -3,20 +3,14 @@ import { MDBBtn, MDBIcon, MDBRow } from "mdbreact";
 import { Formik } from "formik";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
-// import {
-//   CREATE_MESSAGE,
-//   CREATE_NOTIFICATION
-// } from "../../helpers/graphql/mutations";
-
-// import { useAlert } from "react-alert";
+import { CREATE_MESSAGE } from "../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 export default function InputMessage({ postId }) {
-  // const { userId, creator } = useSelector(state => ({
-  //   ...state.User,
-  //   ...state.Post
-  // }));
+  const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
+    ...state.User,
+  }));
   // const alert = useAlert();
-  // const [CreateMessage, { data, loading, error }] = useMutation(CREATE_MESSAGE);
+  const [CreateMessage, { data, loading, error }] = useMutation(CREATE_MESSAGE);
   // const [CreateNotification, { data: CreateNotificationData }] = useMutation(
   //   CREATE_NOTIFICATION
   // );
@@ -40,29 +34,25 @@ export default function InputMessage({ postId }) {
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
+            let rece;
+            if (_id === currentOrder.repartidor._id) {
+              rece = currentOrder.user._id;
+            } else {
+              rece = currentOrder.repartidor._id;
+            }
+            console.log(rece);
             try {
-              // const { data } = await CreateMessage({
-              //   variables: {
-              //     messageInput: {
-              //       content: values.message,
-              //       postId,
-              //       userId,
-              //     },
-              //   },
-              // });
-              // if (userId != creator._id) {
-              //   if (data) {
-              //     const { data: dataNotification } = await CreateNotification({
-              //       variables: {
-              //         notificationInput: {
-              //           postId,
-              //           userId: creator._id,
-              //           messageId: data.createMessage._id,
-              //         },
-              //       },
-              //     });
-              //   }
-              // }
+              const { data } = await CreateMessage({
+                variables: {
+                  messageInput: {
+                    content: values.message,
+                    order: currentOrder._id,
+                    sender: _id,
+                    receiver: rece,
+                  },
+                },
+              });
+
               console.log(values.message);
               setSubmitting(false);
             } catch (err) {

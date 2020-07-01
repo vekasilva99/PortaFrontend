@@ -332,12 +332,12 @@ export const GET_ORDERS = gql`
 `;
 
 export const MESSAGES = gql`
-  query($user: ID!) {
-    messages(user: $user) {
+  query($order: ID!) {
+    messages(order: $order) {
       _id
       content
       createdAt
-      conversation {
+      order {
         _id
       }
       sender {

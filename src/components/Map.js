@@ -89,7 +89,7 @@ export default function Map() {
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
 
-  const { _id, role, name, lastName } = useSelector((state) => ({
+  const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 
@@ -167,7 +167,7 @@ export default function Map() {
     <>
       <StyledMap>
         <div className="fondoMap">
-          {dataS ? (
+          {currentOrder ? (
             <div className="busqueda">
               <h1>Orden Actual</h1>
               <div className="rutas">
@@ -176,17 +176,17 @@ export default function Map() {
                   <div className="texto">
                     <h2>Repartidor</h2>
                     <h3>
-                      {dataS.orderUpdate.repartidor.name}{" "}
-                      {dataS.orderUpdate.repartidor.lastName}
+                      {currentOrder.repartidor.name}{" "}
+                      {currentOrder.repartidor.lastName}
                     </h3>
                   </div>
                 </div>
                 <div className="div3">
                   <div className="texto">
                     <h2>Origen</h2>
-                    <h3>{dataS.orderUpdate.pickUp}</h3>
+                    <h3>{currentOrder.pickUp}</h3>
                     <h2>Destino</h2>
-                    <h3>{dataS.orderUpdate.deliver}</h3>
+                    <h3>{currentOrder.deliver}</h3>
                   </div>
                 </div>
               </div>
