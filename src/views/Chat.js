@@ -7,6 +7,7 @@ import AdminTable from "../components/AdminUserDashboardTable";
 import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 import CardMessage from "../components/Cards/CardMessage";
+import Messages from "../components/Messages";
 import NavbarIn from "../components/NavIn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
@@ -40,14 +41,7 @@ export default function AdminHome() {
       </div>
       <div className="form">
         <div className="chat">
-          <CardMessage
-            content="Hola"
-            date="2020-10-12"
-            user={_id}
-            name={name}
-            userId={_id}
-            options={options}
-          />
+          <Messages />
         </div>
         <div className="send">
           <InputMessage />

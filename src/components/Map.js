@@ -104,6 +104,15 @@ export default function Map() {
 
   const dispatch = useDispatch();
 
+  if (dataS && dataS.orderUpdate) {
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        currentOrder: dataS.orderUpdate,
+      },
+    });
+  }
+
   const handleSend = async (e) => {
     if (user != null && pack != null) {
       console.log("SE PUEDE MANDAR");
