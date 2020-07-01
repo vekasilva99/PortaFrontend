@@ -23,11 +23,14 @@ export default function MapRep() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, name, lastName, available, latitud, longitud } = useSelector(
+  const { role, name, lastName, available, latitud, longitud, currentOrder } = useSelector(
     (state) => ({
       ...state.User,
     })
   );
+
+  console.log("current order");
+  console.log(currentOrder);
 
   const dispatch = useDispatch();
 

@@ -6,6 +6,8 @@ import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 
 export default function NavbarOn(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -14,14 +16,30 @@ export default function NavbarOn(props) {
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
   };
-  const { role, name } = useSelector((state) => ({
+
+  const [
+    changeAv,
+    { data: dataA, error: errorA, loading: loadingA },
+  ] = useMutation(CHANGE_AVAILABLE);
+
+  const { role, name, available } = useSelector((state) => ({
     ...state.User,
   }));
   console.log(role, name);
 
-  const logOut = (e) => {
+  const logOut = async (e) => {
     e.preventDefault();
     console.log("entra");
+
+    if(available){
+      const { dataA } = await changeAv({
+        variables: {
+          lat: "driver lat",
+          lng: "driver lng",
+        },
+      });
+    }
+
     localStorage.clear();
     dispatch({
       type: "LOGOUT",

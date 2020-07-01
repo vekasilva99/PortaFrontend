@@ -4,12 +4,20 @@ import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { useLazyQuery } from "@apollo/react-hooks";
-import { LOGIN_USER } from "../../helpers/graphql/queries";
+//import { LOGIN_USER } from "../../helpers/graphql/queries";
+import { LOGIN_USER } from "../../helpers/graphql/mutations";
+import { useMutation } from "@apollo/react-hooks";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function FormLoginDriver(props) {
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+  //const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
+
+  const [
+    login,
+    { data, loading, error },
+  ] = useMutation(LOGIN_USER);
+
   const { name, role } = useSelector((state) => ({
     ...state.User,
   }));
@@ -17,19 +25,19 @@ export default function FormLoginDriver(props) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (data && !log) {
-      localStorage.setItem("token", data.userLogin.token);
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          token: data.userLogin.token,
-          role: "DRIVER",
-        },
-      });
-      setLog(true);
-    }
-  }, [data, dispatch, log]);
+  // useEffect(() => {
+  //   if (data && !log) {
+  //     localStorage.setItem("token", data.userLogin.token);
+  //     dispatch({
+  //       type: "LOGIN",
+  //       payload: {
+  //         token: data.userLogin.token,
+  //         role: "DRIVER",
+  //       },
+  //     });
+  //     setLog(true);
+  //   }
+  // }, [data, dispatch, log]);
 
   return log ? (
     <Redirect to="maprep" />
@@ -69,13 +77,35 @@ export default function FormLoginDriver(props) {
           }
           console.log("llega aca");
 
-          login({
-            variables: {
+          // login({
+          //   variables: {
+          //     mail: Email,
+          //     password: Password,
+          //     role: "DRIVER",
+          //   },
+          // });
+
+          const { data } = await login({
+            variables:{
               mail: Email,
               password: Password,
               role: "DRIVER",
-            },
+            }
           });
+
+          if (data && data.userLogin) {
+            localStorage.setItem("token", data.userLogin.token);
+            dispatch({
+              type: "CURRENT_USER",
+              payload: {
+                token: data.userLogin.token,
+                ...data.userLogin.user,
+              },
+            });
+            
+            setLog(true);
+          }
+
           setSubmitting(true);
 
           setSubmitting(false);
