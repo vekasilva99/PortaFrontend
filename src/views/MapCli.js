@@ -6,7 +6,6 @@ import Input from "../components/Input";
 import NavbarIn from "../components/NavIn";
 import Pedido from "../components/Pedidos";
 import { useMutation } from "@apollo/react-hooks";
-import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import UserMenu from "../components/UserMenu";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -33,30 +32,12 @@ export default function UserHome() {
   const [online, setOnline] = React.useState(false);
   const handleToggle = (e) => setToggle(!on);
 
-  const [
-    makeOrderd,
-    { data: dataM, error: errorM, loading: loadingM },
-  ] = useMutation(MAKE_ORDER);
+  const dispatch = useDispatch();
 
   const { _id, role, name, lastName } = useSelector((state) => ({
     ...state.User,
   }));
-
-  const dispatch = useDispatch();
-
-  const pedir = async (e) => {
-    const { dataM } = await makeOrderd({
-      variables: {
-        orderInput: {
-          user: _id,
-          pickUp: "SoP",
-          deliver: "SoD",
-          km: 1500,
-          price: 2000,
-        },
-      },
-    });
-  };
+  
 
   return (
     <StyleMapRep>
