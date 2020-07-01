@@ -14,6 +14,7 @@ import UserHome from "../views/UserHome";
 import UserProfile from "../views/UserProfile";
 import DriverEditProfile from "../views/DriverEditProfile";
 import DriverProfile from "../views/DriverProfile";
+import Chat from "../views/Chat";
 import DriverRequest from "../views/DriverRequest";
 import { CURRENT_USER } from "./graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
@@ -122,6 +123,7 @@ export default function Routes() {
         role={role}
         component={SeeDrivers}
       />
+      <GuardRoute exact path="/user/chat" role={role} component={Chat} />
 
       <GuardRoute
         exact
@@ -130,7 +132,7 @@ export default function Routes() {
         component={DriverProfile}
       />
 
-      {/* <GuardRoute exact path="/user/mapcli" role={role} component={MapCli} /> */}
+      <GuardRoute exact path="/user/mapcli" role={role} component={Chat} />
       {role == "COSTUMER" ? (
         <Redirect exact from="*" to="/user" />
       ) : role == "DRIVER" ? (
@@ -142,6 +144,7 @@ export default function Routes() {
   ) : !role && !loading ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
+
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 
       <Route

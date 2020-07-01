@@ -21,7 +21,7 @@ export default function UserMenu(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/user/chat" className="link">
               MY DELIVERIES
             </NavLink>
           </li>
