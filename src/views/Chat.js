@@ -12,6 +12,7 @@ import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
+import InputMessage from "../components/inputMessage";
 
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
@@ -38,14 +39,19 @@ export default function AdminHome() {
         <UserMenu show={sidebar} />
       </div>
       <div className="form">
-        <CardMessage
-          content="Hola"
-          date="2020-10-12"
-          user={_id}
-          name={name}
-          userId={_id}
-          options={options}
-        />
+        <div className="chat">
+          <CardMessage
+            content="Hola"
+            date="2020-10-12"
+            user={_id}
+            name={name}
+            userId={_id}
+            options={options}
+          />
+        </div>
+        <div className="send">
+          <InputMessage />
+        </div>
       </div>
       <UserProfileSidebar />
       <div className="content"></div>
@@ -103,6 +109,17 @@ const HomeStyle = styled.section`
     display: flex;
     position: absolute;
     background: red;
+    flex-direction: column;
+    .chat {
+      width: 100%;
+      height: 100%;
+    }
+    .send {
+      width: 100%;
+      display: flex;
+      background: green;
+      height: 20%;
+    }
   }
 
   @media only screen and (max-width: 734px) {
