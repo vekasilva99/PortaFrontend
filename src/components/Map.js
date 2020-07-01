@@ -163,7 +163,8 @@ export default function Map() {
     <>
       <StyledMap>
         <div className="busqueda">
-          {/* <h1>Realiza un pedido</h1> */}
+        <h1>{ dataS ? dataS.orderUpdate.pickUp : ""}</h1>
+          <h1>Realiza un pedido</h1>
           <div className="rutas">
             <div className="div1"></div>
             <div className="div2">

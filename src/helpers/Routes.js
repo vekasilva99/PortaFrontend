@@ -138,7 +138,7 @@ export default function Routes() {
       />
 
       {role == "COSTUMER" ? (
-        <Redirect exact from="*" to="/user" />
+        <Redirect exact from="*" to="/user/mapcli" />
       ) : role == "DRIVER" ? (
         <Redirect exact from="*" to="/maprep" />
       ) : (
