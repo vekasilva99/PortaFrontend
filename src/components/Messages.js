@@ -32,7 +32,7 @@ export default function Messages({
   const { data, error, loading } = useQuery(MESSAGES, {
     fetchPolicy: "network-only",
     variables: {
-      orders: currentOrder._id,
+      order: currentOrder._id,
     },
   });
   // useEffect(() => {
