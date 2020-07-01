@@ -52,6 +52,7 @@ export default function AdminHome() {
             <Messages
               subscribeToMore={subscribeToMore}
               messages={data.messages}
+              currentOrder={currentOrder._id}
             />
           )}
         </div>
@@ -118,13 +119,15 @@ const HomeStyle = styled.section`
     flex-direction: column;
     .chat {
       width: 100%;
-      height: 100%;
+      background: pink;
+      height: 70vh;
+      overflow-y: scroll;
     }
     .send {
       width: 100%;
       display: flex;
       background: green;
-      height: 20%;
+      height: 10vh;
     }
   }
 
