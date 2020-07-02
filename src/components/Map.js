@@ -183,10 +183,15 @@ export default function Map() {
               <div className="info">
                 <div className="div6">
                   <h2>Repartidor</h2>
-                  <h3>
-                    {currentOrder.repartidor.name}{" "}
-                    {currentOrder.repartidor.lastName}
-                  </h3>
+                  {currentOrder.repartidor ? (
+                    <h3>
+                      {currentOrder.repartidor.name}{" "}
+                      {currentOrder.repartidor.lastName}
+                    </h3>
+                  ) : (
+                    <h3>Ningun Repartidor ha aceptado la orden</h3>
+                  )}
+
                   <h2>Origen</h2>
                   <h3>{currentOrder.pickUp}</h3>
                   <h2>Destino</h2>

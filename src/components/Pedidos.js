@@ -38,17 +38,19 @@ export default function Pedido(props) {
 
     const { dataO } = await acceptOrder({
       variables: {
-        orderId: orden,
-        repartidor: _id,
+        orderId: orden.toString(),
+        repartidor: _id.toString(),
       },
     });
-
-    // dispatch({
-    //   type: "UPDATE_USER",
-    //   payload: {
-    //     available: false,
-    //   },
-    // });
+    if (dataO && dataO.acceptOrder) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          available: false,
+          currentOrder: dataO.acceptOrder,
+        },
+      });
+    }
   };
 
   React.useEffect(() => {

@@ -105,8 +105,9 @@ export default function MapRep() {
                   defaultChecked={available}
                   value={available}
                   checked={available}
-                  onChange={handleChangeChk}
+                  disabled={true}
                 ></input>
+
                 <span class="slider round"></span>
               </label>
               <div className="info">
