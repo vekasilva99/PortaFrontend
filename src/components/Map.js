@@ -171,8 +171,7 @@ export default function Map() {
             <div className="busqueda">
               <h1>Orden Actual</h1>
               <div className="rutas">
-                <div className="div4"></div>
-                <div className="div2">
+                <div className="divespera">
                   <div className="texto">
                     <h2>Repartidor</h2>
                     <h3>
