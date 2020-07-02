@@ -14,7 +14,7 @@ export default function LoginDriver(props) {
             size="1.7rem"
             color="#fafafa"
           />
-          <div className="container">
+          <div className="container-porta">
             <h2 className="h2">Log In</h2>
             <FormLoginDriver color="#EE462F" />
             <h3 className="h3">New to Porta?</h3>
@@ -102,7 +102,7 @@ const LoginView = styled.div`
       rotateY(${(props) => (props.show ? "0" : "90deg")});
   }
 
-  .container {
+  .container-porta {
     position: relative;
     top: 50%;
     left: 50%;
@@ -133,7 +133,7 @@ const LoginView = styled.div`
       width: 100vw;
     }
 
-    .container {
+    .container-porta {
       height: 100vh;
       width: 100vw;
     }

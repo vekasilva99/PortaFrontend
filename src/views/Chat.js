@@ -17,6 +17,7 @@ import InputMessage from "../components/inputMessage";
 import { useQuery } from "@apollo/react-hooks";
 import { MESSAGES } from "../helpers/graphql/queries/index";
 import user from "../assets/images/user.png";
+import Spinner from "../components/Spinner";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
@@ -71,7 +72,10 @@ export default function AdminHome() {
           </div>
         </div>
       ) : (
-        <div> "No hay order disponible"</div>
+        <div className="no-order">
+          <h2>"No hay order disponible"</h2>
+          <Spinner />{" "}
+        </div>
       )}
 
       <UserProfileSidebar />
@@ -88,6 +92,20 @@ const HomeStyle = styled.section`
   position: absolute;
   overflow-x: hidden;
   background: #fafafa;
+  .no-order {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    h2 {
+      letter-spacing: 1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #00507a;
+    }
+  }
   .content {
     margin-top: 5rem;
   }
