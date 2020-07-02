@@ -28,7 +28,7 @@ export default function AdminHome() {
   const { data, error, loading, subscribeToMore } = useQuery(MESSAGES, {
     fetchPolicy: "network-only",
     variables: {
-      order: currentOrder._id,
+      order: currentOrder ? currentOrder._id : null,
     },
   });
 
@@ -44,32 +44,36 @@ export default function AdminHome() {
 
   return (
     <HomeStyle>
-      {" "}
       <div className="show">
         <NavbarIn name={name} toggle={handlingSidebar} />
         <UserMenu show={sidebar} />
       </div>
-      <div className="form">
-        <div className="header">
-          <img className="photo" src="/ClienteMap.png" />
-          <h1>
-            {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
-          </h1>
+      {currentOrder ? (
+        <div className="form">
+          <div className="header">
+            <img className="photo" src="/ClienteMap.png" />
+            <h1>
+              {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+            </h1>
+          </div>
+          <div className="chat">
+            {data && (
+              <Messages
+                subscribeToMore={subscribeToMore}
+                messages={data.messages}
+                currentOrder={currentOrder._id}
+                color="#00507a"
+              />
+            )}
+          </div>
+          <div className="send">
+            <InputMessage color="#00507a" />
+          </div>
         </div>
-        <div className="chat">
-          {data && (
-            <Messages
-              subscribeToMore={subscribeToMore}
-              messages={data.messages}
-              currentOrder={currentOrder._id}
-              color="#00507a"
-            />
-          )}
-        </div>
-        <div className="send">
-          <InputMessage color="#00507a" />
-        </div>
-      </div>
+      ) : (
+        <div> "No hay order disponible"</div>
+      )}
+
       <UserProfileSidebar />
       <div className="content"></div>
     </HomeStyle>
