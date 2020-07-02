@@ -94,12 +94,14 @@ const HomeStyle = styled.section`
   background: #fafafa;
   .no-order {
     display: flex;
+    position: fixed;
     flex-direction: column;
     min-height: 100%;
     width: 100%;
     align-items: center;
     justify-content: center;
     h2 {
+      font-size: 2em;
       letter-spacing: 1em;
       text-transform: uppercase;
       font-weight: 600;
