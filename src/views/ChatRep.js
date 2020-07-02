@@ -8,7 +8,7 @@ import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 import CardMessage from "../components/Cards/CardMessage";
 import Messages from "../components/Messages";
-import NavbarIn from "../components/NavIn";
+import NavbarOn from "../components/NavOn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
@@ -16,8 +16,6 @@ import { useSelector } from "react-redux";
 import InputMessage from "../components/inputMessage";
 import { useQuery } from "@apollo/react-hooks";
 import { MESSAGES } from "../helpers/graphql/queries/index";
-import user from "../assets/images/user.png";
-import Spinner from "../components/Spinner";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
@@ -29,7 +27,7 @@ export default function AdminHome() {
   const { data, error, loading, subscribeToMore } = useQuery(MESSAGES, {
     fetchPolicy: "network-only",
     variables: {
-      order: currentOrder ? currentOrder._id : null,
+      order: currentOrder._id,
     },
   });
 
@@ -45,39 +43,32 @@ export default function AdminHome() {
 
   return (
     <HomeStyle>
+      {" "}
       <div className="show">
-        <NavbarIn name={name} toggle={handlingSidebar} />
+        <NavbarOn name={name} toggle={handlingSidebar} />
         <UserMenu show={sidebar} />
       </div>
-      {currentOrder ? (
-        <div className="form">
-          <div className="header">
-            <img className="photo" src="/ClienteMap.png" />
-            <h1>
-              {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
-            </h1>
-          </div>
-          <div className="chat">
-            {data && (
-              <Messages
-                subscribeToMore={subscribeToMore}
-                messages={data.messages}
-                currentOrder={currentOrder._id}
-                color="#00507a"
-              />
-            )}
-          </div>
-          <div className="send">
-            <InputMessage color="#00507a" />
-          </div>
+      <div className="form">
+        <div className="header">
+          <img className="photo" src="/RepartidorFondo.png" />
+          <h1>
+            {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+          </h1>
         </div>
-      ) : (
-        <div className="no-order">
-          <h2>"No hay order disponible"</h2>
-          <Spinner />{" "}
+        <div className="chat">
+          {data && (
+            <Messages
+              subscribeToMore={subscribeToMore}
+              messages={data.messages}
+              currentOrder={currentOrder._id}
+              color="#ef0023"
+            />
+          )}
         </div>
-      )}
-
+        <div className="send">
+          <InputMessage color="#ef0023" />
+        </div>
+      </div>
       <UserProfileSidebar />
       <div className="content"></div>
     </HomeStyle>
@@ -92,29 +83,13 @@ const HomeStyle = styled.section`
   position: absolute;
   overflow-x: hidden;
   background: #fafafa;
-  .no-order {
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    min-height: 100%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    h2 {
-      font-size: 2em;
-      letter-spacing: 1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: #00507a;
-    }
-  }
   .content {
     margin-top: 5rem;
   }
   .photo2 {
     border-radius: 500px;
     padding: 2em;
-    border: solid 0.2em #00507a;
+    border: solid 0.2em #ef0023;
     width: 8vw;
     height: 8vw;
     margin-left: 1vw;
@@ -127,16 +102,25 @@ const HomeStyle = styled.section`
     display: flex;
     position: absolute;
     padding: 1em;
-    border: solid 0.1em #00507a;
+    border: solid 0.1em #ef0023;
     width: 2vw;
     height: 2vw;
     background: white;
   }
 
+  .edit2 {
+    display: flex;
+    position: relative;
+    width: 40vw;
+    height: 50vh;
+    margin-left: 292px;
+    margin-top: 80px;
+  }
+
   .header {
     width: 100%;
     height: 12vh;
-    background: #00507a;
+    background: #ef0023;
     margin-bottom: 1em;
     border-radius: 10px;
     padding: 1em;
@@ -153,16 +137,6 @@ const HomeStyle = styled.section`
       width: 4em;
     }
   }
-
-  .edit2 {
-    display: flex;
-    position: relative;
-    width: 40vw;
-    height: 50vh;
-    margin-left: 292px;
-    margin-top: 80px;
-  }
-
   .form {
     width: 60vw;
     height: 80vh;

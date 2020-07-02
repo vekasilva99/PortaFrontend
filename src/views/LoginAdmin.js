@@ -8,7 +8,7 @@ export default function LoginAdmin() {
     <div>
       <LoginView>
         <div className="login-box">
-          <div className="container">
+          <div className="container-porta">
             <h2 className="h2">Log In</h2>
             <FormLoginAdmin color="#F89262" />
           </div>
@@ -81,7 +81,7 @@ const LoginView = styled.div`
     justify-content: center;
   }
 
-  .container {
+  .container-porta {
     position: relative;
     padding: auto;
     max-width: 100%;

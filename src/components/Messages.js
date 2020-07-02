@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { NEW_MESSAGE } from "../helpers/graphql/subscriptions/index";
+import { MESSAGES } from "../helpers/graphql/queries/index";
 import CardMessage from "../components/Cards/CardMessage";
 import { MDBBtn, MDBRow } from "mdbreact";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Spinner from "./Spinner";
+import { useQuery } from "@apollo/react-hooks";
 
-export default function Messages({ messages, subscribeToMore, currentOrder }) {
+export default function Messages({
+  messages,
+  subscribeToMore,
+  currentOrder,
+  color,
+}) {
   const { _id, name } = useSelector((state) => ({
     ...state.User,
   }));
@@ -20,6 +27,12 @@ export default function Messages({ messages, subscribeToMore, currentOrder }) {
     hour: "numeric",
     minute: "numeric",
   };
+  const { data, error, loading } = useQuery(MESSAGES, {
+    fetchPolicy: "network-only",
+    variables: {
+      order: currentOrder._id,
+    },
+  });
 
   useEffect(() => {
     const unsubscription = subscribeToMore({
@@ -49,8 +62,10 @@ export default function Messages({ messages, subscribeToMore, currentOrder }) {
         <CardMessage
           userId={_id}
           options={options}
-          name={name}
+          name={message.sender.name}
           content={message.content}
+          message={message}
+          color={color}
         />
       </div>
     ));

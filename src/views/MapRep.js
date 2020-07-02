@@ -11,6 +11,10 @@ import { useQuery } from "@apollo/react-hooks";
 import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useSubscription } from "@apollo/react-hooks";
+import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
+
+import { NavLink, withRouter } from "react-router-dom";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import MapR from "../components/MapR";
 
@@ -23,16 +27,41 @@ export default function MapRep() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(CHANGE_AVAILABLE);
 
-  const { role, name, lastName, available, latitud, longitud, currentOrder } = useSelector(
-    (state) => ({
-      ...state.User,
-    })
-  );
+  const {
+    role,
+    _id,
+    name,
+    lastName,
+    available,
+    latitud,
+    longitud,
+    currentOrder,
+  } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   console.log("current order");
   console.log(currentOrder);
 
+  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+    ORDER_UPDATE,
+    {
+      variables: {
+        userId: _id,
+      },
+    }
+  );
+
   const dispatch = useDispatch();
+
+  if (dataS && dataS.orderUpdate) {
+    dispatch({
+      type: "UPDATE_USER",
+      payload: {
+        currentOrder: dataS.orderUpdate,
+      },
+    });
+  }
 
   const handleToggle = (e) => setToggle(!on);
   const handleOnline = (e) => setToggle(!available);
@@ -60,28 +89,63 @@ export default function MapRep() {
 
   return (
     <>
+      <NavbarOn name={name} toggle={handleToggle} />
+      <DriverMenu show={on} />
       <StyleMapRep>
-        <NavbarOn name={name} toggle={handleToggle}></NavbarOn>
-        <DriverMenu show={on} />
-
         <MapR />
 
         <div className="fondoMap">
-          <div className="busqueda">
-            <h1>Pedidos para tí</h1>
-            <h5>Se encuentra disponible?</h5>
-            <label class="switch">
-              <input
-                type="checkbox"
-                defaultChecked={available}
-                value={available}
-                checked={available}
-                onChange={handleChangeChk}
-              ></input>
-              <span class="slider round"></span>
-            </label>
-            {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
-          </div>
+          {currentOrder ? (
+            <div className="busqueda">
+              <h1>Pedido Actual</h1>
+              <h5>Se encuentra disponible?</h5>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  defaultChecked={available}
+                  value={available}
+                  checked={available}
+                  disabled={true}
+                ></input>
+
+                <span class="slider round"></span>
+              </label>
+              <div className="info">
+                <div className="div6">
+                  <h2>Cliente</h2>
+                  <h3>
+                    {currentOrder.user.name} {currentOrder.user.lastName}
+                  </h3>
+                  <h2>Origen</h2>
+                  <h3>{currentOrder.pickUp}</h3>
+                  <h2>Destino</h2>
+                  <h3>{currentOrder.deliver}</h3>
+                </div>
+              </div>
+
+              <div className="botonContainer2">
+                <NavLink to="/driver/chatrep" className="boton">
+                  CHAT
+                </NavLink>
+              </div>
+            </div>
+          ) : (
+            <div className="busqueda">
+              <h1>Pedidos para tí</h1>
+              <h5>Se encuentra disponible?</h5>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  defaultChecked={available}
+                  value={available}
+                  checked={available}
+                  onChange={handleChangeChk}
+                ></input>
+                <span class="slider round"></span>
+              </label>
+              {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+            </div>
+          )}
           <div className="clear"></div>
         </div>
       </StyleMapRep>
@@ -97,8 +161,35 @@ const StyleMapRep = styled.div`
     width: 100vw;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: purple;
+    background: #fafafa;
     overflow: hidden;
+  }
+
+  .boton {
+    border: solid 2px #ef0023;
+    color: white;
+    padding: 0.9rem;
+    font-size: 0.8em;
+    width: 15vw;
+    display: flex;
+    font-weight: 600;
+    cursor: pointer;
+    background: #ef0023;
+    border-radius: 500px;
+    transition: all ease-in-out 0.3s;
+    justify-content: center;
+
+    &:hover {
+      opacity: 0.8;
+      background: #ef0023;
+      color: white;
+      border-color: #ef0023;
+    }
+    &:focus {
+      opacity: 0.8;
+      outline: none;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
   }
 
   .switch {
@@ -112,6 +203,49 @@ const StyleMapRep = styled.div`
     opacity: 0;
     width: 0;
     height: 0;
+  }
+
+  .botonContainer2 {
+    width: 100%;
+    background: #fafafa;
+    height: 18vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info {
+    margin: 0;
+    padding-top: 2%;
+    padding-bottom: 15%;
+    padding-left: 9%;
+    padding-right: 9%;
+    width: 100%;
+    height: 20vh;
+    background: #fafafa;
+    display: grid;
+    grid-template-areas: "partida partida";
+  }
+
+  .div6 {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    grid-area: partida;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #1d1d1f;
+      margin: 0;
+    }
+
+    h3 {
+      font-size: 22px;
+      font-weight: 200;
+      color: #1d1d1f;
+      margin: 0;
+    }
   }
 
   .slider {
@@ -179,7 +313,7 @@ const StyleMapRep = styled.div`
         font-size: 60px;
         font-weight: 600;
         color: #fafafa;
-        height: 230px;
+        height: 35vh;
         background-color: #ef0023;
         margin: 0;
         padding: 40px;

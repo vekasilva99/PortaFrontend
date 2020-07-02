@@ -21,7 +21,7 @@ export default function DriverMenu(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/driver/chatrep" className="link">
               MY TRIPS
             </NavLink>
           </li>
@@ -47,7 +47,7 @@ const StyledSidebar = styled.nav`
     transition: transform 0.4s ease-in;
     margin-right: 0.2em;
     margin-top: 5.2em;
-    z-index: 1;
+    z-index: 3000;
   }
 
   .close {

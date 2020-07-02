@@ -17,7 +17,7 @@ export default function RegisterDriver(props) {
             size="1.7rem"
             color="#fafafa"
           />
-          <div className="container">
+          <div className="container-porta">
             <h2 className="h2">Register</h2>
             <FormRegister color="#EE462F" />
             <h3 className="h3">Already have an account?</h3>
@@ -105,7 +105,7 @@ const RegisterView = styled.div`
     justify-content: center;
   }
 
-  .container {
+  .container-porta {
     position: relative;
     top: 50%;
     left: 50%;
