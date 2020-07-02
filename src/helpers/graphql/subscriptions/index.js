@@ -70,7 +70,7 @@ export const NEW_MESSAGE = gql`
 `;
 
 export const ORDER_UPDATE = gql`
-  subscription($userId: ID!) {
+  subscription($userId: String!) {
     orderUpdate(userId: $userId) {
       _id
       user {
