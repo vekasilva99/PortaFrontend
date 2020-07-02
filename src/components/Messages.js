@@ -8,7 +8,12 @@ import styled from "styled-components";
 import Spinner from "./Spinner";
 import { useQuery } from "@apollo/react-hooks";
 
-export default function Messages({ messages, subscribeToMore, currentOrder }) {
+export default function Messages({
+  messages,
+  subscribeToMore,
+  currentOrder,
+  color,
+}) {
   const { _id, name } = useSelector((state) => ({
     ...state.User,
   }));
@@ -55,11 +60,12 @@ export default function Messages({ messages, subscribeToMore, currentOrder }) {
     return messages.map((message) => (
       <div key={message._id} className="d-flex flex-column w-100 ">
         <CardMessage
-          userId={message.sender._id}
+          userId={_id}
           options={options}
           name={message.sender.name}
           content={message.content}
-          {...message}
+          message={message}
+          color={color}
         />
       </div>
     ));

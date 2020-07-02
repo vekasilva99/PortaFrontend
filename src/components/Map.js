@@ -180,28 +180,21 @@ export default function Map() {
           {currentOrder ? (
             <div className="busqueda">
               <h1>Orden Actual</h1>
-              <div className="rutas">
-                <div className="div4"></div>
-                <div className="div2">
-                  <div className="texto">
-                    <h2>Repartidor</h2>
-                    <h3>
-                      {currentOrder.repartidor.name}{" "}
-                      {currentOrder.repartidor.lastName}
-                    </h3>
-                  </div>
-                </div>
-                <div className="div3">
-                  <div className="texto">
-                    <h2>Origen</h2>
-                    <h3>{currentOrder.pickUp}</h3>
-                    <h2>Destino</h2>
-                    <h3>{currentOrder.deliver}</h3>
-                  </div>
+              <div className="info">
+                <div className="div6">
+                  <h2>Repartidor</h2>
+                  <h3>
+                    {currentOrder.repartidor.name}{" "}
+                    {currentOrder.repartidor.lastName}
+                  </h3>
+                  <h2>Origen</h2>
+                  <h3>{currentOrder.pickUp}</h3>
+                  <h2>Destino</h2>
+                  <h3>{currentOrder.deliver}</h3>
                 </div>
               </div>
 
-              <div className="botonContainer">
+              <div className="botonContainer2">
                 <NavLink to="/user/chat" className="boton" onClick={handleSend}>
                   CHAT
                 </NavLink>
@@ -515,6 +508,46 @@ const StyledMap = styled.div`
           "iconos partida partida"
           "iconos llegada llegada";
       }
+      .info {
+        margin: 0;
+        padding-top: 10%;
+        padding-bottom: 15%;
+        padding-left: 9%;
+        padding-right: 9%;
+        width: 100%;
+        height: 40vh;
+        background: #fafafa;
+        display: grid;
+        grid-template-areas:
+          "partida partida"
+
+      
+      }
+
+      .div6{
+        background: transparent;
+        width: 100%;
+        height: 100%;
+        grid-area: partida;
+
+        h2{
+          font-size: 18px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+
+        }
+
+        h3{
+          font-size: 22px;
+          font-weight: 200;
+          color: #1d1d1f;
+          margin: 0;
+
+        }
+      }
+
+  
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
@@ -528,7 +561,7 @@ const StyledMap = styled.div`
       }
       .div4 {
         z-index: 2030;
-        width: 78%;
+        width: 30%;
       }
 
       .div1 {
@@ -566,13 +599,15 @@ const StyledMap = styled.div`
         }
         .texto{
           width:100%;
-          height:100%;
+          height:fit-content;
           background:transparent;
           display:flex;
           flex-direction:column;
-          margin-left:1em;
+          position:absolute;
+          margin-left:0.1em;
           h2{
-            font-size: 18px;
+            
+          font-size: 18px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
@@ -580,6 +615,7 @@ const StyledMap = styled.div`
   
           }
           h3{
+           
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
@@ -591,6 +627,8 @@ const StyledMap = styled.div`
 
         
       }
+
+     
       .div3 {
         grid-area: llegada;
         background: transparent;
@@ -622,20 +660,23 @@ const StyledMap = styled.div`
         .texto{
           
           width:100%;
-          height:100%;
+          height:fit-content;
           background:transparent;
           display:flex;
+          position:absolute;
           flex-direction:column;
-          margin-left:1em;
+          margin-left:0.1em;
           h2{
-            font-size: 18px;
+            
+          font-size: 18px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
-          margin-top:0.5em;
+         
   
           }
           h3{
+          
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
@@ -650,6 +691,15 @@ const StyledMap = styled.div`
         width: 100%;
         background: #fafafa;
         height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .botonContainer2 {
+        width: 100%;
+        background: #fafafa;
+        height: 15vh;
         display: flex;
         justify-content: center;
         align-items: center;

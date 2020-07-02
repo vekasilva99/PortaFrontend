@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { CREATE_MESSAGE } from "../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { FiSend } from "react-icons/fi";
-export default function InputMessage({ postId }) {
+export default function InputMessage({ postId, color }) {
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
@@ -16,7 +16,7 @@ export default function InputMessage({ postId }) {
   //   CREATE_NOTIFICATION
   // );
   return (
-    <StyledInput>
+    <StyledInput color={color}>
       <MDBRow className="inputMessage">
         <Formik
           initialValues={{ message: "" }}
@@ -134,7 +134,7 @@ const StyledInput = styled.div`
 
       height: 3.5rem;
       padding: 0.3rem;
-      background: #00507a;
+      background: #202124;
       color: #fafafa;
       border: none;
       border-radius: 10px;
@@ -147,13 +147,13 @@ const StyledInput = styled.div`
       }
     }
     .boton {
-      border: solid 2px #00507a;
+      border: solid 2px ${(props) => props.color};
       color: white;
       padding: 0.8em;
       font-size: 0.8em;
       display: flex;
       cursor: pointer;
-      background: #00507a;
+      background: ${(props) => props.color};
       border-radius: 1000px;
       transition: all ease-in-out 0.3s;
       justify-content: center;
@@ -161,9 +161,9 @@ const StyledInput = styled.div`
 
       &:hover {
         opacity: 0.8;
-        background: #00507a;
+        background: ${(props) => props.color};
         color: white;
-        border-color: #00507a;
+        border-color: ${(props) => props.color};
       }
       &:focus {
         opacity: 0.8;

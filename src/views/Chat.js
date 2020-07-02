@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import InputMessage from "../components/inputMessage";
 import { useQuery } from "@apollo/react-hooks";
 import { MESSAGES } from "../helpers/graphql/queries/index";
+import user from "../assets/images/user.png";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
@@ -49,17 +50,24 @@ export default function AdminHome() {
         <UserMenu show={sidebar} />
       </div>
       <div className="form">
+        <div className="header">
+          <img className="photo" src="/ClienteMap.png" />
+          <h1>
+            {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+          </h1>
+        </div>
         <div className="chat">
           {data && (
             <Messages
               subscribeToMore={subscribeToMore}
               messages={data.messages}
               currentOrder={currentOrder._id}
+              color="#00507a"
             />
           )}
         </div>
         <div className="send">
-          <InputMessage />
+          <InputMessage color="#00507a" />
         </div>
       </div>
       <UserProfileSidebar />
@@ -101,6 +109,27 @@ const HomeStyle = styled.section`
     background: white;
   }
 
+  .header {
+    width: 100%;
+    height: 12vh;
+    background: #00507a;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color: #fafafa;
+      font-size: 25px;
+      margin-left: 1em;
+    }
+    .photo {
+      width: 4em;
+    }
+  }
+
   .edit2 {
     display: flex;
     position: relative;
@@ -117,7 +146,6 @@ const HomeStyle = styled.section`
     margin-top: 80px;
     display: flex;
     position: absolute;
-    background: red;
     flex-direction: column;
     .chat {
       width: 100%;

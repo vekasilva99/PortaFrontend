@@ -49,17 +49,24 @@ export default function AdminHome() {
         <UserMenu show={sidebar} />
       </div>
       <div className="form">
+        <div className="header">
+          <img className="photo" src="/RepartidorFondo.png" />
+          <h1>
+            {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+          </h1>
+        </div>
         <div className="chat">
           {data && (
             <Messages
               subscribeToMore={subscribeToMore}
               messages={data.messages}
               currentOrder={currentOrder._id}
+              color="#ef0023"
             />
           )}
         </div>
         <div className="send">
-          <InputMessage />
+          <InputMessage color="#ef0023" />
         </div>
       </div>
       <UserProfileSidebar />
@@ -82,7 +89,7 @@ const HomeStyle = styled.section`
   .photo2 {
     border-radius: 500px;
     padding: 2em;
-    border: solid 0.2em #00507a;
+    border: solid 0.2em #ef0023;
     width: 8vw;
     height: 8vw;
     margin-left: 1vw;
@@ -95,7 +102,7 @@ const HomeStyle = styled.section`
     display: flex;
     position: absolute;
     padding: 1em;
-    border: solid 0.1em #00507a;
+    border: solid 0.1em #ef0023;
     width: 2vw;
     height: 2vw;
     background: white;
@@ -110,6 +117,26 @@ const HomeStyle = styled.section`
     margin-top: 80px;
   }
 
+  .header {
+    width: 100%;
+    height: 12vh;
+    background: #ef0023;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color: #fafafa;
+      font-size: 25px;
+      margin-left: 1em;
+    }
+    .photo {
+      width: 4em;
+    }
+  }
   .form {
     width: 60vw;
     height: 80vh;
@@ -117,7 +144,6 @@ const HomeStyle = styled.section`
     margin-top: 80px;
     display: flex;
     position: absolute;
-    background: red;
     flex-direction: column;
     .chat {
       width: 100%;
