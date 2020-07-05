@@ -52,7 +52,7 @@ export default function AdminHome() {
         <div className="header">
           <img className="photo" src="/RepartidorFondo.png" />
           <h1>
-            {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+            {currentOrder.user.name} {currentOrder.user.lastName}
           </h1>
         </div>
         <div className="chat">

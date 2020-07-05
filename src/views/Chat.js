@@ -73,7 +73,7 @@ export default function AdminHome() {
         </div>
       ) : (
         <div className="no-order">
-          <h2>"No hay order disponible"</h2>
+          <h2>No hay orden disponible</h2>
           <Spinner />{" "}
         </div>
       )}
@@ -101,10 +101,12 @@ const HomeStyle = styled.section`
     align-items: center;
     justify-content: center;
     h2 {
+      text-align: center;
       font-size: 2em;
-      letter-spacing: 1em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 600;
+      margin-bottom: 2rem;
       color: #00507a;
     }
   }
