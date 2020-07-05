@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
@@ -105,14 +105,29 @@ export default function Map() {
 
   const dispatch = useDispatch();
 
-  if (dataS && dataS.orderUpdate) {
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        currentOrder: dataS.orderUpdate,
-      },
-    });
-  }
+  useEffect(() => {
+    if (dataS && dataS.orderUpdate) {
+      console.log("useEffect here");
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataS.orderUpdate,
+        },
+      });
+      console.log("useEffect passed");
+    }
+  }, [dataS, dispatch]);
+
+  // if (dataS && dataS.orderUpdate) {
+  //   console.log("order here");
+  //   dispatch({
+  //     type: "UPDATE_USER",
+  //     payload: {
+  //       currentOrder: dataS.orderUpdate,
+  //     },
+  //   });
+  //   console.log("dispatch passed");
+  // }
 
   const handleSend = async (e) => {
     if (user != null && pack != null) {
@@ -172,17 +187,19 @@ export default function Map() {
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  // if (loadingS) return "Loading...";
+  //if (loadingS) return "Loading...";
   // if (errorS) return `Error! ${errorS.message}`;
 
-  if(dataS && dataS.orderUpdate){
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        currentOrder: dataS.orderUpdate,
-      },
-    });
-  }
+  // if(dataS && dataS.orderUpdate){
+  //   console.log("order here");
+  //   dispatch({
+  //     type: "UPDATE_USER",
+  //     payload: {
+  //       currentOrder: dataS.orderUpdate,
+  //     },
+  //   });
+  //   console.log("dispatch passed");
+  // }
 
   console.log(data);
 

@@ -49,7 +49,11 @@ export const CURRENT_USER = gql`
       currentOrder {
         _id
         pickUp
+        pickUpLat
+        pickUpLng
         deliver
+        deliverLat
+        deliverLng
         km
         price
         status
