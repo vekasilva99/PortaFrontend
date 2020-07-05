@@ -98,7 +98,7 @@ export default function Map() {
     ORDER_UPDATE,
     {
       variables: {
-        userId: _id,
+        userId: _id.toString(),
       },
     }
   );
@@ -123,7 +123,11 @@ export default function Map() {
           orderInput: {
             user: _id,
             pickUp: user.address,
+            pickUpLat: "Latitud del pickup",
+            pickUpLng: "longitud del pickup",
             deliver: pack.address,
+            deliverLat: "Latitud del deliver",
+            deliverLng: "longitud del deliver",
             km: 1500,
             price: 2000,
           },

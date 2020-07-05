@@ -167,7 +167,11 @@ export const MAKE_ORDER = gql`
         lastName
       }
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status

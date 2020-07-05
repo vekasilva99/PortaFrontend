@@ -320,7 +320,11 @@ export const GET_ORDERS = gql`
         lastName
       }
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
