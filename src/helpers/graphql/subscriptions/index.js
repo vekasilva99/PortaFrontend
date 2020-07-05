@@ -9,9 +9,12 @@ export const NOTIFICATION_ADDED_SUSCRIPTION = gql`
         name
         lastName
       }
-
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
@@ -31,9 +34,12 @@ export const NOTIFICATION_DELETED_SUSCRIPTION = gql`
         name
         lastName
       }
-
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
@@ -86,7 +92,11 @@ export const ORDER_UPDATE = gql`
         longitud
       }
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
