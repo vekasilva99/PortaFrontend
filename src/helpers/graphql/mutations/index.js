@@ -23,7 +23,11 @@ export const LOGIN_USER = gql`
         currentOrder {
           _id
           pickUp
+          pickUpLat
+          pickUpLng
           deliver
+          deliverLat
+          deliverLng
           km
           price
           status
@@ -141,9 +145,23 @@ export const CHANGE_AVAILABLE = gql`
   mutation($lat: String!, $lng: String!) {
     changeAvailable(lat: $lat, lng: $lng) {
       _id
-      available
+      role
       name
       lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      createdAt
+      updatedAt
+      longitud
+      latitud
     }
   }
 `;

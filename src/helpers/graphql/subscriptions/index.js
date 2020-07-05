@@ -76,7 +76,7 @@ export const NEW_MESSAGE = gql`
 `;
 
 export const ORDER_UPDATE = gql`
-  subscription($userId: ID!) {
+  subscription($userId: String!) {
     orderUpdate(userId: $userId) {
       _id
       user {
@@ -103,6 +103,31 @@ export const ORDER_UPDATE = gql`
       concluded
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const DRIVER_ADDED = gql`
+  subscription {
+    addDriver {
+      _id
+      role
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      createdAt
+      updatedAt
+      longitud
+      latitud
     }
   }
 `;
