@@ -17,7 +17,7 @@ export default function Register2(props) {
             size="1.7rem"
             color="#fafafa"
           />
-          <div className="container">
+          <div className="container-porta">
             <h2 className="h2">Register</h2>
             <FormRegister color="#0A95BF" />
             <h3 className="h3">Already have an account?</h3>
@@ -105,7 +105,7 @@ const RegisterView = styled.div`
     justify-content: center;
   }
 
-  .container {
+  .container-porta {
     position: relative;
     top: 50%;
     left: 50%;
@@ -136,7 +136,7 @@ const RegisterView = styled.div`
       width: 100vw;
     }
 
-    .container {
+    .container-porta {
       height: 100vh;
       width: 100vw;
     }

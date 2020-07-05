@@ -101,10 +101,11 @@ const StyledNavbarIn = styled.nav`
 
   .nav-links {
     display: flex;
+    padding: 0;
+    margin: 0;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     align-items: center;
-    width: 20vw;
     list-style: none;
     margin-right: 1rem;
     z-index: 3500;
@@ -153,6 +154,7 @@ const StyledNavbarIn = styled.nav`
     justify-content: flex-end;
     background: #202124;
     z-index: 3500;
+    margin-left: 1rem;
 
     &:hover {
       background: #333333;

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { MESSAGE_ADDED_SUBSCRIPTION } from "../../helpers/graphql/subscription";
-import CardMessage from "./../Cards/CardMessage";
+import { NEW_MESSAGE } from "../helpers/graphql/subscriptions/index";
+import { MESSAGES } from "../helpers/graphql/queries/index";
+import CardMessage from "../components/Cards/CardMessage";
 import { MDBBtn, MDBRow } from "mdbreact";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Spinner from "./Spinner";
+import { useQuery } from "@apollo/react-hooks";
+
 export default function Messages({
   messages,
   subscribeToMore,
-  moreMessages,
-  loading,
-  hasNextPage,
-  postId,
+  currentOrder,
+  color,
 }) {
-  const { _id } = useSelector((state) => ({
+  const { _id, name } = useSelector((state) => ({
     ...state.User,
   }));
+
   const messageRef = React.useRef();
   const options = {
     timeZone: "UTC",
@@ -25,20 +27,24 @@ export default function Messages({
     hour: "numeric",
     minute: "numeric",
   };
+  const { data, error, loading } = useQuery(MESSAGES, {
+    fetchPolicy: "network-only",
+    variables: {
+      order: currentOrder._id,
+    },
+  });
 
   useEffect(() => {
     const unsubscription = subscribeToMore({
-      document: MESSAGE_ADDED_SUBSCRIPTION,
-      variables: { postId: postId },
+      document: NEW_MESSAGE,
+      variables: { orderId: currentOrder },
       updateQuery: (prev, { subscriptionData }) => {
+        console.log("entra");
         if (!subscriptionData.data) return prev;
-        const newMessage = subscriptionData.data.messageAdded;
-        if (!prev.messages.messages.find((msg) => msg._id === newMessage._id)) {
+        const newMessage = subscriptionData.data.newMessage;
+        if (!prev.messages.find((msg) => msg._id === newMessage._id)) {
           const res = Object.assign({}, prev, {
-            messages: {
-              ...prev.messages,
-              messages: [newMessage, ...prev.messages.messages],
-            },
+            messages: [...prev.messages, newMessage],
           });
           return res;
         } else return prev;
@@ -47,13 +53,20 @@ export default function Messages({
     return () => {
       unsubscription();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postId]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentOrder]);
 
   const Message = ({ messages }) => {
     return messages.map((message) => (
       <div key={message._id} className="d-flex flex-column w-100 ">
-        <CardMessage userId={_id} options={options} {...message} />
+        <CardMessage
+          userId={_id}
+          options={options}
+          name={message.sender.name}
+          content={message.content}
+          message={message}
+          color={color}
+        />
       </div>
     ));
   };
@@ -73,20 +86,6 @@ export default function Messages({
           {messages && (
             <>
               <Message messages={messages} />{" "}
-              <MDBRow style={{ display: "flex", justifyContent: "center" }}>
-                {" "}
-                {loading && <Spinner />}
-                {!loading && hasNextPage && (
-                  <MDBBtn
-                    className="btn-view-more"
-                    onClick={() =>
-                      moreMessages(messages[messages.length - 1]._id)
-                    }
-                  >
-                    Ver más
-                  </MDBBtn>
-                )}
-              </MDBRow>
             </>
           )}
         </div>

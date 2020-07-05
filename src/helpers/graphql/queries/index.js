@@ -46,14 +46,33 @@ export const CURRENT_USER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      currentOrder{
+      currentOrder {
+        _id
+        pickUp
+        deliver
+        km
+        price
+        status
+        user {
           _id
-          pickUp
-          deliver
-          km
-          price
-          status
-          user{
+          role
+          name
+          lastName
+          birthdate
+          mail
+        }
+        repartidor {
+          _id
+          role
+          name
+          lastName
+          birthdate
+          mail
+        }
+        messages {
+          content
+          createdAt
+          sender {
             _id
             role
             name
@@ -61,35 +80,16 @@ export const CURRENT_USER = gql`
             birthdate
             mail
           }
-          repartidor{
+          receiver {
             _id
             role
             name
             lastName
             birthdate
             mail
-          }
-          messages{
-            content
-            createdAt
-            sender{
-              _id
-              role
-              name
-              lastName
-              birthdate
-              mail
-            }
-            receiver{
-              _id
-              role
-              name
-              lastName
-              birthdate
-              mail
-            }
           }
         }
+      }
       createdAt
       updatedAt
     }
@@ -332,7 +332,7 @@ export const GET_ORDERS = gql`
 `;
 
 export const MESSAGES = gql`
-  query($order: ID!) {
+  query($order: String!) {
     messages(order: $order) {
       _id
       content

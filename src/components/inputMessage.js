@@ -5,7 +5,8 @@ import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { CREATE_MESSAGE } from "../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
-export default function InputMessage({ postId }) {
+import { FiSend } from "react-icons/fi";
+export default function InputMessage({ postId, color }) {
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
@@ -15,7 +16,7 @@ export default function InputMessage({ postId }) {
   //   CREATE_NOTIFICATION
   // );
   return (
-    <StyledInput>
+    <StyledInput color={color}>
       <MDBRow className="inputMessage">
         <Formik
           initialValues={{ message: "" }}
@@ -81,19 +82,14 @@ export default function InputMessage({ postId }) {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 autoComplete="off"
-                placeholder="escribe tu mensaje"
                 disabled={isSubmitting}
               />
               {/* {loading ? (
               <Spinner />
             ) : ( */}
-              <MDBBtn
-                type="submit"
-                className="btn-send"
-                disabled={isSubmitting}
-              >
-                <MDBIcon icon="paper-plane" />
-              </MDBBtn>
+              <button type="submit" className="boton" disabled={isSubmitting}>
+                <FiSend />
+              </button>
               {/* )} */}
             </form>
           )}
@@ -105,7 +101,7 @@ export default function InputMessage({ postId }) {
 
 const StyledInput = styled.div`
   display: flex;
-  background: purple;
+  background: #fafafa;
   align-self: flex-end;
   width: 100%;
   height: 10vh;
@@ -135,18 +131,44 @@ const StyledInput = styled.div`
       width: 100%;
       max-width: 80vw;
       margin: 0;
-      opacity: 0.8;
-      height: 3rem;
+
+      height: 3.5rem;
       padding: 0.3rem;
-      background: rgba(0, 0, 0, 0.5);
-      color: $color-font;
+      background: #202124;
+      color: #fafafa;
       border: none;
-      border-radius: 30px;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
       padding-left: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       &:focus {
-        opacity: 1;
+        opacity: 0.8;
         outline: none;
+      }
+    }
+    .boton {
+      border: solid 2px ${(props) => props.color};
+      color: white;
+      padding: 0.8em;
+      font-size: 0.8em;
+      display: flex;
+      cursor: pointer;
+      background: ${(props) => props.color};
+      border-radius: 1000px;
+      transition: all ease-in-out 0.3s;
+      justify-content: center;
+      margin-left: 0.2em;
+
+      &:hover {
+        opacity: 0.8;
+        background: ${(props) => props.color};
+        color: white;
+        border-color: ${(props) => props.color};
+      }
+      &:focus {
+        opacity: 0.8;
+        outline: none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
       }
     }
   }

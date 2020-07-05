@@ -20,14 +20,14 @@ export const LOGIN_USER = gql`
         licencia
         carnetCirculacion
         seguroVehiculo
-        currentOrder{
+        currentOrder {
           _id
           pickUp
           deliver
           km
           price
           status
-          user{
+          user {
             _id
             role
             name
@@ -35,7 +35,7 @@ export const LOGIN_USER = gql`
             birthdate
             mail
           }
-          repartidor{
+          repartidor {
             _id
             role
             name
@@ -43,10 +43,10 @@ export const LOGIN_USER = gql`
             birthdate
             mail
           }
-          messages{
+          messages {
             content
             createdAt
-            sender{
+            sender {
               _id
               role
               name
@@ -54,7 +54,7 @@ export const LOGIN_USER = gql`
               birthdate
               mail
             }
-            receiver{
+            receiver {
               _id
               role
               name
@@ -138,8 +138,8 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const CHANGE_AVAILABLE = gql`
-  mutation ($lat: String!, $lng: String!){
-    changeAvailable(lat: $lat, lng:$lng){
+  mutation($lat: String!, $lng: String!) {
+    changeAvailable(lat: $lat, lng: $lng) {
       _id
       available
       name
@@ -179,7 +179,7 @@ export const MAKE_ORDER = gql`
 `;
 
 export const ACCEPT_ORDER = gql`
-  mutation($orderId: ID!, $repartidor: ID!) {
+  mutation($orderId: String!, $repartidor: String!) {
     acceptOrder(orderId: $orderId, repartidor: $repartidor) {
       _id
       pickUp
@@ -192,7 +192,7 @@ export const ACCEPT_ORDER = gql`
 
 export const UPDATE_LOCATION_DRIVER = gql`
   mutation($lat: String!, $lng: String!) {
-    updateLocationDriver(lat: $lat, lng:$lng) {
+    updateLocationDriver(lat: $lat, lng: $lng) {
       _id
       latitud
       longitud
@@ -228,4 +228,3 @@ export const CREATE_MESSAGE = gql`
     }
   }
 `;
-

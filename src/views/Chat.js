@@ -7,21 +7,33 @@ import AdminTable from "../components/AdminUserDashboardTable";
 import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 import CardMessage from "../components/Cards/CardMessage";
+import Messages from "../components/Messages";
 import NavbarIn from "../components/NavIn";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
 import InputMessage from "../components/inputMessage";
-
+import { useQuery } from "@apollo/react-hooks";
+import { MESSAGES } from "../helpers/graphql/queries/index";
+import user from "../assets/images/user.png";
+import Spinner from "../components/Spinner";
 export default function AdminHome() {
   const [sidebar, setSidebar] = React.useState(false);
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
-  const { name, lastName, _id, role } = useSelector((state) => ({
+  const { name, lastName, _id, role, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
 
+  const { data, error, loading, subscribeToMore } = useQuery(MESSAGES, {
+    fetchPolicy: "network-only",
+    variables: {
+      order: currentOrder ? currentOrder._id : null,
+    },
+  });
+
+  console.log(data);
   const options = {
     timeZone: "UTC",
     month: "numeric",
@@ -33,26 +45,39 @@ export default function AdminHome() {
 
   return (
     <HomeStyle>
-      {" "}
       <div className="show">
         <NavbarIn name={name} toggle={handlingSidebar} />
         <UserMenu show={sidebar} />
       </div>
-      <div className="form">
-        <div className="chat">
-          <CardMessage
-            content="Hola"
-            date="2020-10-12"
-            user={_id}
-            name={name}
-            userId={_id}
-            options={options}
-          />
+      {currentOrder ? (
+        <div className="form">
+          <div className="header">
+            <img className="photo" src="/ClienteMap.png" />
+            <h1>
+              {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
+            </h1>
+          </div>
+          <div className="chat">
+            {data && (
+              <Messages
+                subscribeToMore={subscribeToMore}
+                messages={data.messages}
+                currentOrder={currentOrder._id}
+                color="#00507a"
+              />
+            )}
+          </div>
+          <div className="send">
+            <InputMessage color="#00507a" />
+          </div>
         </div>
-        <div className="send">
-          <InputMessage />
+      ) : (
+        <div className="no-order">
+          <h2>No hay orden disponible</h2>
+          <Spinner />{" "}
         </div>
-      </div>
+      )}
+
       <UserProfileSidebar />
       <div className="content"></div>
     </HomeStyle>
@@ -67,6 +92,24 @@ const HomeStyle = styled.section`
   position: absolute;
   overflow-x: hidden;
   background: #fafafa;
+  .no-order {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    h2 {
+      text-align: center;
+      font-size: 2em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: #00507a;
+    }
+  }
   .content {
     margin-top: 5rem;
   }
@@ -92,6 +135,27 @@ const HomeStyle = styled.section`
     background: white;
   }
 
+  .header {
+    width: 100%;
+    height: 12vh;
+    background: #00507a;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    padding: 1em;
+    display: flex;
+    align-items: center;
+    h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color: #fafafa;
+      font-size: 25px;
+      margin-left: 1em;
+    }
+    .photo {
+      width: 4em;
+    }
+  }
+
   .edit2 {
     display: flex;
     position: relative;
@@ -108,17 +172,18 @@ const HomeStyle = styled.section`
     margin-top: 80px;
     display: flex;
     position: absolute;
-    background: red;
     flex-direction: column;
     .chat {
       width: 100%;
-      height: 100%;
+      background: #fafafa;
+      height: 70vh;
+      overflow-y: scroll;
     }
     .send {
       width: 100%;
       display: flex;
-      background: green;
-      height: 20%;
+
+      height: 10vh;
     }
   }
 

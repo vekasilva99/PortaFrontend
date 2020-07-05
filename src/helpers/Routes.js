@@ -56,7 +56,7 @@ export default function Routes() {
     }
   }, [data, dispatch, name]);
 
-  return name && role && !loading ? (
+  return name && role ? (
     <Switch>
       <Route
         exact
@@ -153,7 +153,8 @@ export default function Routes() {
         <Redirect exact from="*" to="/admin" />
       )}
     </Switch>
-  ) : !role && !loading ? (
+  ) : (!role && !loading && !data) ||
+    (!role && !loading && data && !data.currentUser) ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
 
