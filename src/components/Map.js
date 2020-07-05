@@ -8,7 +8,7 @@ import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "@apollo/react-hooks";
-import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
+import { ORDER_UPDATE, DRIVER_ADDED } from "../helpers/graphql/subscriptions/index";
 import Spinner from "./Spinner";
 import { NavLink, withRouter } from "react-router-dom";
 import {
@@ -79,7 +79,7 @@ export default function Map() {
     setSelectedDate(date);
   };
 
-  const { data, error, loading } = useQuery(DRIVERS_AROUND, {
+  const { data, error, loading, subscribeToMore } = useQuery(DRIVERS_AROUND, {
     fetchPolicy: "network-only",
   });
 
@@ -181,12 +181,6 @@ export default function Map() {
     mapRef.current.setZoom(14);
   }, []);
 
-  if (loadError) return "Error";
-  if (!isLoaded) return "Loading...";
-
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-
   //if (loadingS) return "Loading...";
   // if (errorS) return `Error! ${errorS.message}`;
 
@@ -202,6 +196,33 @@ export default function Map() {
   // }
 
   console.log(data);
+
+  React.useEffect(() => {
+    const unsubscription = subscribeToMore({
+      document: DRIVER_ADDED,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newDriver = subscriptionData.data.addDriver;
+
+        if (!prev.driversAroundMe.find((msg) => msg._id === newDriver._id)) {
+          const res = Object.assign({}, prev, {
+            driversAroundMe: [newDriver, ...prev.driversAroundMe],
+          });
+          return res;
+        } else return prev;
+      },
+    });
+    return () => {
+      unsubscription();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (loadError) return "Error";
+  if (!isLoaded) return "Loading...";
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
 
   return (
     <>
