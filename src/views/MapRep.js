@@ -43,25 +43,8 @@ export default function MapRep() {
   console.log("current order");
   console.log(currentOrder);
 
-  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
-    ORDER_UPDATE,
-    {
-      variables: {
-        userId: _id,
-      },
-    }
-  );
-
   const dispatch = useDispatch();
 
-  if (dataS && dataS.orderUpdate) {
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        currentOrder: dataS.orderUpdate,
-      },
-    });
-  }
 
   const handleToggle = (e) => setToggle(!on);
   const handleOnline = (e) => setToggle(!available);
