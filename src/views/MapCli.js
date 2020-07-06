@@ -90,7 +90,7 @@ const StyleMapRep = styled.div`
   padding: 0;
 
   .google {
-    position absolute;
+    position: absolute;
     margin-top: 0;
     width: 100vw;
     height: 100vh;

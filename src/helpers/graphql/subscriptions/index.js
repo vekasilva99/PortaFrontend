@@ -9,9 +9,12 @@ export const NOTIFICATION_ADDED_SUSCRIPTION = gql`
         name
         lastName
       }
-
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
@@ -31,9 +34,12 @@ export const NOTIFICATION_DELETED_SUSCRIPTION = gql`
         name
         lastName
       }
-
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
@@ -70,7 +76,7 @@ export const NEW_MESSAGE = gql`
 `;
 
 export const ORDER_UPDATE = gql`
-  subscription($userId: ID!) {
+  subscription($userId: String!) {
     orderUpdate(userId: $userId) {
       _id
       user {
@@ -86,13 +92,42 @@ export const ORDER_UPDATE = gql`
         longitud
       }
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
       status
       concluded
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const DRIVER_ADDED = gql`
+  subscription {
+    addDriver {
+      _id
+      role
+      name
+      lastName
+      birthdate
+      mail
+      zone
+      cellphone
+      available
+      workingStatus
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      createdAt
+      updatedAt
+      longitud
+      latitud
     }
   }
 `;
