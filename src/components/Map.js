@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
-// import MapViewDirections from "react-native-maps-directions";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
 import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
@@ -20,11 +19,6 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
-  DirectionsService,
-  DirectionsRenderer,
-  withGoogleMap,
-  withScriptjs,
-  Polyline,
 } from "@react-google-maps/api";
 
 import usePlacesAutocomplete, {
@@ -80,8 +74,6 @@ export default function Map() {
   const [markers, setMarkers] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [pack, setPackage] = React.useState(null);
-  const [distancia, setDistancia] = React.useState(null);
-  const [precio, setPrecio] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date("2014-08-18T21:11:54")
   );
@@ -93,6 +85,8 @@ export default function Map() {
   const { data, error, loading, subscribeToMore } = useQuery(DRIVERS_AROUND, {
     fetchPolicy: "network-only",
   });
+
+  console.log(data);
 
   const [
     makeOrderd,
@@ -111,7 +105,7 @@ export default function Map() {
       },
     }
   );
-  console.log(dataS);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -138,31 +132,22 @@ export default function Map() {
   //   console.log("dispatch passed");
   // }
 
-  const origin = { lat: 10.492268, lng: -66.893961 };
-  const destination = { lat: 10.460533, lng: -66.885201 };
-  const origin2 = "10.492268, -66.893961";
-  const destination2 = "10.460533,  -66.885201";
-  const [directions, setDirections] = React.useState(null);
-
   const handleSend = async (e) => {
-    if (user != null && pack != null && distancia != null && precio != null) {
+    if (user != null && pack != null) {
       console.log("SE PUEDE MANDAR");
       console.log(user);
-      console.log("Precio", precio);
-      console.log("Distancia", distancia);
-
       const { dataM } = await makeOrderd({
         variables: {
           orderInput: {
             user: _id,
             pickUp: user.address,
-            pickUpLat: user.lat.toString(),
-            pickUpLng: user.lng.toString(),
+            pickUpLat: "Latitud del pickup",
+            pickUpLng: "longitud del pickup",
             deliver: pack.address,
-            deliverLat: pack.lat.toString(),
-            deliverLng: pack.lng.toString(),
-            km: distancia,
-            price: precio,
+            deliverLat: "Latitud del deliver",
+            deliverLng: "longitud del deliver",
+            km: 1500,
+            price: 2000,
           },
         },
       });
@@ -173,42 +158,6 @@ export default function Map() {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
-    // const directionsService = new window.google.maps.DirectionsService();
-    // const service = new window.google.maps.DistanceMatrixService();
-    // if (user != null && pack != null) {
-    //   directionsService.route(
-    //     {
-    //       origin: { lat: user.lat, lng: user.lng },
-    //       destination: { lat: pack.lat, lng: pack.lng },
-    //       travelMode: "DRIVING",
-    //     },
-    //     (result, status) => {
-    //       if (status === window.google.maps.DirectionsStatus.OK) {
-    //         setDirections(result);
-    //       } else {
-    //         console.error(`error fetching directions ${result}`);
-    //       }
-    //     }
-    //   );
-    //   service.getDistanceMatrix(
-    //     {
-    //       origins: [origin2],
-    //       destinations: [destination2],
-    //       travelMode: "DRIVING",
-    //       avoidHighways: false,
-    //       avoidTolls: false,
-    //     },
-    //     (result, status) => {
-    //       if (status === window.google.maps.DistanceMatrixStatus.OK) {
-    //         console.log("Dire", result.rows[0].elements[0]);
-    //       } else {
-    //         console.error(`error fetching directions ${result}`);
-    //       }
-    //     }
-    //   );
-
-    //   console.log(service);
-    // }
   }, []);
 
   const onMapClick = React.useCallback((e) => {
@@ -235,59 +184,6 @@ export default function Map() {
     mapRef.current.setZoom(14);
   }, []);
 
-  const RouteDraw = React.useCallback((user, pack) => {
-    console.log("user", user);
-    console.log("pack", pack);
-    console.log("directions", directions);
-    console.log("distancia", distancia);
-    if (user != null && pack != null && distancia == null) {
-      const directionsService = new window.google.maps.DirectionsService();
-      const service = new window.google.maps.DistanceMatrixService();
-      console.log("Entree");
-      directionsService.route(
-        {
-          origin: { lat: user.lat, lng: user.lng },
-          destination: { lat: pack.lat, lng: pack.lng },
-          travelMode: "DRIVING",
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            if (directions == null) {
-              setDirections(result);
-            }
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
-        }
-      );
-
-      let distan;
-      let price;
-      service.getDistanceMatrix(
-        {
-          origins: [user.lat.toString() + ", " + user.lng.toString()],
-          destinations: [pack.lat.toString() + ", " + pack.lng.toString()],
-          travelMode: "DRIVING",
-          avoidHighways: false,
-          avoidTolls: false,
-        },
-        (result, status) => {
-          if (status === window.google.maps.DistanceMatrixStatus.OK) {
-            if (result.rows[0].elements[0]) {
-              console.log(result.rows[0].elements[0]);
-              price = result.rows[0].elements[0].distance.value / 1000 / 2;
-              distan = result.rows[0].elements[0].distance.text;
-              setDistancia(distan);
-              setPrecio(price);
-            }
-          } else {
-            console.error(`error calculating directions ${result}`);
-          }
-        }
-      );
-    }
-  }, []);
-
   //if (loadingS) return "Loading...";
   // if (errorS) return `Error! ${errorS.message}`;
 
@@ -301,6 +197,8 @@ export default function Map() {
   //   });
   //   console.log("dispatch passed");
   // }
+
+  console.log(data);
 
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
@@ -371,7 +269,6 @@ export default function Map() {
                     panTo={panTo}
                     handleChange={handleUserChange}
                     placeH="Where Are You?"
-                    RouteDraw={RouteDraw(user, pack)}
                   />
                 </div>
                 <div className="div3">
@@ -380,9 +277,6 @@ export default function Map() {
                     handleChange={handlePackageChange}
                     placeH="Where is Your Package?"
                   />
-                </div>
-                <div className="div8">
-                  {precio ? <h2>Total: {precio}$</h2> : null}
                 </div>
               </div>
 
@@ -450,43 +344,15 @@ export default function Map() {
           />
         ) : null}
         {pack ? (
-          <div>
-            <Marker
-              position={{ lat: pack.lat, lng: pack.lng }}
-              icon={{
-                url: "/PackageMap.png",
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(30, 30),
-              }}
-            />
-            <DirectionsRenderer
-              directions={directions}
-              options={{ suppressMarkers: true }}
-            />
-          </div>
-        ) : null}
-        {currentOrder ? (
-          <div>
-            <Marker
-              position={{ lat: origin.lat, lng: origin.lng }}
-              icon={{
-                url: "/ClienteMap.png",
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(30, 30),
-              }}
-            />
-            <Marker
-              position={{ lat: destination.lat, lng: destination.lng }}
-              icon={{
-                url: "/ClienteMap.png",
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(30, 30),
-              }}
-            />
-          </div>
+          <Marker
+            position={{ lat: pack.lat, lng: pack.lng }}
+            icon={{
+              url: "/PackageMap.png",
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
         ) : null}
       </GoogleMap>
     </>
@@ -527,7 +393,7 @@ function Locate({ panTo, handleUserChange }) {
   );
 }
 
-function Search({ panTo, handleChange, placeH, RouteDraw }) {
+function Search({ panTo, handleChange, handlePackageChange, placeH }) {
   const {
     ready,
     value,
@@ -554,7 +420,6 @@ function Search({ panTo, handleChange, placeH, RouteDraw }) {
       console.log(lat, lng);
       handleChange({ lat, lng, address });
       panTo({ lat, lng });
-      RouteDraw();
     } catch (error) {
       console.log("😱 Error: ", error);
     }
@@ -690,8 +555,8 @@ const StyledMap = styled.div`
 
       .rutas {
         margin: 0;
-        padding-top: 10%;
-        padding-bottom: 5%;
+        padding-top: 20%;
+        padding-bottom: 15%;
         padding-left: 9%;
         padding-right: 9%;
         width: 100%;
@@ -700,8 +565,7 @@ const StyledMap = styled.div`
         display: grid;
         grid-template-areas:
           "iconos partida partida"
-          "iconos llegada llegada"
-          "precio precio precio"
+          "iconos llegada llegada";
       }
       .info {
         margin: 0;
@@ -762,42 +626,13 @@ const StyledMap = styled.div`
       .div1 {
         grid-area: iconos;
       }
-
-      .div8 {
-        grid-area: precio;
-        background: transparent;
-        width: 122%;
-        margin-top:8%;
-        margin-left: -22%;
-        padding:0;
-        padding-right:5%;
-        height:50%;
-        display: flex;
-        position: relative;
-        justify-content:flex-end;
-        align-text:center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
-        h2{
-          font-size: 22px;
-          font-weight: 500;
-          color: #00507a;
-          margin: 0;
-
-
-        }
-      }
       .div2 {
         grid-area: partida;
         background: transparent;
         width: 122%;
         margin-left: -22%;
-        margin-top:2%;
-        margin-Bottom:4%;
         display: flex;
         position: relative;
-        height:100%;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         .search {
@@ -858,11 +693,8 @@ const StyledMap = styled.div`
         background: transparent;
         width: 122%;
         margin-left: -22%;
-        margin-top:4%;
-        margin-bottom:5%;
         display: flex;
         position: relative;
-        height:100%;
         .search {
           display: flex;
           position: absolute;
@@ -870,16 +702,12 @@ const StyledMap = styled.div`
           width: 100%;
           height: 100%;
           height: 100%;
-          padding:0;
           z-index: 2030;
         }
 
         .search input {
           font-size: 1.5rem;
           height: 90%;
-          width: 100%;
-          margin:0;
-
           background: transparent;
           outline: none;
           border: none;

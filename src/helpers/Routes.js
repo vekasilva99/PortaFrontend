@@ -27,6 +27,7 @@ import GuardRoutesDriver from "./GuardRoutesDriver";
 import SeeDrivers from "../views/SeeDrivers";
 import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
+import DeliveryCli from "../views/DeliveryCli";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
@@ -136,6 +137,12 @@ export default function Routes() {
         component={SeeDrivers}
       />
       <GuardRoute exact path="/user/chat" role={role} component={Chat} />
+      <GuardRoute
+        exact
+        path="/user/deliverycli"
+        role={role}
+        component={DeliveryCli}
+      />
 
       <GuardRoute
         exact
