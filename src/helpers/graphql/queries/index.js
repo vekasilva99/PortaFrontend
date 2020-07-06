@@ -48,6 +48,13 @@ export const CURRENT_USER = gql`
       seguroVehiculo
       orders{
         _id
+        user {
+          _id
+          name
+          lastName
+          birthdate
+          mail
+        }
         repartidor{
           _id
           name
