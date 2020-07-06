@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
+// import MapViewDirections from "react-native-maps-directions";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
 import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
@@ -16,6 +17,11 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  DirectionsService,
+  DirectionsRenderer,
+  withGoogleMap,
+  withScriptjs,
+  Polyline,
 } from "@react-google-maps/api";
 
 import usePlacesAutocomplete, {
@@ -102,7 +108,7 @@ export default function Map() {
       },
     }
   );
-
+  console.log(dataS);
   const dispatch = useDispatch();
 
   if (dataS && dataS.orderUpdate) {
@@ -113,6 +119,12 @@ export default function Map() {
       },
     });
   }
+
+  const origin = { lat: 10.492268, lng: -66.893961 };
+  const destination = { lat: 10.460533, lng: -66.885201 };
+  const origin2 = "10.492268, -66.893961";
+  const destination2 = "10.460533,  -66.885201";
+  const [directions, setDirections] = React.useState(null);
 
   const handleSend = async (e) => {
     if (user != null && pack != null) {
@@ -136,6 +148,40 @@ export default function Map() {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
+    const directionsService = new window.google.maps.DirectionsService();
+    const service = new window.google.maps.DistanceMatrixService();
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: "DRIVING",
+      },
+      (result, status) => {
+        if (status === window.google.maps.DirectionsStatus.OK) {
+          setDirections(result);
+        } else {
+          console.error(`error fetching directions ${result}`);
+        }
+      }
+    );
+    service.getDistanceMatrix(
+      {
+        origins: [origin2],
+        destinations: [destination2],
+        travelMode: "DRIVING",
+        avoidHighways: false,
+        avoidTolls: false,
+      },
+      (result, status) => {
+        if (status === window.google.maps.DistanceMatrixStatus.OK) {
+          console.log("Dire", result.rows[0].elements[0]);
+        } else {
+          console.error(`error fetching directions ${result}`);
+        }
+      }
+    );
+
+    console.log(service);
   }, []);
 
   const onMapClick = React.useCallback((e) => {
@@ -300,6 +346,11 @@ export default function Map() {
             }}
           />
         ) : null}
+
+        <DirectionsRenderer
+          directions={directions}
+          options={{ suppressMarkers: true }}
+        />
       </GoogleMap>
     </>
   );
