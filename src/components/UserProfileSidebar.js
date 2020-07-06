@@ -23,6 +23,11 @@ export default function UserProfileSidebar() {
               PROFILE SETTINGS
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/user/userprofile" className="link">
+              SEE DRIVERS
+            </NavLink>
+          </li>
         </ul>
       </div>
     </StyledSidebar>
