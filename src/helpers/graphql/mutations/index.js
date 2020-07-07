@@ -243,10 +243,30 @@ export const ACCEPT_ORDER = gql`
   mutation($orderId: String!, $repartidor: String!) {
     acceptOrder(orderId: $orderId, repartidor: $repartidor) {
       _id
+      user {
+        _id
+        name
+        lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
+      }
       pickUp
+      pickUpLat
+      pickUpLng
       deliver
+      deliverLat
+      deliverLng
       km
       price
+      status
+      concluded
+      createdAt
+      updatedAt
     }
   }
 `;

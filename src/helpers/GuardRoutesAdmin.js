@@ -8,7 +8,6 @@ export default function GuardRoutesAdmin({
   role,
   ...rest
 }){
-  console.log("role guardianAdmin " + role);
 
   return (
     <Route
