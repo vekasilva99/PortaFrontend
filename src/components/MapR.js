@@ -167,7 +167,11 @@ export default function MapR() {
 
   return (
     <>
-      <Locate panTo={panTo} handleLocationChange={handleLocationChange} />
+      <Locate
+        panTo={panTo}
+        handleLocationChange={handleLocationChange}
+        currentOrder={currentOrder ? currentOrder : null}
+      />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={8}
@@ -225,7 +229,7 @@ export default function MapR() {
   );
 }
 
-function Locate({ panTo, handleLocationChange }) {
+function Locate({ panTo, handleLocationChange, currentOrder }) {
   return (
     <StyledMap>
       <button
@@ -255,6 +259,25 @@ function Locate({ panTo, handleLocationChange }) {
       >
         <img src="/RepartidorFondo.png" alt="compass" />
       </button>
+      {currentOrder ? (
+        <div>
+          {currentOrder.status === "Picking up package" ? (
+            <button className="locate2">
+              <img src="/RepartidorFondo.png" alt="compass" />
+            </button>
+          ) : null}
+          {currentOrder.status === "Delivering Package" ? (
+            <button className="locate2">
+              <img src="/PackageMap.png" alt="compass" />
+            </button>
+          ) : null}
+          {currentOrder.status === "Completed" ? (
+            <button className="locate2">
+              <img src="/PackageMap.png" alt="compass" />
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </StyledMap>
   );
 }
@@ -268,7 +291,21 @@ const StyledMap = styled.div`
     border: none;
     z-index: 2010;
   }
+
+  .locate2 {
+    position: absolute;
+    top: 5rem;
+    right: 6rem;
+    background: none;
+    border: none;
+    z-index: 2010;
+  }
   .locate img {
+    width: 5em;
+    cursor: pointer;
+  }
+
+  .locate2 img {
     width: 5em;
     cursor: pointer;
   }
