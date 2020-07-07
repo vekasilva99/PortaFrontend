@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
@@ -33,8 +33,6 @@ export default function Pedido(props) {
 
   const accept = async (e, id) => {
     const orden = id;
-    console.log(orden);
-    console.log("id rep " + _id);
 
     const { dataO } = await acceptOrder({
       variables: {
@@ -42,16 +40,32 @@ export default function Pedido(props) {
         repartidor: _id.toString(),
       },
     });
+
+    // if (data && data.acceptOrder) {
+    //   console.log("before dispatch");
+    //   dispatch({
+    //     type: "UPDATE_USER",
+    //     payload: {
+    //       currentOrder: dataO.acceptOrder,
+    //     },
+    //   });
+    //   console.log("after dispatch");
+    // }
+
+  };
+
+  useEffect(() => {
     if (dataO && dataO.acceptOrder) {
+      console.log("before dispatch");
       dispatch({
         type: "UPDATE_USER",
         payload: {
-          available: false,
           currentOrder: dataO.acceptOrder,
         },
       });
+      console.log("after dispatch");
     }
-  };
+  }, [dataO, dispatch]);
 
   React.useEffect(() => {
     const unsubscription = subscribeToMore({

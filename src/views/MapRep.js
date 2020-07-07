@@ -12,7 +12,6 @@ import { CHANGE_AVAILABLE } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "@apollo/react-hooks";
-import { ORDER_UPDATE } from "../helpers/graphql/subscriptions/index";
 
 import { NavLink, withRouter } from "react-router-dom";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
@@ -43,25 +42,9 @@ export default function MapRep() {
   console.log("current order");
   console.log(currentOrder);
 
-  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
-    ORDER_UPDATE,
-    {
-      variables: {
-        userId: _id,
-      },
-    }
-  );
-
   const dispatch = useDispatch();
 
-  if (dataS && dataS.orderUpdate) {
-    dispatch({
-      type: "UPDATE_USER",
-      payload: {
-        currentOrder: dataS.orderUpdate,
-      },
-    });
-  }
+
 
   const handleToggle = (e) => setToggle(!on);
   const handleOnline = (e) => setToggle(!available);
@@ -85,7 +68,6 @@ export default function MapRep() {
     });
   };
 
-  console.log(available);
 
   return (
     <>
