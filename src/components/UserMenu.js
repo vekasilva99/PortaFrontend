@@ -129,15 +129,19 @@ const StyledSidebar = styled.nav`
 
   @media only screen and (max-width: 734px) {
     .open {
-      width: 300px;
+      width: 100%;
+      height: 100%;
       top: 70px;
     }
     .close {
-      width: 300px;
+      width: 100%;
+      height: 100%;
       top: 70px;
+      transform: translateY(-100vh);
     }
     .nav-links {
-      top: 130px;
+      top: 0;
+      justify-content: start;
     }
     .link {
       font-size: 15px;
