@@ -29,6 +29,7 @@ export default function NavbarIn(props) {
   } else {
     style = "open";
   }
+
   return (
     <>
       {log && <Redirect to="/" />}
@@ -40,20 +41,17 @@ export default function NavbarIn(props) {
               <h2>Porta</h2>
             </div>
           </div>
-          {/* <button onClick={props.togglerSidebar}>BUTTON</button> */}
           <ul className="nav-links">
-            <button onClick={logOut} className="link" tag={Link} to="/">
+            <button onClick={logOut} className="link1" tag={Link} to="/">
               LOG OUT
             </button>
-
             <button onClick={props.toggle} className="link2">
               {props.name.toUpperCase()}
             </button>
-
             <li>
-              <div className="link3">
-                <FiLogIn onClick={logOut} size="2em" className="userbut" />
-              </div>
+              <button onClick={logOut} className="link3">
+                <FiLogIn size="2em" className="userbut" />
+              </button>
             </li>
             <li>
               <button onClick={props.toggle} className="link3">
@@ -68,13 +66,13 @@ export default function NavbarIn(props) {
 }
 const StyledNavbarIn = styled.nav`
   .fondo {
+    height: 70px;
     display: flex;
     position: fixed;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-end;
     font-family: Roboto;
-    /* z-index: 3; */
     width: 100%;
     top: 0;
     left: 0;
@@ -107,10 +105,9 @@ const StyledNavbarIn = styled.nav`
     justify-content: space-evenly;
     align-items: center;
     list-style: none;
-    margin-right: 1rem;
     z-index: 3500;
   }
-  .link {
+  .link1 {
     display: flex;
     color: #fafafa;
     font-weight: 600;
@@ -126,7 +123,6 @@ const StyledNavbarIn = styled.nav`
     transition: all ease-in-out 0.3s;
     justify-content: flex-end;
     background: #202124;
-
     z-index: 3500;
     &:hover {
       background: #333333;
@@ -137,6 +133,7 @@ const StyledNavbarIn = styled.nav`
       outline: none;
     }
   }
+
   .link2 {
     display: flex;
     color: #fafafa;
@@ -155,7 +152,6 @@ const StyledNavbarIn = styled.nav`
     background: #202124;
     z-index: 3500;
     margin-left: 1rem;
-
     &:hover {
       background: #333333;
       color: #fafafa;
@@ -165,25 +161,15 @@ const StyledNavbarIn = styled.nav`
       outline: none;
     }
   }
+
   .link3 {
     display: none;
     color: #fafafa;
     text-decoration: none;
-    border: solid #202124;
-    cursor: pointer;
-    transition: all ease-in-out 0.3s;
+    border: none;
     justify-content: flex-end;
-    background: #202124;
-    border-radius: 20px;
+    background: transparent;
     z-index: 3500;
-    &:hover {
-      background: #333333;
-      color: #fafafa;
-      border-color: #333333;
-    }
-    &:focus {
-      outline: none;
-    }
   }
   .userbut {
     width: 15px;
@@ -191,7 +177,6 @@ const StyledNavbarIn = styled.nav`
 
   @media only screen and (min-width: 735px) {
     .fondo {
-      height: 70px;
       padding-right: 1rem;
     }
     .toggle {
@@ -203,12 +188,14 @@ const StyledNavbarIn = styled.nav`
       width: 50px;
       margin-right: 1rem;
     }
+    .nav-links {
+      margin-right: 1rem;
+    }
   }
 
   @media only screen and (max-width: 734px) {
     .fondo {
-      height: 70px;
-      padding-right: 0.5rem;
+      padding-right: 0;
     }
     .toggle {
       height: 70px;
@@ -219,7 +206,7 @@ const StyledNavbarIn = styled.nav`
       width: 40px;
       margin-right: 0.5rem;
     }
-    .link {
+    .link1 {
       display: none;
     }
     .link2 {
@@ -227,37 +214,13 @@ const StyledNavbarIn = styled.nav`
     }
     .link3 {
       display: block;
-      color: #fafafa;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all ease-in-out 0.3s;
-      justify-content: flex-end;
-      padding-left: 0;
-      padding-right: 0;
-      background: #1d1d1f;
-      border-radius: 0;
-      z-index: 4;
-      &:focus {
-        outline: none;
-        background: #1d1d1f;
-      }
     }
-
     .userbut {
       width: 50px;
       background: none;
     }
-
     .nav-links {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: center;
-      align-items: center;
-      width: 30vw;
-      list-style: none;
-      margin-right: 1em;
-      z-index: 4;
+      left-margin: 2rem;
     }
   }
 `;

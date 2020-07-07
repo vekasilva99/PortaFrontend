@@ -37,7 +37,6 @@ export default function UserHome() {
   const { _id, role, name, lastName } = useSelector((state) => ({
     ...state.User,
   }));
-  
 
   return (
     <>
@@ -47,36 +46,6 @@ export default function UserHome() {
         <div className="google">
           <Map />
         </div>
-        {/* <div className="busqueda">
-          <h1>Realiza un pedido</h1>
-          <div className="rutas">
-            <div className="div1"></div>
-            <div className="div2">
-              <input type="text" />
-            </div>
-            <div className="div3">
-              <input type="text" />
-            </div>
-          </div>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
-              <KeyboardTimePicker
-                margin="normal"
-                id="time-picker"
-                label="Time picker"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-          <button onClick={pedir} className="pedir">
-            Realizar Pedido
-          </button>
-        </div>
-        <div className="clear"></div> */}
       </StyleMapRep>
     </>
   );
@@ -95,5 +64,4 @@ const StyleMapRep = styled.div`
     width: 100vw;
     height: 100vh;
   }
- 
 `;
