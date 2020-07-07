@@ -10,6 +10,11 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  DirectionsService,
+  DirectionsRenderer,
+  withGoogleMap,
+  withScriptjs,
+  Polyline,
 } from "@react-google-maps/api";
 
 import usePlacesAutocomplete, {
@@ -57,12 +62,19 @@ const center = {
 };
 
 export default function MapR() {
+  const [directions, setDirections] = React.useState(null);
   //DRIVER DATA HERE
-  const { role, name, lastName, available, latitud, longitud } = useSelector(
-    (state) => ({
-      ...state.User,
-    })
-  );
+  const {
+    role,
+    name,
+    lastName,
+    available,
+    latitud,
+    longitud,
+    currentOrder,
+  } = useSelector((state) => ({
+    ...state.User,
+  }));
 
   const [
     changeLocation,
@@ -87,6 +99,33 @@ export default function MapR() {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
+    if (currentOrder) {
+      const directionsService = new window.google.maps.DirectionsService();
+      const service = new window.google.maps.DistanceMatrixService();
+      console.log("Entree");
+      directionsService.route(
+        {
+          origin: {
+            lat: Number(currentOrder.pickUpLat),
+            lng: Number(currentOrder.pickUpLng),
+          },
+          destination: {
+            lat: Number(currentOrder.deliverLat),
+            lng: Number(currentOrder.deliverLng),
+          },
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            if (directions == null) {
+              setDirections(result);
+            }
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
   }, []);
 
   const onMapClick = React.useCallback((e) => {
@@ -147,6 +186,39 @@ export default function MapR() {
               scaledSize: new window.google.maps.Size(30, 30),
             }}
           />
+        ) : null}
+
+        {currentOrder ? (
+          <div>
+            <Marker
+              position={{
+                lat: Number(currentOrder.pickUpLat),
+                lng: Number(currentOrder.pickUpLng),
+              }}
+              icon={{
+                url: "/ClienteMap.png",
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+                scaledSize: new window.google.maps.Size(30, 30),
+              }}
+            />
+            <Marker
+              position={{
+                lat: Number(currentOrder.deliverLat),
+                lng: Number(currentOrder.deliverLng),
+              }}
+              icon={{
+                url: "/PackageMap.png",
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
+                scaledSize: new window.google.maps.Size(30, 30),
+              }}
+            />
+            <DirectionsRenderer
+              directions={directions}
+              options={{ suppressMarkers: true }}
+            />
+          </div>
         ) : null}
       </GoogleMap>
     </>

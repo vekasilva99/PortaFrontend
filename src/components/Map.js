@@ -613,7 +613,6 @@ const StyledMap = styled.div`
     cursor: pointer;
   }
   
-
   .boton {
     border: solid 2px #00507a;
     color: white;
@@ -627,7 +626,6 @@ const StyledMap = styled.div`
     border-radius: 500px;
     transition: all ease-in-out 0.3s;
     justify-content: center;
-
     &:hover {
       opacity: 0.8;
       background: #00507a;
@@ -640,7 +638,6 @@ const StyledMap = styled.div`
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
   }
-
   @media only screen and (min-width: 735px) {
     .fondoMap {
       display: grid;
@@ -663,7 +660,6 @@ const StyledMap = styled.div`
       background: #fafafa;
       margin-top: -5%;
     }
-
     .busqueda {
       background-color: transparent;
       margin: 20px;
@@ -687,7 +683,6 @@ const StyledMap = styled.div`
         margin-top: 5%;
         margin-left: 5%;
       }
-
       .rutas {
         margin: 0;
         padding-top: 10%;
@@ -715,33 +710,26 @@ const StyledMap = styled.div`
         display: grid;
         grid-template-areas:
           "partida partida"
-
       
       }
-
       .div6{
         background: transparent;
         width: 100%;
         height: 100%;
         grid-area: partida;
-
         h2{
           font-size: 18px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
-
         }
-
         h3{
           font-size: 22px;
           font-weight: 200;
           color: #1d1d1f;
           margin: 0;
-
         }
       }
-
   
       .div1 {
         background-image: url("/iconos.png");
@@ -750,7 +738,6 @@ const StyledMap = styled.div`
         z-index: 2030;
         width: 78%;
       }
-
       .div4 {
         grid-area: iconos;
       }
@@ -758,11 +745,9 @@ const StyledMap = styled.div`
         z-index: 2030;
         width: 30%;
       }
-
       .div1 {
         grid-area: iconos;
       }
-
       .div8 {
         grid-area: precio;
         background: transparent;
@@ -778,14 +763,11 @@ const StyledMap = styled.div`
         align-text:center;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
         h2{
           font-size: 22px;
           font-weight: 500;
           color: #00507a;
           margin: 0;
-
-
         }
       }
       .div2 {
@@ -809,7 +791,6 @@ const StyledMap = styled.div`
           height: 100%;
           z-index: 2030;
         }
-
         .search input {
           font-size: 1.5rem;
           height: 90%;
@@ -848,10 +829,8 @@ const StyledMap = styled.div`
   
           }
         }
-
         
       }
-
      
       .div3 {
         grid-area: llegada;
@@ -873,13 +852,11 @@ const StyledMap = styled.div`
           padding:0;
           z-index: 2030;
         }
-
         .search input {
           font-size: 1.5rem;
           height: 90%;
           width: 100%;
           margin:0;
-
           background: transparent;
           outline: none;
           border: none;
@@ -917,7 +894,6 @@ const StyledMap = styled.div`
           }
         }
       }
-
       .botonContainer {
         width: 100%;
         background: #fafafa;
@@ -926,7 +902,6 @@ const StyledMap = styled.div`
         justify-content: center;
         align-items: center;
       }
-
       .botonContainer2 {
         width: 100%;
         background: #fafafa;
@@ -937,7 +912,6 @@ const StyledMap = styled.div`
       }
     }
   }
-
   @media only screen and (max-width: 734px) {
     .fondoMap {
       display: grid;
@@ -945,7 +919,6 @@ const StyledMap = styled.div`
         "clear"
         "busqueda";
     }
-
     .MuiPickersToolbar-toolbar {
       height: 100px;
       display: flex;
@@ -963,7 +936,6 @@ const StyledMap = styled.div`
       background: #fafafa;
       margin-top: 0;
     }
-
     .busqueda {
       grid-area: busqueda;
       background-color: #fafafa;
@@ -1010,7 +982,6 @@ const StyledMap = styled.div`
         width: 78%;
        
       }
-
       .div1 {
         grid-area: iconos;
       }
@@ -1021,7 +992,6 @@ const StyledMap = styled.div`
         margin-left: -22%;
         display: flex;
         position: relative;
-
         .search {
           display: flex;
           position: absolute;
@@ -1031,7 +1001,6 @@ const StyledMap = styled.div`
           height: 100%;
           z-index: 2030;
         }
-
         .search input {
           font-size: 1.5rem;
           height: 90%;
@@ -1061,7 +1030,6 @@ const StyledMap = styled.div`
             height: 100%;
             z-index: 2030;
           }
-
           .search input {
             font-size: 1.5rem;
             height: 90%;
@@ -1075,7 +1043,6 @@ const StyledMap = styled.div`
           }
         }
       }
-
       .botonContainer {
         width: 100%;
         background: #fafafa;
@@ -1084,12 +1051,10 @@ const StyledMap = styled.div`
         justify-content: center;
         align-items: center;
       }
-
       .boton {
         width: 60vw;
       }
     }
-
     .clear {
       grid-area: clear;
       height: 52vh;
