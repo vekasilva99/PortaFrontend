@@ -40,7 +40,18 @@ export default function Pedido(props) {
         repartidor: _id.toString(),
       },
     });
-    
+
+    // if (data && data.acceptOrder) {
+    //   console.log("before dispatch");
+    //   dispatch({
+    //     type: "UPDATE_USER",
+    //     payload: {
+    //       currentOrder: dataO.acceptOrder,
+    //     },
+    //   });
+    //   console.log("after dispatch");
+    // }
+
   };
 
   useEffect(() => {

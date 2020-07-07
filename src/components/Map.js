@@ -115,6 +115,19 @@ export default function Map() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (dataM && dataM.createOrder) {
+      console.log("useEffect here");
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataM.createOrder,
+        },
+      });
+      console.log("useEffect passed");
+    }
+  }, [dataM, dispatch]);
+
+  useEffect(() => {
     if (dataS && dataS.orderUpdate) {
       console.log("useEffect here");
       dispatch({
