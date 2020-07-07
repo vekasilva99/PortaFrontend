@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
-import { UPDATE_LOCATION_DRIVER } from "../helpers/graphql/mutations/index";
+import { UPDATE_LOCATION_DRIVER,
+          ORDER_PICKED_UP, 
+          ORDER_ARRIVED,
+          ORDER_COMPLETED
+        } from "../helpers/graphql/mutations/index";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -63,6 +68,9 @@ const center = {
 
 export default function MapR() {
   const [directions, setDirections] = React.useState(null);
+  
+  const dispatch = useDispatch();
+  
   //DRIVER DATA HERE
   const {
     role,
@@ -81,6 +89,69 @@ export default function MapR() {
     { data: dataL, error: errorL, loading: loadingL },
   ] = useMutation(UPDATE_LOCATION_DRIVER);
 
+  const [
+    orderPickedUp,
+    { data, error, loading },
+  ] = useMutation(ORDER_PICKED_UP);
+
+  // const { data } = await orderPickedUp({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+  // if(data && data.orderPickedUp){
+  //   dispatch({
+  //     type: "UPDATE_USER",
+  //     payload: {
+  //       currentOrder: data.orderPickedUp,
+  //     },
+  //   });
+  // }
+
+  const [
+    orderArrived,
+    { data: dataA, error: errorA, loading: loadingA },
+  ] = useMutation(ORDER_ARRIVED);
+
+  // const { dataA } = await orderArrived({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+
+  useEffect(() => {
+    if (dataA && dataA.orderArrived) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataA.orderArrived,
+        },
+      });
+    }
+  }, [dataA, dispatch]);
+
+  const [
+    orderCompleted,
+    { data: dataC, error: errorC, loading: loadingC },
+  ] = useMutation(ORDER_COMPLETED);
+
+  // const { dataC } = await orderCompleted({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+
+  useEffect(() => {
+    if (dataC && dataC.orderCompleted) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataC.orderCompleted,
+        },
+      });
+    }
+  }, [dataC, dispatch]);
+
   console.log("latitud" + latitud);
   console.log("longitud" + longitud);
 
@@ -93,8 +164,6 @@ export default function MapR() {
   const [markers, setMarkers] = React.useState(null);
   const [location, setLocation] = React.useState(null);
   const [pack, setPackage] = React.useState(null);
-
-  const dispatch = useDispatch();
 
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
