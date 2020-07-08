@@ -135,20 +135,18 @@ const StyledDeliv = styled.nav`
     background: transparent;
     z-index: 5;
     height: fit-content;
-    margin-bottom:0.5em;
- 
+    margin-bottom: 0.5em;
   }
 
   .textb {
     padding: 0;
-    width: 100%
+    width: 100%;
     background: transparent;
     height: max-content;
     margin-top: 0;
-    border-bottom: 1px solid rgb(0,80,122);
+    border-bottom: 1px solid rgb(0, 80, 122);
     width: 100%;
-    padding-bottom:0.5em;
-    
+    padding-bottom: 0.5em;
   }
 
   @media only screen and (min-width: 735px) {

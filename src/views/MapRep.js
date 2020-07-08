@@ -216,14 +216,14 @@ const StyleMapRep = styled.div`
     grid-area: partida;
 
     h2 {
-      font-size: 18px;
+      font-size: 12px;
       font-weight: 500;
       color: #1d1d1f;
       margin: 0;
     }
 
     h3 {
-      font-size: 22px;
+      font-size: 15px;
       font-weight: 200;
       color: #1d1d1f;
       margin: 0;

@@ -26,13 +26,11 @@ import {
   withScriptjs,
   Polyline,
 } from "@react-google-maps/api";
-
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import Grid from "@material-ui/core/Grid";
-
 import {
   Combobox,
   ComboboxInput,
@@ -41,7 +39,6 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import { formatRelative } from "date-fns";
-
 import "@reach/combobox/styles.css";
 import mapStyles from "../assets/scss/mapStyles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -69,13 +66,11 @@ const center = {
   lat: 10.480594,
   lng: -66.903603,
 };
-
 export default function Map() {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo",
     libraries,
   });
-
   Geocoder.init("AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo");
   const [markers, setMarkers] = React.useState(null);
   const [user, setUser] = React.useState(null);
@@ -85,24 +80,19 @@ export default function Map() {
   const [selectedDate, setSelectedDate] = React.useState(
     new Date("2014-08-18T21:11:54")
   );
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-
   const { data, error, loading, subscribeToMore } = useQuery(DRIVERS_AROUND, {
     fetchPolicy: "network-only",
   });
-
   const [
     makeOrderd,
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
-
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
-
   const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
     ORDER_UPDATE,
     {
@@ -113,7 +103,6 @@ export default function Map() {
   );
   console.log(dataS);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (dataM && dataM.createOrder) {
       console.log("useEffect here");
@@ -126,7 +115,6 @@ export default function Map() {
       console.log("useEffect passed");
     }
   }, [dataM, dispatch]);
-
   useEffect(() => {
     if (dataS && dataS.orderUpdate) {
       console.log("useEffect here");
@@ -139,41 +127,27 @@ export default function Map() {
       console.log("useEffect passed");
     }
   }, [dataS, dispatch]);
-
-  // if (dataS && dataS.orderUpdate) {
-  //   console.log("order here");
-  //   dispatch({
-  //     type: "UPDATE_USER",
-  //     payload: {
-  //       currentOrder: dataS.orderUpdate,
-  //     },
-  //   });
-  //   console.log("dispatch passed");
-  // }
-
   const origin = { lat: 10.492268, lng: -66.893961 };
   const destination = { lat: 10.460533, lng: -66.885201 };
   const origin2 = "10.492268, -66.893961";
   const destination2 = "10.460533,  -66.885201";
   const [directions, setDirections] = React.useState(null);
-
   const handleSend = async (e) => {
     if (user != null && pack != null && distancia != null && precio != null) {
       console.log("SE PUEDE MANDAR");
       console.log(user);
       console.log("Precio", precio);
       console.log("Distancia", distancia);
-
       const { dataM } = await makeOrderd({
         variables: {
           orderInput: {
             user: _id,
-            pickUp: user.address,
-            pickUpLat: user.lat.toString(),
-            pickUpLng: user.lng.toString(),
-            deliver: pack.address,
-            deliverLat: pack.lat.toString(),
-            deliverLng: pack.lng.toString(),
+            pickUp: pack.address,
+            pickUpLat: pack.lat.toString(),
+            pickUpLng: pack.lng.toString(),
+            deliver: user.address,
+            deliverLat: user.lat.toString(),
+            deliverLng: user.lng.toString(),
             km: distancia,
             price: precio,
           },
@@ -186,44 +160,7 @@ export default function Map() {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
-    // const directionsService = new window.google.maps.DirectionsService();
-    // const service = new window.google.maps.DistanceMatrixService();
-    // if (user != null && pack != null) {
-    //   directionsService.route(
-    //     {
-    //       origin: { lat: user.lat, lng: user.lng },
-    //       destination: { lat: pack.lat, lng: pack.lng },
-    //       travelMode: "DRIVING",
-    //     },
-    //     (result, status) => {
-    //       if (status === window.google.maps.DirectionsStatus.OK) {
-    //         setDirections(result);
-    //       } else {
-    //         console.error(`error fetching directions ${result}`);
-    //       }
-    //     }
-    //   );
-    //   service.getDistanceMatrix(
-    //     {
-    //       origins: [origin2],
-    //       destinations: [destination2],
-    //       travelMode: "DRIVING",
-    //       avoidHighways: false,
-    //       avoidTolls: false,
-    //     },
-    //     (result, status) => {
-    //       if (status === window.google.maps.DistanceMatrixStatus.OK) {
-    //         console.log("Dire", result.rows[0].elements[0]);
-    //       } else {
-    //         console.error(`error fetching directions ${result}`);
-    //       }
-    //     }
-    //   );
-
-    //   console.log(service);
-    // }
   }, []);
-
   const onMapClick = React.useCallback((e) => {
     setMarkers({
       lat: e.latLng.lat(),
@@ -231,7 +168,6 @@ export default function Map() {
       time: new Date(),
     });
   });
-
   const handleUserChange = ({ lat, lng, address }) => {
     setUser({ lat, lng, address });
     console.log("User");
@@ -242,12 +178,10 @@ export default function Map() {
     console.log("Package");
     console.log(pack);
   };
-
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
   }, []);
-
   const RouteDraw = React.useCallback((user, pack) => {
     console.log("user", user);
     console.log("pack", pack);
@@ -273,7 +207,6 @@ export default function Map() {
           }
         }
       );
-
       let distan;
       let price;
       service.getDistanceMatrix(
@@ -300,21 +233,6 @@ export default function Map() {
       );
     }
   }, []);
-
-  //if (loadingS) return "Loading...";
-  // if (errorS) return `Error! ${errorS.message}`;
-
-  // if(dataS && dataS.orderUpdate){
-  //   console.log("order here");
-  //   dispatch({
-  //     type: "UPDATE_USER",
-  //     payload: {
-  //       currentOrder: dataS.orderUpdate,
-  //     },
-  //   });
-  //   console.log("dispatch passed");
-  // }
-
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: DRIVER_ADDED,
@@ -333,12 +251,9 @@ export default function Map() {
     return () => {
       unsubscription();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
-
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
@@ -360,14 +275,12 @@ export default function Map() {
                   ) : (
                     <h3>Ningun Repartidor ha aceptado la orden</h3>
                   )}
-
                   <h2>Origen</h2>
                   <h3>{currentOrder.pickUp}</h3>
                   <h2>Destino</h2>
                   <h3>{currentOrder.deliver}</h3>
                 </div>
               </div>
-
               <div className="botonContainer2">
                 <NavLink to="/user/chat" className="boton" onClick={handleSend}>
                   CHAT
@@ -505,7 +418,6 @@ export default function Map() {
     </>
   );
 }
-
 function Locate({ panTo, handleUserChange }) {
   return (
     <StyledMap>
@@ -539,7 +451,6 @@ function Locate({ panTo, handleUserChange }) {
     </StyledMap>
   );
 }
-
 function Search({ panTo, handleChange, placeH, RouteDraw }) {
   const {
     ready,
@@ -631,7 +542,7 @@ const StyledMap = styled.div`
     color: white;
     padding: 0.9rem;
     font-size: 0.8em;
-    width: 15vw;
+    width: 200px;
     display: flex;
     font-weight: 600;
     cursor: pointer;
@@ -655,7 +566,7 @@ const StyledMap = styled.div`
     .fondoMap {
       display: grid;
       grid-template-columns: 30% 70%;
-      grid-auto-rows: auto;
+      grid-auto-rows: 100%;
     }
     .MuiPickersToolbar-toolbar {
       height: 100px;
@@ -671,10 +582,10 @@ const StyledMap = styled.div`
       flex-wrap: wrap;
       box-sizing: border-box;
       background: #fafafa;
-      margin-top: -5%;
+      margin-top: -15%;
     }
     .busqueda {
-      background-color: transparent;
+      background-color: #fafafa;
       margin: 20px;
       margin-top: 80px;
       width: 400px;
@@ -913,7 +824,7 @@ const StyledMap = styled.div`
         height: 10vh;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
       }
       .botonContainer2 {
         width: 100%;
@@ -925,6 +836,7 @@ const StyledMap = styled.div`
       }
     }
   }
+
   @media only screen and (max-width: 734px) {
     .fondoMap {
       display: grid;
@@ -954,7 +866,7 @@ const StyledMap = styled.div`
       background-color: #fafafa;
       z-index: 2020;
       margin:0;
-      height: fit-content;
+      height: auto;
       h1 {
         font-size: 30px;
         font-weight: 400;
@@ -966,7 +878,7 @@ const StyledMap = styled.div`
         width: 1;
       }
       h5 {
-        font-size: 25px;
+        font-size: 20px;
         font-weight: 500;
         color: #1d1d1f;
         margin: 0;
@@ -986,6 +898,9 @@ const StyledMap = styled.div`
         grid-template-areas:
           "iconos partida partida"
           "iconos llegada llegada";
+      }
+      .info{
+        padding: 10px;
       }
       .div1 {
         background-image: url("/iconos.png");
@@ -1056,16 +971,16 @@ const StyledMap = styled.div`
           }
         }
       }
-      .botonContainer {
+      .botonContainer2 {
         width: 100%;
         background: #fafafa;
         height: 10vh;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
       }
       .boton {
-        width: 60vw;
+        width: 150px;
       }
     }
     .clear {
@@ -1073,5 +988,19 @@ const StyledMap = styled.div`
       height: 52vh;
     
     }
+    .div6{
+        h2{
+          font-size: 15px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+        }
+        h3{
+          font-size: 20px;
+          font-weight: 200;
+          color: #1d1d1f;
+          margin: 0;
+        }
+      }
   }
 `;
