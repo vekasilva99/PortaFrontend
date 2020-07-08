@@ -5,7 +5,7 @@ import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
 import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
-import { MAKE_ORDER } from "../helpers/graphql/mutations/index";
+import { MAKE_ORDER, ORDER_COMPLETED } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "@apollo/react-hooks";
@@ -83,16 +83,38 @@ export default function Map() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
   const { data, error, loading, subscribeToMore } = useQuery(DRIVERS_AROUND, {
     fetchPolicy: "network-only",
   });
+
   const [
     makeOrderd,
     { data: dataM, error: errorM, loading: loadingM },
   ] = useMutation(MAKE_ORDER);
+
+  const [
+    orderCompleted,
+    { data: dataC, error: errorC, loading: loadingC },
+  ] = useMutation(ORDER_COMPLETED);
+  // const { data: dataC } = await orderArrived({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+  //   if (dataC && dataC.orderCompleted) {
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: null,
+  //       },
+  //     });
+  //   }
+
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
   }));
+
   const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
     ORDER_UPDATE,
     {

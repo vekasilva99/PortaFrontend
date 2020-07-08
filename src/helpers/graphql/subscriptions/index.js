@@ -107,6 +107,38 @@ export const ORDER_UPDATE = gql`
   }
 `;
 
+export const COMPLETE_ORDER = gql`
+  subscription($driverId: String!) {
+    orderComplete(driverId: $driverId) {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
+      }
+      pickUp
+      pickUpLat
+      pickUpLng
+      deliver
+      deliverLat
+      deliverLng
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const DRIVER_ADDED = gql`
   subscription {
     addDriver {

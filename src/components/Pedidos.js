@@ -34,27 +34,13 @@ export default function Pedido(props) {
   const accept = async (e, id) => {
     const orden = id;
 
-    const { dataO } = await acceptOrder({
+    const { data: dataO } = await acceptOrder({
       variables: {
         orderId: orden.toString(),
         repartidor: _id.toString(),
       },
     });
 
-    // if (data && data.acceptOrder) {
-    //   console.log("before dispatch");
-    //   dispatch({
-    //     type: "UPDATE_USER",
-    //     payload: {
-    //       currentOrder: dataO.acceptOrder,
-    //     },
-    //   });
-    //   console.log("after dispatch");
-    // }
-
-  };
-
-  useEffect(() => {
     if (dataO && dataO.acceptOrder) {
       console.log("before dispatch");
       dispatch({
@@ -65,7 +51,21 @@ export default function Pedido(props) {
       });
       console.log("after dispatch");
     }
-  }, [dataO, dispatch]);
+
+  };
+
+  // useEffect(() => {
+  //   if (dataO && dataO.acceptOrder) {
+  //     console.log("before dispatch");
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: dataO.acceptOrder,
+  //       },
+  //     });
+  //     console.log("after dispatch");
+  //   }
+  // }, [dataO, dispatch]);
 
   React.useEffect(() => {
     const unsubscription = subscribeToMore({

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
+import { useSubscription } from "@apollo/react-hooks";
 import {
   UPDATE_LOCATION_DRIVER,
   ORDER_PICKED_UP,
   ORDER_ARRIVED,
-  ORDER_COMPLETED,
 } from "../helpers/graphql/mutations/index";
-
+import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -74,6 +74,7 @@ export default function MapR() {
 
   //DRIVER DATA HERE
   const {
+    _id,
     role,
     name,
     lastName,
@@ -99,38 +100,62 @@ export default function MapR() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(ORDER_ARRIVED);
 
-  // const { dataA } = await orderArrived({
-  //   variables: {
-  //     orderId: currentOrder_id.toString(),
-  //   },
-  // });
-
-  useEffect(() => {
-    if (dataA && dataA.orderArrived) {
-      dispatch({
-        type: "UPDATE_USER",
-        payload: {
-          currentOrder: dataA.orderArrived,
-        },
-      });
+  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+    COMPLETE_ORDER,
+    {
+      variables: {
+        driverId: _id.toString(),
+      },
     }
-  }, [dataA, dispatch]);
-
-  const [
-    orderCompleted,
-    { data: dataC, error: errorC, loading: loadingC },
-  ] = useMutation(ORDER_COMPLETED);
+  );
 
   useEffect(() => {
-    if (dataC && dataC.orderCompleted) {
+    if (dataS && dataS.orderComplete) {
+      console.log("useEffect here");
       dispatch({
         type: "UPDATE_USER",
         payload: {
           currentOrder: null,
         },
       });
+      console.log("useEffect passed");
     }
-  }, [dataC, dispatch]);
+  }, [dataS, dispatch]);
+
+  // const { dataA } = await orderArrived({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   if (dataA && dataA.orderArrived) {
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: dataA.orderArrived,
+  //       },
+  //     });
+  //   }
+  // }, [dataA, dispatch]);
+
+  // const [
+  //   orderCompleted,
+  //   { data: dataC, error: errorC, loading: loadingC },
+  // ] = useMutation(ORDER_COMPLETED);
+
+  // useEffect(() => {
+  //   if (dataC && dataC.orderCompleted) {
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: null,
+  //       },
+  //     });
+  //   }
+  // }, [dataC, dispatch]);
+
+  // Completed
 
   console.log("latitud" + latitud);
   console.log("longitud" + longitud);
@@ -146,36 +171,46 @@ export default function MapR() {
   const [pack, setPackage] = React.useState(null);
 
   const mapRef = React.useRef();
+
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
 
-    if (!currentOrder || currentOrder.status === "Picking up package") {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          Geocoder.from(position.coords.latitude, position.coords.longitude)
-            .then((json) => {
-              var addressComponent = json.results[0].address_components[0];
-              console.log(addressComponent);
-              handleLocationChange({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-                address: addressComponent,
-              });
-            })
-            .catch((error) => console.warn(error));
-          panTo({
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        Geocoder.from(position.coords.latitude, position.coords.longitude)
+          .then((json) => {
+            var addressComponent = json.results[0].address_components[0];
+            console.log(addressComponent);
+            handleLocationChange({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              address: addressComponent,
+            });
+          })
+          .catch((error) => console.warn(error));
+        panTo(
+          {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          });
-        },
-        () => null
-      );
-    }
+          },
+          false
+        );
+      },
+      () => null
+    );
+
     if (currentOrder) {
       const directionsService = new window.google.maps.DirectionsService();
       const service = new window.google.maps.DistanceMatrixService();
       console.log("Entree");
       if (currentOrder.status === "Picking up package") {
+        console.log(
+          "Recogiendo",
+          latitud,
+          longitud,
+          currentOrder.pickUpLat,
+          currentOrder.pickUpLng
+        );
         directionsService.route(
           {
             origin: {
@@ -255,10 +290,16 @@ export default function MapR() {
     });
   };
 
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
+  const panTo = React.useCallback(({ lat, lng }, bol) => {
+    mapRef.current.panTo({ lat, lng }, false);
     mapRef.current.setZoom(14);
-    if (currentOrder && currentOrder.status === "Picking up package") {
+    console.log(bol);
+    if (
+      currentOrder &&
+      currentOrder.status === "Picking up package" &&
+      bol == true
+    ) {
+      console.log("Pan");
       const directionsService = new window.google.maps.DirectionsService();
       console.log("Entree");
       handleLocationChange({
@@ -269,8 +310,8 @@ export default function MapR() {
       directionsService.route(
         {
           origin: {
-            lat: Number(currentOrder.pickUpLat),
-            lng: Number(currentOrder.pickUpLng),
+            lat: lat,
+            lng: lng,
           },
           destination: {
             lat: Number(currentOrder.deliverLat),
@@ -289,16 +330,48 @@ export default function MapR() {
         }
       );
     }
+    if (
+      currentOrder &&
+      currentOrder.status === "Picking up package" &&
+      bol == false
+    ) {
+      console.log("Pan");
+      const directionsService = new window.google.maps.DirectionsService();
+      console.log("Entree");
+      directionsService.route(
+        {
+          origin: {
+            lat: lat,
+            lng: lng,
+          },
+          destination: {
+            lat: Number(currentOrder.pickUpLat),
+            lng: Number(currentOrder.pickUpLng),
+          },
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
   }, []);
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
   const handleGotIt = async (e) => {
-    panTo({
-      lat: Number(currentOrder.pickUpLat),
-      lng: Number(currentOrder.pickUpLng),
-    });
+    panTo(
+      {
+        lat: Number(currentOrder.pickUpLat),
+        lng: Number(currentOrder.pickUpLng),
+      },
+      true
+    );
     const { data } = await orderPickedUp({
       variables: {
         orderId: currentOrder._id.toString(),
@@ -315,44 +388,19 @@ export default function MapR() {
     }
   };
   const handleCompleted = async (e) => {
-    const { dataC } = await orderCompleted({
+    const { data: dataA } = await orderArrived({
       variables: {
         orderId: currentOrder._id.toString(),
       },
     });
-  };
 
-  const RouteDraw = (e) => {
-    if (currentOrder && currentOrder.status === "Delivering package") {
-      const directionsService = new window.google.maps.DirectionsService();
-      console.log("Entree");
-      handleLocationChange({
-        lat: Number(currentOrder.pickUpLat),
-        lng: Number(currentOrder.pickUpLng),
-        address: currentOrder.pickUp,
-      });
-      directionsService.route(
-        {
-          origin: {
-            lat: Number(currentOrder.pickUpLat),
-            lng: Number(currentOrder.pickUpLng),
-          },
-          destination: {
-            lat: Number(currentOrder.deliverLat),
-            lng: Number(currentOrder.deliverLng),
-          },
-          travelMode: "DRIVING",
+    if (dataA && dataA.orderArrived) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataA.orderArrived,
         },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            if (directions == null) {
-              setDirections(result);
-            }
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
-        }
-      );
+      });
     }
   };
 
@@ -364,7 +412,6 @@ export default function MapR() {
         currentOrder={currentOrder ? currentOrder : null}
         handleGotIt={handleGotIt}
         handleCompleted={handleCompleted}
-        RouteDraw={RouteDraw}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -449,7 +496,6 @@ function Locate({
   currentOrder,
   handleGotIt,
   handleCompleted,
-  RouteDraw,
 }) {
   return (
     <StyledMap>
@@ -469,10 +515,13 @@ function Locate({
                   });
                 })
                 .catch((error) => console.warn(error));
-              panTo({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              });
+              panTo(
+                {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                },
+                false
+              );
             },
             () => null
           );
