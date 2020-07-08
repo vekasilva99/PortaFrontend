@@ -24,8 +24,7 @@ export default function AdminTable(props) {
   if (loadingNU) return "Loading...";
   if (errorNU) return `Error! ${errorNU.message}`;
 
-  
-    console.log(new Date().toISOString());
+  console.log(new Date().toISOString());
 
   return (
     <StyledTable>
@@ -72,17 +71,17 @@ export default function AdminTable(props) {
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
-              {user._id}
-            </NavLink>
-          </li>
-          <li className="link">
-            <NavLink className="item" to="/">
               {user.name}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-            {user.birthdate}
+              {user.lastName}
+            </NavLink>
+          </li>
+          <li className="link">
+            <NavLink className="item" to="/">
+              {user.birthdate}
             </NavLink>
           </li>
           <li className="link">
