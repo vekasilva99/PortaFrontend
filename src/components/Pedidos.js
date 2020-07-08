@@ -12,10 +12,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import { useAlert } from "react-alert";
 
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
-
+  const alert = useAlert();
   const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
     fetchPolicy: "network-only",
   });
@@ -51,7 +52,6 @@ export default function Pedido(props) {
       });
       console.log("after dispatch");
     }
-
   };
 
   // useEffect(() => {
@@ -78,6 +78,10 @@ export default function Pedido(props) {
           const res = Object.assign({}, prev, {
             orders: [newOrder, ...prev.orders],
           });
+          alert.show(
+            "NUEVO PEDIDO POR " + newOrder.price.toString() + " DOLARES"
+          );
+
           return res;
         } else return prev;
       },

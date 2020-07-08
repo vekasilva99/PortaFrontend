@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import Moment from "moment";
 
 export default function Deliv(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -25,9 +26,11 @@ export default function Deliv(props) {
     { data: dataO, error: errorO, loading: loadingO },
   ] = useMutation(ACCEPT_ORDER);
 
-  const { _id, role, name, lastName, available } = useSelector((state) => ({
-    ...state.User,
-  }));
+  const { _id, role, name, lastName, available, orders } = useSelector(
+    (state) => ({
+      ...state.User,
+    })
+  );
 
   const dispatch = useDispatch();
 
@@ -85,7 +88,7 @@ export default function Deliv(props) {
       {loading ? (
         <Spinner />
       ) : (
-        data.orders.map((order) => (
+        orders.map((order) => (
           <div key={order._id} className="order">
             <div className="textb">
               <h2>Pedido</h2>
@@ -93,12 +96,19 @@ export default function Deliv(props) {
               <h3>{order.deliver}</h3>
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
-              <h4>Repartidor</h4>
-              <h3>driver_here</h3>
+
+              {order.repartidor ? (
+                <div>
+                  <h4>Repartidor</h4>
+                  <h3>
+                    {order.repartidor.name} {order.repartidor.lastName}
+                  </h3>
+                </div>
+              ) : null}
               <h4>Precio</h4>
-              <h3>cost_here</h3>
+              <h3>${order.price.toString()}</h3>
               <h4>Fecha</h4>
-              <h3>date_here</h3>
+              <h3>{Moment(order.createdAt.toString()).format("DD-MM-YYYY")}</h3>
             </div>
           </div>
         ))

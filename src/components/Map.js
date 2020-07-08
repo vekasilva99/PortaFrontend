@@ -260,7 +260,7 @@ export default function Map() {
               price = result.rows[0].elements[0].distance.value / 1000 / 2;
               distan = result.rows[0].elements[0].distance.text;
               setDistancia(distan);
-              setPrecio(price);
+              setPrecio(price.toFixed(2));
             }
           } else {
             console.error(`error calculating directions ${result}`);
