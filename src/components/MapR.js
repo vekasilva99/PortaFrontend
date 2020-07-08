@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
+import { useSubscription } from "@apollo/react-hooks";
 import {
   UPDATE_LOCATION_DRIVER,
   ORDER_PICKED_UP,
   ORDER_ARRIVED,
-  ORDER_COMPLETED,
 } from "../helpers/graphql/mutations/index";
-
+import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -74,6 +74,7 @@ export default function MapR() {
 
   //DRIVER DATA HERE
   const {
+    _id,
     role,
     name,
     lastName,
@@ -99,38 +100,62 @@ export default function MapR() {
     { data: dataA, error: errorA, loading: loadingA },
   ] = useMutation(ORDER_ARRIVED);
 
-  // const { dataA } = await orderArrived({
-  //   variables: {
-  //     orderId: currentOrder_id.toString(),
-  //   },
-  // });
-
-  useEffect(() => {
-    if (dataA && dataA.orderArrived) {
-      dispatch({
-        type: "UPDATE_USER",
-        payload: {
-          currentOrder: dataA.orderArrived,
-        },
-      });
+  const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
+    COMPLETE_ORDER,
+    {
+      variables: {
+        driverId: _id.toString(),
+      },
     }
-  }, [dataA, dispatch]);
-
-  const [
-    orderCompleted,
-    { data: dataC, error: errorC, loading: loadingC },
-  ] = useMutation(ORDER_COMPLETED);
+  );
 
   useEffect(() => {
-    if (dataC && dataC.orderCompleted) {
+    if (dataS && dataS.orderComplete) {
+      console.log("useEffect here");
       dispatch({
         type: "UPDATE_USER",
         payload: {
           currentOrder: null,
         },
       });
+      console.log("useEffect passed");
     }
-  }, [dataC, dispatch]);
+  }, [dataS, dispatch]);
+
+  // const { dataA } = await orderArrived({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   if (dataA && dataA.orderArrived) {
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: dataA.orderArrived,
+  //       },
+  //     });
+  //   }
+  // }, [dataA, dispatch]);
+
+  // const [
+  //   orderCompleted,
+  //   { data: dataC, error: errorC, loading: loadingC },
+  // ] = useMutation(ORDER_COMPLETED);
+
+  // useEffect(() => {
+  //   if (dataC && dataC.orderCompleted) {
+  //     dispatch({
+  //       type: "UPDATE_USER",
+  //       payload: {
+  //         currentOrder: null,
+  //       },
+  //     });
+  //   }
+  // }, [dataC, dispatch]);
+
+  // Completed
 
   console.log("latitud" + latitud);
   console.log("longitud" + longitud);
@@ -363,11 +388,20 @@ export default function MapR() {
     }
   };
   const handleCompleted = async (e) => {
-    const { dataC } = await orderCompleted({
+    const { data: dataA } = await orderArrived({
       variables: {
         orderId: currentOrder._id.toString(),
       },
     });
+
+    if (dataA && dataA.orderArrived) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataA.orderArrived,
+        },
+      });
+    }
   };
 
   return (
