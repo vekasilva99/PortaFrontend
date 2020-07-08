@@ -5,7 +5,10 @@ import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
 import { useQuery } from "@apollo/react-hooks";
 import { DRIVERS_AROUND } from "../helpers/graphql/queries/index";
-import { MAKE_ORDER, ORDER_COMPLETED } from "../helpers/graphql/mutations/index";
+import {
+  MAKE_ORDER,
+  ORDER_COMPLETED,
+} from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "@apollo/react-hooks";
@@ -97,19 +100,6 @@ export default function Map() {
     orderCompleted,
     { data: dataC, error: errorC, loading: loadingC },
   ] = useMutation(ORDER_COMPLETED);
-  // const { data: dataC } = await orderArrived({
-  //   variables: {
-  //     orderId: currentOrder_id.toString(),
-  //   },
-  // });
-  //   if (dataC && dataC.orderCompleted) {
-  //     dispatch({
-  //       type: "UPDATE_USER",
-  //       payload: {
-  //         currentOrder: null,
-  //       },
-  //     });
-  //   }
 
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,
@@ -182,6 +172,30 @@ export default function Map() {
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
+    if (currentOrder) {
+      const directionsService = new window.google.maps.DirectionsService();
+      const service = new window.google.maps.DistanceMatrixService();
+      console.log("Entree");
+      directionsService.route(
+        {
+          origin: { lat: currentOrder.pickUpLat, lng: currentOrder.pickUpLng },
+          destination: {
+            lat: currentOrder.deliverLat,
+            lng: currentOrder.deliverLng,
+          },
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            if (directions == null) {
+              setDirections(result);
+            }
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
   }, []);
   const onMapClick = React.useCallback((e) => {
     setMarkers({
@@ -255,6 +269,23 @@ export default function Map() {
       );
     }
   }, []);
+
+  const handleCompleted = async (e) => {
+    const { data: dataC } = await orderCompleted({
+      variables: {
+        orderId: currentOrder._id.toString(),
+      },
+    });
+    if (dataC && dataC.orderCompleted) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: null,
+        },
+      });
+    }
+  };
+
   React.useEffect(() => {
     const unsubscription = subscribeToMore({
       document: DRIVER_ADDED,
@@ -301,6 +332,13 @@ export default function Map() {
                   <h3>{currentOrder.pickUp}</h3>
                   <h2>Destino</h2>
                   <h3>{currentOrder.deliver}</h3>
+
+                  {currentOrder.status != "Waiting for a driver to accept" ? (
+                    <div>
+                      <h2>Estado del Pedido</h2>
+                      <h3>{currentOrder.status}</h3>
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className="botonContainer2">
@@ -359,7 +397,12 @@ export default function Map() {
         </div>
       </StyledMap>
 
-      <Locate panTo={panTo} handleUserChange={handleUserChange} />
+      <Locate
+        panTo={panTo}
+        handleUserChange={handleUserChange}
+        handleCompleted={handleCompleted}
+        currentOrder={currentOrder}
+      />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={8}
@@ -419,7 +462,7 @@ export default function Map() {
             <Marker
               position={{ lat: origin.lat, lng: origin.lng }}
               icon={{
-                url: "/ClienteMap.png",
+                url: "/PackageMap.png",
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
@@ -434,13 +477,17 @@ export default function Map() {
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
             />
+            <DirectionsRenderer
+              directions={directions}
+              options={{ suppressMarkers: true }}
+            />
           </div>
         ) : null}
       </GoogleMap>
     </>
   );
 }
-function Locate({ panTo, handleUserChange }) {
+function Locate({ panTo, handleUserChange, currentOrder, handleCompleted }) {
   return (
     <StyledMap>
       <button
@@ -470,6 +517,16 @@ function Locate({ panTo, handleUserChange }) {
       >
         <img src="/ClienteMap.png" alt="compass" />
       </button>
+
+      {currentOrder ? (
+        <div>
+          {currentOrder.status === "Your package arrived" ? (
+            <button onClick={handleCompleted} className="locate2">
+              <img src="/GOTITBLUE.png" alt="compass" />
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </StyledMap>
   );
 }
@@ -554,7 +611,20 @@ const StyledMap = styled.div`
     border: none;
     z-index: 2010;
   }
+  .locate2 {
+    position: absolute;
+    top: 5rem;
+    right: 6rem;
+    background: none;
+    border: none;
+    z-index: 2010;
+  }
   .locate img {
+    width: 5em;
+    cursor: pointer;
+  }
+
+  .locate2 img {
     width: 5em;
     cursor: pointer;
   }
@@ -664,13 +734,13 @@ const StyledMap = styled.div`
         height: 100%;
         grid-area: partida;
         h2{
-          font-size: 18px;
+          font-size: 15px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
         }
         h3{
-          font-size: 22px;
+          font-size: 18px;
           font-weight: 200;
           color: #1d1d1f;
           margin: 0;
