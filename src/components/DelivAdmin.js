@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
 import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import Moment from "moment";
 
 export default function Deliv(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -53,26 +54,7 @@ export default function Deliv(props) {
     }
   };
 
-  React.useEffect(() => {
-    const unsubscription = subscribeToMore({
-      document: NOTIFICATION_ADDED_SUSCRIPTION,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newOrder = subscriptionData.data.notificationAdded;
-
-        if (!prev.orders.find((msg) => msg._id === newOrder._id)) {
-          const res = Object.assign({}, prev, {
-            orders: [newOrder, ...prev.orders],
-          });
-          return res;
-        } else return prev;
-      },
-    });
-    return () => {
-      unsubscription();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { data: data, error: errorU, loading: loading } = useQuery(GET_ORDERS);
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
@@ -94,13 +76,24 @@ export default function Deliv(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
               <h4>Cliente</h4>
-              <h3>driver_here</h3>
-              <h4>Repartidor</h4>
-              <h3>driver_here</h3>
+              <h3>
+                {order.user.name} {order.user.lastName}
+              </h3>
+              {order.repartidor ? (
+                <div>
+                  <h4>Repartidor</h4>
+                  <h3>
+                    {order.repartidor.name} {order.repartidor.lastName}
+                  </h3>
+                </div>
+              ) : null}
               <h4>Precio</h4>
-              <h3>cost_here</h3>
+              <h3>${order.price.toString()}</h3>
               <h4>Fecha</h4>
-              <h3>date_here</h3>
+              <h3>{Moment(order.createdAt.toString()).format("DD-MM-YYYY")}</h3>
+              <h4>Estado</h4>
+
+              <h3>{order.concluded ? "Completado" : "En Progreso"}</h3>
             </div>
           </div>
         ))
