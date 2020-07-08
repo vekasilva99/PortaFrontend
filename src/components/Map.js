@@ -429,7 +429,7 @@ export default function Map() {
             />
           ))
         )}
-        {user ? (
+        {user && !currentOrder ? (
           <Marker
             position={{ lat: user.lat, lng: user.lng }}
             icon={{
@@ -440,7 +440,7 @@ export default function Map() {
             }}
           />
         ) : null}
-        {pack ? (
+        {pack && !currentOrder ? (
           <div>
             <Marker
               position={{ lat: pack.lat, lng: pack.lng }}
@@ -460,7 +460,10 @@ export default function Map() {
         {currentOrder ? (
           <div>
             <Marker
-              position={{ lat: origin.lat, lng: origin.lng }}
+              position={{
+                lat: currentOrder.pickUpLat,
+                lng: currentOrder.pickUpLng,
+              }}
               icon={{
                 url: "/PackageMap.png",
                 origin: new window.google.maps.Point(0, 0),
@@ -469,7 +472,10 @@ export default function Map() {
               }}
             />
             <Marker
-              position={{ lat: destination.lat, lng: destination.lng }}
+              position={{
+                lat: currentOrder.deliverLat,
+                lng: currentOrder.deliverLng,
+              }}
               icon={{
                 url: "/ClienteMap.png",
                 origin: new window.google.maps.Point(0, 0),
