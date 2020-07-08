@@ -26,11 +26,11 @@ export default function Correo() {
       <form className="forma">
         <label className="lab">
           Subject
-          <input className="sub" type="text" />
+          <input className="sub" type="text" name="subject" />
         </label>
         <label className="lab">
           Content
-          <input className="cont" type="text" />
+          <input className="cont" type="text" name="content" />
         </label>
         <input className="but" type="submit" value="Submit" />
         <div className="check">
