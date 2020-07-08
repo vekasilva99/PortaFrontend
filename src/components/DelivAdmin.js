@@ -4,7 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
-import { GET_ORDERS } from "../helpers/graphql/queries/index";
+import { GET_ALL_ORDERS } from "../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
 import { useSubscription } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
@@ -17,44 +17,15 @@ import Moment from "moment";
 export default function Deliv(props) {
   const [sidebar, setSidebar] = React.useState(false);
 
-  const { data, error, loading, subscribeToMore } = useQuery(GET_ORDERS, {
-    fetchPolicy: "network-only",
-  });
-
-  const [
-    acceptOrder,
-    { data: dataO, error: errorO, loading: loadingO },
-  ] = useMutation(ACCEPT_ORDER);
-
   const { _id, role, name, lastName, available } = useSelector((state) => ({
     ...state.User,
   }));
 
   const dispatch = useDispatch();
 
-  const accept = async (e, id) => {
-    const orden = id;
-    console.log(orden);
-    console.log("id rep " + _id);
-
-    const { dataO } = await acceptOrder({
-      variables: {
-        orderId: orden.toString(),
-        repartidor: _id.toString(),
-      },
-    });
-    if (dataO && dataO.acceptOrder) {
-      dispatch({
-        type: "UPDATE_USER",
-        payload: {
-          available: false,
-          currentOrder: dataO.acceptOrder,
-        },
-      });
-    }
-  };
-
-  const { data: data, error: errorU, loading: loading } = useQuery(GET_ORDERS);
+  const { data: data, error: error, loading: loading } = useQuery(
+    GET_ALL_ORDERS
+  );
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
@@ -67,7 +38,7 @@ export default function Deliv(props) {
       {loading ? (
         <Spinner />
       ) : (
-        data.orders.map((order) => (
+        data.allOrders.map((order) => (
           <div key={order._id} className="order">
             <div className="textb">
               <h2>Pedido</h2>
