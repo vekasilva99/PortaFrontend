@@ -1,32 +1,5 @@
 import gql from "graphql-tag";
 
-export const LOGIN_USER = gql`
-  query($mail: String!, $password: String!, $role: String!) {
-    userLogin(mail: $mail, password: $password, role: $role) {
-      user {
-        _id
-        role
-        name
-        lastName
-        birthdate
-        mail
-        zone
-        cellphone
-        available
-        workingStatus
-        vehiculo
-        licencia
-        carnetCirculacion
-        seguroVehiculo
-        createdAt
-        updatedAt
-      }
-      token
-      tokenExpiration
-    }
-  }
-`;
-
 export const CURRENT_USER = gql`
   {
     currentUser {
@@ -287,6 +260,37 @@ export const NEW_REPARTIDORES = gql`
   }
 `;
 
+export const NEW_REQUESTS = gql`
+  {
+    newestRequests {
+      _id
+      experience
+      vehiculo
+      licencia
+      carnetCirculacion
+      seguroVehiculo
+      status
+      placaVehiculo
+      repartidor {
+        _id
+        cedula
+        name
+        lastName
+        birthdate
+        mail
+        zone
+        cellphone
+        available
+        workingStatus
+        vehiculo
+        licencia
+        carnetCirculacion
+        seguroVehiculo
+      }
+    }
+  }
+`;
+
 export const SELECTED_DRIVER = gql`
   query($driverId: ID!) {
     selectedDriver(driverId: $driverId) {
@@ -431,6 +435,38 @@ export const DRIVERS_AROUND = gql`
       updatedAt
       longitud
       latitud
+    }
+  }
+`;
+
+export const GET_ALL_ORDERS = gql`
+  {
+    allOrders {
+      _id
+      user {
+        _id
+        name
+        lastName
+        mail
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        mail
+      }
+      pickUp
+      pickUpLat
+      pickUpLng
+      deliver
+      deliverLat
+      deliverLng
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
     }
   }
 `;

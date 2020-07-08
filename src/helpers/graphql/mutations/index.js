@@ -406,3 +406,9 @@ export const ORDER_COMPLETED = gql`
     }
   }
 `;
+
+export const CONTACT_US = gql`
+  mutation($contactInput: ContactInput!) {
+    contactUs(contactInput: $contactInput)
+  }
+`;
