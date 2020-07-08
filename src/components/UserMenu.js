@@ -35,6 +35,11 @@ export default function UserMenu(props) {
               SEE DRIVERS
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/user/emailcli" className="link">
+              EMAILS
+            </NavLink>
+          </li>
         </ul>
       </div>
     </StyledSidebar>
@@ -120,7 +125,7 @@ const StyledSidebar = styled.nav`
       top: 70px;
     }
     .nav-links {
-      top: 130px;
+      top: 165px;
     }
     .link {
       font-size: 15px;

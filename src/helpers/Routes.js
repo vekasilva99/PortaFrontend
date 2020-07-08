@@ -28,6 +28,8 @@ import SeeDrivers from "../views/SeeDrivers";
 import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
 import DeliveryCli from "../views/DeliveryCli";
+import EmailCli from "../views/EmailCli";
+import EmailRep from "../views/EmailRep";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
 export default function Routes() {
@@ -120,6 +122,12 @@ export default function Routes() {
         role={role}
         component={ChatRep}
       />
+      <GuardRoutesDriver
+        exact
+        path="/driver/emailrep"
+        role={role}
+        component={EmailRep}
+      />
 
       <GuardRoute
         exact
@@ -142,6 +150,12 @@ export default function Routes() {
         path="/user/deliverycli"
         role={role}
         component={DeliveryCli}
+      />
+      <GuardRoute
+        exact
+        path="/user/emailcli"
+        role={role}
+        component={EmailCli}
       />
 
       <GuardRoute

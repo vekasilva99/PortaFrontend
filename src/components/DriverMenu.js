@@ -30,6 +30,11 @@ export default function DriverMenu(props) {
               PROFILE SETTINGS
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/driver/emailrep" className="link">
+              EMAILS
+            </NavLink>
+          </li>
         </ul>
       </div>
     </StyledSidebar>

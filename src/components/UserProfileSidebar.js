@@ -28,18 +28,17 @@ export default function UserProfileSidebar() {
               SEE DRIVERS
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/user/emailcli" className="link">
+              EMAILS
+            </NavLink>
+          </li>
         </ul>
       </div>
     </StyledSidebar>
   );
 }
 const StyledSidebar = styled.nav`
-  @media only screen and (max-width: 734px) {
-    display: none;
-  }
-  @media only screen and (max-width: 1069px) and (min-width: 735px) {
-    display: none;
-  }
   .container {
     height: 20vh;
     position: fixed;
@@ -85,5 +84,8 @@ const StyledSidebar = styled.nav`
     &:focus {
       outline: none;
     }
+  }
+  @media only screen and (max-width: 734px) {
+    display: none;
   }
 `;
