@@ -8,6 +8,7 @@ import RegisterUser2 from "../views/RegisterUser2";
 import RegisterDriver from "../views/RegisterDriver";
 import AdminUsers from "../views/AdminUsers";
 import AdminRequests from "../views/AdminRequests";
+import Trips from "../views/Trips";
 import AdminHome from "../views/AdminHome";
 import AdminRequest from "../views/AdminRequest";
 import UserHome from "../views/UserHome";
@@ -87,6 +88,12 @@ export default function Routes() {
         path="/admin/requests"
         role={role}
         component={AdminRequests}
+      />
+      <GuardRoutesAdmin
+        exact
+        path="/admin/trips"
+        role={role}
+        component={Trips}
       />
 
       <GuardRoutesAdmin

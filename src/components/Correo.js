@@ -6,35 +6,80 @@ import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
-import { useSubscription } from "@apollo/react-hooks";
-import { useMutation } from "@apollo/react-hooks";
 import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
-import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import { useMutation } from "@apollo/react-hooks";
+import { CONTACT_US } from "../helpers/graphql/mutations/index";
 import Checkbox from "@material-ui/core/Checkbox";
 
-export default function Correo() {
+export default function Correo({ color }) {
   const [checked, setChecked] = React.useState(true);
+  const [subject, setSubject] = React.useState("");
+  const [text, setText] = React.useState("");
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+  const handleSubjectChange = (event) => {
+    setSubject(event.target.value);
+  };
+  const handletextChange = (event) => {
+    setText(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    console.log(text, subject);
+  };
+
+  const { _id, mail, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  const [contactUs, { data, error, loading }] = useMutation(CONTACT_US);
+
+  const sendMail = async (e) => {
+    e.preventDefault();
+
+    const { data } = await contactUs({
+      variables: {
+        contactInput: {
+          name: name,
+          lastName: lastName,
+          from: mail,
+          subject: subject,
+          text: text,
+          role: role,
+        },
+      },
+    });
+  };
 
   return (
-    <StyledCorreo>
+    <StyledCorreo color={color}>
       <form className="forma">
         <label className="lab">
           Subject
-          <input className="sub" type="text" />
+          <input
+            className="sub"
+            type="text"
+            name="subject"
+            value={subject}
+            onChange={handleSubjectChange}
+          />
         </label>
         <label className="lab">
           Content
-          <input className="cont" type="text" />
+          <textarea className="cont" value={text} onChange={handletextChange} />
         </label>
-        <input className="but" type="submit" value="Submit" />
+        <input
+          className="but"
+          type="submit"
+          value="Submit"
+          onClick={sendMail}
+        />
         <div className="check">
-          <h4>Correo recibido</h4>
+          <h4>{data && data.contactUs ? "Correo recibido" : ""}</h4>
+          <h4>{data && !data.contactUs ? "Network error" : ""}</h4>
           <Checkbox
             disabled
             checked
@@ -73,7 +118,7 @@ const StyledCorreo = styled.nav`
     display: inline-grid;
   }
   .but {
-    border: solid 2px #00507a;
+    border: solid 2px ${(props) => props.color};
     color: white;
     padding: 10px;
     font-size: 15px;
@@ -81,15 +126,15 @@ const StyledCorreo = styled.nav`
     display: flex;
     font-weight: 600;
     cursor: pointer;
-    background: #00507a;
+    background: ${(props) => props.color};
     border-radius: 500px;
     transition: all ease-in-out 0.3s;
     justify-content: center;
     &:hover {
       opacity: 0.8;
-      background: #00507a;
+      background: ${(props) => props.color};
       color: white;
-      border-color: #00507a;
+      border-color: ${(props) => props.color};
     }
     &:focus {
       opacity: 0.8;
@@ -105,6 +150,11 @@ const StyledCorreo = styled.nav`
     .cont {
       width: 40rem;
       height: 300px;
+      display: flex;
+      vertical-align: text-top;
+      &:focus {
+        border: 1px solid ${(props) => props.color};
+      }
     }
     .but {
       width: 200px;

@@ -2,19 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import {
-  GET_USERS,
-  GET_REPARTIDORES,
-  NEW_USERS,
-  NEW_REPARTIDORES,
-} from "../helpers/graphql/queries";
+import { NEW_USERS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminTable(props) {
-  const [users, setUsers] = React.useState([
-    { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
-    { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
-  ]);
 
   //Nuevos usuarios
   const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(
@@ -23,8 +14,6 @@ export default function AdminTable(props) {
 
   if (loadingNU) return "Loading...";
   if (errorNU) return `Error! ${errorNU.message}`;
-
-  console.log(new Date().toISOString());
 
   return (
     <StyledTable>
@@ -71,17 +60,17 @@ export default function AdminTable(props) {
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
+              {user._id}
+            </NavLink>
+          </li>
+          <li className="link">
+            <NavLink className="item" to="/">
               {user.name}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.lastName}
-            </NavLink>
-          </li>
-          <li className="link">
-            <NavLink className="item" to="/">
-              {user.birthdate}
+            {user.birthdate}
             </NavLink>
           </li>
           <li className="link">

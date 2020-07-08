@@ -161,7 +161,7 @@ export default function Map() {
             deliverLat: pack.lat.toString(),
             deliverLng: pack.lng.toString(),
             km: distancia,
-            price: precio,
+            price: Number(precio),
           },
         },
       });
@@ -368,7 +368,7 @@ export default function Map() {
                   />
                 </div>
                 <div className="div8">
-                  {precio ? <h2>Total: {precio}$</h2> : null}
+                  {precio && !currentOrder ? <h2>Total: {precio}$</h2> : null}
                 </div>
               </div>
 

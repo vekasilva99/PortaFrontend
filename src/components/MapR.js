@@ -459,21 +459,23 @@ export default function MapR() {
 
         {currentOrder ? (
           <div>
-            <Marker
-              position={{
-                lat: Number(currentOrder.pickUpLat),
-                lng: Number(currentOrder.pickUpLng),
-              }}
-              icon={{
-                url:
-                  currentOrder.status === "Picking up package"
-                    ? "/PackageMap.png"
-                    : "/RepartidorFondo.png",
-                origin: new window.google.maps.Point(0, 0),
-                anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(30, 30),
-              }}
-            />
+            {currentOrder.status != "Your package arrived" ? (
+              <Marker
+                position={{
+                  lat: Number(currentOrder.pickUpLat),
+                  lng: Number(currentOrder.pickUpLng),
+                }}
+                icon={{
+                  url:
+                    currentOrder.status === "Picking up package"
+                      ? "/PackageMap.png"
+                      : "/RepartidorFondo.png",
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                  scaledSize: new window.google.maps.Size(30, 30),
+                }}
+              />
+            ) : null}
 
             <Marker
               position={{

@@ -38,7 +38,7 @@ export default function AdminSidebar(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/admin/trips" className="link">
               TRIPS
             </NavLink>
           </li>

@@ -8,8 +8,8 @@ import AdminDriverTable from "../components/AdminDriverDashboardTable";
 import RequestsTable from "../components/RequestsDashboardTable";
 import CardMessage from "../components/Cards/CardMessage";
 import Messages from "../components/Messages";
-import NavbarIn from "../components/NavIn";
-import UserMenu from "../components/UserMenu";
+import NavbarOn from "../components/NavOn";
+import DriverMenu from "../components/DriverMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
 import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
@@ -23,8 +23,8 @@ export default function EmailCli() {
   }));
   return (
     <EmailCliStyle>
-      <NavbarIn name={name} toggle={handleToggle} />
-      <UserMenu show={on} />
+      <NavbarOn name={name} toggle={handleToggle} />
+      <DriverMenu show={on} />
       <div className="page">
         <div className="sid">
           {/* <SideIn></SideIn> */}
@@ -32,7 +32,7 @@ export default function EmailCli() {
         </div>
         <div className="mails">
           <h1>Emails</h1>
-          <Correo />
+          <Correo color="#EE462F" />
         </div>
       </div>
     </EmailCliStyle>
@@ -58,7 +58,7 @@ const EmailCliStyle = styled.div`
     padding-left: 3rem;
     h1 {
       font-weight: 300;
-      color: #00507a;
+      color: #ee462f;
       letter-spacing: 2px;
       margin-bottom: 40px;
     }
@@ -73,7 +73,7 @@ const EmailCliStyle = styled.div`
     .mails {
       h1 {
         font-weight: 300;
-        color: #00507a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {
@@ -81,7 +81,7 @@ const EmailCliStyle = styled.div`
         margin-bottom: 15px;
       }
       hr {
-        border: 1px solid #00507a;
+        border: 1px solid #ee462f;
         width: 600px;
       }
     }
@@ -98,7 +98,7 @@ const EmailCliStyle = styled.div`
       h1 {
         margin-top: 100px;
         font-weight: 300;
-        color: #00507a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {
@@ -106,7 +106,7 @@ const EmailCliStyle = styled.div`
         margin-bottom: 15px;
       }
       hr {
-        border: 1px solid #00507a;
+        border: 1px solid #ee462f;
         width: 600px;
       }
     }
@@ -121,7 +121,7 @@ const EmailCliStyle = styled.div`
         margin-top: 100px;
         font-size: 30px;
         font-weight: 300;
-        color: #00507a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {
@@ -130,7 +130,7 @@ const EmailCliStyle = styled.div`
         font-size: 15px;
       }
       hr {
-        border: 1px solid #00507a;
+        border: 1px solid #ee462f;
         width: 400px;
       }
     }

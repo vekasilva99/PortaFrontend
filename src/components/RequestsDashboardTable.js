@@ -2,12 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
+import { NEW_REQUESTS } from "../helpers/graphql/queries";
+import { useQuery } from "@apollo/react-hooks";
 
 export default function RequestsTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
     { id: 2, name: "Ali", age: 19, email: "ali@email.com" },
   ]);
+
+  //Nuevas solicitudes
+  const { data, error, loading } = useQuery(
+    NEW_REQUESTS
+  );
+
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
   return (
     <StyledTable>
       <div className="title">
