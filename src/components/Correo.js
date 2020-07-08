@@ -16,9 +16,20 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 export default function Correo() {
   const [checked, setChecked] = React.useState(true);
+  const [subject, setSubject] = React.useState("");
+  const [text, setText] = React.useState("");
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+  };
+  const handleSubjectChange = (event) => {
+    setSubject(event.target.value);
+  };
+  const handletextChange = (event) => {
+    setText(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    console.log(text, subject);
   };
 
   return (
@@ -26,13 +37,18 @@ export default function Correo() {
       <form className="forma">
         <label className="lab">
           Subject
-          <input className="sub" type="text" name="subject" />
+          <input className="sub" type="text" name="subject" value={subject} />
         </label>
         <label className="lab">
           Content
-          <input className="cont" type="text" name="content" />
+          <input className="cont" type="text" name="content" value={text} />
         </label>
-        <input className="but" type="submit" value="Submit" />
+        <input
+          className="but"
+          type="submit"
+          value="Submit"
+          onClick={handleSubmit}
+        />
         <div className="check">
           <h4>Correo recibido</h4>
           <Checkbox
