@@ -6,12 +6,11 @@ import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
-import { useSubscription } from "@apollo/react-hooks";
-import { useMutation } from "@apollo/react-hooks";
 import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
-import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import { useMutation } from "@apollo/react-hooks";
+import { CONTACT_US } from "../helpers/graphql/mutations/index";
 import Checkbox from "@material-ui/core/Checkbox";
 
 export default function Correo() {
@@ -19,6 +18,32 @@ export default function Correo() {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+  };
+
+  const { _id, mail, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  const [contactUs, { data, error, loading }] = useMutation(
+    CONTACT_US
+  );
+
+  const sendMail = async (e) => {
+    e.preventDefault();
+    
+    const { data } = await contactUs({
+      variables:{
+        contactInput: {
+          name: name,
+          lastName: lastName,
+          from: mail,
+          subject:"enviado desde el front",
+          text:"mucho texto",
+          role: role
+        }
+      }
+    });
+
   };
 
   return (
@@ -32,9 +57,10 @@ export default function Correo() {
           Content
           <input className="cont" type="text" />
         </label>
-        <input className="but" type="submit" value="Submit" />
+        <input className="but" type="submit" value="Submit" onClick={sendMail}/>
         <div className="check">
-          <h4>Correo recibido</h4>
+          <h4>{data && data.contactUs ? "Correo recibido":""}</h4>
+          <h4>{data && !data.contactUs ? "Network error":""}</h4>
           <Checkbox
             disabled
             checked
