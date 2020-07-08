@@ -6,12 +6,11 @@ import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { GET_ORDERS } from "../helpers/graphql/queries/index";
 import { useQuery } from "@apollo/react-hooks";
-import { useSubscription } from "@apollo/react-hooks";
-import { useMutation } from "@apollo/react-hooks";
 import { useSelector, useDispatch } from "react-redux";
 import Spinner from "./Spinner";
 import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions/index";
-import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
+import { useMutation } from "@apollo/react-hooks";
+import { CONTACT_US } from "../helpers/graphql/mutations/index";
 import Checkbox from "@material-ui/core/Checkbox";
 
 export default function Correo() {
@@ -32,25 +31,55 @@ export default function Correo() {
     console.log(text, subject);
   };
 
+  const { _id, mail, name, lastName, role } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  const [contactUs, { data, error, loading }] = useMutation(CONTACT_US);
+
+  const sendMail = async (e) => {
+    e.preventDefault();
+
+    const { data } = await contactUs({
+      variables: {
+        contactInput: {
+          name: name,
+          lastName: lastName,
+          from: mail,
+          subject: subject,
+          text: text,
+          role: role,
+        },
+      },
+    });
+  };
+
   return (
     <StyledCorreo>
       <form className="forma">
         <label className="lab">
           Subject
-          <input className="sub" type="text" name="subject" value={subject} />
+          <input
+            className="sub"
+            type="text"
+            name="subject"
+            value={subject}
+            onChange={handleSubjectChange}
+          />
         </label>
         <label className="lab">
           Content
-          <input className="cont" type="text" name="content" value={text} />
+          <textarea className="cont" value={text} onChange={handletextChange} />
         </label>
         <input
           className="but"
           type="submit"
           value="Submit"
-          onClick={handleSubmit}
+          onClick={sendMail}
         />
         <div className="check">
-          <h4>Correo recibido</h4>
+          <h4>{data && data.contactUs ? "Correo recibido" : ""}</h4>
+          <h4>{data && !data.contactUs ? "Network error" : ""}</h4>
           <Checkbox
             disabled
             checked
@@ -121,6 +150,8 @@ const StyledCorreo = styled.nav`
     .cont {
       width: 40rem;
       height: 300px;
+      display: flex;
+      vertical-align: text-top;
     }
     .but {
       width: 200px;
