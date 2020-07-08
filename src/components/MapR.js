@@ -388,6 +388,13 @@ export default function MapR() {
     }
   };
   const handleCompleted = async (e) => {
+    panTo(
+      {
+        lat: Number(currentOrder.deliverLat),
+        lng: Number(currentOrder.deliverLng),
+      },
+      true
+    );
     const { data: dataA } = await orderArrived({
       variables: {
         orderId: currentOrder._id.toString(),
@@ -473,16 +480,21 @@ export default function MapR() {
                 lng: Number(currentOrder.deliverLng),
               }}
               icon={{
-                url: "/ClienteMap.png",
+                url:
+                  currentOrder.status === "Your package arrived"
+                    ? "/RepartidorFondo.png"
+                    : "/ClienteMap.png",
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
             />
-            <DirectionsRenderer
-              directions={directions}
-              options={{ suppressMarkers: true }}
-            />
+            {currentOrder.status != "Your package arrived" ? (
+              <DirectionsRenderer
+                directions={directions}
+                options={{ suppressMarkers: true }}
+              />
+            ) : null}
           </div>
         ) : null}
       </GoogleMap>
@@ -544,11 +556,6 @@ function Locate({
           {currentOrder.status === "Delivering package" ? (
             <button onClick={handleCompleted} className="locate2">
               <img src="/IMHERE.png" alt="compass" />
-            </button>
-          ) : null}
-          {currentOrder.status === "Completed" ? (
-            <button onClick={handleCompleted} className="locate2">
-              <img src="/PackageMap.png" alt="compass" />
             </button>
           ) : null}
         </div>
