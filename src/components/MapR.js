@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
-import { UPDATE_LOCATION_DRIVER } from "../helpers/graphql/mutations/index";
+import {
+  UPDATE_LOCATION_DRIVER,
+  ORDER_PICKED_UP,
+  ORDER_ARRIVED,
+  ORDER_COMPLETED,
+} from "../helpers/graphql/mutations/index";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -63,6 +69,9 @@ const center = {
 
 export default function MapR() {
   const [directions, setDirections] = React.useState(null);
+
+  const dispatch = useDispatch();
+
   //DRIVER DATA HERE
   const {
     role,
@@ -81,6 +90,48 @@ export default function MapR() {
     { data: dataL, error: errorL, loading: loadingL },
   ] = useMutation(UPDATE_LOCATION_DRIVER);
 
+  const [orderPickedUp, { data, error, loading }] = useMutation(
+    ORDER_PICKED_UP
+  );
+
+  const [
+    orderArrived,
+    { data: dataA, error: errorA, loading: loadingA },
+  ] = useMutation(ORDER_ARRIVED);
+
+  // const { dataA } = await orderArrived({
+  //   variables: {
+  //     orderId: currentOrder_id.toString(),
+  //   },
+  // });
+
+  useEffect(() => {
+    if (dataA && dataA.orderArrived) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: dataA.orderArrived,
+        },
+      });
+    }
+  }, [dataA, dispatch]);
+
+  const [
+    orderCompleted,
+    { data: dataC, error: errorC, loading: loadingC },
+  ] = useMutation(ORDER_COMPLETED);
+
+  useEffect(() => {
+    if (dataC && dataC.orderCompleted) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: null,
+        },
+      });
+    }
+  }, [dataC, dispatch]);
+
   console.log("latitud" + latitud);
   console.log("longitud" + longitud);
 
@@ -94,37 +145,84 @@ export default function MapR() {
   const [location, setLocation] = React.useState(null);
   const [pack, setPackage] = React.useState(null);
 
-  const dispatch = useDispatch();
-
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
+
+    if (!currentOrder || currentOrder.status === "Picking up package") {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          Geocoder.from(position.coords.latitude, position.coords.longitude)
+            .then((json) => {
+              var addressComponent = json.results[0].address_components[0];
+              console.log(addressComponent);
+              handleLocationChange({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                address: addressComponent,
+              });
+            })
+            .catch((error) => console.warn(error));
+          panTo({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        () => null
+      );
+    }
     if (currentOrder) {
       const directionsService = new window.google.maps.DirectionsService();
       const service = new window.google.maps.DistanceMatrixService();
       console.log("Entree");
-      directionsService.route(
-        {
-          origin: {
-            lat: Number(currentOrder.pickUpLat),
-            lng: Number(currentOrder.pickUpLng),
+      if (currentOrder.status === "Picking up package") {
+        directionsService.route(
+          {
+            origin: {
+              lat: Number(latitud),
+              lng: Number(longitud),
+            },
+            destination: {
+              lat: Number(currentOrder.pickUpLat),
+              lng: Number(currentOrder.pickUpLng),
+            },
+            travelMode: "DRIVING",
           },
-          destination: {
-            lat: Number(currentOrder.deliverLat),
-            lng: Number(currentOrder.deliverLng),
-          },
-          travelMode: "DRIVING",
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            if (directions == null) {
-              setDirections(result);
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              if (directions == null) {
+                setDirections(result);
+              }
+            } else {
+              console.error(`error fetching directions ${result}`);
             }
-          } else {
-            console.error(`error fetching directions ${result}`);
           }
-        }
-      );
+        );
+      }
+      if (currentOrder.status === "Delivering package") {
+        directionsService.route(
+          {
+            origin: {
+              lat: Number(currentOrder.pickUpLat),
+              lng: Number(currentOrder.pickUpLng),
+            },
+            destination: {
+              lat: Number(currentOrder.deliverLat),
+              lng: Number(currentOrder.deliverLng),
+            },
+            travelMode: "DRIVING",
+          },
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              if (directions == null) {
+                setDirections(result);
+              }
+            } else {
+              console.error(`error fetching directions ${result}`);
+            }
+          }
+        );
+      }
     }
   }, []);
 
@@ -160,10 +258,103 @@ export default function MapR() {
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
+    if (currentOrder && currentOrder.status === "Picking up package") {
+      const directionsService = new window.google.maps.DirectionsService();
+      console.log("Entree");
+      handleLocationChange({
+        lat: Number(currentOrder.pickUpLat),
+        lng: Number(currentOrder.pickUpLng),
+        address: currentOrder.pickUp,
+      });
+      directionsService.route(
+        {
+          origin: {
+            lat: Number(currentOrder.pickUpLat),
+            lng: Number(currentOrder.pickUpLng),
+          },
+          destination: {
+            lat: Number(currentOrder.deliverLat),
+            lng: Number(currentOrder.deliverLng),
+          },
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            if (directions == null) {
+              setDirections(result);
+            }
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
   }, []);
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
+
+  const handleGotIt = async (e) => {
+    panTo({
+      lat: Number(currentOrder.pickUpLat),
+      lng: Number(currentOrder.pickUpLng),
+    });
+    const { data } = await orderPickedUp({
+      variables: {
+        orderId: currentOrder._id.toString(),
+      },
+    });
+
+    if (data && data.orderPickedUp) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          currentOrder: data.orderPickedUp,
+        },
+      });
+    }
+  };
+  const handleCompleted = async (e) => {
+    const { dataC } = await orderCompleted({
+      variables: {
+        orderId: currentOrder._id.toString(),
+      },
+    });
+  };
+
+  const RouteDraw = (e) => {
+    if (currentOrder && currentOrder.status === "Delivering package") {
+      const directionsService = new window.google.maps.DirectionsService();
+      console.log("Entree");
+      handleLocationChange({
+        lat: Number(currentOrder.pickUpLat),
+        lng: Number(currentOrder.pickUpLng),
+        address: currentOrder.pickUp,
+      });
+      directionsService.route(
+        {
+          origin: {
+            lat: Number(currentOrder.pickUpLat),
+            lng: Number(currentOrder.pickUpLng),
+          },
+          destination: {
+            lat: Number(currentOrder.deliverLat),
+            lng: Number(currentOrder.deliverLng),
+          },
+          travelMode: "DRIVING",
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            if (directions == null) {
+              setDirections(result);
+            }
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
+  };
 
   return (
     <>
@@ -171,6 +362,9 @@ export default function MapR() {
         panTo={panTo}
         handleLocationChange={handleLocationChange}
         currentOrder={currentOrder ? currentOrder : null}
+        handleGotIt={handleGotIt}
+        handleCompleted={handleCompleted}
+        RouteDraw={RouteDraw}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -180,9 +374,9 @@ export default function MapR() {
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {location ? (
+        {latitud && longitud && !currentOrder ? (
           <Marker
-            position={{ lat: location.lat, lng: location.lng }}
+            position={{ lat: Number(latitud), lng: Number(longitud) }}
             icon={{
               url: "/RepartidorFondo.png",
               origin: new window.google.maps.Point(0, 0),
@@ -190,6 +384,22 @@ export default function MapR() {
               scaledSize: new window.google.maps.Size(30, 30),
             }}
           />
+        ) : null}
+
+        {latitud && longitud && currentOrder ? (
+          <div>
+            {currentOrder.status === "Picking up package" ? (
+              <Marker
+                position={{ lat: Number(latitud), lng: Number(longitud) }}
+                icon={{
+                  url: "/RepartidorFondo.png",
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                  scaledSize: new window.google.maps.Size(30, 30),
+                }}
+              />
+            ) : null}
+          </div>
         ) : null}
 
         {currentOrder ? (
@@ -200,19 +410,23 @@ export default function MapR() {
                 lng: Number(currentOrder.pickUpLng),
               }}
               icon={{
-                url: "/ClienteMap.png",
+                url:
+                  currentOrder.status === "Picking up package"
+                    ? "/PackageMap.png"
+                    : "/RepartidorFondo.png",
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
             />
+
             <Marker
               position={{
                 lat: Number(currentOrder.deliverLat),
                 lng: Number(currentOrder.deliverLng),
               }}
               icon={{
-                url: "/PackageMap.png",
+                url: "/ClienteMap.png",
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
@@ -229,7 +443,14 @@ export default function MapR() {
   );
 }
 
-function Locate({ panTo, handleLocationChange, currentOrder }) {
+function Locate({
+  panTo,
+  handleLocationChange,
+  currentOrder,
+  handleGotIt,
+  handleCompleted,
+  RouteDraw,
+}) {
   return (
     <StyledMap>
       <button
@@ -262,17 +483,22 @@ function Locate({ panTo, handleLocationChange, currentOrder }) {
       {currentOrder ? (
         <div>
           {currentOrder.status === "Picking up package" ? (
-            <button className="locate2">
-              <img src="/RepartidorFondo.png" alt="compass" />
+            <button
+              onClick={() => {
+                handleGotIt();
+              }}
+              className="locate2"
+            >
+              <img src="/GOTIT.png" alt="compass" />
             </button>
           ) : null}
-          {currentOrder.status === "Delivering Package" ? (
-            <button className="locate2">
-              <img src="/PackageMap.png" alt="compass" />
+          {currentOrder.status === "Delivering package" ? (
+            <button onClick={handleCompleted} className="locate2">
+              <img src="/IMHERE.png" alt="compass" />
             </button>
           ) : null}
           {currentOrder.status === "Completed" ? (
-            <button className="locate2">
+            <button onClick={handleCompleted} className="locate2">
               <img src="/PackageMap.png" alt="compass" />
             </button>
           ) : null}

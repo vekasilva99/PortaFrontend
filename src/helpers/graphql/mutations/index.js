@@ -309,3 +309,100 @@ export const CREATE_MESSAGE = gql`
     }
   }
 `;
+
+
+export const ORDER_PICKED_UP = gql`
+  mutation($orderId: String!) {
+    orderPickedUp(orderId: $orderId) {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
+      }
+      pickUp
+      pickUpLat
+      pickUpLng
+      deliver
+      deliverLat
+      deliverLng
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const ORDER_ARRIVED = gql`
+  mutation($orderId: String!) {
+    orderArrived(orderId: $orderId) {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
+      }
+      pickUp
+      pickUpLat
+      pickUpLng
+      deliver
+      deliverLat
+      deliverLng
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const ORDER_COMPLETED = gql`
+  mutation($orderId: String!) {
+    orderCompleted(orderId: $orderId) {
+      _id
+      user {
+        _id
+        name
+        lastName
+      }
+      repartidor {
+        _id
+        name
+        lastName
+        latitud
+        longitud
+      }
+      pickUp
+      pickUpLat
+      pickUpLng
+      deliver
+      deliverLat
+      deliverLng
+      km
+      price
+      status
+      concluded
+      createdAt
+      updatedAt
+    }
+  }
+`;

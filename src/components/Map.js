@@ -142,12 +142,12 @@ export default function Map() {
         variables: {
           orderInput: {
             user: _id,
-            pickUp: user.address,
-            pickUpLat: user.lat.toString(),
-            pickUpLng: user.lng.toString(),
-            deliver: pack.address,
-            deliverLat: pack.lat.toString(),
-            deliverLng: pack.lng.toString(),
+            pickUp: pack.address,
+            pickUpLat: pack.lat.toString(),
+            pickUpLng: pack.lng.toString(),
+            deliver: user.address,
+            deliverLat: user.lat.toString(),
+            deliverLng: user.lng.toString(),
             km: distancia,
             price: precio,
           },
