@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Geocoder from "react-native-geocoding";
 import { useMutation } from "@apollo/react-hooks";
