@@ -342,9 +342,15 @@ export default function Map() {
                 </div>
               </div>
               <div className="botonContainer2">
-                <NavLink to="/user/chat" className="boton" onClick={handleSend}>
-                  CHAT
-                </NavLink>
+                {currentOrder.repartidor ? (
+                  <NavLink
+                    to="/user/chat"
+                    className="boton"
+                    onClick={handleSend}
+                  >
+                    CHAT
+                  </NavLink>
+                ) : null}
               </div>
             </div>
           ) : (

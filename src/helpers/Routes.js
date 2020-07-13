@@ -30,8 +30,10 @@ import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
 import DeliveryCli from "../views/DeliveryCli";
 import EmailCli from "../views/EmailCli";
+import Payment from "../views/Payment";
 import EmailRep from "../views/EmailRep";
 import Spinner from "../components/Spinner";
+import SubscribeUser from "../components/account/SubscribeUser";
 import styled from "styled-components";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
@@ -185,6 +187,12 @@ export default function Routes() {
     (!role && !loading && data && !data.currentUser) ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
+      <Route exact path="/payment" render={(props) => <Payment {...props} />} />
+      <Route
+        exact
+        path="/subscribeuser"
+        render={(props) => <SubscribeUser {...props} />}
+      />
 
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 

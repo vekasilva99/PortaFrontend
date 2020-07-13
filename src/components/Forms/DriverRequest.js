@@ -22,11 +22,16 @@ export default function DriverRequestForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const [makeRequest, { data: dataU, loading: loadingU, error: errorU}] = useMutation(DRIVER_REQUEST);
+  const [
+    makeRequest,
+    { data: dataU, loading: loadingU, error: errorU },
+  ] = useMutation(DRIVER_REQUEST);
 
-  const { _id, name, lastName, cellphone } = useSelector((state) => ({
-    ...state.User,
-  }));
+  const { _id, name, lastName, cellphone, workingStatus } = useSelector(
+    (state) => ({
+      ...state.User,
+    })
+  );
 
   const handleFName = (e) => {
     setFName(e.target.value);
@@ -94,38 +99,19 @@ export default function DriverRequestForm(props) {
             return errors;
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
-
-
-
-
-
-
-
-
-
-
-
             const { dataU } = await makeRequest({
               variables: {
                 solicitudInput: {
                   repartidorID: _id,
                   vehiculo: values.Vehiculo,
                   licencia: values.Licencia,
-                  experience:values.Experiencia,
+                  experience: values.Experiencia,
                   carnetCirculacion: values.Carnet,
                   seguroVehiculo: values.Seguro,
-                  placaVehiculo: values.Placa
+                  placaVehiculo: values.Placa,
                 },
               },
             });
-
-
-
-
-
-
-
-
 
             setSubmitting(true);
             console.log(values);
@@ -149,9 +135,11 @@ export default function DriverRequestForm(props) {
                   <IoIosArrowDropleftCircle color="#ef0023" size="4rem" />{" "}
                 </button>
               </div>
-              
+
               <div className="Profile-name">
-                <h1>{name} {lastName}</h1>
+                <h1>
+                  {name} {lastName}
+                </h1>
               </div>
               <div className="Profile-content">
                 <div className="label">
@@ -250,7 +238,12 @@ export default function DriverRequestForm(props) {
                   </div>
                 </div>
                 <div className="label">
-                  <button className="saveB" type="submit" block>
+                  <button
+                    className="saveB"
+                    type="submit"
+                    disabled={workingStatus ? true : false}
+                    block
+                  >
                     {" "}
                     SEND REQUEST{" "}
                   </button>

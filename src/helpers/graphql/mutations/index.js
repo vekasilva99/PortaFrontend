@@ -20,9 +20,9 @@ export const LOGIN_USER = gql`
         licencia
         carnetCirculacion
         seguroVehiculo
-        orders{
+        orders {
           _id
-          repartidor{
+          repartidor {
             _id
             name
             lastName
@@ -39,10 +39,10 @@ export const LOGIN_USER = gql`
           price
           status
           concluded
-          messages{
+          messages {
             _id
-           content
-           createdAt
+            content
+            createdAt
             sender {
               _id
               name
@@ -163,7 +163,7 @@ export const REVIEW_REQUEST = gql`
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation($user: ID!, $repartidor: ID!, $content: String!) {
+  mutation($user: String!, $repartidor: ID!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
       content
@@ -172,7 +172,7 @@ export const CREATE_COMMENT = gql`
 `;
 
 export const UPDATE_COMMENT = gql`
-  mutation($commentId: ID!, $content: String!) {
+  mutation($commentId: String!, $content: String!) {
     updateComment(commentId: $commentId, content: $content) {
       _id
       content
@@ -206,7 +206,7 @@ export const CHANGE_AVAILABLE = gql`
 `;
 
 export const RATE_DRIVER = gql`
-  mutation($user: ID!, $repartidor: ID!, $score: Int!) {
+  mutation($user: String!, $repartidor: String!, $score: Int!) {
     createRate(user: $user, repartidor: $repartidor, score: $score) {
       _id
       score
@@ -309,7 +309,6 @@ export const CREATE_MESSAGE = gql`
     }
   }
 `;
-
 
 export const ORDER_PICKED_UP = gql`
   mutation($orderId: String!) {

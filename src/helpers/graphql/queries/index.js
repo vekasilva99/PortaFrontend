@@ -19,7 +19,7 @@ export const CURRENT_USER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
-      orders{
+      orders {
         _id
         user {
           _id
@@ -28,7 +28,7 @@ export const CURRENT_USER = gql`
           birthdate
           mail
         }
-        repartidor{
+        repartidor {
           _id
           name
           lastName
@@ -45,10 +45,10 @@ export const CURRENT_USER = gql`
         price
         status
         concluded
-        messages{
+        messages {
           _id
-         content
-         createdAt
+          content
+          createdAt
           sender {
             _id
             name
@@ -292,7 +292,7 @@ export const NEW_REQUESTS = gql`
 `;
 
 export const SELECTED_DRIVER = gql`
-  query($driverId: ID!) {
+  query($driverId: String!) {
     selectedDriver(driverId: $driverId) {
       _id
       cedula
@@ -333,7 +333,7 @@ export const SELECTED_DRIVER = gql`
 `;
 
 export const SELECTED_REQUEST = gql`
-  query($solicitudId: ID!) {
+  query($solicitudId: String!) {
     selectedRequest(solicitudId: $solicitudId) {
       _id
       vehiculo

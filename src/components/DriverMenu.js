@@ -16,17 +16,17 @@ export default function DriverMenu(props) {
       <div className={style}>
         <ul className="nav-links">
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/driver/request" className="link">
               REQUEST TO BE A DRIVER
             </NavLink>
           </li>
           <li>
-            <NavLink to="/driver/chatrep" className="link">
+            <NavLink to="/" className="link">
               MY TRIPS
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/driver/driverprofile" className="link">
               PROFILE SETTINGS
             </NavLink>
           </li>
@@ -46,12 +46,11 @@ const StyledSidebar = styled.nav`
     height: 20%;
     background: #202124;
     position: fixed;
-    top: 0;
     right: 0;
     width: 20vw;
     transition: transform 0.4s ease-in;
     margin-right: 0.2em;
-    margin-top: 5.2em;
+    margin-top: 125px;
     z-index: 3000;
   }
 
@@ -65,7 +64,7 @@ const StyledSidebar = styled.nav`
     width: 20vw;
     transition: transform 0.4s ease-in;
     margin-right: 0.2em;
-    margin-top: 7.1em;
+    margin-top: 70px;
     z-index: 1;
   }
   .nav-links {
