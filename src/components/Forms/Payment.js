@@ -42,18 +42,24 @@ export default function Payment(props) {
         return;
       }
 
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
-      if (!error) {
-        const { id } = paymentMethod;
-      }
-      try {
-        //ACA VA PARA MANDAR AL BACKEND
-        console.log("amount: 10000");
-      } catch (error) {
-        console.log(error);
+      const cardElement = elements.getElement(CardElement);
+      console.log(cardElement);
+      const { token, error } = await stripe.createToken(cardElement);
+
+      //   const { error, paymentMethod } = await stripe.confirmCardSetup(
+      //     "cus_He0IgssDEdSpw",
+      //     {
+      //       payment_method: {
+      //         type: "card",
+      //         card: cardElement,
+      //       },
+      //       customer: "cus_He0IgssDEdSpw",
+      //     }
+      //   );
+      if (error) {
+        console.log("[error]", error);
+      } else {
+        console.log("[PaymentMethod]", token.card);
       }
     };
     return (
