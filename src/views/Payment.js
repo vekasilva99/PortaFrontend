@@ -7,34 +7,47 @@ import NavbarIn from "../components/NavIn";
 import FormPayment from "../components/Forms/Payment";
 import { useMutation } from "@apollo/react-hooks";
 import UserMenu from "../components/UserMenu";
+import UserProfileSidebar from "../components/UserProfileSidebar";
 
 export default function UserHome() {
   const [on, setToggle] = React.useState(false);
-  const [online, setOnline] = React.useState(false);
-  const handleToggle = (e) => setToggle(!on);
+  const [sidebar, setSidebar] = React.useState(false);
+
+  const handlingSidebar = (e) => setSidebar(!sidebar);
 
   return (
     <>
-      <StyleMapRep>
-        <div className="google">
+      <HomeStyle>
+        {" "}
+        <div className="show">
+          <NavbarIn name={"Veka"} toggle={handlingSidebar} />
+          <UserMenu show={sidebar} />
+        </div>
+        <div className="Payment">
           <FormPayment />
         </div>
-      </StyleMapRep>
+        <UserProfileSidebar />
+        <div className="content"></div>
+      </HomeStyle>
     </>
   );
 }
 
-const StyleMapRep = styled.div`
+const HomeStyle = styled.section`
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  position: absolute;
+  overflow-x: hidden;
   background: #fafafa;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 
-  .google {
-    position: absolute;
-    margin-top: 50px;
-    width: 100vw;
-    height: 100vh;
+  .Payment {
+    width: 60vw;
+    height: 80vh;
+    margin-left: 292px;
+    margin-top: 80px;
+    display: flex;
+    position: fixed;
   }
 `;

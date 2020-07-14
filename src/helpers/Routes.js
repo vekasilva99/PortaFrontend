@@ -33,7 +33,6 @@ import EmailCli from "../views/EmailCli";
 import Payment from "../views/Payment";
 import EmailRep from "../views/EmailRep";
 import Spinner from "../components/Spinner";
-import SubscribeUser from "../components/account/SubscribeUser";
 import styled from "styled-components";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
@@ -173,6 +172,7 @@ export default function Routes() {
         role={role}
         component={DriverProfile}
       />
+      <GuardRoute exact path="/user/payment" role={role} component={Payment} />
 
       <GuardRoute exact path="/user/mapcli" role={role} component={Chat} />
       {role == "COSTUMER" ? (
@@ -187,12 +187,6 @@ export default function Routes() {
     (!role && !loading && data && !data.currentUser) ? (
     <Switch>
       <Route exact path="/" render={(props) => <Home {...props} />} />
-      <Route exact path="/payment" render={(props) => <Payment {...props} />} />
-      <Route
-        exact
-        path="/subscribeuser"
-        render={(props) => <SubscribeUser {...props} />}
-      />
 
       <Route exact path="/login" render={(props) => <Login {...props} />} />
 
