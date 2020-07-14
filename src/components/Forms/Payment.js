@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js";
 import {
@@ -14,10 +15,16 @@ import {
   SET_INTENT,
 } from "../../helpers/graphql/mutations/index";
 
+const stripePromise = loadStripe(
+  "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
+);
+
 export default function Payment() {
-  //   const { _id, name, lastName } = useSelector((state) => ({
-  //     ...state.User,
-  //   }));
+  const { _id, name, lastName } = useSelector((state) => ({
+    ...state.User,
+  }));
+  const [mensaje, setMensaje] = React.useState(null);
+  const [submitted, setSubmitted] = React.useState(false);
 
   // const [
   //   setCreditCard,
@@ -28,9 +35,7 @@ export default function Payment() {
     setIntent,
     { data: dataS, error: errorS, loading: loadingS },
   ] = useMutation(SET_INTENT);
-  const stripePromise = loadStripe(
-    "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
-  );
+
   const CARD_ELEMENT_OPTIONS = {
     style: {
       base: {
@@ -50,7 +55,7 @@ export default function Payment() {
     },
   };
 
-  const CheckoutForm = () => {
+  const CheckoutForm = (onSubmit) => {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -60,29 +65,30 @@ export default function Payment() {
         return;
       }
 
-      const cardElement = elements.getElement(CardElement);
-      console.log(cardElement);
-      const { token, error } = await stripe.createToken(cardElement);
-
-      //mutation to get the secret key
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement),
+      });
       const { data: dataS } = await setIntent();
-
-      //the secret key
-      console.log(token.card);
-
-      //   const userName = `${name} ${lastName}`;
-      //   console.log("Nombre: " + userName);
-
+      const id = paymentMethod.id;
+      console.log(id);
       if (error) {
         console.log("[error]", error);
       } else {
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-        });
-        const result = await stripe.confirmCardSetup(dataS.setUpIntent, {
-          payment_method: paymentMethod.id,
-        });
+        const { error2, result } = await stripe.confirmCardSetup(
+          dataS.setUpIntent,
+          {
+            payment_method: id,
+          }
+        );
+        if (error2) {
+          setMensaje("Ups! Algo Salio Mal");
+          setSubmitted(false);
+        } else {
+          setMensaje(
+            "Proceso culminado con exito. Es hora de hacer su pedido!"
+          );
+        }
       }
     };
 
@@ -93,13 +99,21 @@ export default function Payment() {
           <form
             className="form"
             style={{ maxWidth: "400px", margin: "0 auto" }}
-            onSubmit={handleSubmit}
           >
             <CardElement options={CARD_ELEMENT_OPTIONS} />
-            <button className="buttonS" type="submit" disabled={!stripe}>
+            <button
+              className="buttonS"
+              onClick={() => {
+                setSubmitted(true);
+                handleSubmit();
+              }}
+              type="submit"
+              disabled={!stripe}
+            >
               SAVE CARD
             </button>
           </form>
+          {mensaje ? <div>{mensaje}</div> : null}
         </div>
       </div>
     );
