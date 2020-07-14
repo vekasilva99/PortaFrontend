@@ -7,8 +7,27 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { useSelector, useDispatch } from "react-redux";
+import { useMutation } from "@apollo/react-hooks";
+import {
+  SET_CREDIT_CARD,
+  SET_INTENT,
+} from "../../helpers/graphql/mutations/index";
 
 export default function Payment(props) {
+  const { _id, name, lastName } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  // const [
+  //   setCreditCard,
+  //   { data, error, loading },
+  // ] = useMutation(SET_CREDIT_CARD);
+
+  const [
+    setIntent,
+    { data: dataS, error: errorS, loading: loadingS },
+  ] = useMutation(SET_INTENT);
   const stripePromise = loadStripe(
     "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
   );
@@ -46,20 +65,35 @@ export default function Payment(props) {
       console.log(cardElement);
       const { token, error } = await stripe.createToken(cardElement);
 
-      //   const { error, paymentMethod } = await stripe.confirmCardSetup(
-      //     "cus_He0IgssDEdSpw",
-      //     {
-      //       payment_method: {
-      //         type: "card",
-      //         card: cardElement,
-      //       },
-      //       customer: "cus_He0IgssDEdSpw",
-      //     }
-      //   );
+      //mutation to get the secret key
+      const { data: dataS } = await setIntent();
+
+      //the secret key
+      console.log(dataS.setUpIntent);
+
+      const userName = `${name} ${lastName}`;
+      console.log("Nombre: " + userName);
+
       if (error) {
         console.log("[error]", error);
       } else {
         console.log("[PaymentMethod]", token.card);
+        const { result, error2 } = await stripe.confirmCardSetup(
+          dataS.setUpIntent,
+          {
+            payment_method: {
+              card: token,
+              billing_details: {
+                name: userName,
+              },
+            },
+          }
+        );
+        if (error2) {
+          console.log("[error]", error);
+        } else {
+          console.log("[result]", result);
+        }
       }
     };
     return (
