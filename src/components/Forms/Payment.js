@@ -14,10 +14,10 @@ import {
   SET_INTENT,
 } from "../../helpers/graphql/mutations/index";
 
-export default function Payment(props) {
-  const { _id, name, lastName } = useSelector((state) => ({
-    ...state.User,
-  }));
+export default function Payment() {
+  //   const { _id, name, lastName } = useSelector((state) => ({
+  //     ...state.User,
+  //   }));
 
   // const [
   //   setCreditCard,
@@ -34,7 +34,6 @@ export default function Payment(props) {
   const CARD_ELEMENT_OPTIONS = {
     style: {
       base: {
-        zIndex: "200",
         color: "#00507a",
         fontFamily:
           "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
@@ -69,33 +68,24 @@ export default function Payment(props) {
       const { data: dataS } = await setIntent();
 
       //the secret key
-      console.log(dataS.setUpIntent);
+      console.log(token.card);
 
-      const userName = `${name} ${lastName}`;
-      console.log("Nombre: " + userName);
+      //   const userName = `${name} ${lastName}`;
+      //   console.log("Nombre: " + userName);
 
       if (error) {
         console.log("[error]", error);
       } else {
-        console.log("[PaymentMethod]", token.card);
-        const { result, error2 } = await stripe.confirmCardSetup(
-          dataS.setUpIntent,
-          {
-            payment_method: {
-              card: token,
-              billing_details: {
-                name: userName,
-              },
-            },
-          }
-        );
-        if (error2) {
-          console.log("[error]", error);
-        } else {
-          console.log("[result]", result);
-        }
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+          type: "card",
+          card: cardElement,
+        });
+        const result = await stripe.confirmCardSetup(dataS.setUpIntent, {
+          payment_method: paymentMethod.id,
+        });
       }
     };
+
     return (
       <div className="pay">
         <h1>Payment</h1>
@@ -115,11 +105,11 @@ export default function Payment(props) {
     );
   };
   return (
-    <StyledPayment>
-      <Elements stripe={stripePromise}>
+    <Elements stripe={stripePromise}>
+      <StyledPayment>
         <CheckoutForm className="pay" />
-      </Elements>
-    </StyledPayment>
+      </StyledPayment>
+    </Elements>
   );
 }
 
