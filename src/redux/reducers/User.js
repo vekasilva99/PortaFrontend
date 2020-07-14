@@ -24,6 +24,7 @@ const initialState = {
   comments: null,
   orders: null,
   currentOrder:null,
+  stripeId: null,
   createdAt: null,
 };
 
@@ -65,6 +66,7 @@ export default function (state = initialState, action) {
         comments,
         orders,
         currentOrder,
+        stripeId,
         createdAt,
       } = action.payload;
       return {
@@ -91,6 +93,7 @@ export default function (state = initialState, action) {
         comments: comments,
         orders: orders,
         currentOrder: currentOrder,
+        stripeId: stripeId,
         createdAt: createdAt,
       };
     }

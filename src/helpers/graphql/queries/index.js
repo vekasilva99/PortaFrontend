@@ -19,6 +19,7 @@ export const CURRENT_USER = gql`
       licencia
       carnetCirculacion
       seguroVehiculo
+      stripeId
       orders {
         _id
         user {

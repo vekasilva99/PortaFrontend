@@ -20,6 +20,7 @@ export const LOGIN_USER = gql`
         licencia
         carnetCirculacion
         seguroVehiculo
+        stripeId
         orders {
           _id
           repartidor {
@@ -409,5 +410,22 @@ export const ORDER_COMPLETED = gql`
 export const CONTACT_US = gql`
   mutation($contactInput: ContactInput!) {
     contactUs(contactInput: $contactInput)
+  }
+`;
+
+export const SET_CREDIT_CARD = gql`
+  mutation($cardInput: CardInput) {
+    setUpCreditCard(cardInput: $cardInput){
+      _id
+      name
+      lastName
+      stripeId
+    }
+  }
+`;
+
+export const SET_INTENT = gql`
+  mutation {
+    setUpIntent
   }
 `;

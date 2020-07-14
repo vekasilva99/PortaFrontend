@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { useMutation } from "@apollo/react-hooks";
+import { SET_CREDIT_CARD, SET_INTENT } from "../../helpers/graphql/mutations/index";
 import { loadStripe, StripeCardElement } from "@stripe/stripe-js";
 import {
   Elements,
@@ -9,6 +12,20 @@ import {
 } from "@stripe/react-stripe-js";
 
 export default function Payment(props) {
+  const { _id, name, lastName } = useSelector((state) => ({
+    ...state.User,
+  }));
+
+  // const [
+  //   setCreditCard,
+  //   { data, error, loading },
+  // ] = useMutation(SET_CREDIT_CARD);
+
+  const [
+    setIntent,
+    { data: dataS, error: errorS, loading: loadingS },
+  ] = useMutation(SET_INTENT);
+  
   const stripePromise = loadStripe(
     "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
   );
@@ -42,20 +59,60 @@ export default function Payment(props) {
         return;
       }
 
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
-      if (!error) {
-        const { id } = paymentMethod;
-      }
+      // const { error, paymentMethod } = await stripe.createPaymentMethod({
+      //   type: "card",
+      //   card: elements.getElement(CardElement),
+      // });
+      // if (!error) {
+      //   const { id } = paymentMethod;
+      // }
+      //console.log(elements.getElement(CardElement));
       try {
         //ACA VA PARA MANDAR AL BACKEND
+
+        // const cardElement = elements.getElement(CardElement);
+        // console.log(cardElement);
+        const { token, error } = await stripe.createToken(CardElement);
+
+        //mutation to get the secret key
+        const { data: dataS } = await setIntent();
+        
+        //the secret key
+        console.log(dataS.setUpIntent);
+
+        const userName = `${name} ${lastName}`;
+        console.log("Nombre: " + userName)
+
+        if (error) {
+          console.log("No token");
+        }else{
+          const result = await stripe.confirmCardSetup(dataS.setUpIntent, {
+            payment_method: {
+              card: token,
+              billing_details: {
+                name: userName,
+              },
+            }
+          });
+        }
+        
+        // const { data } = await setCreditCard({
+        //   variables: {
+        //     cardInput: {
+        //       userId: _id,
+        //       number: "String",
+        //       exp_month: 5,
+        //       exp_year: 5,
+        //       cvc: "String"
+        //     }
+        //   },
+        // });
         console.log("amount: 10000");
       } catch (error) {
         console.log(error);
       }
     };
+
     return (
       <div className="pay">
         <h1>Payment</h1>
