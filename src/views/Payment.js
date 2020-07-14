@@ -50,4 +50,15 @@ const HomeStyle = styled.section`
     display: flex;
     position: fixed;
   }
+
+  @media only screen and (max-width: 734px) {
+    .Payment {
+      width: 100vw;
+      height: 100vh;
+      margin-left: 0;
+      margin-top: 0;
+      display: flex;
+      position: fixed;
+    }
+  }
 `;

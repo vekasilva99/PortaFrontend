@@ -16,7 +16,7 @@ export default function Payment(props) {
     style: {
       base: {
         zIndex: "200",
-        color: "#fafafa",
+        color: "#00507a",
         fontFamily:
           "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
         fontSmoothing: "antialiased",
@@ -26,8 +26,8 @@ export default function Payment(props) {
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        color: "#EE462F",
+        iconColor: "#EE462F",
       },
     },
   };
@@ -59,16 +59,18 @@ export default function Payment(props) {
     return (
       <div className="pay">
         <h1>Payment</h1>
-        <form
-          className="form"
-          style={{ maxWidth: "400px", margin: "0 auto" }}
-          onSubmit={handleSubmit}
-        >
-          <CardElement options={CARD_ELEMENT_OPTIONS} />
-          <button className="buttonS" type="submit" disabled={!stripe}>
-            SAVE CARD
-          </button>
-        </form>
+        <div>
+          <form
+            className="form"
+            style={{ maxWidth: "400px", margin: "0 auto" }}
+            onSubmit={handleSubmit}
+          >
+            <CardElement options={CARD_ELEMENT_OPTIONS} />
+            <button className="buttonS" type="submit" disabled={!stripe}>
+              SAVE CARD
+            </button>
+          </form>
+        </div>
       </div>
     );
   };
@@ -94,15 +96,22 @@ const StyledPayment = styled.nav`
   flex-direction: column;
   align-content: center;
   justify-content: center;
+  background-image: url("/Cliente3.png");
+  background-size: 80% 70%;
+  background-position: bottom center;
+  background-repeat: no-repeat;
 
   .form {
-    background: #00507a;
+    background-image: url("/CardClient.png");
+    background-size: 100% 100%;
     width: 600px;
-    padding: 4em;
-    border: 1px solid #00507a;
-    border-radius: 20px;
+    height: 250px;
+    padding-bottom: 3em;
+    padding-left: 3em;
+    padding-right: 3em;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
   }
   .pay {
     height: 100%;
@@ -112,30 +121,54 @@ const StyledPayment = styled.nav`
     margin-top: 2em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    border: solid 2px #00507a;
-    color: white;
-    padding: 0.7rem;
-    font-size: 0.8em;
-    width: 15vw;
+    border: none;
+    color: #00507a;
+    font-size: 1em;
+    width: auto;
     display: flex;
     font-weight: 600;
     cursor: pointer;
-    background: #00507a;
-    border-radius: 500px;
     transition: all ease-in-out 0.3s;
     justify-content: center;
     align-self: center;
-
+    background: transparent;
     &:hover {
       opacity: 0.8;
-      background: #00507a;
-      color: white;
       border-color: #00507a;
     }
     &:focus {
       opacity: 0.8;
       outline: none;
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  @media only screen and (max-width: 734px) {
+    background-image: url("/Cliente2.png");
+    background-size: 100% 60%;
+    .form {
+      background-image: url("/CardClient.png");
+      background-size: 100% 100%;
+      width: 100vw;
+      height: 30vh;
+      padding-bottom: 2em;
+      padding-left: 3em;
+      padding-right: 3em;
+      display: flex;
+      margin-top: 5vh;
+      margin-left: 1em;
+      margin-right: 1em;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .pay {
+      height: 100%;
+      width: 100%;
+      margin-top: -15vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
   }
 `;

@@ -11,7 +11,7 @@ import UserMenu from "../components/UserMenu";
 import { useSelector } from "react-redux";
 
 export default function SeeDrivers() {
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
 
   const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
@@ -50,6 +50,7 @@ const DriveList = styled.div`
   }
 
   .repartidores {
+    margin-top: 1.5em;
     background-color: white;
     padding-left: 3rem;
     h1 {

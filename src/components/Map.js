@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import Geocoder from "react-native-geocoding";
 // import MapViewDirections from "react-native-maps-directions";
 import { useMutation } from "@apollo/react-hooks";
@@ -76,7 +77,9 @@ export default function Map() {
   });
   Geocoder.init("AIzaSyCM4qSOvs4NukQZxy366IuzW41Ymugauqo");
   const [markers, setMarkers] = React.useState(null);
+  let [path, setPath] = React.useState("/user/driverprofile/");
   const [user, setUser] = React.useState(null);
+  const [profileD, setProfileD] = React.useState(false);
   const [pack, setPackage] = React.useState(null);
   const [distancia, setDistancia] = React.useState(null);
   const [precio, setPrecio] = React.useState(null);
@@ -271,6 +274,7 @@ export default function Map() {
   }, []);
 
   const handleCompleted = async (e) => {
+    setProfileD(true);
     const { data: dataC } = await orderCompleted({
       variables: {
         orderId: currentOrder._id.toString(),
@@ -310,7 +314,9 @@ export default function Map() {
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  return (
+  return profileD ? (
+    <Redirect to={path + currentOrder.repartidor._id} />
+  ) : (
     <>
       <StyledMap>
         <div className="fondoMap">

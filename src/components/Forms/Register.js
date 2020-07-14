@@ -188,6 +188,7 @@ export default function FormRegister(props) {
                         onBlur={handleBlur}
                         color={props.color}
                       />
+
                       <Input
                         value={lName}
                         label="Enter your Last Name"
@@ -199,6 +200,7 @@ export default function FormRegister(props) {
                         color={props.color}
                       />
                     </div>
+
                     <div className="input2">
                       <div>
                         <label className="dos">Choose Birthdate</label>
