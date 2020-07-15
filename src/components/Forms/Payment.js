@@ -61,6 +61,7 @@ export default function Payment() {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setSubmitted(true);
       if (!stripe || !elements) {
         return;
       }
@@ -103,12 +104,9 @@ export default function Payment() {
             <CardElement options={CARD_ELEMENT_OPTIONS} />
             <button
               className="buttonS"
-              onClick={() => {
-                setSubmitted(true);
-                handleSubmit();
-              }}
+              onClick={handleSubmit}
               type="submit"
-              disabled={!stripe}
+              disabled={!stripe || submitted}
             >
               SAVE CARD
             </button>
