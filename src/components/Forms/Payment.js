@@ -130,7 +130,7 @@ export default function Payment() {
               }
               className="icon"
             ></img>
-            <h1> {mensaje}</h1>
+            <h2> {mensaje}</h2>
             {mensaje !=
             "Proceso culminado con exito. Es hora de hacer su pedido!" ? (
               <button
@@ -188,7 +188,7 @@ const StyledPayment = styled.nav`
     text-align: center;
     padding-bottom: 0;
     align-items: center;
-    h1 {
+    h2 {
       margin-top: 1em;
       font-size: 16px;
       color: #00507a;
@@ -278,23 +278,14 @@ const StyledPayment = styled.nav`
     }
     .popUp {
       width: 100vw;
-      height: 30vh;
-      margin-top: -10%;
+      height: 50vh;
       background: pink;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      padding-bottom: 0;
-      align-items: center;
-      justify-content: center;
-
-      h1 {
-        margin-left: 0.2em;
-        margin-right: 0.2em;
-        margin-top: 0;
-        font-size: 20px;
+      h2 {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        margin-top: 0.2;
+        font-size: 25px;
         color: #00507a;
-        background: purple;
       }
       .buttonA {
         margin-top: 0.2em;
@@ -314,8 +305,7 @@ const StyledPayment = styled.nav`
       }
       .icon {
         margin-top: 20%;
-        background: blue;
-        width: 40vw;
+        width: 50vw;
       }
     }
     .pay {
