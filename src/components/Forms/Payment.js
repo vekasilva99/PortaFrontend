@@ -10,10 +10,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  CARD_SAVED,
-  SET_INTENT,
-} from "../../helpers/graphql/mutations/index";
+import { CARD_SAVED, SET_INTENT } from "../../helpers/graphql/mutations/index";
 
 const stripePromise = loadStripe(
   "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
@@ -29,10 +26,7 @@ export default function Payment() {
   const [mensaje, setMensaje] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
 
-  const [
-    cardSaved,
-    { data, error, loading },
-  ] = useMutation(CARD_SAVED);
+  const [cardSaved, { data, error, loading }] = useMutation(CARD_SAVED);
 
   const [
     setIntent,
@@ -88,21 +82,20 @@ export default function Payment() {
           setMensaje("Ups! Algo Salio Mal");
           setSubmitted(false);
         } else {
-          
-          const { data } = await cardSaved();
-
-          // if(data && data.cardSaved){
-          //   dispatch({
-          //     type: "UPDATE_USER",
-          //     payload: {
-          //       haveCard: true,
-          //     },
-          //   });
-          // }
-
           setMensaje(
             "Proceso culminado con exito. Es hora de hacer su pedido!"
           );
+
+          //   const { data } = await cardSaved();
+
+          //   if (data && data.cardSaved) {
+          //     dispatch({
+          //       type: "UPDATE_USER",
+          //       payload: {
+          //         haveCard: true,
+          //       },
+          //     });
+          //   }
         }
       }
     };
@@ -118,9 +111,9 @@ export default function Payment() {
             <CardElement options={CARD_ELEMENT_OPTIONS} />
             <button
               className="buttonS"
-              onClick={() => {
+              onClick={(event) => {
                 setSubmitted(true);
-                handleSubmit();
+                handleSubmit(event);
               }}
               type="submit"
               disabled={!stripe}
