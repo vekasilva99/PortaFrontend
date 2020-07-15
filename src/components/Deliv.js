@@ -151,12 +151,13 @@ const StyledDeliv = styled.nav`
   .textb {
     padding: 0;
     width: 100%;
-    background: transparent;
+    background: rgb(0, 80, 122);
     height: max-content;
+    border-radius: 20px;
     margin-top: 0;
-    border-bottom: 1px solid rgb(0, 80, 122);
+    border: 1px solid rgb(0, 80, 122);
     width: 100%;
-    padding-bottom: 0.5em;
+    padding: 0.5em;
   }
 
   @media only screen and (min-width: 735px) {
@@ -167,6 +168,7 @@ const StyledDeliv = styled.nav`
       h2 {
         font-size: 20px;
         font-weight: 400;
+        color: #fafafa;
         margin: 0;
         margin-bottom: 5px;
       }
@@ -174,11 +176,13 @@ const StyledDeliv = styled.nav`
         font-size: 15px;
         font-weight: 300;
         margin: 0;
+        color: #fafafa;
         margin-left: 10px;
       }
       h4 {
         font-size: 10px;
         font-weight: 200;
+        color: #fafafa;
         margin: 0;
         margin-left: 10px;
       }
@@ -201,18 +205,21 @@ const StyledDeliv = styled.nav`
         font-size: 20px;
         font-weight: 400;
         margin: 0;
+        color: #fafafa;
         margin-bottom: 5px;
       }
       h3 {
         font-size: 15px;
         font-weight: 300;
         margin: 0;
+        color: #fafafa;
         margin-left: 10px;
       }
       h4 {
         font-size: 10px;
         font-weight: 200;
         margin: 0;
+        color: #fafafa;
         margin-left: 10px;
       }
     }

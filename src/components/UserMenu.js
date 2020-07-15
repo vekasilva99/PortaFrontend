@@ -31,6 +31,11 @@ export default function UserMenu(props) {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/user/payment" className="link">
+              PAYMENT
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/user/seedrivers" className="link">
               SEE DRIVERS
             </NavLink>
@@ -57,7 +62,7 @@ const StyledSidebar = styled.nav`
   }
 
   .close {
-    transform: translateY(-50vh);
+    transform: translateY(-60vh);
     background: #202124;
     position: fixed;
     right: 0;
@@ -118,11 +123,10 @@ const StyledSidebar = styled.nav`
   @media only screen and (min-width: 735px) {
     .open {
       width: 300px;
-      top: 70px;
+      margin-top: 100px;
     }
     .close {
       width: 300px;
-      top: 70px;
     }
     .nav-links {
       top: 165px;
@@ -137,6 +141,9 @@ const StyledSidebar = styled.nav`
       width: 100%;
       height: 100%;
       top: 70px;
+      overflow: hidden;
+      margin-right: 0;
+      right: 0;
     }
     .close {
       width: 100%;

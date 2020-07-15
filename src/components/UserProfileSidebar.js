@@ -24,6 +24,11 @@ export default function UserProfileSidebar() {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/user/payment" className="link">
+              PAYMENT
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/user/userprofile" className="link">
               SEE DRIVERS
             </NavLink>

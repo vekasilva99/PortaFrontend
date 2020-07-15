@@ -18,7 +18,7 @@ import { CONTACT_US } from "../helpers/graphql/mutations/index";
 import Correo from "../components/Correo";
 
 export default function EmailCli() {
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
   const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
@@ -116,7 +116,23 @@ const EmailCliStyle = styled.div`
   }
   @media only screen and (max-width: 734px) {
     .page {
-      margin-top: 50px;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .mails {
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 80px;
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
     .repartidores {
       height: 100vh;

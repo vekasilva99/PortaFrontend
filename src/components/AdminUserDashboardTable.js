@@ -6,7 +6,6 @@ import { NEW_USERS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminTable(props) {
-
   //Nuevos usuarios
   const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(
     NEW_USERS
@@ -60,17 +59,17 @@ export default function AdminTable(props) {
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
-              {user._id}
-            </NavLink>
-          </li>
-          <li className="link">
-            <NavLink className="item" to="/">
               {user.name}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-            {user.birthdate}
+              {user.lastName}
+            </NavLink>
+          </li>
+          <li className="link">
+            <NavLink className="item" to="/">
+              {user.birthdate}
             </NavLink>
           </li>
           <li className="link">

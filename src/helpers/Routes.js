@@ -30,6 +30,7 @@ import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
 import DeliveryCli from "../views/DeliveryCli";
 import EmailCli from "../views/EmailCli";
+import Payment from "../views/Payment";
 import EmailRep from "../views/EmailRep";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
@@ -171,6 +172,7 @@ export default function Routes() {
         role={role}
         component={DriverProfile}
       />
+      <GuardRoute exact path="/user/payment" role={role} component={Payment} />
 
       <GuardRoute exact path="/user/mapcli" role={role} component={Chat} />
       {role == "COSTUMER" ? (

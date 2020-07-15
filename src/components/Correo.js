@@ -162,8 +162,63 @@ const StyledCorreo = styled.nav`
   }
 
   @media only screen and (max-width: 969px) and (min-width: 735px) {
+    .forma {
+      width: 100%;
+      padding: 2em;
+      margin: 0;
+    }
+
+    .lab {
+      margin-left: 0;
+      width: 100%;
+      font-size: 20px;
+    }
+
+    .cont {
+      height: 40vh;
+    }
+    .sub {
+      height: 5vh;
+    }
+
+    .but {
+      width: 80%;
+      display: flex;
+      align-self: center;
+      justify-self: center;
+      margin-top: 1vh;
+      font-size: 22px;
+    }
+  }
   }
 
   @media only screen and (max-width: 734px) {
+    .forma {
+      width: 100vw;
+      padding: 1em;
+      margin: 0;
+    }
+
+    .lab {
+      margin-left: 0;
+      width: 100%;
+      font-size: 20px;
+    }
+
+    .cont {
+      height: 40vh;
+    }
+    .sub {
+      height: 5vh;
+    }
+
+    .but {
+      width: 80vw;
+      display: flex;
+      align-self: center;
+      justify-self: center;
+      margin-top: 1vh;
+      font-size: 22px;
+    }
   }
 `;
