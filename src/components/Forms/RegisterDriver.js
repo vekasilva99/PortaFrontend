@@ -346,6 +346,11 @@ const RegisterView = styled.div`
     cursor: pointer;
     margin-top: 2rem;
   }
+
+  .kPcmjq .picker {
+    color: ${(props) => props.color} !important;
+  }
+
   input {
     background: none;
     font-weight: 200;
@@ -398,6 +403,7 @@ const RegisterView = styled.div`
   }
 
   .picker {
+    color: ${(props) => props.color} !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -411,6 +417,7 @@ const RegisterView = styled.div`
       outline: none;
       box-shadow: none;
       border-bottom: solid 2px #ee462f;
+      color: ${(props) => props.color} !important;
     }
   }
 

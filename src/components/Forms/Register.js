@@ -364,6 +364,9 @@ const RegisterView = styled.div`
       box-shadow: none;
       border-bottom: solid 2px #0a95bf;
     }
+    input {
+      color: #fafafa !important;
+    }
   }
 
   .select {
