@@ -13,10 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function FormLogin(props) {
   // const [login, { data, loading, error, called }] = useLazyQuery(LOGIN_USER);
 
-  const [
-    login,
-    { data, loading, error },
-  ] = useMutation(LOGIN_USER);
+  const [login, { data, loading, error }] = useMutation(LOGIN_USER);
 
   const { name, role } = useSelector((state) => ({
     ...state.User,
@@ -24,7 +21,6 @@ export default function FormLogin(props) {
   const [log, setLog] = useState(false);
 
   const dispatch = useDispatch();
-
 
   let route;
 
@@ -46,13 +42,12 @@ export default function FormLogin(props) {
 
   useEffect(() => {
     if (data && data.userLogin) {
-      
-      if(data.userLogin.user.role === "COSTUMER"){
-        route = "/user"
-      }else if(data.userLogin.user.role === "ADMIN"){
-        route = "/admin"
-      }else{
-        route = "/maprep"
+      if (data.userLogin.user.role === "COSTUMER") {
+        route = "/user";
+      } else if (data.userLogin.user.role === "ADMIN") {
+        route = "/admin";
+      } else {
+        route = "/maprep";
       }
       console.log("ruta" + route);
     }
@@ -102,11 +97,11 @@ export default function FormLogin(props) {
           // });
 
           const { data } = await login({
-            variables:{
+            variables: {
               mail: Email,
               password: Password,
               role: "COSTUMER",
-            }
+            },
           });
 
           if (data && data.userLogin) {
@@ -118,7 +113,7 @@ export default function FormLogin(props) {
                 ...data.userLogin.user,
               },
             });
-            
+
             setLog(true);
           }
 
@@ -150,6 +145,7 @@ export default function FormLogin(props) {
                 onBlur={handleBlur}
                 color={props.color}
               />
+              <div>HOLAAA</div>
 
               <Input
                 value={values.Password}

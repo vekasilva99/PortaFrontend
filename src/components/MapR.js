@@ -544,6 +544,11 @@ function Locate({
       >
         <img src="/RepartidorFondo.png" alt="compass" />
       </button>
+      <button className="cashOut">
+        {/* <img src="/IMHERE.png" alt="compass" /> */}
+        <h4>CASH OUT</h4>
+        <h3>200$</h3>
+      </button>
       {currentOrder ? (
         <div>
           {currentOrder.status === "Picking up package" ? (
@@ -580,11 +585,50 @@ const StyledMap = styled.div`
   .locate2 {
     position: absolute;
     top: 5rem;
-    right: 6rem;
+    right: 11rem;
     background: none;
     border: none;
     z-index: 2010;
   }
+  .cashOut {
+    position: absolute;
+    background: #fafafa;
+    width: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 5em;
+    top: 5rem;
+    right: 6.4rem;
+    border: 3px solid #ee462f;
+    border-radius: 2.5em;
+    z-index: 2010;
+    h3 {
+      z-index: 2020;
+      color: #ee462f;
+      font-weight: 800;
+      font-size: 14px;
+
+      margin-top: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+    h4 {
+      z-index: 2020;
+      color: #ee462f;
+      font-weight: 800;
+      margin-bottom: 0;
+      font-size: 17px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+  }
+  .cashOut img {
+    width: 5em;
+    cursor: pointer;
+  }
+
   .locate img {
     width: 5em;
     cursor: pointer;
