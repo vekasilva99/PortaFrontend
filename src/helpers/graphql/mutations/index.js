@@ -22,6 +22,7 @@ export const LOGIN_USER = gql`
         seguroVehiculo
         stripeId
         haveCard
+        saldo
         orders {
           _id
           repartidor {
@@ -436,6 +437,16 @@ export const CARD_SAVED = gql`
     cardSaved{
       name
       haveCard
+    }
+  }
+`;
+
+export const COLLECT_PAY = gql`
+  mutation {
+    collectPay{
+      name
+      lastName
+      saldo
     }
   }
 `;

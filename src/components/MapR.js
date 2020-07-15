@@ -7,6 +7,7 @@ import {
   UPDATE_LOCATION_DRIVER,
   ORDER_PICKED_UP,
   ORDER_ARRIVED,
+  COLLECT_PAY,
 } from "../helpers/graphql/mutations/index";
 import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
@@ -83,9 +84,15 @@ export default function MapR() {
     latitud,
     longitud,
     currentOrder,
+    saldo,
   } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const [
+    collectPay,
+    { data: dataCollect, error: errorCollect, loading: loadingCollect },
+  ] = useMutation(COLLECT_PAY);
 
   const [
     changeLocation,
@@ -291,6 +298,19 @@ export default function MapR() {
     });
   };
 
+  const handleCashOut = async (e) => {
+    const { data: dataCollect } = await collectPay();
+
+    if (dataCollect && dataCollect.collectPay) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          saldo: 0,
+        },
+      });
+    }
+  };
+
   const panTo = React.useCallback(({ lat, lng }, bol) => {
     mapRef.current.panTo({ lat, lng }, false);
     mapRef.current.setZoom(14);
@@ -420,6 +440,8 @@ export default function MapR() {
         currentOrder={currentOrder ? currentOrder : null}
         handleGotIt={handleGotIt}
         handleCompleted={handleCompleted}
+        handleCashOut={handleCashOut}
+        saldo={saldo}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -511,6 +533,8 @@ function Locate({
   currentOrder,
   handleGotIt,
   handleCompleted,
+  handleCashOut,
+  saldo,
 }) {
   return (
     <StyledMap>
@@ -543,6 +567,11 @@ function Locate({
         }}
       >
         <img src="/RepartidorFondo.png" alt="compass" />
+      </button>
+      <button className="cashOut" onClick={handleCashOut}>
+        {/* <img src="/IMHERE.png" alt="compass" /> */}
+        <h4>CASH OUT</h4>
+        <h3>{saldo.toString()}$</h3>
       </button>
       {currentOrder ? (
         <div>
@@ -580,11 +609,50 @@ const StyledMap = styled.div`
   .locate2 {
     position: absolute;
     top: 5rem;
-    right: 6rem;
+    right: 11rem;
     background: none;
     border: none;
     z-index: 2010;
   }
+  .cashOut {
+    position: absolute;
+    background: #fafafa;
+    width: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 5em;
+    top: 5rem;
+    right: 6.4rem;
+    border: 3px solid #ee462f;
+    border-radius: 2.5em;
+    z-index: 2010;
+    h3 {
+      z-index: 2020;
+      color: #ee462f;
+      font-weight: 800;
+      font-size: 14px;
+
+      margin-top: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+    h4 {
+      z-index: 2020;
+      color: #ee462f;
+      font-weight: 800;
+      margin-bottom: 0;
+      font-size: 17px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+  }
+  .cashOut img {
+    width: 5em;
+    cursor: pointer;
+  }
+
   .locate img {
     width: 5em;
     cursor: pointer;

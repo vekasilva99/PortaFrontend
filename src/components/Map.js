@@ -51,6 +51,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { FiAlertCircle } from "react-icons/fi";
 
 const libraries = ["places", "directions"];
 const mapContainerStyle = {
@@ -104,9 +105,11 @@ export default function Map() {
     { data: dataC, error: errorC, loading: loadingC },
   ] = useMutation(ORDER_COMPLETED);
 
-  const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
-    ...state.User,
-  }));
+  const { _id, role, name, lastName, currentOrder, haveCard } = useSelector(
+    (state) => ({
+      ...state.User,
+    })
+  );
 
   const { data: dataS, error: errorS, loading: loadingS } = useSubscription(
     ORDER_UPDATE,
@@ -370,6 +373,7 @@ export default function Map() {
                     handleChange={handleUserChange}
                     placeH="Where Are You?"
                     RouteDraw={RouteDraw(user, pack)}
+                    haveCard={haveCard}
                   />
                 </div>
                 <div className="div3">
@@ -377,6 +381,7 @@ export default function Map() {
                     panTo={panTo}
                     handleChange={handlePackageChange}
                     placeH="Where is Your Package?"
+                    haveCard={haveCard}
                   />
                 </div>
                 <div className="div8">
@@ -399,7 +404,11 @@ export default function Map() {
                 </Grid>
               </MuiPickersUtilsProvider>
               <div className="botonContainer">
-                <button className="boton" onClick={handleSend}>
+                <button
+                  className="boton"
+                  disabled={!haveCard}
+                  onClick={handleSend}
+                >
                   ACCEPT
                 </button>
               </div>
@@ -414,6 +423,7 @@ export default function Map() {
         handleUserChange={handleUserChange}
         handleCompleted={handleCompleted}
         currentOrder={currentOrder}
+        haveCard={haveCard}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -505,7 +515,13 @@ export default function Map() {
     </>
   );
 }
-function Locate({ panTo, handleUserChange, currentOrder, handleCompleted }) {
+function Locate({
+  panTo,
+  handleUserChange,
+  currentOrder,
+  handleCompleted,
+  haveCard,
+}) {
   return (
     <StyledMap>
       <button
@@ -535,6 +551,12 @@ function Locate({ panTo, handleUserChange, currentOrder, handleCompleted }) {
       >
         <img src="/ClienteMap.png" alt="compass" />
       </button>
+      {!haveCard ? (
+        <div className="able-to-order">
+          <FiAlertCircle size="1.5em" color="#00507a" />
+          <h4>Active su Tarjeta!</h4>
+        </div>
+      ) : null}
 
       {currentOrder ? (
         <div>
@@ -548,7 +570,7 @@ function Locate({ panTo, handleUserChange, currentOrder, handleCompleted }) {
     </StyledMap>
   );
 }
-function Search({ panTo, handleChange, placeH, RouteDraw }) {
+function Search({ panTo, handleChange, placeH, RouteDraw, haveCard }) {
   const {
     ready,
     value,
@@ -589,7 +611,7 @@ function Search({ panTo, handleChange, placeH, RouteDraw }) {
             style={{ fontFamily: "Roboto" }}
             value={value}
             onChange={handleInput}
-            disabled={!ready}
+            disabled={!ready || !haveCard}
             placeholder={placeH}
           />
 
@@ -628,6 +650,31 @@ const StyledMap = styled.div`
     background: none;
     border: none;
     z-index: 2010;
+  }
+
+  .able-to-order{
+    position: absolute;
+    width:20vw;
+    top:6rem;
+    padding:0;
+    padding-left:1em;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    right: 7rem;
+    background: #fafafa;
+    border: none;
+    height:3.5em;
+    z-index: 2010;
+    h4{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color:#00507a;
+      font-size:1em;
+      margin-left:0.5em;
+
+    }
+
   }
   .locate2 {
     position: absolute;

@@ -26,6 +26,7 @@ const initialState = {
   currentOrder:null,
   stripeId: null,
   haveCard: null,
+  saldo: null,
   createdAt: null,
 };
 
@@ -69,6 +70,7 @@ export default function (state = initialState, action) {
         currentOrder,
         stripeId,
         haveCard,
+        saldo,
         createdAt,
       } = action.payload;
       return {
@@ -97,6 +99,7 @@ export default function (state = initialState, action) {
         currentOrder: currentOrder,
         stripeId: stripeId,
         haveCard: haveCard,
+        saldo: saldo,
         createdAt: createdAt,
       };
     }
