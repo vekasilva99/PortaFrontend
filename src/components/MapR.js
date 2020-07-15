@@ -7,7 +7,7 @@ import {
   UPDATE_LOCATION_DRIVER,
   ORDER_PICKED_UP,
   ORDER_ARRIVED,
-  COLLECT_PAY
+  COLLECT_PAY,
 } from "../helpers/graphql/mutations/index";
 import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
@@ -84,6 +84,7 @@ export default function MapR() {
     latitud,
     longitud,
     currentOrder,
+    saldo,
   } = useSelector((state) => ({
     ...state.User,
   }));
@@ -92,7 +93,6 @@ export default function MapR() {
     collectPay,
     { data: dataCollect, error: errorCollect, loading: loadingCollect },
   ] = useMutation(COLLECT_PAY);
-
 
   const [
     changeLocation,
@@ -299,10 +299,9 @@ export default function MapR() {
   };
 
   const handleCashOut = async (e) => {
+    const { data: dataCollect } = await collectPay();
 
-    const { data:dataCollect } = await collectPay();
-
-    if(dataCollect && dataCollect.collectPay){
+    if (dataCollect && dataCollect.collectPay) {
       dispatch({
         type: "UPDATE_USER",
         payload: {
@@ -310,7 +309,6 @@ export default function MapR() {
         },
       });
     }
-    
   };
 
   const panTo = React.useCallback(({ lat, lng }, bol) => {
@@ -443,6 +441,7 @@ export default function MapR() {
         handleGotIt={handleGotIt}
         handleCompleted={handleCompleted}
         handleCashOut={handleCashOut}
+        saldo={saldo}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -535,6 +534,7 @@ function Locate({
   handleGotIt,
   handleCompleted,
   handleCashOut,
+  saldo,
 }) {
   return (
     <StyledMap>
@@ -571,7 +571,7 @@ function Locate({
       <button className="cashOut" onClick={handleCashOut}>
         {/* <img src="/IMHERE.png" alt="compass" /> */}
         <h4>CASH OUT</h4>
-        <h3>200$</h3>
+        <h3>{saldo.toString()}$</h3>
       </button>
       {currentOrder ? (
         <div>
