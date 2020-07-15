@@ -24,6 +24,7 @@ export default function UserHome() {
           <UserMenu show={sidebar} />
         </div>
         <div className="Payment">
+          <h1>Payment</h1>
           <FormPayment />
         </div>
         <UserProfileSidebar />
@@ -48,7 +49,15 @@ const HomeStyle = styled.section`
     margin-left: 292px;
     margin-top: 80px;
     display: flex;
-    position: fixed;
+    position: relative;
+    padding-left: 3rem;
+    h1 {
+      font-weight: 300;
+      color: #00507a;
+      letter-spacing: 2px;
+      margin-bottom: 40px;
+      z-index: 100;
+    }
   }
 
   @media only screen and (max-width: 734px) {
@@ -58,7 +67,18 @@ const HomeStyle = styled.section`
       margin-left: 0;
       margin-top: 0;
       display: flex;
-      position: fixed;
+      position: relative;
+      padding-left: 0;
+
+      justify-content: center;
+      h1 {
+        margin-top: 100px;
+        font-weight: 300;
+        color: #00507a;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        z-index: 0;
+      }
     }
   }
 `;

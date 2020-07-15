@@ -21,6 +21,7 @@ export const LOGIN_USER = gql`
         carnetCirculacion
         seguroVehiculo
         stripeId
+        haveCard
         orders {
           _id
           repartidor {
@@ -427,5 +428,14 @@ export const SET_CREDIT_CARD = gql`
 export const SET_INTENT = gql`
   mutation {
     setUpIntent
+  }
+`;
+
+export const CARD_SAVED = gql`
+  mutation {
+    cardSaved{
+      name
+      haveCard
+    }
   }
 `;

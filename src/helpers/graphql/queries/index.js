@@ -20,6 +20,7 @@ export const CURRENT_USER = gql`
       carnetCirculacion
       seguroVehiculo
       stripeId
+      haveCard
       orders {
         _id
         user {

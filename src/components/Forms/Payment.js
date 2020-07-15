@@ -10,26 +10,23 @@ import {
 } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
-import {
-  SET_CREDIT_CARD,
-  SET_INTENT,
-} from "../../helpers/graphql/mutations/index";
+import { CARD_SAVED, SET_INTENT } from "../../helpers/graphql/mutations/index";
 
 const stripePromise = loadStripe(
   "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
 );
 
 export default function Payment() {
-  const { _id, name, lastName } = useSelector((state) => ({
+  const { _id, name, lastName, haveCard } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const dispatch = useDispatch();
+
   const [mensaje, setMensaje] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
 
-  // const [
-  //   setCreditCard,
-  //   { data, error, loading },
-  // ] = useMutation(SET_CREDIT_CARD);
+  const [cardSaved, { data, error, loading }] = useMutation(CARD_SAVED);
 
   const [
     setIntent,
@@ -61,7 +58,7 @@ export default function Payment() {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      setSubmitted(true);
+
       if (!stripe || !elements) {
         return;
       }
@@ -70,6 +67,7 @@ export default function Payment() {
         type: "card",
         card: elements.getElement(CardElement),
       });
+      setSubmitted(true);
       const { data: dataS } = await setIntent();
       const id = paymentMethod.id;
       console.log(id);
@@ -89,14 +87,24 @@ export default function Payment() {
           setMensaje(
             "Proceso culminado con exito. Es hora de hacer su pedido!"
           );
+
+          const { data } = await cardSaved();
+
+          if (data && data.cardSaved) {
+            dispatch({
+              type: "UPDATE_USER",
+              payload: {
+                haveCard: true,
+              },
+            });
+          }
         }
       }
     };
 
     return (
       <div className="pay">
-        <h1>Payment</h1>
-        <div>
+        {!mensaje ? (
           <form
             className="form"
             style={{ maxWidth: "400px", margin: "0 auto" }}
@@ -111,8 +119,31 @@ export default function Payment() {
               SAVE CARD
             </button>
           </form>
-          {mensaje ? <div>{mensaje}</div> : null}
-        </div>
+        ) : (
+          <div className="popUp">
+            <img
+              src={
+                mensaje ==
+                "Proceso culminado con exito. Es hora de hacer su pedido!"
+                  ? "/checkcli.png"
+                  : "/equiscli.png"
+              }
+              className="icon"
+            ></img>
+            <h1> {mensaje}</h1>
+            {mensaje !=
+            "Proceso culminado con exito. Es hora de hacer su pedido!" ? (
+              <button
+                onClick={() => {
+                  setMensaje(null);
+                }}
+                className="buttonA"
+              >
+                ACEPTAR
+              </button>
+            ) : null}
+          </div>
+        )}
       </div>
     );
   };
@@ -128,12 +159,14 @@ export default function Payment() {
 const StyledPayment = styled.nav`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
   h1 {
     color: #00507a;
   }
-
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -143,10 +176,49 @@ const StyledPayment = styled.nav`
   background-position: bottom center;
   background-repeat: no-repeat;
 
+  .popUp {
+    width: 400px;
+    height: 250px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding-bottom: 0;
+    align-items: center;
+    h1 {
+      margin-top: 1em;
+      font-size: 16px;
+      color: #00507a;
+    }
+    .buttonA {
+      margin-top: 0.2em;
+      width: 30%;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      border: 1px solid #00507a;
+      border-radius: 20px;
+      margin-bottom: 0;
+      font-size: 12px;
+      font-weight: 300;
+      background: #00507a;
+      color: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    }
+    .icon {
+      margin-top: 1em;
+
+      width: 10vw;
+    }
+  }
+
   .form {
     background-image: url("/CardClient.png");
     background-size: 100% 100%;
-    width: 600px;
+    width: 400px;
     height: 250px;
     padding-bottom: 3em;
     padding-left: 3em;
@@ -158,6 +230,7 @@ const StyledPayment = styled.nav`
   .pay {
     height: 100%;
     width: 100%;
+    padding-top: 10vh;
   }
   .buttonS {
     margin-top: 2em;
@@ -202,6 +275,48 @@ const StyledPayment = styled.nav`
       margin-right: 1em;
       flex-direction: column;
       justify-content: flex-end;
+    }
+    .popUp {
+      width: 100vw;
+      height: 30vh;
+      margin-top: -10%;
+      background: pink;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      padding-bottom: 0;
+      align-items: center;
+      justify-content: center;
+
+      h1 {
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+        margin-top: 0;
+        font-size: 20px;
+        color: #00507a;
+        background: purple;
+      }
+      .buttonA {
+        margin-top: 0.2em;
+        width: 80%;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+        border: 1px solid #00507a;
+        border-radius: 20px;
+        margin-bottom: 0;
+        font-size: 12px;
+        font-weight: 300;
+        background: #00507a;
+        color: #fafafa;
+        z-index: 300;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+      .icon {
+        margin-top: 20%;
+        background: blue;
+        width: 40vw;
+      }
     }
     .pay {
       height: 100%;
