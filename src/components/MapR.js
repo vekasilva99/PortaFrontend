@@ -291,6 +291,8 @@ export default function MapR() {
     });
   };
 
+  const handleCashOut = async (e) => {};
+
   const panTo = React.useCallback(({ lat, lng }, bol) => {
     mapRef.current.panTo({ lat, lng }, false);
     mapRef.current.setZoom(14);
@@ -420,6 +422,7 @@ export default function MapR() {
         currentOrder={currentOrder ? currentOrder : null}
         handleGotIt={handleGotIt}
         handleCompleted={handleCompleted}
+        handleCashOut={handleCashOut}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -511,6 +514,7 @@ function Locate({
   currentOrder,
   handleGotIt,
   handleCompleted,
+  handleCashOut,
 }) {
   return (
     <StyledMap>
@@ -544,7 +548,7 @@ function Locate({
       >
         <img src="/RepartidorFondo.png" alt="compass" />
       </button>
-      <button className="cashOut">
+      <button className="cashOut" onClick={handleCashOut}>
         {/* <img src="/IMHERE.png" alt="compass" /> */}
         <h4>CASH OUT</h4>
         <h3>200$</h3>
