@@ -744,7 +744,6 @@ const StyledMap = styled.div`
         display: grid;
         grid-template-areas:
           "partida partida"
-      
       }
       .div6{
         background: transparent;
@@ -764,7 +763,6 @@ const StyledMap = styled.div`
           margin: 0;
         }
       }
-  
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
@@ -845,27 +843,19 @@ const StyledMap = styled.div`
           position:absolute;
           margin-left:0.1em;
           h2{
-            
           font-size: 18px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
-          
-  
           }
           h3{
-           
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
             margin: 0;
-           
-  
           }
         }
-        
       }
-     
       .div3 {
         grid-area: llegada;
         background: transparent;
@@ -900,7 +890,6 @@ const StyledMap = styled.div`
           }
         }
         .texto{
-          
           width:100%;
           height:fit-content;
           background:transparent;
@@ -909,22 +898,16 @@ const StyledMap = styled.div`
           flex-direction:column;
           margin-left:0.1em;
           h2{
-            
           font-size: 18px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
-         
-  
           }
           h3{
-          
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
             margin: 0;
-            
-  
           }
         }
       }
@@ -946,6 +929,9 @@ const StyledMap = styled.div`
       }
     }
   }
+
+
+
 
   @media only screen and (max-width: 734px) {
     .fondoMap {
@@ -972,6 +958,7 @@ const StyledMap = styled.div`
       margin-top: 0;
     }
     .busqueda {
+      justify-items: center;
       grid-area: busqueda;
       background-color: #fafafa;
       z-index: 2020;
@@ -985,7 +972,7 @@ const StyledMap = styled.div`
         background-color: rgb(0, 80, 122);
         margin: 0;
         padding: 20px;
-        width: 1;
+        text-align: center;
       }
       h5 {
         font-size: 20px;
@@ -996,18 +983,16 @@ const StyledMap = styled.div`
         margin-left: 15%;
       }
       .rutas {
-        margin: 0;
-        padding-top: 10%;
-        padding-bottom: 10%;
-        padding-left: 9%;
-        padding-right: 9%;
-        width: 100%;
-        height: 20vh;
+        margin: auto;
+        width: 350px;
+        height: 150px;
+        grid-auto-rows: 50px;
         background: #fafafa;
         display: grid;
         grid-template-areas:
           "iconos partida partida"
-          "iconos llegada llegada";
+          "iconos llegada llegada"
+          "precio precio precio";
       }
       .info{
         padding: 10px;
@@ -1015,19 +1000,14 @@ const StyledMap = styled.div`
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
-        background-size: 38px;
+        background-position: center;
+        background-size: 35px;
         z-index: 2030;
-        width: 78%;
-       
-      }
-      .div1 {
         grid-area: iconos;
       }
       .div2 {
         grid-area: partida;
         background: #fafafa;
-        width: 122%;
-        margin-left: -22%;
         display: flex;
         position: relative;
         .search {
@@ -1040,7 +1020,7 @@ const StyledMap = styled.div`
           z-index: 2030;
         }
         .search input {
-          font-size: 1.5rem;
+          font-size: 20px;
           height: 90%;
           background: transparent;
           outline: none;
@@ -1054,11 +1034,8 @@ const StyledMap = styled.div`
         .div3 {
           grid-area: llegada;
           background: #fafafa;
-          width: 122%;
-          margin-left: -22%;
           display: flex;
           position: relative;
-          
           .search {
             display: flex;
             position: absolute;
@@ -1069,7 +1046,7 @@ const StyledMap = styled.div`
             z-index: 2030;
           }
           .search input {
-            font-size: 1.5rem;
+            font-size: 20px;
             height: 90%;
             background: transparent;
             outline: none;
@@ -1081,13 +1058,14 @@ const StyledMap = styled.div`
           }
         }
       }
-      .botonContainer2 {
+      .botonContainer {
+        margin: auto;
         width: 100%;
         background: #fafafa;
         height: 10vh;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: baseline;
       }
       .boton {
         width: 150px;
@@ -1098,6 +1076,24 @@ const StyledMap = styled.div`
       height: 52vh;
     
     }
+    .div8 {
+        grid-area: precio;
+        background: transparent;
+        height: 50px;
+        align-items: center;
+        display: flex;
+        position: relative;
+        justify-content:flex-end;
+        align-text:center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        h2{
+          font-size: 18px;
+          font-weight: 500;
+          color: #00507a;
+          margin: 0;
+        }
+      }
     .div6{
         h2{
           font-size: 15px;
