@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import {
-  SET_CREDIT_CARD,
+  CARD_SAVED,
   SET_INTENT,
 } from "../../helpers/graphql/mutations/index";
 
@@ -23,13 +23,16 @@ export default function Payment() {
   const { _id, name, lastName } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const dispatch = useDispatch();
+
   const [mensaje, setMensaje] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
 
-  // const [
-  //   setCreditCard,
-  //   { data, error, loading },
-  // ] = useMutation(SET_CREDIT_CARD);
+  const [
+    cardSaved,
+    { data, error, loading },
+  ] = useMutation(CARD_SAVED);
 
   const [
     setIntent,
@@ -85,6 +88,18 @@ export default function Payment() {
           setMensaje("Ups! Algo Salio Mal");
           setSubmitted(false);
         } else {
+          
+          const { data } = await cardSaved();
+
+          // if(data && data.cardSaved){
+          //   dispatch({
+          //     type: "UPDATE_USER",
+          //     payload: {
+          //       haveCard: true,
+          //     },
+          //   });
+          // }
+
           setMensaje(
             "Proceso culminado con exito. Es hora de hacer su pedido!"
           );
