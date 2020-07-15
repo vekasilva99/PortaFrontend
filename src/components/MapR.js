@@ -7,6 +7,7 @@ import {
   UPDATE_LOCATION_DRIVER,
   ORDER_PICKED_UP,
   ORDER_ARRIVED,
+  COLLECT_PAY
 } from "../helpers/graphql/mutations/index";
 import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
@@ -86,6 +87,12 @@ export default function MapR() {
   } = useSelector((state) => ({
     ...state.User,
   }));
+
+  const [
+    collectPay,
+    { data: dataCollect, error: errorCollect, loading: loadingCollect },
+  ] = useMutation(COLLECT_PAY);
+
 
   const [
     changeLocation,
@@ -291,7 +298,20 @@ export default function MapR() {
     });
   };
 
-  const handleCashOut = async (e) => {};
+  const handleCashOut = async (e) => {
+
+    const { data:dataCollect } = await collectPay();
+
+    if(dataCollect && dataCollect.collectPay){
+      dispatch({
+        type: "UPDATE_USER",
+        payload: {
+          saldo: 0,
+        },
+      });
+    }
+    
+  };
 
   const panTo = React.useCallback(({ lat, lng }, bol) => {
     mapRef.current.panTo({ lat, lng }, false);

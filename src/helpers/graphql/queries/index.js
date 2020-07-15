@@ -21,6 +21,7 @@ export const CURRENT_USER = gql`
       seguroVehiculo
       stripeId
       haveCard
+      saldo
       orders {
         _id
         user {
