@@ -12,6 +12,7 @@ export const LOGIN_USER = gql`
         mail
         zone
         cellphone
+        cedula
         available
         latitud
         longitud
@@ -145,6 +146,18 @@ export const UPDATE_USER = gql`
       password
       zone
       cellphone
+    }
+  }
+`;
+
+export const UPDATE_DRIVER = gql`
+  mutation($updateInput: UpdateUserInput!) {
+    updateRepartidor(updateInput: $updateInput) {
+      _id
+      name
+      lastName
+      birthdate
+      zone
     }
   }
 `;

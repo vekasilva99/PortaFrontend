@@ -13,6 +13,7 @@ export const CURRENT_USER = gql`
       latitud
       longitud
       cellphone
+      cedula
       available
       workingStatus
       vehiculo

@@ -12,6 +12,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_DRIVER } from "../../helpers/graphql/mutations";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { Redirect } from "react-router-dom";
+
 export default function DriverEditProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -30,6 +37,29 @@ export default function DriverEditProfileForm(props) {
   const handleRegion = (e) => {
     setRegion(e.target.value);
   };
+
+  const {
+    _id,
+    role,
+    name,
+    lastName,
+    birthdate,
+    mail,
+    zone,
+    cellphone,
+    cedula
+  } = useSelector ((state) => ({
+    ...state.User,
+  }));
+
+  const dispatch = useDispatch();
+
+  const [
+    update,
+    { data: dataU, loading: loadingU, error: errorU }
+  ] = useMutation (UPDATE_DRIVER);
+  
+  
   return (
     <FormStyle>
       <div className="edit">
@@ -40,14 +70,14 @@ export default function DriverEditProfileForm(props) {
       <div className="Form">
         <Formik
           initialValues={{
-            Email: "vekasilva99@gmail.com",
+            Email: mail,
             Password: "211ce496Vale",
-            Phone: "04241952718",
-            FName: "Valeska",
-            LName: "Silva",
+            Phone: cellphone,
+            FName: name,
+            LName: lastName,
             BDate: new Date(moment()),
-            Region: "Hatillo",
-            Cedula: 27159591,
+            Region: zone,
+            Cedula: cedula,
           }}
           validate={(values) => {
             const errors = {};
@@ -90,6 +120,33 @@ export default function DriverEditProfileForm(props) {
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
 
+            const { data:dataU } = await update({
+              variables: {
+                updateInput: {
+                  id: _id,
+                  name: values.FName,
+                  lastName: values.LName,
+                  birthdate: new Date(),
+                  zone: values.Region,
+                  cedula: values.Cedula
+                },
+              },
+            });
+
+            if (dataU && dataU.updateRepartidor) {
+
+              dispatch({
+                type: "UPDATE_USER",
+                payload: {
+                  name: values.FName,
+                  lastName: values.LName,
+                  birthdate: new Date(),
+                  zone: values.Region,
+                  cedula: values.Cedula
+                },
+              });
+            }
+
             setSubmitting(false);
             resetForm();
           }}
@@ -111,7 +168,7 @@ export default function DriverEditProfileForm(props) {
                 </button>
               </div>
               <div className="Profile-name">
-                <h1>Valeska Silva</h1>
+                <h1>{name}</h1>
                 <input
                   className="phone"
                   value={values.Phone}
