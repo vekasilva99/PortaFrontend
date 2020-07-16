@@ -135,6 +135,7 @@ export default function FormLoginAdmin(props) {
                 onBlur={handleBlur}
                 color={props.color}
               />
+              <div>{error  ? error.graphQLErrors[0].message : ""}</div>
 
               <Input
                 value={values.Password}

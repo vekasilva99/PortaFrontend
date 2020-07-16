@@ -96,26 +96,33 @@ export default function FormLogin(props) {
           //   },
           // });
 
-          const { data } = await login({
-            variables: {
-              mail: Email,
-              password: Password,
-              role: "COSTUMER",
-            },
-          });
-
-          if (data && data.userLogin) {
-            localStorage.setItem("token", data.userLogin.token);
-            dispatch({
-              type: "CURRENT_USER",
-              payload: {
-                token: data.userLogin.token,
-                ...data.userLogin.user,
+          try{
+            const { data } = await login({
+              variables: {
+                mail: Email,
+                password: Password,
+                role: "COSTUMER",
               },
             });
 
-            setLog(true);
+            if (data && data.userLogin) {
+              localStorage.setItem("token", data.userLogin.token);
+              dispatch({
+                type: "CURRENT_USER",
+                payload: {
+                  token: data.userLogin.token,
+                  ...data.userLogin.user,
+                },
+              });
+  
+              setLog(true);
+            }
+
+          }catch(err){
+            console.log(err);
           }
+
+          
 
           setSubmitting(false);
           resetForm();
@@ -145,7 +152,7 @@ export default function FormLogin(props) {
                 onBlur={handleBlur}
                 color={props.color}
               />
-              <div>HOLAAA</div>
+              <div>{error  ? error.graphQLErrors[0].message : ""}</div>
 
               <Input
                 value={values.Password}
