@@ -20,7 +20,6 @@ export const NOTIFICATION_ADDED_SUSCRIPTION = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -102,7 +101,6 @@ export const ORDER_UPDATE = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -134,7 +132,6 @@ export const COMPLETE_ORDER = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;

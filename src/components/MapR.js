@@ -120,9 +120,11 @@ export default function MapR() {
   useEffect(() => {
     if (dataS && dataS.orderComplete) {
       console.log("useEffect here");
+      const newSaldo = saldo + dataS.orderComplete.price;
       dispatch({
         type: "UPDATE_USER",
         payload: {
+          saldo: newSaldo,
           currentOrder: null,
         },
       });
