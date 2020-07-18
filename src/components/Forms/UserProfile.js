@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
+import { Formik, Form, Field } from "formik";
 import Input from "../Input";
 import Button from "../Button";
 import { FiLogIn } from "react-icons/fi";
+import { MdSave } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
@@ -22,6 +23,8 @@ export default function UserProfileForm(props) {
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
+  const [photo1, setPhoto] = React.useState(null);
+
   const [log, setLog] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(null);
 
@@ -72,21 +75,71 @@ export default function UserProfileForm(props) {
     setRegion(e.target.value);
   };
 
-  const photo = (e) => {
-    console.log("Foto");
-  };
-
   return (
     <>
-      {log ? <Redirect to="/" /> : null}
       <FormStyle>
-        <div className="edit">
-          {/* <FaUserAlt className="photo" color="#00507a" /> */}
-          <img className="photo" src={user} />
-          <button onClick={photo} className="settings">
-            <MdModeEdit className="pen" color="#00507a" size="1em" />
-          </button>
-        </div>
+        <Formik
+          initialValues={{
+            photo: null,
+          }}
+          validate={(values) => {
+            const errors = {};
+
+            return errors;
+          }}
+          onSubmit={async ({ photo }, { setSubmitting, resetForm }) => {
+            /// code here
+            //event.preventDefault();
+            setSubmitting(true);
+            console.log(photo1);
+
+            setSubmitting(false);
+            resetForm();
+          }}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <>
+              <Form onSubmit={handleSubmit} className="formP">
+                <div className="edit">
+                  {/* <FaUserAlt className="photo" color="#00507a" /> */}
+
+                  <img className="photo" src={user} />
+
+                  <label>
+                    <Field
+                      className="inputPhoto"
+                      type="file"
+                      name="photo"
+                      id="photoId"
+                      style={{ display: "none" }}
+                      onChange={(event) =>
+                        setPhoto(event.currentTarget.files[0])
+                      }
+                    />
+
+                    <label htmlFor="photoId" className="settings" type="button">
+                      <MdModeEdit className="pen" color="#00507a" size="1em" />
+                    </label>
+                  </label>
+                  {photo1 ? (
+                    <button type="submit" className="saveP">
+                      <MdSave className="save" color="#00507a" size="0.8em" />
+                    </button>
+                  ) : null}
+                </div>
+              </Form>
+            </>
+          )}
+        </Formik>
+
         <div className="Form">
           <Formik
             initialValues={{
@@ -315,6 +368,13 @@ const FormStyle = styled.section`
   button {
     display: none;
   }
+  .inputPhoto{
+    z-index:3000;
+    
+  }
+  .formP{
+    z-index:2000;
+  }
   .settings {
     border-radius: 500px;
     margin-left: 0;
@@ -341,6 +401,33 @@ const FormStyle = styled.section`
    
 
   }
+  .saveP {
+    border-radius: 500px;
+    margin-left: 0;
+    left: 0;
+    margin-top: 10vw;
+    margin-left:2vw;
+    display: flex;
+    position: absolute;
+    padding: 0.2em;
+    border: solid 0.1em #00507a;
+    width: 3vw;
+    height: 3vw;
+    background: white;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    outline:none;
+
+    z-index:2000;
+    &:hover {
+      cursor:pointer;
+      outline:none;
+    }
+   
+
+  }
 
   .pen {
     border-radius: 500px;
@@ -353,9 +440,21 @@ const FormStyle = styled.section`
     align-self:center;
 
 
+  
+  }
+  .save {
+    border-radius: 500px;
+    left: 0;
+    display: flex;
+    position: relative;
+    width: 3vw;
+    height: 3vw;
+    background: none;
+    align-self:center;
+
+
     
   }
-
   .edit {
     width: 15vw;
     height: 25vh;
