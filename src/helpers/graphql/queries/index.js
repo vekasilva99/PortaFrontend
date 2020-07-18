@@ -388,7 +388,6 @@ export const GET_ORDERS = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;

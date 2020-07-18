@@ -250,7 +250,6 @@ export const MAKE_ORDER = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -282,7 +281,6 @@ export const ACCEPT_ORDER = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -353,7 +351,6 @@ export const ORDER_PICKED_UP = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -385,7 +382,6 @@ export const ORDER_ARRIVED = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -417,7 +413,6 @@ export const ORDER_COMPLETED = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
