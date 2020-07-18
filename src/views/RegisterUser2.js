@@ -1,5 +1,5 @@
 import React from "react";
-import FormRegister from "../components/Forms/Register";
+import FormRegister from "../components/Forms/Register2";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 

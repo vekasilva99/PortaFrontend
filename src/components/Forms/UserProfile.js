@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import Input from "../Input";
 import Button from "../Button";
+import axios from "axios";
 import { FiLogIn } from "react-icons/fi";
 import { MdSave } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
@@ -87,11 +88,27 @@ export default function UserProfileForm(props) {
 
             return errors;
           }}
-          onSubmit={async ({ photo }, { setSubmitting, resetForm }) => {
+          onSubmit={(event, { setSubmitting, resetForm }) => {
             /// code here
             //event.preventDefault();
             setSubmitting(true);
             console.log(photo1);
+            let image = new FormData();
+            let file = document.querySelector("#photoId");
+            image.append("image", file.files[0]);
+            console.log(image);
+            const userId = _id;
+            axios
+              .post(`https://porta-api.herokuapp.com/api/uploadImage`, {
+                userId,
+                image,
+              })
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
 
             setSubmitting(false);
             resetForm();
@@ -107,7 +124,11 @@ export default function UserProfileForm(props) {
             /* and other goodies */
           }) => (
             <>
-              <Form onSubmit={handleSubmit} className="formP">
+              <Form
+                onSubmit={handleSubmit}
+                className="formP"
+                encType="multipart/form-data"
+              >
                 <div className="edit">
                   {/* <FaUserAlt className="photo" color="#00507a" /> */}
 
@@ -117,12 +138,37 @@ export default function UserProfileForm(props) {
                     <Field
                       className="inputPhoto"
                       type="file"
-                      name="photo"
+                      name="image"
                       id="photoId"
                       style={{ display: "none" }}
-                      onChange={(event) =>
-                        setPhoto(event.currentTarget.files[0])
-                      }
+                      onChange={(event) => {
+                        setPhoto(event.currentTarget.files[0]);
+                        let image = new FormData();
+                        image.append("image", event.currentTarget.files[0]);
+                        const userId = _id;
+
+                        const config = {
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                        };
+
+                        axios
+                          .post(
+                            `https://porta-api.herokuapp.com/api/uploadImage`,
+                            {
+                              userId,
+                              image,
+                            },
+                            config
+                          )
+                          .then((res) => {
+                            console.log(res.data);
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                      }}
                     />
 
                     <label htmlFor="photoId" className="settings" type="button">

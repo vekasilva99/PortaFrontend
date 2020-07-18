@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik } from "formik";
-import Input from "../Input";
 import Button from "../Button";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
@@ -154,21 +153,6 @@ export default function FormRegister(props) {
             },
           ];
 
-          const { data } = await register({
-            variables: {
-              userInput: {
-                name: submitUser[0].FirstName,
-                lastName: submitUser[0].LastName,
-                birthdate: submitUser[0].Birthdate,
-                mail: submitUser[0].Email,
-                password: submitUser[0].Password,
-                zone: submitUser[0].Region,
-                cellphone: submitUser[0].UserPhone,
-                role: "COSTUMER",
-              },
-            },
-          });
-
           console.log(data);
           setSubmitting(true);
           console.log(submitUser);
@@ -193,16 +177,19 @@ export default function FormRegister(props) {
               <div>
                 {step1 ? (
                   <div>
-                    <Input
-                      value={phone}
-                      label="Enter your phone number"
-                      id="Phone"
-                      name="Phone"
-                      type="text"
-                      onChange={handlePhone}
-                      onBlur={handleBlur}
-                      color={props.color}
-                    />
+                    <div className="inputG">
+                      <label>Enter your phone number</label>
+                      <input
+                        value={phone}
+                        label="Enter your phone number"
+                        id="Phone"
+                        name="Phone"
+                        type="text"
+                        onChange={handlePhone}
+                        onBlur={handleBlur}
+                        color={props.color}
+                      />
+                    </div>
                     {phoneE ? <div className="errorB">{phoneE}</div> : null}
 
                     <div className="button">
@@ -213,41 +200,52 @@ export default function FormRegister(props) {
                     </div>
                   </div>
                 ) : (
-                  <div>
-                    <div className="input2">
-                      <Input
-                        value={fName}
-                        label="Enter your First Name"
-                        id="FName"
-                        name="FName"
-                        type="text"
-                        onChange={handleFName}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
+                  <>
+                    <div className="step2">
+                      <div className="FName">
+                        <div className="inputP">
+                          <label>Enter your First Name</label>
+                          <input
+                            value={fName}
+                            label="Enter your First Name"
+                            id="FName"
+                            name="FName"
+                            type="text"
+                            onChange={handleFName}
+                            onBlur={handleBlur}
+                            color={props.color}
+                            className="nInput"
+                          />
+                        </div>
+                      </div>
+                      <div className="LName">
+                        <div className="inputP">
+                          <label>Enter your Last Name</label>
+                          <input
+                            value={lName}
+                            label="Enter your Last Name"
+                            id="LName"
+                            name="LName"
+                            type="text"
+                            onChange={handleLName}
+                            onBlur={handleBlur}
+                            color={props.color}
+                            className="nInput"
+                          />
+                        </div>
+                      </div>
 
-                      <Input
-                        value={lName}
-                        label="Enter your Last Name"
-                        id="LName"
-                        name="LName"
-                        type="text"
-                        onChange={handleLName}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
-                    </div>
-
-                    <div className="input2">
-                      <div>
-                        <label className="dos">Choose Birthdate</label>
-                        <DatePicker
-                          className="picker"
-                          selected={selectedDate}
-                          maxDate={new Date(moment())}
-                          onChange={(date) => setSelectedDate(date)}
-                          placeholderText="Choose a Date"
-                        />
+                      <div className="bday">
+                        <div className="inputP">
+                          <label>Choose Birthdate</label>
+                          <DatePicker
+                            className="picker"
+                            selected={selectedDate}
+                            maxDate={new Date(moment())}
+                            onChange={(date) => setSelectedDate(date)}
+                            placeholderText=""
+                          />
+                        </div>
                         {selectedDateE ? (
                           <div className="error">
                             <h4>{selectedDateE}</h4>
@@ -255,19 +253,21 @@ export default function FormRegister(props) {
                         ) : null}
                       </div>
 
-                      <div>
-                        <label className="dos">Select your Region</label>
-                        <select
-                          name="region"
-                          value={region}
-                          onChange={handleRegion}
-                          onBlur={handleBlur}
-                          className="select"
-                        >
-                          <option value="" label="Choose a Region" />
-                          <option value="Hatillo" label="El Hatillo" />
-                          <option value="Baruta" label="Baruta" />
-                        </select>
+                      <div className="region">
+                        <div className="inputP">
+                          <label>Select your Region</label>
+                          <select
+                            name="region"
+                            value={region}
+                            onChange={handleRegion}
+                            onBlur={handleBlur}
+                            className="select"
+                          >
+                            <option value="" label="" />
+                            <option value="Hatillo" label="El Hatillo" />
+                            <option value="Baruta" label="Baruta" />
+                          </select>
+                        </div>
                         {regionE ? (
                           <div className="error">
                             <h4>{regionE}</h4>
@@ -275,18 +275,18 @@ export default function FormRegister(props) {
                         ) : null}
                       </div>
                     </div>
-                    <div className="button">
+                    <div className="buttonC">
                       <Button color={props.color} onClick={handleStep2} block>
                         {" "}
                         CONTINUE{" "}
                       </Button>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             ) : (
               <div>
-                <Input
+                <input
                   value={values.Email}
                   label="Enter your email"
                   id="Email"
@@ -298,8 +298,8 @@ export default function FormRegister(props) {
                 />
                 {emailE ? <div className="errorB">{emailE}</div> : null}
                 <div className="input2">
-                  <div>
-                    <Input
+                  <div className="input3">
+                    <input
                       value={values.Password}
                       label="Enter your password"
                       id="Password"
@@ -316,7 +316,7 @@ export default function FormRegister(props) {
                     ) : null}
                   </div>
                   <div>
-                    <Input
+                    <input
                       value={values.Password2}
                       label="Confirm password"
                       id="Password2"
@@ -349,135 +349,174 @@ export default function FormRegister(props) {
 }
 const RegisterView = styled.div`
   display: flex;
-  flex-wrap: wrap;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  justify-content: space-between;
-  label {
-    font-size: 1em;
-    font-weight: 200;
-    color: ${(props) => props.color};
-    margin: 0.2rem;
-    cursor: pointer;
-    margin-top: 2rem;
-  }
-  .error {
-    width: 11vw;
-    margin-top: 0.1em;
-    display: flex;
-    position: absolute;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    background: pink;
-    h4 {
-      color: #ef0023;
-      font-size: 12px;
-    }
-  }
-  .errorB {
-    width: 30vw;
-    margin-top: 0.1em;
-    display: flex;
-    position: absolute;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: #ef0023;
-    h4 {
-      color: #ef0023;
-      font-size: 12px;
-    }
-  }
-  input {
-    background: none;
-    font-size: 1em;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: ${(props) => props.color};
-    border: none;
-    border-bottom: solid 2px #ebebeb;
-    box-shadow: none;
-    outline: none;
-    transition: all ease-in-out 0.5s;
-    opacity: 0.8;
-    margin: 0;
-    margin-top: 1rem;
-    padding: 0.3rem 0.5rem;
-    width: 80%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
-    }
-  }
-
-  .input2 {
-    display: flex;
-    flex-direction: row;
+  .step2 {
+    margin-top: 2em;
     width: 100%;
-    max-width: 600px;
-    align-items: center;
-    justify-content: center;
-  }
+    display: grid;
+    grid-template-areas:
+      "name lname"
+      "date region";
 
-  .button {
-    margin-top: 2rem;
-    margin-bottom: -3rem;
-  }
+    .FName {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "name";
+    }
+    .bday {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "date";
+    }
+    .region {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "region";
+    }
+    .LName {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "lname";
+    }
 
-  .dos {
-    font-size: 1em;
-    font-weight: 200;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    color: #fafafa;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    width: inerit;
-  }
-
-  .picker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Roboto;
-    margin-bottom: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px #0a95bf;
+    .buttonC {
+      width: 100%;
+      background: pink;
     }
   }
 
-  .select {
-    background: none;
-    font-size: 1em;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: grey;
-    border: none;
-    border-bottom: solid 2px #ebebeb;
-    box-shadow: none;
-    outline: none;
-    transition: all ease-in-out 0.5s;
-    opacity: 0.8;
-    margin-top: 1.1rem;
-    margin-bottom: 0;
-    margin-left: 0;
-    bottom: 0;
-    padding-bottom: 0.35rem;
-    &:focus {
-      opacity: 1;
-      outline: none;
+  .inputG {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    label {
+      font-size: 1em;
+      font-weight: 200;
+      color: #fafafa;
+      margin: 0.2rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    input {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
       box-shadow: none;
-      border-bottom: solid 2px #0a95bf;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 1.5rem;
+      padding: 0.3rem 0.5rem;
+      margin-left: 0;
+      width: 25vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px ${(props) => props.color} !important;
+      }
+    }
+  }
+  .inputP {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    label {
+      font-size: 1em;
+      font-weight: 200;
+      color: #fafafa;
+      margin: 0.2rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    input {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 1.5rem;
+      padding: 0.3rem 0.5rem;
+      margin-left: 0;
+      width: 12.5vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px ${(props) => props.color} !important;
+      }
+    }
+    select {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 1.5rem;
+      padding: 0.4rem 0.5rem;
+      margin-left: 0;
+      width: 12.5vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px ${(props) => props.color} !important;
+      }
     }
   }
 `;
