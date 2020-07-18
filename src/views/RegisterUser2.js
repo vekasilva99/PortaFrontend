@@ -1,5 +1,5 @@
 import React from "react";
-import FormRegister from "../components/Forms/Register2";
+import FormRegister from "../components/Forms/Register";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
@@ -139,6 +139,9 @@ const RegisterView = styled.div`
     .container-porta {
       height: 100vh;
       width: 100vw;
+      h2 {
+        margin-top: 70px;
+      }
     }
   }
 `;

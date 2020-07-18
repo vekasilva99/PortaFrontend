@@ -143,8 +143,8 @@ export default function UserProfileForm(props) {
                       style={{ display: "none" }}
                       onChange={(event) => {
                         setPhoto(event.currentTarget.files[0]);
-                        let image = new FormData();
-                        image.append("image", event.currentTarget.files[0]);
+                        let file = new FormData();
+                        file.append("image", event.currentTarget.files[0]);
                         const userId = _id;
 
                         const config = {
@@ -158,7 +158,7 @@ export default function UserProfileForm(props) {
                             `https://porta-api.herokuapp.com/api/uploadImage`,
                             {
                               userId,
-                              image,
+                              file,
                             },
                             config
                           )
