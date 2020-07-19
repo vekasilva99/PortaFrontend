@@ -15,6 +15,7 @@ import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_USER } from "../../helpers/graphql/mutations";
+import { UPDATE_PROFILE_PIC } from "../../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -56,12 +57,16 @@ export default function UserProfileForm(props) {
     mail,
     zone,
     cellphone,
+    userImageURL,
   } = useSelector((state) => ({
     ...state.User,
   }));
 
   const dispatch = useDispatch();
-
+  const [
+    updateProfilePic,
+    { data: dataP, error: errorP, loading: loadingP },
+  ] = useMutation(UPDATE_PROFILE_PIC);
   const [
     update,
     { data: dataU, loading: loadingU, error: errorU },
@@ -91,7 +96,7 @@ export default function UserProfileForm(props) {
 
             return errors;
           }}
-          onSubmit={(event, { setSubmitting, resetForm }) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             /// code here
             //event.preventDefault();
             setSubmitting(true);
@@ -122,9 +127,23 @@ export default function UserProfileForm(props) {
                     .ref("images")
                     .child(photo1.name)
                     .getDownloadURL()
-                    .then((url) => {
-                      setUrl(url);
+                    .then(async (url) => {
+                      const { data: dataP } = await updateProfilePic({
+                        variables: {
+                          imageURL: url,
+                        },
+                      });
+                      if (dataP && dataP.updateProfilePic) {
+                        dispatch({
+                          type: "UPDATE_USER",
+                          payload: {
+                            userImageURL: url,
+                          },
+                        });
+                      }
+
                       setProgress(0);
+                      setPhoto(null);
                     });
                 }
               );
@@ -152,8 +171,8 @@ export default function UserProfileForm(props) {
                 encType="multipart/form-data"
               >
                 <div className="edit">
-                  {url ? (
-                    <img className="photo" src={url} />
+                  {userImageURL ? (
+                    <img className="photo" src={userImageURL} />
                   ) : (
                     <img className="photo" src={user} />
                   )}
@@ -254,7 +273,7 @@ export default function UserProfileForm(props) {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
 
-              const { dataU } = await update({
+              const { data: dataU } = await update({
                 variables: {
                   updateInput: {
                     id: _id,
@@ -267,16 +286,18 @@ export default function UserProfileForm(props) {
                 },
               });
 
-              dispatch({
-                type: "UPDATE_USER",
-                payload: {
-                  name: values.FName,
-                  lastName: values.LName,
-                  mail: values.Email,
-                  birthdate: new Date(),
-                  zone: values.Region,
-                },
-              });
+              if (dataU && dataU.createUser) {
+                dispatch({
+                  type: "UPDATE_USER",
+                  payload: {
+                    name: values.FName,
+                    lastName: values.LName,
+                    mail: values.Email,
+                    birthdate: new Date(),
+                    zone: values.Region,
+                  },
+                });
+              }
 
               setSubmitting(false);
               resetForm();

@@ -35,7 +35,7 @@ export default function StarRating(props) {
               value={ratingValue}
               onClick={async () => {
                 setRating(ratingValue);
-                const { RATE_DRIVER } = await rate({
+                const { data: dataR } = await rate({
                   variables: {
                     user: _id,
                     repartidor: id,
@@ -51,6 +51,7 @@ export default function StarRating(props) {
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
             />
+            <h4>{dataR && dataR.createRate ? "Content " + dataR.createRate.score : ""}</h4>
           </label>
         );
       })}

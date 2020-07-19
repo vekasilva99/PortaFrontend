@@ -359,6 +359,7 @@ export default function FormRegister(props) {
                         color={props.color}
                       />
                     </div>
+
                     {passwordE ? (
                       <div className="error">
                         <h4>{passwordE}</h4>
@@ -389,6 +390,7 @@ export default function FormRegister(props) {
                 </div>
 
                 <div className="buttonF">
+                  {/* <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div> */}
                   {error ? (
                     <div className="error">
                       <h4>{error.graphQLErrors[0].message}</h4>
