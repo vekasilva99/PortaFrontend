@@ -24,6 +24,8 @@ export const LOGIN_USER = gql`
         stripeId
         haveCard
         saldo
+        userImageURL
+        userImageId
         orders {
           _id
           repartidor {
@@ -174,12 +176,13 @@ export const REVIEW_REQUEST = gql`
   mutation($reviewInput: ReviewInput!) {
     reviewSolicitud(reviewInput: $reviewInput) {
       _id
+      status
     }
   }
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation($user: String!, $repartidor: ID!, $content: String!) {
+  mutation($user: String!, $repartidor: String!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
       content
@@ -455,6 +458,16 @@ export const COLLECT_PAY = gql`
       name
       lastName
       saldo
+    }
+  }
+`;
+
+export const UPDATE_PROFILE_PIC = gql`
+  mutation($imageURL: String!){
+    updateProfilePic(imageURL: $imageURL){
+      name
+      lastName
+      userImageURL
     }
   }
 `;

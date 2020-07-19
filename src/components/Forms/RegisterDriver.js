@@ -309,6 +309,7 @@ export default function FormRegister(props) {
                     color={props.color}
                   />
                   <div>{error  ? error.graphQLErrors[0].message : ""}</div>
+                  <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div>
                   <Input
                     value={values.Password2}
                     label="Confirm password"

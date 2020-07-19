@@ -299,6 +299,8 @@ export default function FormRegister(props) {
                       onBlur={handleBlur}
                       color={props.color}
                     />
+                    <div>{error  ? error.graphQLErrors[0].message : ""}</div>
+                    <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div>
                     {passwordE ? (
                       <div className="error">
                         <h4>Password</h4>

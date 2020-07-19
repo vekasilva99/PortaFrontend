@@ -139,7 +139,7 @@ export default function UserProfileForm(props) {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
 
-              const { dataU } = await update({
+              const { data: dataU } = await update({
                 variables: {
                   updateInput: {
                     id: _id,
@@ -152,17 +152,19 @@ export default function UserProfileForm(props) {
                 },
               });
 
-              dispatch({
-                type: "UPDATE_USER",
-                payload: {
-                  name: values.FName,
-                  lastName: values.LName,
-                  mail: values.Email,
-                  birthdate: new Date(),
-                  zone: values.Region,
-                },
-              });
-
+              if (dataU && dataU.createUser) {
+                dispatch({
+                  type: "UPDATE_USER",
+                  payload: {
+                    name: values.FName,
+                    lastName: values.LName,
+                    mail: values.Email,
+                    birthdate: new Date(),
+                    zone: values.Region,
+                  },
+                });
+              }
+              
               setSubmitting(false);
               resetForm();
             }}
