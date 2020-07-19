@@ -18,6 +18,7 @@ import { UPDATE_USER } from "../../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { storage } from "../firebaseconfig";
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
@@ -25,7 +26,9 @@ export default function UserProfileForm(props) {
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
   const [photo1, setPhoto] = React.useState(null);
-
+  const [url, setUrl] = React.useState(null);
+  const [progress, setProgress] = React.useState(0);
+  const [photo1E, setPhotoE] = React.useState(null);
   const [log, setLog] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(null);
 
@@ -98,17 +101,36 @@ export default function UserProfileForm(props) {
             image.append("image", file.files[0]);
             console.log(image);
             const userId = _id;
-            axios
-              .post(`https://porta-api.herokuapp.com/api/uploadImage`, {
-                userId,
-                image,
-              })
-              .then((res) => {
-                console.log(res.data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            if (photo1) {
+              const uploadTask = storage
+                .ref(`images/${photo1.name}`)
+                .put(photo1);
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  const progress = Math.round(
+                    (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+                  );
+                  setProgress(progress);
+                },
+                (error) => {
+                  setPhotoE(error);
+                  console.log(error);
+                },
+                () => {
+                  storage
+                    .ref("images")
+                    .child(photo1.name)
+                    .getDownloadURL()
+                    .then((url) => {
+                      setUrl(url);
+                      setProgress(0);
+                    });
+                }
+              );
+            } else {
+              setPhotoE("Please Select An Image to Upload");
+            }
 
             setSubmitting(false);
             resetForm();
@@ -130,9 +152,11 @@ export default function UserProfileForm(props) {
                 encType="multipart/form-data"
               >
                 <div className="edit">
-                  {/* <FaUserAlt className="photo" color="#00507a" /> */}
-
-                  <img className="photo" src={user} />
+                  {url ? (
+                    <img className="photo" src={url} />
+                  ) : (
+                    <img className="photo" src={user} />
+                  )}
 
                   <label>
                     <Field
@@ -142,32 +166,24 @@ export default function UserProfileForm(props) {
                       id="photoId"
                       style={{ display: "none" }}
                       onChange={(event) => {
-                        setPhoto(event.currentTarget.files[0]);
-                        let file = new FormData();
-                        file.append("image", event.currentTarget.files[0]);
-                        const userId = _id;
+                        const file = event.currentTarget.files[0];
 
-                        const config = {
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                        };
-
-                        axios
-                          .post(
-                            `https://porta-api.herokuapp.com/api/uploadImage`,
-                            {
-                              userId,
-                              file,
-                            },
-                            config
-                          )
-                          .then((res) => {
-                            console.log(res.data);
-                          })
-                          .catch((err) => {
-                            console.log(err);
-                          });
+                        if (file) {
+                          const fileType = file["type"];
+                          const validImageTypes = [
+                            "image/gif",
+                            "image/jpeg",
+                            "image/png",
+                          ];
+                          if (validImageTypes.includes(fileType)) {
+                            setPhotoE(null);
+                            setPhoto(event.currentTarget.files[0]);
+                          } else {
+                            setPhotoE("Please Select An Image to Upload");
+                            console.log("Please Select An Image to Upload");
+                          }
+                        } else {
+                        }
                       }}
                     />
 

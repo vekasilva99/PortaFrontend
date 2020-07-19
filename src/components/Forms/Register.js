@@ -15,15 +15,17 @@ export default function FormRegister(props) {
   const [step2, setStep2] = React.useState(true);
   const [phone, setPhone] = React.useState("");
   const [phoneE, setPhoneE] = React.useState(null);
-  const [region, setRegion] = React.useState("");
   const [regionE, setRegionE] = React.useState(null);
   const [emailE, setEmailE] = React.useState(null);
+  const [nameE, setNameE] = React.useState(null);
+  const [lNameE, setLNameE] = React.useState(null);
   const [passwordE, setPasswordE] = React.useState(null);
   const [passwordCE, setPasswordCE] = React.useState(null);
+  const [selectedDateE, setSelectedDateE] = React.useState(null);
+  const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const [selectedDateE, setSelectedDateE] = React.useState(null);
 
   const handleStep1 = (e) => {
     console.log(props.color);
@@ -65,10 +67,16 @@ export default function FormRegister(props) {
     if (!fName || !lName || !selectedDate || !region) {
       setStep2(true);
       if (!selectedDate) {
-        setSelectedDateE("Please Choose a Date");
+        setSelectedDateE("Required Field");
       }
       if (!region) {
-        setRegionE("Please Choose a Region");
+        setRegionE("Required Field");
+      }
+      if (!lName) {
+        setLNameE("Required Field");
+      }
+      if (!fName) {
+        setNameE("Required Field");
       }
       console.log(phone, "telefono");
     } else {
@@ -206,7 +214,11 @@ export default function FormRegister(props) {
                         color={props.color}
                       />
                     </div>
-                    {phoneE ? <div className="errorB">{phoneE}</div> : null}
+                    {phoneE ? (
+                      <div className="error">
+                        <h4>{phoneE}</h4>
+                      </div>
+                    ) : null}
 
                     <div className="buttonS">
                       <Button color={props.color} onClick={handleStep1} block>
@@ -233,6 +245,11 @@ export default function FormRegister(props) {
                             className="nInput"
                           />
                         </div>
+                        {nameE ? (
+                          <div className="error">
+                            <h4>{nameE}</h4>
+                          </div>
+                        ) : null}
                       </div>
                       <div className="LName">
                         <div className="inputP">
@@ -249,6 +266,11 @@ export default function FormRegister(props) {
                             className="nInput"
                           />
                         </div>
+                        {lNameE ? (
+                          <div className="error">
+                            <h4>{lNameE}</h4>
+                          </div>
+                        ) : null}
                       </div>
 
                       <div className="bday">
@@ -366,7 +388,7 @@ export default function FormRegister(props) {
                   </div>
                 </div>
 
-                <div className="buttonC">
+                <div className="buttonF">
                   {error ? (
                     <div className="error">
                       <h4>{error.graphQLErrors[0].message}</h4>
@@ -392,20 +414,24 @@ const RegisterView = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+
+ 
+  
 
   .buttonS {
     margin-top: 3em;
   }
 
   .step2 {
-    margin-top: 0;
+    margin-top: 1vh;
     width: 100%;
     display: grid;
+
     grid-template-areas:
       "info"
       "button";
     .info {
+
       margin-top: 0;
       width: 100%;
       display: grid;
@@ -512,8 +538,14 @@ const RegisterView = styled.div`
     }
   }
   .buttonC {
-    width: 100%;
-
+    width: 100%
+    margin: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "error" "button ";
+  }
+  .buttonF {
+    width: 100%
     margin: 0;
     display: grid;
     justify-content: center;
@@ -653,53 +685,62 @@ const RegisterView = styled.div`
         width: 100%;
         display: grid;
         justify-content: center;
+        margin-top:2vh;
+        margin-bottom:0;
         grid-template-areas:
           "name" "lname"
           "date" "region";
 
         .FName {
           margin: 0;
-          padding-top: 10%;
-          padding-bottom: 15%;
+          margin-top:1em;
+          padding-top: 0;
+          padding-bottom: 0;
           width: 100%;
-          height: 15vh;
+          height: 10vh;
           display: grid;
           grid-template-areas: "name" "error";
         }
         .bday {
           margin: 0;
-          padding-top: 5%;
-          padding-bottom: 15%;
+          margin-top:1em;
+          padding-top: 0;
+          padding-bottom: 0;
           width: 100%;
-          height: 15vh;
+          height: 10vh;
           display: grid;
           grid-template-areas: "date" "error";
         }
         .region {
           margin: 0;
-          padding-top: 5%;
-          padding-bottom: 15%;
+          margin-top:1em;
+          padding-top: 0;
+          padding-bottom: 0;
           width: 100%;
-          height: 15vh;
+          height: 10vh;
           display: grid;
           grid-template-areas: "region" "error";
         }
         .LName {
           margin: 0;
-          padding-top: 10%;
-          padding-bottom: 15%;
+          margin-top:1em;
+          padding-top: 0;
+          padding-bottom: 0;
           width: 100%;
-          height: 15vh;
+          height: 10vh;
           display: grid;
           grid-template-areas: "lname" "error";
         }
       }
     }
     .step3 {
-      margin-top: 0;
+      margin-top: 2vh;
       width: 100%;
       display: grid;
       justify-content: center;
+    
+     
+  
 
       grid-template-areas:
         "email"
@@ -709,8 +750,10 @@ const RegisterView = styled.div`
       .pass {
         margin: 0;
         width: 100%;
-        height: 15vh;
+        height: auto;
         display: grid;
+        margin-bottom:8vh;
+    
         justify-content: center;
         grid-template-areas: "password" "passwordC";
       }
@@ -747,19 +790,22 @@ const RegisterView = styled.div`
         display: grid;
         grid-template-areas: "passwordC" "error";
       }
-      .buttonC {
-        width: 100%;
-        margin: 0;
-        margin-top: 1em;
-        display: grid;
-        justify-content: center;
-        grid-template-areas: "error" "button";
-      }
+    
     }
     .buttonC {
       width: 100%;
       margin: 0;
-      margin-top: 1em;
+      padding-top:8vh;
+      margin-top: 0;
+      display: grid;
+      justify-content: center;
+      grid-template-areas: "error" "button";
+     
+    }
+    .buttonF {
+      width: 100%;
+      margin: 0;
+      margin-top: 2vh;
       display: grid;
       justify-content: center;
       grid-template-areas: "error" "button";
@@ -780,9 +826,9 @@ const RegisterView = styled.div`
         font-size: 0.8em;
         font-weight: 200;
         color: #fafafa;
-        margin: 0.2rem;
+        margin: 0.2em;
         cursor: pointer;
-        margin-top: 1rem;
+        margin-top: 1em;
       }
       input {
         background: none;
@@ -795,7 +841,7 @@ const RegisterView = styled.div`
         outline: none;
         transition: all ease-in-out 0.5s;
         opacity: 0.8;
-        margin-top: 1.5rem;
+        margin-top: 0em;
         padding: 0.3rem 0.5rem;
         margin-left: 0;
         width: 80vw;
@@ -849,7 +895,7 @@ const RegisterView = styled.div`
         outline: none;
         transition: all ease-in-out 0.5s;
         opacity: 0.8;
-        margin-top: 1rem;
+        margin-top: 0em;
         padding: 0.3rem 0.5rem;
         margin-left: 0;
         width: 80vw;
@@ -872,7 +918,7 @@ const RegisterView = styled.div`
         outline: none;
         transition: all ease-in-out 0.5s;
         opacity: 0.8;
-        margin-top: 1.5rem;
+        margin-top: 0em;
         padding: 0.4rem 0.5rem;
         margin-left: 0;
         width: 80vw;
