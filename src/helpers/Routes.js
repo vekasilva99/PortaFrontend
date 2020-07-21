@@ -34,6 +34,7 @@ import Payment from "../views/Payment";
 import EmailRep from "../views/EmailRep";
 import Spinner from "../components/Spinner";
 import styled from "styled-components";
+import AHome from "../views/AHome";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
     fetchPolicy: "network-only",
@@ -75,7 +76,7 @@ export default function Routes() {
         render={(props) => <LoginAdmin {...props} />}
       />
 
-      <GuardRoutesAdmin exact path="/admin" role={role} component={AdminHome} />
+      <GuardRoutesAdmin exact path="/admin" role={role} component={AHome} />
 
       <GuardRoutesAdmin
         exact
