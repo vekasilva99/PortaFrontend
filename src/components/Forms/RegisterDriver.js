@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik } from "formik";
-import Input from "../Input";
 import Button from "../Button";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
@@ -19,6 +18,13 @@ export default function FormRegister(props) {
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [cedula, setCedula] = React.useState("");
+  const [phoneE, setPhoneE] = React.useState(null);
+  const [regionE, setRegionE] = React.useState(null);
+  const [emailE, setEmailE] = React.useState(null);
+  const [cedulaE, setCedulaE] = React.useState(null);
+  const [passwordE, setPasswordE] = React.useState(null);
+  const [passwordCE, setPasswordCE] = React.useState(null);
+  const [selectedDateE, setSelectedDateE] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleStep1 = (e) => {
@@ -42,6 +48,16 @@ export default function FormRegister(props) {
       codigos === false
     ) {
       setStep1(true);
+      if (
+        codigos === false ||
+        (phone &&
+          !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone))
+      ) {
+        setPhoneE("Invalid  Phone  Number");
+      }
+      if (phone === "") {
+        setPhoneE("Required Field");
+      }
     } else {
       setStep1(false);
     }
@@ -50,6 +66,12 @@ export default function FormRegister(props) {
   const handleStep3 = (e) => {
     if (!fName || !lName || !selectedDate || !region) {
       setStep3(true);
+      if (!selectedDate) {
+        setSelectedDateE("Please Choose a Date");
+      }
+      if (!region) {
+        setRegionE("Please Choose a Region");
+      }
       console.log(phone, "telefono");
     } else {
       setStep3(false);
@@ -60,6 +82,12 @@ export default function FormRegister(props) {
   const handleStep2 = (e) => {
     if (!cedula || cedula < 1000000 || cedula > 100000000) {
       setStep2(true);
+      if (!cedula) {
+        setCedulaE("Required Field");
+      }
+      if (cedula < 1000000 || cedula > 100000000) {
+        setCedulaE("Invalid ID");
+      }
     } else {
       setStep2(false);
     }
@@ -107,13 +135,26 @@ export default function FormRegister(props) {
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
           ) {
             errors.email = "Invalid Email";
+            setEmailE("Invalid Email");
+          }
+          if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
+            setEmailE(null);
           }
           if (!values.Password) {
             errors.Password = "Required Field";
+            setPasswordCE("Required Field");
           } else if (values.Password.length < 9) {
             errors.Password = "Password too short";
-          } else if (values.Password != values.Password2) {
+            setPasswordE("Password too short");
+          } else if (values.Password !== values.Password2) {
             errors.Password = "Password doesn't match";
+            setPasswordCE("Password doesn't match");
+          }
+          if (values.Password.length >= 9) {
+            setPasswordE(null);
+          }
+          if (values.Password === values.Password2) {
+            setPasswordCE(null);
           }
 
           return console.log(errors);
@@ -175,18 +216,26 @@ export default function FormRegister(props) {
                   <div>
                     {step1 ? (
                       <div>
-                        <Input
-                          value={phone}
-                          label="Enter your phone number"
-                          id="Phone"
-                          name="Phone"
-                          type="text"
-                          onChange={handlePhone}
-                          onBlur={handleBlur}
-                          color={props.color}
-                        />
+                        <div className="inputG">
+                          <label>Enter your phone number</label>
+                          <input
+                            value={phone}
+                            label="Enter your phone number"
+                            id="Phone"
+                            name="Phone"
+                            type="text"
+                            onChange={handlePhone}
+                            onBlur={handleBlur}
+                            color={props.color}
+                          />
+                        </div>
+                        {phoneE ? (
+                          <div className="error">
+                            <h4>{phoneE}</h4>
+                          </div>
+                        ) : null}
 
-                        <div className="button">
+                        <div className="buttonS">
                           <Button
                             color={props.color}
                             onClick={handleStep1}
@@ -199,20 +248,28 @@ export default function FormRegister(props) {
                       </div>
                     ) : (
                       <div>
-                        <Input
-                          value={cedula}
-                          label="Enter your ID"
-                          id="Cedula"
-                          name="Cedula"
-                          type="number"
-                          min="1000000"
-                          max="100000000"
-                          onChange={handleCedula}
-                          onBlur={handleBlur}
-                          color={props.color}
-                        />
+                        <div className="inputG">
+                          <label>Enter your ID</label>
+                          <input
+                            value={cedula}
+                            label="Enter your ID"
+                            id="Cedula"
+                            name="Cedula"
+                            type="number"
+                            min="1000000"
+                            max="100000000"
+                            onChange={handleCedula}
+                            onBlur={handleBlur}
+                            color={props.color}
+                          />
+                        </div>
+                        {phoneE ? (
+                          <div className="error">
+                            <h4>{cedulaE}</h4>
+                          </div>
+                        ) : null}
 
-                        <div className="button">
+                        <div className="buttonS">
                           <Button
                             color={props.color}
                             onClick={handleStep2}
@@ -226,57 +283,82 @@ export default function FormRegister(props) {
                     )}
                   </div>
                 ) : (
-                  <div>
-                    <div className="input2">
-                      <Input
-                        value={fName}
-                        label="Enter your First Name"
-                        id="FName"
-                        name="FName"
-                        type="text"
-                        onChange={handleFName}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
-                      <Input
-                        value={lName}
-                        label="Enter your Last Name"
-                        id="LName"
-                        name="LName"
-                        type="text"
-                        onChange={handleLName}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
-                    </div>
-                    <div className="input2">
-                      <div>
-                        <label className="dos">Select your Birthdate</label>
-                        <DatePicker
-                          className="picker"
-                          selected={selectedDate}
-                          maxDate={new Date(moment())}
-                          onChange={(date) => setSelectedDate(date)}
-                          placeholderText="Choose a Date"
-                        />
+                  <div className="step2">
+                    <div className="info">
+                      <div className="FName">
+                        <div className="inputP">
+                          <label>Enter your First Name</label>
+                          <input
+                            value={fName}
+                            label="Enter your First Name"
+                            id="FName"
+                            name="FName"
+                            type="text"
+                            onChange={handleFName}
+                            onBlur={handleBlur}
+                            color={props.color}
+                            className="nInput"
+                          />
+                        </div>
+                      </div>
+                      <div className="LName">
+                        <div className="inputP">
+                          <label>Enter your Last Name</label>
+                          <input
+                            value={lName}
+                            label="Enter your Last Name"
+                            id="LName"
+                            name="LName"
+                            type="text"
+                            onChange={handleLName}
+                            onBlur={handleBlur}
+                            color={props.color}
+                            className="nInput"
+                          />
+                        </div>
                       </div>
 
-                      <div>
-                        <label className="dos">Select your Region</label>
-                        <select
-                          name="region"
-                          value={region}
-                          onChange={handleRegion}
-                          onBlur={handleBlur}
-                          className="select"
-                        >
-                          <option value="" label="Choose a Region" />
-                          <option value="Hatillo" label="El Hatillo" />
-                          <option value="Baruta" label="Baruta" />
-                        </select>
+                      <div className="bday">
+                        <div className="inputP">
+                          <label>Choose Birthdate</label>
+                          <DatePicker
+                            className="picker"
+                            selected={selectedDate}
+                            maxDate={new Date(moment())}
+                            onChange={(date) => setSelectedDate(date)}
+                            placeholderText=""
+                          />
+                        </div>
+                        {selectedDateE ? (
+                          <div className="error">
+                            <h4>{selectedDateE}</h4>
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div className="region">
+                        <div className="inputP">
+                          <label>Select your Region</label>
+                          <select
+                            name="region"
+                            value={region}
+                            onChange={handleRegion}
+                            onBlur={handleBlur}
+                            className="select"
+                          >
+                            <option value="" label="" />
+                            <option value="Hatillo" label="El Hatillo" />
+                            <option value="Baruta" label="Baruta" />
+                          </select>
+                        </div>
+                        {regionE ? (
+                          <div className="error">
+                            <h4>{regionE}</h4>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
-                    <div className="button">
+                    <div className="buttonC">
                       <Button color={props.color} onClick={handleStep3} block>
                         {" "}
                         CONTINUE{" "}
@@ -286,44 +368,78 @@ export default function FormRegister(props) {
                 )}
               </div>
             ) : (
-              <div>
-                <Input
-                  value={values.Email}
-                  label="Enter your email"
-                  id="Email"
-                  name="Email"
-                  type="text"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  color={props.color}
-                />
-                <div className="input2">
-                  <Input
-                    value={values.Password}
-                    label="Enter your password"
-                    id="Password"
-                    type="password"
-                    name="Password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    color={props.color}
-                  />
-                  <div>{error  ? error.graphQLErrors[0].message : ""}</div>
-                  <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div>
-                  <Input
-                    value={values.Password2}
-                    label="Confirm password"
-                    id="Password2"
-                    type="password"
-                    name="Password2"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    color={props.color}
-                  />
+              <div className="step3">
+                <div className="email">
+                  <div className="inputG">
+                    <label>Enter your Email</label>
+                    <input
+                      value={values.Email}
+                      label="Enter your email"
+                      id="Email"
+                      name="Email"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={props.color}
+                    />
+                  </div>
+                  {emailE ? (
+                    <div className="error">
+                      <h4>{emailE}</h4>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="pass">
+                  <div className="password">
+                    <div className="inputP">
+                      <label>Enter your Password</label>
+                      <input
+                        value={values.Password}
+                        label="Enter your password"
+                        id="Password"
+                        type="password"
+                        name="Password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        color={props.color}
+                      />
+                    </div>
+                    {passwordE ? (
+                      <div className="error">
+                        <h4>{passwordE}</h4>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="passwordC">
+                    <div className="inputP">
+                      <label>Confirm password</label>
+                      <input
+                        value={values.Password2}
+                        label="Confirm password"
+                        id="Password2"
+                        type="password"
+                        name="Password2"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        color={props.color}
+                      />
+                    </div>
+                    {passwordCE ? (
+                      <div className="error">
+                        <h4>{passwordCE}</h4>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
-                <div className="button">
-                  <Button color={props.color} type="submit" block>
+                <div className="buttonF">
+                  {error ? (
+                    <div className="error">
+                      <h4>{error.graphQLErrors[0].message}</h4>
+                    </div>
+                  ) : null}
+                  <Button color={props.color} type="submit">
                     {" "}
                     SIGN UP{" "}
                   </Button>
@@ -337,16 +453,165 @@ export default function FormRegister(props) {
   );
 }
 const RegisterView = styled.div`
+display: flex;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+justify-content: center;
+align-items: center;
+width: 100%;
+
+
+
+
+.buttonS {
+  margin-top: 3em;
+}
+
+.step2 {
+  margin-top: 1vh;
+  width: 100%;
+  display: grid;
+
+  grid-template-areas:
+    "info"
+    "button";
+  .info {
+
+    margin-top: 0;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+      "name lname"
+      "date region";
+
+    .FName {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "name" "error";
+    }
+    .bday {
+      margin: 0;
+      padding-top: 5%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "date" "error";
+    }
+    .region {
+      margin: 0;
+      padding-top: 5%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "region" "error";
+    }
+    .LName {
+      margin: 0;
+      padding-top: 10%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      display: grid;
+      grid-template-areas: "lname" "error";
+    }
+  }
+}
+.step3 {
+  margin-top: 2em;
+  width: 100%;
+  display: grid;
+
+  grid-template-areas:
+    "email"
+    "pass"
+    "button";
+
+  .pass {
+    margin: 0;
+    width: 100%;
+    height: 20vh;
+    display: grid;
+    grid-template-areas: "password  passwordC";
+  }
+
+  .email {
+    margin: 0;
+    padding-top: 5%;
+    padding-bottom: 15%;
+    padding-left: 9%;
+    padding-right: 9%;
+    width: 100%;
+    height: 20vh;
+    display: grid;
+    grid-template-areas: "email" "error";
+  }
+  .password {
+    margin: 0;
+    padding-top: 5%;
+    padding-bottom: 15%;
+    padding-left: 9%;
+    padding-right: 9%;
+    width: 100%;
+    height: 20vh;
+    display: grid;
+    grid-template-areas: "password " "error";
+  }
+  .passwordC {
+    margin: 0;
+    padding-top: 5%;
+    padding-bottom: 15%;
+    padding-left: 9%;
+    padding-right: 9%;
+    width: 100%;
+    height: 20vh;
+    display: grid;
+    grid-template-areas: "passwordC" "error";
+  }
+}
+.buttonC {
+  width: 100%
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-areas: "error" "button ";
+}
+.buttonF {
+  width: 100%
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-areas: "error" "button ";
+}
+.inputG {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  max-width: 600px;
+
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
     font-size: 1em;
     font-weight: 200;
-    color: ${(props) => props.color};
+    color: #fafafa;
     margin: 0.2rem;
     cursor: pointer;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .kPcmjq .picker {
@@ -355,95 +620,366 @@ const RegisterView = styled.div`
 
   input {
     background: none;
-    font-weight: 200;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: ${(props) => props.color};
+    color: #fafafa;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin: 0;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 0.3rem 0.5rem;
-    width: 80%;
+    margin-left: 0;
+    width: 25vw;
 
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
+      border-bottom: solid 2px #ef0023;
     }
   }
-  .input2 {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    max-width: 600px;
-    align-items: center;
-    justify-content: center;
-  }
+}
+.error {
+  width: 100%;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+  display: grid;
+  text-align: center;
 
-  .button {
-    margin-top: 2rem;
-    margin-bottom: -3rem;
+  h4 {
+    color: #ef0023;
+    font-size: 12px;
   }
-
-  .dos {
+}
+.inputP {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  label {
     font-size: 1em;
     font-weight: 200;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #fafafa;
+    margin: 0.2rem;
     cursor: pointer;
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    width: inerit;
+    margin-top: 1rem;
   }
-
-  .picker {
-    color: ${(props) => props.color} !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Roboto;
-    margin-bottom: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px #ee462f;
-      color: ${(props) => props.color} !important;
-    }
-  }
-
-  .select {
+  input {
     background: none;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: grey;
+    color: #fafafa;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin-top: 1.1rem;
-    margin-bottom: 0;
+    margin-top: 1.5rem;
+    padding: 0.3rem 0.5rem;
     margin-left: 0;
-    bottom: 0;
-    padding-bottom: 0.35rem;
+    width: 12.5vw;
+
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #ee462f;
+      border-bottom: solid 2px #ef0023;
     }
   }
+  select {
+    background: none;
+    font-size: 1em;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    color: #fafafa;
+    border: none;
+    border-bottom: solid 2px #ebebeb;
+    box-shadow: none;
+    outline: none;
+    transition: all ease-in-out 0.5s;
+    opacity: 0.8;
+    margin-top: 1.5rem;
+    padding: 0.4rem 0.5rem;
+    margin-left: 0;
+    width: 12.5vw;
+
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #ef0023;
+    }
+  }
+}
+
+@media only screen and (max-width: 734px) {
+  .buttonS {
+    margin-top: 2em;
+  }
+
+  .step2 {
+    margin-top: 0;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+      "info"
+      "button";
+    .info {
+      margin-top: 0;
+      width: 100%;
+      display: grid;
+      justify-content: center;
+      margin-top:2vh;
+      margin-bottom:0;
+      grid-template-areas:
+        "name" "lname"
+        "date" "region";
+
+      .FName {
+        margin: 0;
+        margin-top:1em;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        grid-template-areas: "name" "error";
+      }
+      .bday {
+        margin: 0;
+        margin-top:1em;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        grid-template-areas: "date" "error";
+      }
+      .region {
+        margin: 0;
+        margin-top:1em;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        grid-template-areas: "region" "error";
+      }
+      .LName {
+        margin: 0;
+        margin-top:1em;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        grid-template-areas: "lname" "error";
+      }
+    }
+  }
+  .step3 {
+    margin-top: 2vh;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+  
+   
+
+
+    grid-template-areas:
+      "email"
+      "pass"
+      "buttonC";
+
+    .pass {
+      margin: 0;
+      width: 100%;
+      height: auto;
+      display: grid;
+      margin-bottom:8vh;
+  
+      justify-content: center;
+      grid-template-areas: "password" "passwordC";
+    }
+
+    .email {
+      margin: 0;
+      padding-top: 5%;
+      padding-bottom: 15%;
+      width: 100%;
+      height: 15vh;
+      display: grid;
+      justify-content: center;
+      grid-template-areas: "email" "error";
+    }
+    .password {
+      margin: 0;
+      padding-top: 5%;
+      padding-bottom: 15%;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+      height: 15vh;
+      display: grid;
+      grid-template-areas: "password " "error";
+    }
+    .passwordC {
+      margin: 0;
+      padding-top: 5%;
+      padding-bottom: 15%;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+      height: 15vh;
+      display: grid;
+      grid-template-areas: "passwordC" "error";
+    }
+  
+  }
+  .buttonC {
+    width: 100%;
+    margin: 0;
+    padding-top:8vh;
+    margin-top: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "error" "button";
+   
+  }
+  .buttonF {
+    width: 100%;
+    margin: 0;
+    margin-top: 2vh;
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "error" "button";
+  }
+  .inputG {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    text-align: center;
+
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    label {
+      display: block;
+      text-align: center;
+      font-size: 0.8em;
+      font-weight: 200;
+      color: #fafafa;
+      margin: 0.2em;
+      cursor: pointer;
+      margin-top: 1em;
+    }
+    input {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 0em;
+      padding: 0.3rem 0.5rem;
+      margin-left: 0;
+      width: 80vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px #ef0023;
+      }
+    }
+  }
+  .error {
+    width: 100%;
+    margin-top: 0.1em;
+    margin-bottom: 0.5em;
+    display: grid;
+    text-align: center;
+
+    h4 {
+      color: #ef0023;
+      font-size: 12px;
+    }
+  }
+  .inputP {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    label {
+      display: block;
+      text-align: center;
+      font-size: 0.8em;
+      font-weight: 200;
+      color: #fafafa;
+      margin: 0.2rem;
+      cursor: pointer;
+      margin-top: 1em;
+    }
+    input {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 0em;
+      padding: 0.3rem 0.5rem;
+      margin-left: 0;
+      width: 80vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px #ef0023;
+      }
+    }
+    select {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 0em;
+      padding: 0.4rem 0.5rem;
+      margin-left: 0;
+      width: 80vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px #ef0023;
+      }
+    }
+  }
+}
 `;

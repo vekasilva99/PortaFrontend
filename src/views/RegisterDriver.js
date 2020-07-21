@@ -12,7 +12,10 @@ export default function RegisterDriver(props) {
       <RegisterView show={props.show}>
         <div className="login-box">
           <MdClose
-            onClick={props.togglerRegister}
+            onClick={() => {
+              props.togglerRegister();
+              props.handlingNav();
+            }}
             className="close"
             size="1.7rem"
             color="#fafafa"
@@ -46,7 +49,7 @@ const RegisterView = styled.div`
   right: 0;
   transition: all ease-in-out 0.3s;
   opacity: ${(props) => (props.show ? 1 : 0)};
-  z-index: ${(props) => (props.show ? 300 : -1)};
+  z-index: ${(props) => (props.show ? 3000 : -1)};
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   &:after {
@@ -79,7 +82,7 @@ const RegisterView = styled.div`
     margin: 0;
     position: absolute;
     font-size: 0.8em;
-    color: #ee462f;
+    color: #ef0023;
     font-weight: 300;
     border: none;
     cursor: pointer;
@@ -128,5 +131,21 @@ const RegisterView = styled.div`
     z-index: 4;
     right: 0;
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 734px) {
+    .login-box {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .container-porta {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .h2 {
+      top: 5rem;
+    }
   }
 `;

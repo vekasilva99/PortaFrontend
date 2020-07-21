@@ -9,7 +9,10 @@ export default function LoginDriver(props) {
       <LoginView show={props.show}>
         <div className="login-box">
           <MdClose
-            onClick={props.togglerLoginD}
+            onClick={() => {
+              props.togglerLoginD();
+              props.handlingNav();
+            }}
             className="close"
             size="1.7rem"
             color="#fafafa"
@@ -136,6 +139,9 @@ const LoginView = styled.div`
     .container-porta {
       height: 100vh;
       width: 100vw;
+    }
+    .h2 {
+      top: 14vh;
     }
   }
 `;

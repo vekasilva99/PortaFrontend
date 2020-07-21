@@ -18,55 +18,72 @@ export default function Home() {
   const [loginD, setLoginD] = React.useState(false);
   const [register, setRegister] = React.useState(false);
   const [registerD, setRegisterD] = React.useState(false);
+  const [navbar, setNavbar] = React.useState(true);
 
   const handlingLoginD = (e) => {
     setLoginD(!loginD);
     setLogin(false);
     setRegister(false);
     setRegisterD(false);
+    setNavbar(false);
   };
   const handlingRegister = (e) => {
     setRegister(!register);
     setLogin(false);
     setLoginD(false);
+    setNavbar(false);
   };
   const handlingRegisterD = (e) => {
     setRegisterD(!registerD);
     setLogin(false);
     setLoginD(false);
+    setNavbar(false);
   };
 
   const handlingLogin = (e) => {
     setLogin(!login);
     setRegister(false);
     setLoginD(false);
+    setNavbar(false);
+  };
+
+  const handlingNav = (e) => {
+    setNavbar(true);
   };
   return (
     <HomeStyle>
-      <Navbar togglerLogin={handlingLogin} togglerRegister={handlingRegister} />
+      <Navbar
+        phoneR={navbar}
+        togglerLogin={handlingLogin}
+        togglerRegister={handlingRegister}
+      />
 
       <Login
         show={login}
         togglerLogin={handlingLogin}
         togglerRegister={handlingRegister}
+        handlingNav={handlingNav}
       />
 
       <LoginDriver
         show={loginD}
         togglerLoginD={handlingLoginD}
         togglerRegisterD={handlingRegisterD}
+        handlingNav={handlingNav}
       />
 
       <Register2
         show={register}
         togglerLogin={handlingLogin}
         togglerRegister={handlingRegister}
+        handlingNav={handlingNav}
       />
 
       <RegisterDriver
         show={registerD}
         togglerLogin={handlingLoginD}
         togglerRegister={handlingRegisterD}
+        handlingNav={handlingNav}
       />
 
       {/* <AdminSidebar show={sidebar} /> */}
@@ -267,6 +284,7 @@ const HomeStyle = styled.div`
       height: 700px;
       background-image: url("/Porta3.png");
     }
+
     .infoPorta > h1 {
       font-size: 50px;
       letter-spacing: 2px;

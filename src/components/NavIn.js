@@ -33,7 +33,7 @@ export default function NavbarIn(props) {
   return (
     <>
       {log && <Redirect to="/" />}
-      <StyledNavbarIn>
+      <StyledNavbarIn phoneR={props.phoneR}>
         <div className="fondo">
           <div className="toggle">
             <img src="/LogoCliente.png" alt="Logo" className="logo" />

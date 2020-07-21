@@ -34,6 +34,7 @@ export default function MapRep() {
     latitud,
     longitud,
     currentOrder,
+    workingStatus,
   } = useSelector((state) => ({
     ...state.User,
   }));
@@ -118,10 +119,13 @@ export default function MapRep() {
                   value={available}
                   checked={available}
                   onChange={handleChangeChk}
+                  disabled={!workingStatus}
                 ></input>
                 <span class="slider round"></span>
               </label>
-              {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+              {available && workingStatus ? (
+                <Pedido handleChangeChk={handleChangeChk} />
+              ) : null}
             </div>
           )}
           <div className="clear"></div>

@@ -32,7 +32,7 @@ export default function Navbar(props) {
   return (
     <>
       {log && <Redirect to="/" />}
-      <StyledNavbar>
+      <StyledNavbar phoneR={props.phoneR}>
         <div className="fondo">
           <div className="toggle">
             <img src="/LogoMain.png" alt="Logo" className="logo" />
@@ -95,6 +95,7 @@ const StyledNavbar = styled.nav`
   }
 
   @media only screen and (max-width: 734px) {
+    display: ${(props) => (props.phoneR ? "flex" : "none")};
     .fondo {
       height: 70px;
       padding-right: 0.5rem;

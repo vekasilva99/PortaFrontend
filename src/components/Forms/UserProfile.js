@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
+import { Formik, Form, Field } from "formik";
 import Input from "../Input";
 import Button from "../Button";
+import axios from "axios";
 import { FiLogIn } from "react-icons/fi";
+import { MdSave } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
@@ -13,15 +15,21 @@ import moment from "moment";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_USER } from "../../helpers/graphql/mutations";
+import { UPDATE_PROFILE_PIC } from "../../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { storage } from "../firebaseconfig";
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [Email, setEmail] = React.useState("");
+  const [photo1, setPhoto] = React.useState(null);
+  const [url, setUrl] = React.useState(null);
+  const [progress, setProgress] = React.useState(0);
+  const [photo1E, setPhotoE] = React.useState(null);
   const [log, setLog] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(null);
 
@@ -49,12 +57,16 @@ export default function UserProfileForm(props) {
     mail,
     zone,
     cellphone,
+    userImageURL,
   } = useSelector((state) => ({
     ...state.User,
   }));
 
   const dispatch = useDispatch();
-
+  const [
+    updateProfilePic,
+    { data: dataP, error: errorP, loading: loadingP },
+  ] = useMutation(UPDATE_PROFILE_PIC);
   const [
     update,
     { data: dataU, loading: loadingU, error: errorU },
@@ -72,21 +84,143 @@ export default function UserProfileForm(props) {
     setRegion(e.target.value);
   };
 
-  const photo = (e) => {
-    console.log("Foto");
-  };
-
   return (
     <>
-      {log ? <Redirect to="/" /> : null}
       <FormStyle>
-        <div className="edit">
-          {/* <FaUserAlt className="photo" color="#00507a" /> */}
-          <img className="photo" src={user} />
-          <button onClick={photo} className="settings">
-            <MdModeEdit className="pen" color="#00507a" size="1em" />
-          </button>
-        </div>
+        <Formik
+          initialValues={{
+            photo: null,
+          }}
+          validate={(values) => {
+            const errors = {};
+
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            /// code here
+            //event.preventDefault();
+            setSubmitting(true);
+            console.log(photo1);
+            let image = new FormData();
+            let file = document.querySelector("#photoId");
+            image.append("image", file.files[0]);
+            console.log(image);
+            const userId = _id;
+            if (photo1) {
+              const uploadTask = storage
+                .ref(`images/${photo1.name}`)
+                .put(photo1);
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  const progress = Math.round(
+                    (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+                  );
+                  setProgress(progress);
+                },
+                (error) => {
+                  setPhotoE(error);
+                  console.log(error);
+                },
+                () => {
+                  storage
+                    .ref("images")
+                    .child(photo1.name)
+                    .getDownloadURL()
+                    .then(async (url) => {
+                      const { data: dataP } = await updateProfilePic({
+                        variables: {
+                          imageURL: url,
+                        },
+                      });
+                      if (dataP && dataP.updateProfilePic) {
+                        dispatch({
+                          type: "UPDATE_USER",
+                          payload: {
+                            userImageURL: url,
+                          },
+                        });
+                      }
+
+                      setProgress(0);
+                      setPhoto(null);
+                    });
+                }
+              );
+            } else {
+              setPhotoE("Please Select An Image to Upload");
+            }
+
+            setSubmitting(false);
+            resetForm();
+          }}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <>
+              <Form
+                onSubmit={handleSubmit}
+                className="formP"
+                encType="multipart/form-data"
+              >
+                <div className="edit">
+                  {userImageURL ? (
+                    <img className="photo" src={userImageURL} />
+                  ) : (
+                    <img className="photo" src={user} />
+                  )}
+
+                  <label>
+                    <Field
+                      className="inputPhoto"
+                      type="file"
+                      name="image"
+                      id="photoId"
+                      style={{ display: "none" }}
+                      onChange={(event) => {
+                        const file = event.currentTarget.files[0];
+
+                        if (file) {
+                          const fileType = file["type"];
+                          const validImageTypes = [
+                            "image/gif",
+                            "image/jpeg",
+                            "image/png",
+                          ];
+                          if (validImageTypes.includes(fileType)) {
+                            setPhotoE(null);
+                            setPhoto(event.currentTarget.files[0]);
+                          } else {
+                            setPhotoE("Please Select An Image to Upload");
+                            console.log("Please Select An Image to Upload");
+                          }
+                        } else {
+                        }
+                      }}
+                    />
+
+                    <label htmlFor="photoId" className="settings" type="button">
+                      <MdModeEdit className="pen" color="#00507a" size="1em" />
+                    </label>
+                  </label>
+                  {photo1 ? (
+                    <button type="submit" className="saveP">
+                      <MdSave className="save" color="#00507a" size="0.8em" />
+                    </button>
+                  ) : null}
+                </div>
+              </Form>
+            </>
+          )}
+        </Formik>
+
         <div className="Form">
           <Formik
             initialValues={{
@@ -164,7 +298,7 @@ export default function UserProfileForm(props) {
                   },
                 });
               }
-              
+
               setSubmitting(false);
               resetForm();
             }}
@@ -317,6 +451,13 @@ const FormStyle = styled.section`
   button {
     display: none;
   }
+  .inputPhoto{
+    z-index:3000;
+    
+  }
+  .formP{
+    z-index:2000;
+  }
   .settings {
     border-radius: 500px;
     margin-left: 0;
@@ -343,6 +484,33 @@ const FormStyle = styled.section`
    
 
   }
+  .saveP {
+    border-radius: 500px;
+    margin-left: 0;
+    left: 0;
+    margin-top: 10vw;
+    margin-left:2vw;
+    display: flex;
+    position: absolute;
+    padding: 0.2em;
+    border: solid 0.1em #00507a;
+    width: 3vw;
+    height: 3vw;
+    background: white;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    outline:none;
+
+    z-index:2000;
+    &:hover {
+      cursor:pointer;
+      outline:none;
+    }
+   
+
+  }
 
   .pen {
     border-radius: 500px;
@@ -355,9 +523,21 @@ const FormStyle = styled.section`
     align-self:center;
 
 
+  
+  }
+  .save {
+    border-radius: 500px;
+    left: 0;
+    display: flex;
+    position: relative;
+    width: 3vw;
+    height: 3vw;
+    background: none;
+    align-self:center;
+
+
     
   }
-
   .edit {
     width: 15vw;
     height: 25vh;
