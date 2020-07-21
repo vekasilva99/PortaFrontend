@@ -161,9 +161,12 @@ export default function FormLogin(props) {
                   onBlur={handleBlur}
                   color={props.color}
                 />
-                {error ? (
+                {error && error.graphQLErrors[0] ? (
                   <div className="error">{error.graphQLErrors[0].message}</div>
-                ) : null}
+                ) : error  && error.networkError ? (
+                  <div className="error">Network error</div>
+                ) :null}
+                {/* <div>{error  && error.networkError ? "Network error" : ""}</div> */}
                 <Button color={props.color} type="submit" block>
                   {" "}
                   SIGN IN{" "}
