@@ -229,7 +229,7 @@ export default function UserProfileForm(props) {
               Phone: cellphone,
               FName: name,
               LName: lastName,
-              BDate: new Date(moment()),
+              BDate: new Date(moment(birthdate)),
               Region: zone,
             }}
             validate={(values) => {
@@ -273,6 +273,7 @@ export default function UserProfileForm(props) {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
 
+              console.log(values.BDate);
               const { data: dataU } = await update({
                 variables: {
                   updateInput: {
@@ -280,7 +281,7 @@ export default function UserProfileForm(props) {
                     name: values.FName,
                     lastName: values.LName,
                     mail: values.Email,
-                    birthdate: new Date(),
+                    birthdate: new Date(moment(selectedDate)),
                     zone: values.Region,
                   },
                 },
@@ -293,7 +294,7 @@ export default function UserProfileForm(props) {
                     name: values.FName,
                     lastName: values.LName,
                     mail: values.Email,
-                    birthdate: new Date(),
+                    birthdate: new Date(moment(selectedDate)),
                     zone: values.Region,
                   },
                 });
@@ -341,6 +342,23 @@ export default function UserProfileForm(props) {
                 </div>
                 <div className="Profile-content">
                   <div className="label">
+                    <h2>Email</h2>
+                    <div className="group">
+                      <input
+                        className="mail"
+                        value={values.Email}
+                        label="Enter your Email"
+                        id="Email"
+                        type="text"
+                        name="Email"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={true}
+                      />
+                      <MdKeyboardArrowRight className="icon" color="#00507a" />
+                    </div>
+                  </div>
+                  <div className="label">
                     <h2>First Name</h2>
                     <div className="group">
                       <input
@@ -373,29 +391,17 @@ export default function UserProfileForm(props) {
                     </div>
                   </div>
                   <div className="label">
-                    <h2>Email</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Email}
-                        label="Enter your Email"
-                        id="Email"
-                        type="text"
-                        name="Email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <MdKeyboardArrowRight className="icon" color="#00507a" />
-                    </div>
-                  </div>
-                  <div className="label">
                     <h2>Birthdate</h2>
                     <div className="group">
                       <DatePicker
                         className="mail"
-                        selected={values.BDate}
+                        selected={
+                          !selectedDate
+                            ? new Date(moment(birthdate))
+                            : selectedDate
+                        }
                         maxDate={new Date(moment())}
-                        onChange={handleChange}
+                        onChange={(date) => setSelectedDate(date)}
                         placeholderText="Choose a Date"
                       />
                       <MdKeyboardArrowRight className="icon" color="#00507a" />

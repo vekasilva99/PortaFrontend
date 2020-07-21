@@ -82,8 +82,11 @@ export default function Map() {
   const [user, setUser] = React.useState(null);
   const [profileD, setProfileD] = React.useState(false);
   const [pack, setPackage] = React.useState(null);
+  const [approved, setApproved] = React.useState(true);
   const [distancia, setDistancia] = React.useState(null);
   const [precio, setPrecio] = React.useState(null);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [errorMap, setError] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date("2014-08-18T21:11:54")
   );
@@ -152,6 +155,7 @@ export default function Map() {
   const [directions, setDirections] = React.useState(null);
   const handleSend = async (e) => {
     if (user != null && pack != null && distancia != null && precio != null) {
+      setSubmitted(true);
       console.log("SE PUEDE MANDAR");
       console.log(user);
       console.log("Precio", precio);
@@ -171,8 +175,10 @@ export default function Map() {
           },
         },
       });
+      setSubmitted(false);
     } else {
-      console.log("NO SE PUEDE MANDAR");
+      setApproved(false);
+      setError("Su solicitud no pudo ser procesada. Intentelo de Nuevo.");
     }
   };
   const mapRef = React.useRef();
@@ -225,54 +231,60 @@ export default function Map() {
     mapRef.current.setZoom(14);
   }, []);
   const RouteDraw = React.useCallback((user, pack) => {
-    console.log("user", user);
-    console.log("pack", pack);
-    console.log("directions", directions);
-    console.log("distancia", distancia);
     if (user != null && pack != null && distancia == null) {
       const directionsService = new window.google.maps.DirectionsService();
       const service = new window.google.maps.DistanceMatrixService();
       console.log("Entree");
-      directionsService.route(
-        {
-          origin: { lat: user.lat, lng: user.lng },
-          destination: { lat: pack.lat, lng: pack.lng },
-          travelMode: "DRIVING",
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            if (directions == null) {
-              setDirections(result);
+      try {
+        directionsService.route(
+          {
+            origin: { lat: user.lat, lng: user.lng },
+            destination: { lat: pack.lat, lng: pack.lng },
+            travelMode: "DRIVING",
+          },
+          (result, status) => {
+            if (status === window.google.maps.DirectionsStatus.OK) {
+              if (directions == null) {
+                setDirections(result);
+              }
+            } else {
+              console.error(`error fetching directions ${result}`);
+              setApproved(false);
+              setError(
+                "Su solicitud no pudo ser procesada. Intentelo de Nuevo."
+              );
             }
-          } else {
-            console.error(`error fetching directions ${result}`);
           }
-        }
-      );
-      let distan;
-      let price;
-      service.getDistanceMatrix(
-        {
-          origins: [user.lat.toString() + ", " + user.lng.toString()],
-          destinations: [pack.lat.toString() + ", " + pack.lng.toString()],
-          travelMode: "DRIVING",
-          avoidHighways: false,
-          avoidTolls: false,
-        },
-        (result, status) => {
-          if (status === window.google.maps.DistanceMatrixStatus.OK) {
-            if (result.rows[0].elements[0]) {
-              console.log(result.rows[0].elements[0]);
-              price = result.rows[0].elements[0].distance.value / 1000 / 2;
-              distan = result.rows[0].elements[0].distance.text;
-              setDistancia(distan);
-              setPrecio(price.toFixed(2));
+        );
+        let distan;
+        let price;
+        if (approved) {
+          service.getDistanceMatrix(
+            {
+              origins: [user.lat.toString() + ", " + user.lng.toString()],
+              destinations: [pack.lat.toString() + ", " + pack.lng.toString()],
+              travelMode: "DRIVING",
+              avoidHighways: false,
+              avoidTolls: false,
+            },
+            (result, status) => {
+              if (status === window.google.maps.DistanceMatrixStatus.OK) {
+                if (result.rows[0].elements[0].status === "OK") {
+                  console.log(result.rows[0].elements[0]);
+                  price = result.rows[0].elements[0].distance.value / 1000 / 2;
+                  distan = result.rows[0].elements[0].distance.text;
+                  setDistancia(distan);
+                  setPrecio(price.toFixed(2));
+                }
+              } else {
+                console.error(`error calculating directions ${result}`);
+              }
             }
-          } else {
-            console.error(`error calculating directions ${result}`);
-          }
+          );
         }
-      );
+      } catch (error) {
+        console.log("error");
+      }
     }
   }, []);
 
@@ -322,6 +334,24 @@ export default function Map() {
   ) : (
     <>
       <StyledMap>
+        {errorMap ? (
+          <div className="error">
+            <div className="error-message">
+              <h4>{errorMap} </h4>
+              <button
+                className="boton-error"
+                onClick={() => {
+                  setError(null);
+                  setApproved(true);
+                  setUser(null);
+                  setPackage(null);
+                }}
+              >
+                ACCEPT
+              </button>
+            </div>
+          </div>
+        ) : null}
         <div className="fondoMap">
           {currentOrder ? (
             <div className="busqueda">
@@ -406,7 +436,7 @@ export default function Map() {
               <div className="botonContainer">
                 <button
                   className="boton"
-                  disabled={!haveCard}
+                  disabled={!haveCard || submitted ? true : false}
                   onClick={handleSend}
                 >
                   ACCEPT
@@ -642,6 +672,84 @@ const StyledMap = styled.div`
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background: transparent;
     overflow: hidden;
+  }
+
+  .error{
+    display: flex;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      position: absolute;
+      height: 20vh;
+      width: 30vw;
+      background:#fafafa;
+      z-index: 3000;
+      top:50%;
+      left:50%;
+      transform:translate(-50%);
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#00507a;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #00507a;
+        color: white;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #00507a;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+  
+    }
+
   }
   .locate {
     position: absolute;
@@ -1001,7 +1109,111 @@ const StyledMap = styled.div`
         "clear"
         "busqueda";
     }
+
+    .error{
+    display: flex;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      position: absolute;
+      height: 20vh;
+      width: 80vw;
+      background:#fafafa;
+      z-index: 3000;
+      top:50%;
+      left:50%;
+      transform:translate(-50%);
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#00507a;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #00507a;
+        color: white;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 30vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #00507a;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
+  
+    
+  
+
+    .able-to-order{
+      position: absolute;
+      width:60vw;
+      top:6rem;
+      padding:0;
+      padding-left:1em;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      right: 7rem;
+      background: #fafafa;
+      border: none;
+      height:3.5em;
+      z-index: 2010;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#00507a;
+        font-size:1em;
+        margin-left:0.5em;
+  
+      }
+  
+    }
     .MuiPickersToolbar-toolbar {
+      
       height: 100px;
       display: flex;
       align-items: center;
@@ -1016,7 +1228,7 @@ const StyledMap = styled.div`
       flex-wrap: wrap;
       box-sizing: border-box;
       background: #fafafa;
-      margin-top: 0;
+      margin-top: -1%;
     }
     .busqueda {
       grid-area: busqueda;
@@ -1034,6 +1246,7 @@ const StyledMap = styled.div`
         padding: 20px;
         width: 1;
       }
+     
       h5 {
         font-size: 20px;
         font-weight: 500;
@@ -1053,8 +1266,9 @@ const StyledMap = styled.div`
         background: #fafafa;
         display: grid;
         grid-template-areas:
-          "iconos partida partida"
-          "iconos llegada llegada";
+        "iconos partida partida"
+        "iconos llegada llegada"
+        "precio precio precio";
       }
       .info{
         padding: 10px;
@@ -1062,7 +1276,7 @@ const StyledMap = styled.div`
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
-        background-size: 38px;
+        background-size: 20px;
         z-index: 2030;
         width: 78%;
        
@@ -1073,8 +1287,9 @@ const StyledMap = styled.div`
       .div2 {
         grid-area: partida;
         background: #fafafa;
-        width: 122%;
-        margin-left: -22%;
+        width: 124%;
+        margin-left: -29%;
+        margin-top:4%;
         display: flex;
         position: relative;
         .search {
@@ -1098,11 +1313,34 @@ const StyledMap = styled.div`
           }
         }
       }
+      .div8 {
+        grid-area: precio;
+        background: transparent;
+        width: 122%;
+        margin-top:8%;
+        margin-left: -22%;
+        padding:0;
+        padding-right:5%;
+        height:100%;
+        display: flex;
+        position: relative;
+        justify-content:flex-end;
+        align-text:center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        h2{
+          font-size: 20px;
+          font-weight: 500;
+          color: #00507a;
+          margin: 0;
+        }
+      }
         .div3 {
           grid-area: llegada;
           background: #fafafa;
-          width: 122%;
-          margin-left: -22%;
+          width: 124%;
+          margin-left: -29%;
+          margin-top:12%;
           display: flex;
           position: relative;
           
@@ -1126,15 +1364,15 @@ const StyledMap = styled.div`
               border: none;
             }
           }
-        }
+        ß
       }
-      .botonContainer2 {
-        width: 100%;
+      .botonContainer {
+        width: 100vw;
         background: #fafafa;
         height: 10vh;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
       }
       .boton {
         width: 150px;
