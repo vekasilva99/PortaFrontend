@@ -84,7 +84,11 @@ export default function MapR() {
     latitud,
     longitud,
     currentOrder,
+<<<<<<< HEAD
     saldo,
+=======
+    saldo
+>>>>>>> Gus
   } = useSelector((state) => ({
     ...state.User,
   }));
@@ -309,6 +313,10 @@ export default function MapR() {
         },
       });
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Gus
   };
 
   const panTo = React.useCallback(({ lat, lng }, bol) => {
