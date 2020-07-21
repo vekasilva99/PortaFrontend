@@ -51,7 +51,6 @@ export default function StarRating(props) {
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
             />
-            <h4>{dataR && dataR.createRate ? "Content " + dataR.createRate.score : ""}</h4>
           </label>
         );
       })}
@@ -61,7 +60,7 @@ export default function StarRating(props) {
 const RatingStyle = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 5vw;
+  margin-left: 0;
   .rating {
     display: none;
   }
