@@ -137,7 +137,6 @@ export default function FormLoginAdmin(props) {
                   onBlur={handleBlur}
                   color={props.color}
                 />
-                <div>{error ? error.graphQLErrors[0].message : ""}</div>
 
                 <Input
                   value={values.Password}
@@ -149,9 +148,11 @@ export default function FormLoginAdmin(props) {
                   onBlur={handleBlur}
                   color={props.color}
                 />
-                {error ? (
+                {error && error.graphQLErrors[0] ? (
                   <div className="error">{error.graphQLErrors[0].message}</div>
-                ) : null}
+                ) : error  && error.networkError ? (
+                  <div className="error">Network error</div>
+                ) :null}
                 <Button color={props.color} type="submit" block>
                   {" "}
                   SIGN IN{" "}
