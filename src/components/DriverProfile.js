@@ -43,7 +43,9 @@ export default function DriverProfile(props) {
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+
   console.log(data);
+  let allComments = data.selectedDriver.comments
   const getAllRatin = (rating) => {
     let content = 0;
     for (let item of rating) {
@@ -112,7 +114,7 @@ export default function DriverProfile(props) {
               chevronWidth={chevronWidth}
               freeScrolling={true}
             >
-              {data.selectedDriver.comments.map((comment) => (
+              {allComments.map((comment) => (
                 <div className="card">
                   <FaQuoteLeft className="quote" color="#00507a" size="0.5em" />
                   <h3>{comment.content}</h3>
@@ -133,13 +135,17 @@ export default function DriverProfile(props) {
                 return errors;
               }}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                const { CREATE_COMENT } = await comment({
+                const { data: dataC } = await comment({
                   variables: {
-                    user: _id,
-                    repartidor: data.selectedDriver._id,
+                    user: _id.toString(),
+                    repartidor: data.selectedDriver._id.toString(),
                     content: values.Comentario,
                   },
                 });
+
+                if(dataC && dataC.createComment){
+                  allComments.push(dataC.createComment);
+                }
 
                 setSubmitting(true);
                 console.log(values);

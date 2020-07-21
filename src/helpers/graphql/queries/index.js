@@ -13,6 +13,7 @@ export const CURRENT_USER = gql`
       latitud
       longitud
       cellphone
+      cedula
       available
       workingStatus
       vehiculo
@@ -22,6 +23,8 @@ export const CURRENT_USER = gql`
       stripeId
       haveCard
       saldo
+      userImageURL
+      userImageId
       orders {
         _id
         user {
@@ -274,6 +277,7 @@ export const NEW_REQUESTS = gql`
       seguroVehiculo
       status
       placaVehiculo
+      createdAt
       repartidor {
         _id
         cedula
@@ -289,6 +293,7 @@ export const NEW_REQUESTS = gql`
         licencia
         carnetCirculacion
         seguroVehiculo
+        createdAt
       }
     }
   }
@@ -387,7 +392,6 @@ export const GET_ORDERS = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;

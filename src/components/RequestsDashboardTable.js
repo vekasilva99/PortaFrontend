@@ -59,36 +59,36 @@ export default function RequestsTable(props) {
           </NavLink>
         </li>
       </ul>
-      {users.map((user) => (
+      {data.newestRequests.map((user) => (
         <ul className="nav-links">
           <li className="link">
             <NavLink className="item" to="/">
-              {user.id}
+              {user.repartidor._id}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.name}
+              {user.repartidor.name}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.age}
+              {user.repartidor.lastName}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.repartidor.mail}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.repartidor.cellphone}
             </NavLink>
           </li>
           <li className="link">
             <NavLink className="item" to="/">
-              {user.email}
+              {user.repartidor.createdAt}
             </NavLink>
           </li>
         </ul>

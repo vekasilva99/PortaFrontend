@@ -12,6 +12,7 @@ export const LOGIN_USER = gql`
         mail
         zone
         cellphone
+        cedula
         available
         latitud
         longitud
@@ -23,6 +24,8 @@ export const LOGIN_USER = gql`
         stripeId
         haveCard
         saldo
+        userImageURL
+        userImageId
         orders {
           _id
           repartidor {
@@ -149,6 +152,18 @@ export const UPDATE_USER = gql`
   }
 `;
 
+export const UPDATE_DRIVER = gql`
+  mutation($updateInput: UpdateUserInput!) {
+    updateRepartidor(updateInput: $updateInput) {
+      _id
+      name
+      lastName
+      birthdate
+      zone
+    }
+  }
+`;
+
 export const DRIVER_REQUEST = gql`
   mutation($solicitudInput: SolicitudInput!) {
     createSolicitud(solicitudInput: $solicitudInput) {
@@ -161,12 +176,13 @@ export const REVIEW_REQUEST = gql`
   mutation($reviewInput: ReviewInput!) {
     reviewSolicitud(reviewInput: $reviewInput) {
       _id
+      status
     }
   }
 `;
 
 export const CREATE_COMMENT = gql`
-  mutation($user: String!, $repartidor: ID!, $content: String!) {
+  mutation($user: String!, $repartidor: String!, $content: String!) {
     createComment(user: $user, repartidor: $repartidor, content: $content) {
       _id
       content
@@ -237,7 +253,6 @@ export const MAKE_ORDER = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -269,7 +284,6 @@ export const ACCEPT_ORDER = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -340,7 +354,6 @@ export const ORDER_PICKED_UP = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -372,7 +385,6 @@ export const ORDER_ARRIVED = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -404,7 +416,6 @@ export const ORDER_COMPLETED = gql`
       status
       concluded
       createdAt
-      updatedAt
     }
   }
 `;
@@ -447,6 +458,16 @@ export const COLLECT_PAY = gql`
       name
       lastName
       saldo
+    }
+  }
+`;
+
+export const UPDATE_PROFILE_PIC = gql`
+  mutation($imageURL: String!){
+    updateProfilePic(imageURL: $imageURL){
+      name
+      lastName
+      userImageURL
     }
   }
 `;

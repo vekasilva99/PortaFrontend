@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import Input from "../Input";
 import Button from "../Button";
+import styled from "styled-components";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 //import { LOGIN_USER } from "../../helpers/graphql/queries";
@@ -56,115 +57,130 @@ export default function FormLogin(props) {
     <Redirect to="/user" />
   ) : (
     <>
-      <Formik
-        initialValues={{
-          Email: "",
-          Password: "",
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.Email) {
-            errors.Email = "Required Field";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-          ) {
-            errors.Email = "Invalid Email";
+      <StyledForm>
+        <Formik
+          initialValues={{
+            Email: "",
+            Password: "",
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.Email) {
+              errors.Email = "Required Field";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+            )
+              if (!values.Password) {
+                errors.Password = "Required Field";
+              }
+
+            return errors;
+          }}
+          onSubmit={async (
+            { Email, Password },
+            { setSubmitting, resetForm }
+          ) => {
+            /// code here
+            //event.preventDefault();
+            setSubmitting(true);
+            if (Email.trim() === 0 || Password.trim() === 0) {
+              return;
+            }
+            console.log("llega aca");
+
+            //QUERY
+            // login({
+            //   variables: {
+            //     mail: Email,
+            //     password: Password,
+            //     role: "COSTUMER",
+            //   },
+            // });
+
+            try {
+              const { data } = await login({
+                variables: {
+                  mail: Email,
+                  password: Password,
+                  role: "COSTUMER",
+                },
+              });
+
+              if (data && data.userLogin) {
+                localStorage.setItem("token", data.userLogin.token);
+                dispatch({
+                  type: "CURRENT_USER",
+                  payload: {
+                    token: data.userLogin.token,
+                    ...data.userLogin.user,
+                  },
+                });
+
+                setLog(true);
+              }
+            } catch (err) {
+              console.log(err);
+            }
+
+            setSubmitting(false);
+            resetForm();
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            /* and other goodies */
+          }) =>
+            loading ? (
+              <Spinner color={props.color}></Spinner>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <Input
+                  value={values.Email}
+                  label="Enter your email"
+                  id="Email"
+                  name="Email"
+                  type="text"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  color={props.color}
+                />
+
+                <Input
+                  value={values.Password}
+                  label="Enter your password"
+                  id="Password"
+                  type="password"
+                  name="Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  color={props.color}
+                />
+                {error ? (
+                  <div className="error">{error.graphQLErrors[0].message}</div>
+                ) : null}
+                <Button color={props.color} type="submit" block>
+                  {" "}
+                  SIGN IN{" "}
+                </Button>
+              </form>
+            )
           }
-          if (!values.Password) {
-            errors.Password = "Required Field";
-          } else if (values.Password.length < 9) {
-            errors.Password = "Password too short";
-          }
-
-          return errors;
-        }}
-        onSubmit={async ({ Email, Password }, { setSubmitting, resetForm }) => {
-          /// code here
-          //event.preventDefault();
-          setSubmitting(true);
-          if (Email.trim() === 0 || Password.trim() === 0) {
-            return;
-          }
-          console.log("llega aca");
-
-          //QUERY
-          // login({
-          //   variables: {
-          //     mail: Email,
-          //     password: Password,
-          //     role: "COSTUMER",
-          //   },
-          // });
-
-          const { data } = await login({
-            variables: {
-              mail: Email,
-              password: Password,
-              role: "COSTUMER",
-            },
-          });
-
-          if (data && data.userLogin) {
-            localStorage.setItem("token", data.userLogin.token);
-            dispatch({
-              type: "CURRENT_USER",
-              payload: {
-                token: data.userLogin.token,
-                ...data.userLogin.user,
-              },
-            });
-
-            setLog(true);
-          }
-
-          setSubmitting(false);
-          resetForm();
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          /* and other goodies */
-        }) =>
-          loading ? (
-            <Spinner color={props.color}></Spinner>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <Input
-                value={values.Email}
-                label="Enter your email"
-                id="Email"
-                name="Email"
-                type="text"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                color={props.color}
-              />
-              <div>HOLAAA</div>
-
-              <Input
-                value={values.Password}
-                label="Enter your password"
-                id="Password"
-                type="password"
-                name="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                color={props.color}
-              />
-              <Button color={props.color} type="submit" block>
-                {" "}
-                SIGN IN{" "}
-              </Button>
-            </form>
-          )
-        }
-      </Formik>
+        </Formik>
+      </StyledForm>
     </>
   );
 }
+const StyledForm = styled.div`
+  .error {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
+    color: #ef0023;
+  }
+`;

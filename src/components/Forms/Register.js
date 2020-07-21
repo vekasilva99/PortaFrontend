@@ -14,10 +14,16 @@ export default function FormRegister(props) {
   const [step1, setStep1] = React.useState(true);
   const [step2, setStep2] = React.useState(true);
   const [phone, setPhone] = React.useState("");
+  const [phoneE, setPhoneE] = React.useState(false);
   const [region, setRegion] = React.useState("");
+  const [regionE, setRegionE] = React.useState(false);
+  const [emailE, setEmailE] = React.useState(false);
+  const [passwordE, setPasswordE] = React.useState(false);
+  const [passwordCE, setPasswordCE] = React.useState(false);
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedDateE, setSelectedDateE] = React.useState(false);
 
   const handleStep1 = (e) => {
     console.log(props.color);
@@ -40,6 +46,7 @@ export default function FormRegister(props) {
       codigos === false
     ) {
       setStep1(true);
+      setPhoneE(true);
     } else {
       setStep1(false);
     }
@@ -48,6 +55,12 @@ export default function FormRegister(props) {
   const handleStep2 = (e) => {
     if (!fName || !lName || !selectedDate || !region) {
       setStep2(true);
+      if (!selectedDate) {
+        setSelectedDateE(true);
+      }
+      if (!region) {
+        setRegionE(true);
+      }
       console.log(phone, "telefono");
     } else {
       setStep2(false);
@@ -56,6 +69,7 @@ export default function FormRegister(props) {
   };
 
   const handlePhone = (e) => {
+    setPhoneE(false);
     setPhone(e.target.value);
   };
 
@@ -92,13 +106,25 @@ export default function FormRegister(props) {
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
           ) {
             errors.email = "Invalid Email";
+            setEmailE(true);
+          }
+          if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
+            setEmailE(false);
           }
           if (!values.Password) {
             errors.Password = "Required Field";
           } else if (values.Password.length < 9) {
             errors.Password = "Password too short";
+            setPasswordE(true);
           } else if (values.Password !== values.Password2) {
             errors.Password = "Password doesn't match";
+            setPasswordCE(true);
+          }
+          if (values.Password.length >= 9) {
+            setPasswordE(false);
+          }
+          if (values.Password === values.Password2) {
+            setPasswordCE(false);
           }
 
           return console.log(errors);
@@ -167,6 +193,7 @@ export default function FormRegister(props) {
                       onBlur={handleBlur}
                       color={props.color}
                     />
+                    {phoneE ? <div className="error">Numero</div> : null}
 
                     <div className="button">
                       <Button color={props.color} onClick={handleStep1} block>
@@ -211,6 +238,11 @@ export default function FormRegister(props) {
                           onChange={(date) => setSelectedDate(date)}
                           placeholderText="Choose a Date"
                         />
+                        {selectedDateE ? (
+                          <div className="error">
+                            <h4>Fecha</h4>
+                          </div>
+                        ) : null}
                       </div>
 
                       <div>
@@ -226,6 +258,11 @@ export default function FormRegister(props) {
                           <option value="Hatillo" label="El Hatillo" />
                           <option value="Baruta" label="Baruta" />
                         </select>
+                        {regionE ? (
+                          <div className="error">
+                            <h4>Region</h4>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                     <div className="button">
@@ -249,29 +286,45 @@ export default function FormRegister(props) {
                   onBlur={handleBlur}
                   color={props.color}
                 />
+                {emailE ? <div className="errorB">Email</div> : null}
                 <div className="input2">
-                  <Input
-                    value={values.Password}
-                    label="Enter your password"
-                    id="Password"
-                    type="password"
-                    name="Password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    color={props.color}
-                  />
-                  <Input
-                    value={values.Password2}
-                    label="Confirm password"
-                    id="Password2"
-                    type="password"
-                    name="Password2"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    color={props.color}
-                  />
+                  <div>
+                    <Input
+                      value={values.Password}
+                      label="Enter your password"
+                      id="Password"
+                      type="password"
+                      name="Password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={props.color}
+                    />
+                    <div>{error  ? error.graphQLErrors[0].message : ""}</div>
+                    <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div>
+                    {passwordE ? (
+                      <div className="error">
+                        <h4>Password</h4>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div>
+                    <Input
+                      value={values.Password2}
+                      label="Confirm password"
+                      id="Password2"
+                      type="password"
+                      name="Password2"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={props.color}
+                    />
+                    {passwordCE ? (
+                      <div className="error">
+                        <h4>Password Confirm</h4>
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
-
                 <div className="button">
                   <Button color={props.color} type="submit" block>
                     {" "}
@@ -299,6 +352,34 @@ const RegisterView = styled.div`
     margin: 0.2rem;
     cursor: pointer;
     margin-top: 2rem;
+  }
+  .error {
+    width: 11vw;
+    margin-top: 0.1em;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background: pink;
+    h4 {
+      color: #ef0023;
+      font-size: 12px;
+    }
+  }
+  .errorB {
+    width: 30vw;
+    margin-top: 0.1em;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background: pink;
+    h4 {
+      color: #ef0023;
+      font-size: 12px;
+    }
   }
   input {
     background: none;

@@ -9,6 +9,7 @@ const initialState = {
   mail: null,
   zone: null,
   cellphone: null,
+  cedula: null,
   role: null,
   latitud: null,
   longitud: null,
@@ -27,6 +28,8 @@ const initialState = {
   stripeId: null,
   haveCard: null,
   saldo: null,
+  userImageURL: null,
+  userImageId: null,
   createdAt: null,
 };
 
@@ -53,6 +56,7 @@ export default function (state = initialState, action) {
         mail,
         zone,
         cellphone,
+        cedula,
         role,
         latitud,
         longitud,
@@ -71,6 +75,8 @@ export default function (state = initialState, action) {
         stripeId,
         haveCard,
         saldo,
+        userImageURL,
+        userImageId,
         createdAt,
       } = action.payload;
       return {
@@ -82,6 +88,7 @@ export default function (state = initialState, action) {
         mail: mail,
         zone: zone,
         cellphone: cellphone,
+        cedula: cedula,
         role: role,
         latitud: latitud,
         longitud: longitud,
@@ -100,6 +107,8 @@ export default function (state = initialState, action) {
         stripeId: stripeId,
         haveCard: haveCard,
         saldo: saldo,
+        userImageURL: userImageURL,
+        userImageId: userImageId,
         createdAt: createdAt,
       };
     }

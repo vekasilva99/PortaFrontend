@@ -99,7 +99,7 @@ export default function DriverRequestForm(props) {
             return errors;
           }}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
-            const { dataU } = await makeRequest({
+            const { data: dataU } = await makeRequest({
               variables: {
                 solicitudInput: {
                   repartidorID: _id,
@@ -247,6 +247,7 @@ export default function DriverRequestForm(props) {
                     {" "}
                     SEND REQUEST{" "}
                   </button>
+                  <div>{dataU && dataU.createSolicitud  ? "Solicitud creada exitosamente" : ""}</div>
                 </div>
               </div>
             </form>
