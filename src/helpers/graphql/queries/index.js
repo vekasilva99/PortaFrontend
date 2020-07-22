@@ -89,6 +89,7 @@ export const CURRENT_USER = gql`
           lastName
           birthdate
           mail
+          userImageURL
         }
         repartidor {
           _id
@@ -97,6 +98,7 @@ export const CURRENT_USER = gql`
           lastName
           birthdate
           mail
+          userImageURL
         }
         messages {
           content
