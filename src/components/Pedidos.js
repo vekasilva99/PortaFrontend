@@ -52,6 +52,7 @@ export default function Pedido(props) {
       });
       console.log("after dispatch");
     }
+    window.location.reload(false);
   };
 
   // useEffect(() => {
@@ -88,10 +89,10 @@ export default function Pedido(props) {
           console.log(newOrder);
           console.log("prev abajo");
           console.log(prev);
-          const index = prev.orders.map(e => e._id).indexOf(newOrder._id);
+          const index = prev.orders.map((e) => e._id).indexOf(newOrder._id);
           //const index = prev.orders.indexOf({...newOrder, status:"Picking up package"});
           console.log(index);
-          if(index > -1){
+          if (index > -1) {
             prev.orders.splice(index, 1);
           }
           return prev;

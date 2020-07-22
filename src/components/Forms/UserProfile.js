@@ -86,6 +86,51 @@ export default function UserProfileForm(props) {
 
   return (
     <FormStyle>
+      {photo1E ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>{photo1E}</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                setPhotoE(null);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {dataP && dataP.updateProfilePic ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>Your Profile Picture Has Been Updated</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(true);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {dataU && dataU.createUser ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>Your Profile Has Been Updated</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(true);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
       <div className="navb"></div>
       <div className="driver-profile">
         <div className="profile">
@@ -450,6 +495,84 @@ const FormStyle = styled.section`
     display: none;
   }
 
+  .error{
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    width: 100vw;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      position: absolute;
+      height: 20vh;
+      width: 30vw;
+      background:#fafafa;
+      z-index: 3000;
+      top:50%;
+      left:50%;
+      transform:translate(-50%);
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#00507a;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #00507a;
+        color: white;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #00507a;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
+  
+
   .boton {
     border: solid 2px #00507a;
     color: white;
@@ -718,6 +841,81 @@ const FormStyle = styled.section`
       height: 12vh;
       display: flex;
     }
+
+    .error{
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      width: 100vw;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#00507a;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #00507a;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #00507a;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
     .boton {
       border: solid 2px #00507a;
       color: white;
@@ -995,6 +1193,80 @@ const FormStyle = styled.section`
       height: 14vh;
       display: flex;
     }
+    .error{
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      width: 100vw;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#00507a;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #00507a;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #00507a;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
     .boton {
       border: solid 2px #00507a;
       color: white;

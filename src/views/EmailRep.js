@@ -58,7 +58,7 @@ const EmailCliStyle = styled.div`
     padding-left: 3rem;
     h1 {
       font-weight: 300;
-      color: #ef0023a;
+      color: #ee462f;
       letter-spacing: 2px;
       margin-bottom: 40px;
     }
@@ -73,7 +73,7 @@ const EmailCliStyle = styled.div`
     .mails {
       h1 {
         font-weight: 300;
-        color: #ef0023a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {
@@ -81,7 +81,7 @@ const EmailCliStyle = styled.div`
         margin-bottom: 15px;
       }
       hr {
-        border: 1px solid #ef0023a;
+        border: 1px solid #ee462f;
         width: 600px;
       }
     }
@@ -100,7 +100,7 @@ const EmailCliStyle = styled.div`
       h1 {
         margin-top: 100px;
         font-weight: 300;
-        color: #ef0023a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {

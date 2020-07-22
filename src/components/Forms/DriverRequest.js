@@ -26,6 +26,8 @@ export default function DriverRequestForm(props) {
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [updated, setUpdated] = React.useState(false);
   const [
     makeRequest,
     { data: dataU, loading: loadingU, error: errorU },
@@ -56,218 +58,298 @@ export default function DriverRequestForm(props) {
   };
 
   return (
-    <FormStyle>
-      <div className="navb"></div>
-      <div className="driver-profile">
-        <div className="profile">
-          <div className="edit">
-            {userImageURL ? (
-              <img className="photo" src={userImageURL} />
-            ) : (
-              <img className="photo" src={driver} />
-            )}
-          </div>
-          <div className="Profile-name">
-            <h1>
-              {name} {lastName}
-            </h1>
-            <h2>{mail}</h2>
-            <h2>{cellphone}</h2>
-          </div>
-        </div>
-        <div className="edit-section">
-          <Formik
-            initialValues={{
-              Licencia: "170202476964",
-              Seguro: "8Z1TJ29667V372989",
-              Placa: "FBW54R",
-              Vehiculo: "carro",
-              Carnet: "1801051029170359ZG688W39",
-              Experiencia: "1 año",
-            }}
-            validate={(values) => {
-              const errors = {};
-              console.log(values);
-              if (!values.Licencia) {
-                errors.Licencia = "Required Field";
-              } else if (values.Licencia.length != 12) {
-                errors.Licencia = "Invalid License";
-              } else if (
-                !/^\+?([0-9]{4})?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/i.test(
-                  values.Licencia
-                )
-              ) {
-                errors.Licencia = "Invalid License";
-              }
-              if (!values.Seguro) {
-                errors.Seguro = "Required Field";
-              } else if (values.Seguro.length != 17) {
-                errors.Seguro = "Invalid Security";
-              }
-              if (!values.Placa) {
-                errors.Placa = "Required Field";
-              } else if (values.Placa.length != 6) {
-                errors.Phone = "Invalid License Plate";
-              }
-              if (!values.Vehiculo) {
-                errors.Vehiculo = "Required Field";
-              }
-              if (!values.Carnet) {
-                errors.Carnet = "Required Field";
-              } else if (values.Carnet.length != 24) {
-                errors.Carnet = "Invalid License";
-              }
-              if (!values.Experiencia) {
-                errors.Experiencia = "Required Field";
-              }
-              console.log(errors);
-              return errors;
-            }}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
-              setSubmitted(true);
-              const { data: dataU } = await makeRequest({
-                variables: {
-                  solicitudInput: {
-                    repartidorID: _id,
-                    vehiculo: values.Vehiculo,
-                    licencia: values.Licencia,
-                    experience: values.Experiencia,
-                    carnetCirculacion: values.Carnet,
-                    seguroVehiculo: values.Seguro,
-                    placaVehiculo: values.Placa,
-                  },
-                },
-              });
+    <>
+      {updated ? (
+        <Redirect to="/driver/maprep" />
+      ) : (
+        <FormStyle>
+          {dataU && dataU.createSolicitud ? (
+            <div className="error">
+              <div className="error-message">
+                <h4>Su solicitud ha sido enviada</h4>
+                <button
+                  className="boton-error"
+                  onClick={() => {
+                    setUpdated(true);
+                  }}
+                >
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          ) : null}
+          {errorU && errorU.graphQLErrors ? (
+            <div className="error">
+              <div className="error-message">
+                {errorU.graphQLErrors[0].message ? (
+                  <h4>{errorU.graphQLErrors[0].message}</h4>
+                ) : (
+                  <h4>Ha ocurrido un error</h4>
+                )}
+                <button
+                  className="boton-error"
+                  onClick={() => {
+                    window.location.reload(false);
+                  }}
+                >
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          ) : null}
+          {errorU && errorU.networkError ? (
+            <div className="error">
+              <div className="error-message">
+                {errorU.graphQLErrors[0].message ? (
+                  <h4>{errorU.graphQLErrors[0].message}</h4>
+                ) : (
+                  <h4>Ha ocurrido un error de red</h4>
+                )}
+                <button
+                  className="boton-error"
+                  onClick={() => {
+                    window.location.reload(false);
+                  }}
+                >
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          ) : null}
+          <div className="navb"></div>
+          <div className="driver-profile">
+            <div className="profile">
+              <div className="edit">
+                {userImageURL ? (
+                  <img className="photo" src={userImageURL} />
+                ) : (
+                  <img className="photo" src={driver} />
+                )}
+              </div>
+              <div className="Profile-name">
+                <h1>
+                  {name} {lastName}
+                </h1>
+                <h2>{mail}</h2>
+                <h2>{cellphone}</h2>
+              </div>
+            </div>
+            <div className="edit-section">
+              <Formik
+                initialValues={{
+                  Licencia: "170202476964",
+                  Seguro: "8Z1TJ29667V372989",
+                  Placa: "FBW54R",
+                  Vehiculo: "carro",
+                  Carnet: "1801051029170359ZG688W39",
+                  Experiencia: "1 año",
+                }}
+                validate={(values) => {
+                  const errors = {};
+                  console.log(values);
+                  if (!values.Licencia) {
+                    errors.Licencia = "Required Field";
+                  } else if (values.Licencia.length != 12) {
+                    errors.Licencia = "Invalid License";
+                  } else if (
+                    !/^\+?([0-9]{4})?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/i.test(
+                      values.Licencia
+                    )
+                  ) {
+                    errors.Licencia = "Invalid License";
+                  }
+                  if (!values.Seguro) {
+                    errors.Seguro = "Required Field";
+                  } else if (values.Seguro.length != 17) {
+                    errors.Seguro = "Invalid Security";
+                  }
+                  if (!values.Placa) {
+                    errors.Placa = "Required Field";
+                  } else if (values.Placa.length != 6) {
+                    errors.Phone = "Invalid License Plate";
+                  }
+                  if (!values.Vehiculo) {
+                    errors.Vehiculo = "Required Field";
+                  }
+                  if (!values.Carnet) {
+                    errors.Carnet = "Required Field";
+                  } else if (values.Carnet.length != 24) {
+                    errors.Carnet = "Invalid License";
+                  }
+                  if (!values.Experiencia) {
+                    errors.Experiencia = "Required Field";
+                  }
+                  console.log(errors);
+                  return errors;
+                }}
+                onSubmit={async (values, { setSubmitting, resetForm }) => {
+                  setSubmitted(true);
+                  const { data: dataU } = await makeRequest({
+                    variables: {
+                      solicitudInput: {
+                        repartidorID: _id,
+                        vehiculo: values.Vehiculo,
+                        licencia: values.Licencia,
+                        experience: values.Experiencia,
+                        carnetCirculacion: values.Carnet,
+                        seguroVehiculo: values.Seguro,
+                        placaVehiculo: values.Placa,
+                      },
+                    },
+                  });
 
-              setSubmitting(true);
-              console.log(values);
-              setSubmitting(false);
-              resetForm();
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <div className="Profile-content">
-                  <div className="label">
-                    <h2>Licencia</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Licencia}
-                        id="Licencia"
-                        name="Licencia"
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <MdKeyboardArrowRight color="#ef0023" className="icon" />
+                  setSubmitting(true);
+                  console.log(values);
+                  setSubmitting(false);
+                  resetForm();
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className="Profile-content">
+                      <div className="label">
+                        <h2>Licencia</h2>
+                        <div className="group">
+                          <input
+                            className="mail"
+                            value={values.Licencia}
+                            id="Licencia"
+                            name="Licencia"
+                            type="text"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <MdKeyboardArrowRight
+                            color="#ef0023"
+                            className="icon"
+                          />
+                        </div>
+                      </div>
+                      <div className="label">
+                        <h2>Placa del Vehiculo</h2>
+                        <div className="group">
+                          <input
+                            className="mail"
+                            value={values.Placa}
+                            id="Placa"
+                            name="Placa"
+                            type="text"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <MdKeyboardArrowRight
+                            color="#ef0023"
+                            className="icon"
+                          />
+                        </div>
+                      </div>
+                      <div className="label">
+                        <h2>Seguro del Vehiculo</h2>
+                        <div className="group">
+                          <input
+                            className="mail"
+                            value={values.Seguro}
+                            id="Seguro"
+                            type="text"
+                            name="Seguro"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <MdKeyboardArrowRight
+                            className="icon"
+                            color="#ef0023"
+                          />
+                        </div>
+                      </div>
+                      <div className="label">
+                        <h2>Carnet de Circulación</h2>
+                        <div className="group">
+                          <input
+                            className="mail"
+                            value={values.Carnet}
+                            id="Carnet"
+                            name="Carnet"
+                            type="text"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          <MdKeyboardArrowRight
+                            className="icon"
+                            color="#ef0023"
+                          />
+                        </div>
+                      </div>
+                      <div className="label">
+                        <h2>Años de Experiencia</h2>
+                        <div className="group">
+                          <select
+                            className="select"
+                            name="Experiencia"
+                            value={values.Experiencia}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="" label="Choose a Experience Time" />
+                            <option value="6 meses" label="6 months" />
+                            <option value="1 año" label="1 year" />
+                            <option
+                              value="Mas de 1 año"
+                              label="More than a year"
+                            />
+                          </select>
+                          <MdKeyboardArrowRight
+                            color="#ef0023"
+                            className="icon"
+                          />
+                        </div>
+                      </div>
+                      <div className="label">
+                        <h2>Tipo de Vehiculo</h2>
+                        <div className="group">
+                          <select
+                            className="select"
+                            name="Vehiculo"
+                            value={values.Vehiculo}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          >
+                            <option value="" label="Choose a Vehicle" />
+                            <option value="carro" label="Car" />
+                            <option value="moto" label="Motorcycle" />
+                          </select>
+                          <MdKeyboardArrowRight
+                            color="#ef0023"
+                            className="icon"
+                          />
+                        </div>
+                      </div>
+                      <div className="botonContainer2">
+                        <button
+                          className="boton"
+                          type="submit"
+                          disabled={submitted}
+                        >
+                          {" "}
+                          SEND REQUEST{" "}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="label">
-                    <h2>Placa del Vehiculo</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Placa}
-                        id="Placa"
-                        name="Placa"
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <MdKeyboardArrowRight color="#ef0023" className="icon" />
-                    </div>
-                  </div>
-                  <div className="label">
-                    <h2>Seguro del Vehiculo</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Seguro}
-                        id="Seguro"
-                        type="text"
-                        name="Seguro"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <MdKeyboardArrowRight className="icon" color="#ef0023" />
-                    </div>
-                  </div>
-                  <div className="label">
-                    <h2>Carnet de Circulación</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Carnet}
-                        id="Carnet"
-                        name="Carnet"
-                        type="text"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      <MdKeyboardArrowRight className="icon" color="#ef0023" />
-                    </div>
-                  </div>
-                  <div className="label">
-                    <h2>Años de Experiencia</h2>
-                    <div className="group">
-                      <select
-                        className="select"
-                        name="Experiencia"
-                        value={values.Experiencia}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      >
-                        <option value="" label="Choose a Experience Time" />
-                        <option value="6 meses" label="6 months" />
-                        <option value="1 año" label="1 year" />
-                        <option value="Mas de 1 año" label="More than a year" />
-                      </select>
-                      <MdKeyboardArrowRight color="#ef0023" className="icon" />
-                    </div>
-                  </div>
-                  <div className="label">
-                    <h2>Tipo de Vehiculo</h2>
-                    <div className="group">
-                      <select
-                        className="select"
-                        name="Vehiculo"
-                        value={values.Vehiculo}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      >
-                        <option value="" label="Choose a Vehicle" />
-                        <option value="carro" label="Car" />
-                        <option value="moto" label="Motorcycle" />
-                      </select>
-                      <MdKeyboardArrowRight color="#ef0023" className="icon" />
-                    </div>
-                  </div>
-                  <div className="botonContainer2">
-                    <button
-                      className="boton"
-                      type="submit"
-                      disabled={workingStatus || submitted}
-                    >
-                      {" "}
-                      SEND REQUEST{" "}
-                    </button>
-                  </div>
-                </div>
-              </form>
-            )}
-          </Formik>
-        </div>
-      </div>
-    </FormStyle>
+                  </form>
+                )}
+              </Formik>
+            </div>
+          </div>
+        </FormStyle>
+      )}
+    </>
   );
 }
 const FormStyle = styled.section`
@@ -281,6 +363,84 @@ const FormStyle = styled.section`
     height: 20vh;
     display: none;
   }
+
+  .error{
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    width: 100vw;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      position: absolute;
+      height: 20vh;
+      width: 30vw;
+      background:#fafafa;
+      z-index: 3000;
+      top:50%;
+      left:50%;
+      transform:translate(-50%);
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#ef0023;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #ef0023;
+        color: white;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #ef0023;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #ef0023;
+          color: white;
+          border-color: #ef0023;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
+  
 
   .boton {
     border: solid 2px #ef0023;
@@ -555,6 +715,81 @@ const FormStyle = styled.section`
       height: 12vh;
       display: flex;
     }
+
+    .error{
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      width: 100vw;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#ef0023;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #ef0023;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #ef0023;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #ef0023;
+            color: white;
+            border-color: #ef0023;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
     .boton {
       border: solid 2px #ef0023;
       color: white;
@@ -833,6 +1068,81 @@ const FormStyle = styled.section`
       height: 14vh;
       display: flex;
     }
+
+    .error{
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      width: 100vw;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#ef0023;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #ef0023;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #ef0023;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #ef0023;
+            color: white;
+            border-color: #ef0023;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
     .boton {
       border: solid 2px #ef0023;
       color: white;

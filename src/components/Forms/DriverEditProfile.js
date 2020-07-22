@@ -225,7 +225,7 @@ export default function DriverEditProfileForm(props) {
               {name} {lastName}
             </h1>
             <h2>{mail}</h2>
-            <h2>{cellphone}</h2>
+            <h2>{}</h2>
           </div>
         </div>
         <div className="edit-section">
