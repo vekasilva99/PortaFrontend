@@ -300,7 +300,7 @@ export default function UserProfileForm(props) {
                   },
                 });
 
-                if (dataU && dataU.createUser) {
+                if (dataU && dataU.updateUser) {
                   dispatch({
                     type: "UPDATE_USER",
                     payload: {
