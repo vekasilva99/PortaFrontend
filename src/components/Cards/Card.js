@@ -54,7 +54,7 @@ const StyledCard = styled.div`
     padding-top: 1vh;
     padding-left: 2vw;
     text-align: left;
-    color: #fafafa;
+    color: #202124;
     webkit-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
     moz-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
@@ -78,7 +78,7 @@ const StyledCard = styled.div`
     padding-bottom: 0;
     height: 4vh;
     width: auto;
-    color: #00507a;
+    color: #202124;
     display: flex;
     align-self: center;
   }
@@ -86,13 +86,13 @@ const StyledCard = styled.div`
   @media only screen and (max-width: 734px) {
     width: 80vw;
     .card {
-      height: 15vh;
+      height: 12vh;
       margin: 2vh;
       width: 70vw !important;
       padding-top: 1vh;
       padding-left: 2vw;
       text-align: left;
-      color: #fafafa;
+      color: #202124;
       webkit-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
       moz-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
       box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
@@ -115,7 +115,7 @@ const StyledCard = styled.div`
       padding-bottom: 0;
       height: 4vh;
       width: auto;
-      color: #fafafa;
+      color: #202124;
       display: flex;
       align-self: center;
     }
@@ -131,7 +131,7 @@ const StyledCard = styled.div`
       padding-top: 1vh;
       padding-left: 2vw;
       text-align: left;
-      color: #fafafa;
+      color: #202124;
       webkit-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
       moz-box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
       box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.2);
@@ -154,7 +154,7 @@ const StyledCard = styled.div`
       padding-bottom: 0;
       height: 4vh;
       width: auto;
-      color: #fafafa;
+      color: #202124;
       display: flex;
       align-self: center;
     }

@@ -52,7 +52,14 @@ export default function AdminHome() {
       {currentOrder ? (
         <div className="form">
           <div className="header">
-            <img className="photo" src="/ClienteMap.png" />
+            {currentOrder.repartidor.userImageURL ? (
+              <img
+                className="photo"
+                src={currentOrder.repartidor.userImageURL}
+              />
+            ) : (
+              <img className="photo" src="/ClienteMap.png" />
+            )}
             <h1>
               {currentOrder.repartidor.name} {currentOrder.repartidor.lastName}
             </h1>
@@ -190,15 +197,49 @@ const HomeStyle = styled.section`
   @media only screen and (max-width: 734px) {
     .form {
       width: 100vw;
-      height: 100vh;
+      height: 100%;
+      padding: 1em;
       margin-left: 0;
-      margin-top: 0;
+      margin-top: 10vh;
       display: flex;
       position: fixed;
+      .chat {
+        width: 100%;
+        background:#fafafa;
+        height: 55vh;
+        overflow-y: scroll;
+      }
+      .send {
+        width: 100%;
+        display: flex;
+  
+        height: 15vh;
+      }
     }
+  }
 
-    .show {
-      display: none;
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .form {
+      width: 100vw;
+      height: 100%;
+      padding: 1em;
+      margin-left: 0;
+      margin-top: 9vh;
+      display: flex;
+      position: fixed;
+      .chat {
+        width: 100%;
+        background:#fafafa;
+        height: 55vh;
+        overflow-y: scroll;
+      }
+      .send {
+        width: 100%;
+        display: flex;
+  
+        height: 15vh;
+      }
+    }
     }
   }
 `;

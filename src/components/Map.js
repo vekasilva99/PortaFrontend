@@ -86,6 +86,7 @@ export default function Map() {
   const [distancia, setDistancia] = React.useState(null);
   const [precio, setPrecio] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
+  const [drawn, setDrawn] = React.useState(false);
   const [errorMap, setError] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(
     new Date("2014-08-18T21:11:54")
@@ -247,12 +248,9 @@ export default function Map() {
               if (directions == null) {
                 setDirections(result);
               }
-            } else {
+              setDrawn(true);
+            } else if (!drawn) {
               console.error(`error fetching directions ${result}`);
-              setApproved(false);
-              setError(
-                "Su solicitud no pudo ser procesada. Intentelo de Nuevo."
-              );
             }
           }
         );
@@ -275,6 +273,11 @@ export default function Map() {
                   distan = result.rows[0].elements[0].distance.text;
                   setDistancia(distan);
                   setPrecio(price.toFixed(2));
+                } else {
+                  setApproved(false);
+                  setError(
+                    "Su solicitud no pudo ser procesada. Intentelo de Nuevo."
+                  );
                 }
               } else {
                 console.error(`error calculating directions ${result}`);
@@ -371,13 +374,6 @@ export default function Map() {
                   <h3>{currentOrder.pickUp}</h3>
                   <h2>Destino</h2>
                   <h3>{currentOrder.deliver}</h3>
-
-                  {currentOrder.status != "Waiting for a driver to accept" ? (
-                    <div>
-                      <h2>Estado del Pedido</h2>
-                      <h3>{currentOrder.status}</h3>
-                    </div>
-                  ) : null}
                 </div>
               </div>
               <div className="botonContainer2">
@@ -433,7 +429,7 @@ export default function Map() {
                   />
                 </Grid>
               </MuiPickersUtilsProvider>
-              <div className="botonContainer">
+              <div className="botonContainer2">
                 <button
                   className="boton"
                   disabled={!haveCard || submitted ? true : false}
@@ -587,7 +583,16 @@ function Locate({
           <h4>Active su Tarjeta!</h4>
         </div>
       ) : null}
-
+      {currentOrder ? (
+        <div>
+          {currentOrder.status != "Your package arrived" ? (
+            <div className="able-to-order">
+              <FiAlertCircle size="1.5em" color="#00507a" />
+              <h4>{currentOrder.status}</h4>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
       {currentOrder ? (
         <div>
           {currentOrder.status === "Your package arrived" ? (
@@ -846,7 +851,6 @@ const StyledMap = styled.div`
       display: flex;
       flex-wrap: wrap;
       box-sizing: border-box;
-      background: #fafafa;
       margin-top: -15%;
     }
     .busqueda {
@@ -1212,6 +1216,10 @@ const StyledMap = styled.div`
       }
   
     }
+
+    .MuiInputBase-input{
+      height:0.3em;
+    }
     .MuiPickersToolbar-toolbar {
       
       height: 100px;
@@ -1225,9 +1233,10 @@ const StyledMap = styled.div`
     .MuiGrid-container {
       width: 100%;
       display: flex;
+      height:auto;
+      padding-top:0;
       flex-wrap: wrap;
       box-sizing: border-box;
-      background: #fafafa;
       margin-top: -1%;
     }
     .busqueda {
@@ -1257,26 +1266,57 @@ const StyledMap = styled.div`
       }
       .rutas {
         margin: 0;
-        padding-top: 10%;
-        padding-bottom: 10%;
-        padding-left: 9%;
-        padding-right: 9%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
         width: 100%;
-        height: 20vh;
-        background: #fafafa;
+        height:auto;
+       
         display: grid;
         grid-template-areas:
         "iconos partida partida"
         "iconos llegada llegada"
         "precio precio precio";
       }
-      .info{
-        padding: 10px;
+      .info {
+        margin: 0;
+        padding-top: 2%;
+        padding-bottom: 15%;
+        padding-left: 9%;
+        padding-right: 9%;
+        width: 100%;
+        height: 20vh;
+        background: #fafafa;
+        display: grid;
+        grid-template-areas: "partida partida";
+      }
+  
+      .div6 {
+        background: transparent;
+        width: 100%;
+        height: 100%;
+        grid-area: partida;
+  
+        h2 {
+          font-size: 12px;
+          font-weight: 500;
+          color: #1d1d1f;
+          margin: 0;
+        }
+  
+        h3 {
+          font-size: 15px;
+          font-weight: 200;
+          color: #1d1d1f;
+          margin: 0;
+        }
       }
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
         background-size: 20px;
+        height:150%;
         z-index: 2030;
         width: 78%;
        
@@ -1296,14 +1336,16 @@ const StyledMap = styled.div`
           display: flex;
           position: absolute;
           align-items: center;
+          margin-bottom:0.2em;
           width: 100%;
           height: 100%;
           height: 100%;
           z-index: 2030;
         }
         .search input {
-          font-size: 1.5rem;
-          height: 90%;
+          font-size: 1.2rem;
+          height: 100%;
+          margin-bottom:0.1em;
           background: transparent;
           outline: none;
           border: none;
@@ -1348,15 +1390,17 @@ const StyledMap = styled.div`
             display: flex;
             position: absolute;
             align-items: center;
+            margin-top:0.2em;
             width: 100%;
             height: 100%;
             height: 100%;
             z-index: 2030;
           }
           .search input {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             height: 90%;
             background: transparent;
+            margin-top:0.1em;
             outline: none;
             border: none;
             &:focus {
@@ -1366,16 +1410,42 @@ const StyledMap = styled.div`
           }
         ß
       }
-      .botonContainer {
-        width: 100vw;
+      .boton {
+        border: solid 2px #00507a;
+        color: white;
+        padding: 0.9rem;
+        font-size: 0.8em;
+        width: 40vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #00507a;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+  
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+      }
+  
+      .botonContainer2 {
+        width: 100%;
         background: #fafafa;
-        height: 10vh;
+        height: 18vh;
         display: flex;
         justify-content: center;
-        align-items: center;
-      }
-      .boton {
-        width: 150px;
+        align-items: flex-start;
+        padding-top:0;
+        padding-bottom:0.1vh;
       }
     }
     .clear {

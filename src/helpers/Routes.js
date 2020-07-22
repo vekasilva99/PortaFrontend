@@ -29,6 +29,7 @@ import SeeDrivers from "../views/SeeDrivers";
 import MapRep from "../views/MapRep";
 import MapCli from "../views/MapCli";
 import DeliveryCli from "../views/DeliveryCli";
+import DeliveryRep from "../views/DeliveryRep";
 import EmailCli from "../views/EmailCli";
 import Payment from "../views/Payment";
 import EmailRep from "../views/EmailRep";
@@ -135,6 +136,12 @@ export default function Routes() {
         path="/driver/emailrep"
         role={role}
         component={EmailRep}
+      />
+      <GuardRoutesDriver
+        exact
+        path="/driver/mytrips"
+        role={role}
+        component={DeliveryRep}
       />
 
       <GuardRoute

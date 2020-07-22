@@ -69,12 +69,7 @@ export default function DriverProfile(props) {
 
   return (
     <FormStyle>
-      <div className="navb">
-        {/* <button className="saveB2" type="submit">
-          {" "}
-          <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
-        </button> */}
-      </div>
+      <div className="navb"></div>
       <div className="driver-profile">
         <div className="profile">
           <div className="edit">
@@ -167,11 +162,12 @@ export default function DriverProfile(props) {
                   className="comment-input"
                   maxlength="50"
                 />
-
-                <button className="add" type="submit" block>
-                  {" "}
-                  ADD{" "}
-                </button>
+                <div className="botonContainer2">
+                  <button className="add" type="submit" block>
+                    {" "}
+                    ADD{" "}
+                  </button>
+                </div>
               </form>
             )}
           </Formik>
@@ -478,12 +474,21 @@ const FormStyle = styled.section`
           }
         }
       }
+
+      .botonContainer2 {
+        width: 100%;
+        background: #fafafa;
+        height: 18vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
       .add {
         border: solid 2px #00507a;
         color: white;
-        padding: 0rem;
-        font-size: 0.6em;
-        width: 50vw;
+        padding: 0.9rem;
+        font-size: 0.8em;
+        width: 40vw;
         display: flex;
         font-weight: 600;
         cursor: pointer;
@@ -491,13 +496,6 @@ const FormStyle = styled.section`
         border-radius: 500px;
         transition: all ease-in-out 0.3s;
         justify-content: center;
-        justify-self: center;
-        align-items: center;
-        align-self: center;
-        margin-top: 0.5em;
-        margin-bottom: 0.2em;
-        margin-left: 0em;
-        height: 7vh;
 
         &:hover {
           opacity: 0.8;
@@ -678,12 +676,20 @@ const FormStyle = styled.section`
           }
         }
       }
+      .botonContainer2 {
+        width: 100%;
+        background: #fafafa;
+        height: 18vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
       .add {
         border: solid 2px #00507a;
         color: white;
-        padding: 0rem;
-        font-size: 1em;
-        width: 50vw;
+        padding: 0.9rem;
+        font-size: 0.8em;
+        width: 40vw;
         display: flex;
         font-weight: 600;
         cursor: pointer;
@@ -691,13 +697,6 @@ const FormStyle = styled.section`
         border-radius: 500px;
         transition: all ease-in-out 0.3s;
         justify-content: center;
-        justify-self: center;
-        align-items: center;
-        align-self: center;
-        margin-top: 1em;
-        margin-bottom: 0.2em;
-        margin-left: 0em;
-        height: 7vh;
 
         &:hover {
           opacity: 0.8;

@@ -50,7 +50,11 @@ export default function AdminHome() {
       </div>
       <div className="form">
         <div className="header">
-          <img className="photo" src="/RepartidorFondo.png" />
+          {currentOrder.user.userImageURL ? (
+            <img className="photo" src={currentOrder.user.userImageURL} />
+          ) : (
+            <img className="photo" src="/ClienteMap.png" />
+          )}
           <h1>
             {currentOrder.user.name} {currentOrder.user.lastName}
           </h1>
@@ -135,6 +139,9 @@ const HomeStyle = styled.section`
     }
     .photo {
       width: 4em;
+      border-radius: 500px;
+      border: solid 0.2em #00507a;
+      background:#fafafa;
     }
   }
   .form {
@@ -162,15 +169,49 @@ const HomeStyle = styled.section`
   @media only screen and (max-width: 734px) {
     .form {
       width: 100vw;
-      height: 100vh;
+      height: 100%;
+      padding: 1em;
       margin-left: 0;
-      margin-top: 0;
+      margin-top: 10vh;
       display: flex;
       position: fixed;
+      .chat {
+        width: 100%;
+        background:#fafafa;
+        height: 55vh;
+        overflow-y: scroll;
+      }
+      .send {
+        width: 100%;
+        display: flex;
+  
+        height: 15vh;
+      }
     }
+  }
 
-    .show {
-      display: none;
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .form {
+      width: 100vw;
+      height: 100%;
+      padding: 1em;
+      margin-left: 0;
+      margin-top: 9vh;
+      display: flex;
+      position: fixed;
+      .chat {
+        width: 100%;
+        background:#fafafa;
+        height: 55vh;
+        overflow-y: scroll;
+      }
+      .send {
+        width: 100%;
+        display: flex;
+  
+        height: 15vh;
+      }
+    }
     }
   }
 `;

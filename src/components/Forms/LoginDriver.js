@@ -136,7 +136,13 @@ export default function FormLoginDriver(props) {
                   color={props.color}
                 />
                 {error ? (
-                  <div className="error">{error.graphQLErrors[0].message}</div>
+                  <>
+                    {error.graphQLErrors[0] ? (
+                      <div className="error">
+                        {error.graphQLErrors[0].message}
+                      </div>
+                    ) : null}
+                  </>
                 ) : null}
                 <div className="buttonC">
                   <Button color={props.color} type="submit" block>
