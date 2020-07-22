@@ -72,7 +72,29 @@ const HomeStyle = styled.section`
 
       justify-content: center;
       h1 {
-        margin-top: 100px;
+        margin-top: 12vh;
+        font-weight: 300;
+        color: #00507a;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        z-index: 0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .Payment {
+      width: 100vw;
+      height: 100vh;
+      margin-left: 0;
+      margin-top: 0;
+      display: flex;
+      position: relative;
+      padding-left: 0;
+
+      justify-content: center;
+      h1 {
+        margin-top: 10vh;
         font-weight: 300;
         color: #00507a;
         letter-spacing: 2px;

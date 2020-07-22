@@ -13,7 +13,7 @@ const ButtonS = styled.button`
   padding: 0.9rem;
   font-size: 1em;
   margin: 0.3rem;
-  margin-top: 3rem;
+  margin-top: 0;
   width: 30vw;
   display: ${(props) => (props.block ? "block" : "inline-block")};
   font-weight: 600;

@@ -34,6 +34,7 @@ export default function MapRep() {
     latitud,
     longitud,
     currentOrder,
+    workingStatus,
   } = useSelector((state) => ({
     ...state.User,
   }));
@@ -76,18 +77,22 @@ export default function MapRep() {
           {currentOrder ? (
             <div className="busqueda">
               <h1>Pedido Actual</h1>
-              <h5>Se encuentra disponible?</h5>
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  defaultChecked={available}
-                  value={available}
-                  checked={available}
-                  disabled={true}
-                ></input>
+              {!currentOrder ? (
+                <>
+                  <h5>Se encuentra disponible?</h5>
+                  <label class="switch">
+                    <input
+                      type="checkbox"
+                      defaultChecked={available}
+                      value={available}
+                      checked={available}
+                      disabled={true}
+                    ></input>
 
-                <span class="slider round"></span>
-              </label>
+                    <span class="slider round"></span>
+                  </label>
+                </>
+              ) : null}
               <div className="info">
                 <div className="div6">
                   <h2>Cliente</h2>
@@ -118,10 +123,13 @@ export default function MapRep() {
                   value={available}
                   checked={available}
                   onChange={handleChangeChk}
+                  disabled={!workingStatus}
                 ></input>
                 <span class="slider round"></span>
               </label>
-              {available ? <Pedido handleChangeChk={handleChangeChk} /> : null}
+              {available && workingStatus ? (
+                <Pedido handleChangeChk={handleChangeChk} />
+              ) : null}
             </div>
           )}
           <div className="clear"></div>
@@ -339,23 +347,94 @@ const StyleMapRep = styled.div`
         width: 1;
       }
       h5 {
-        font-size: 25px;
+        font-size: 20px;
         font-weight: 500;
         color: #1d1d1f;
         margin: 0;
-        margin-top: 5%;
+        margin-top: 3%;
         margin-left: 15%;
       }
       .switch {
         margin-left: 42%;
-        margin-top: 15px;
+        margin-top: 12px;
         margin-bottom: 20px;
+        width: 50px;
       }
     }
 
     .clear {
       grid-area: clear;
       height: 52vh;
+    }
+
+    .info {
+      margin: 0;
+      padding-top: 2%;
+      padding-bottom: 15%;
+      padding-left: 9%;
+      padding-right: 9%;
+      width: 100%;
+      height: 20vh;
+      background: #fafafa;
+      display: grid;
+      grid-template-areas: "partida partida";
+    }
+
+    .div6 {
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      grid-area: partida;
+
+      h2 {
+        font-size: 12px;
+        font-weight: 500;
+        color: #1d1d1f;
+        margin: 0;
+      }
+
+      h3 {
+        font-size: 15px;
+        font-weight: 200;
+        color: #1d1d1f;
+        margin: 0;
+      }
+    }
+
+    .boton {
+      border: solid 2px #ef0023;
+      color: white;
+      padding: 0.9rem;
+      font-size: 0.8em;
+      width: 40vw;
+      display: flex;
+      font-weight: 600;
+      cursor: pointer;
+      background: #ef0023;
+      border-radius: 500px;
+      transition: all ease-in-out 0.3s;
+      justify-content: center;
+
+      &:hover {
+        opacity: 0.8;
+        background: #ef0023;
+        color: white;
+        border-color: #ef0023;
+      }
+      &:focus {
+        opacity: 0.8;
+        outline: none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .botonContainer2 {
+      width: 100%;
+      background: #fafafa;
+      height: 18vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 `;

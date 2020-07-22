@@ -8,6 +8,8 @@ import store from "./redux/store";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import { isWidthDown } from "@material-ui/core";
 import AlertTemplate from "react-alert-template-basic";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   const options = {

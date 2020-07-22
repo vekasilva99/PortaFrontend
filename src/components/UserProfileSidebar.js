@@ -93,4 +93,7 @@ const StyledSidebar = styled.nav`
   @media only screen and (max-width: 734px) {
     display: none;
   }
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    display: none;
+  }
 `;

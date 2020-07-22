@@ -22,13 +22,15 @@ export default function DriverEditProfile() {
   return (
     <HomeStyle>
       {" "}
-      <NavbarOn name={name} />
-      {/* <NavbarDriver togglerSidebar={handlingSidebar} /> */}
-      <DriverMenu show={sidebar} />
+      <div className="show">
+        <NavbarOn name={name} toggle={handlingSidebar} />
+        <DriverMenu show={sidebar} />
+      </div>
       <div className="form">
         <DriverRequestForm />
       </div>
       <DriverProfileSidebar />
+      <div className="content"></div>
     </HomeStyle>
   );
 }
@@ -47,7 +49,7 @@ const HomeStyle = styled.section`
   .photo2 {
     border-radius: 500px;
     padding: 2em;
-    border: solid 0.2em #00507a;
+    border: solid 0.2em #ef0023;
     width: 8vw;
     height: 8vw;
     margin-left: 1vw;
@@ -60,7 +62,7 @@ const HomeStyle = styled.section`
     display: flex;
     position: absolute;
     padding: 1em;
-    border: solid 0.1em #00507a;
+    border: solid 0.1em #ef0023;
     width: 2vw;
     height: 2vw;
     background: white;
@@ -84,7 +86,18 @@ const HomeStyle = styled.section`
     position: fixed;
   }
 
-  @media only screen and (max-width: 734px) {
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .form {
+      width: 100vw;
+      height: 100vh;
+      margin-left: 0;
+      margin-top: 0;
+      display: flex;
+      position: fixed;
+    }
+  }
+
+  @media only screen and (max-width: 735px) {
     .form {
       width: 100vw;
       height: 100vh;

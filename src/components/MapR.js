@@ -12,6 +12,7 @@ import {
 import { COMPLETE_ORDER } from "../helpers/graphql/subscriptions/index";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { FiAlertCircle } from "react-icons/fi";
 import {
   GoogleMap,
   useLoadScript,
@@ -85,6 +86,7 @@ export default function MapR() {
     longitud,
     currentOrder,
     saldo,
+    workingStatus,
   } = useSelector((state) => ({
     ...state.User,
   }));
@@ -444,6 +446,7 @@ export default function MapR() {
         handleCompleted={handleCompleted}
         handleCashOut={handleCashOut}
         saldo={saldo}
+        workingStatus={workingStatus}
       />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
@@ -537,6 +540,7 @@ function Locate({
   handleCompleted,
   handleCashOut,
   saldo,
+  workingStatus,
 }) {
   return (
     <StyledMap>
@@ -570,11 +574,18 @@ function Locate({
       >
         <img src="/RepartidorFondo.png" alt="compass" />
       </button>
-      <button className="cashOut" onClick={handleCashOut}>
-        {/* <img src="/IMHERE.png" alt="compass" /> */}
-        <h4>CASH OUT</h4>
-        <h3>{saldo.toString()}$</h3>
-      </button>
+      {!workingStatus ? (
+        <div className="able-to-drive">
+          <FiAlertCircle size="1.5em" color="#ef0023" />
+          <h4>Realice Su Solicitud!</h4>
+        </div>
+      ) : (
+        <button className="cashOut" onClick={handleCashOut}>
+          {/* <img src="/IMHERE.png" alt="compass" /> */}
+          <h4>CASH OUT</h4>
+          <h3>{saldo.toString()}$</h3>
+        </button>
+      )}
       {currentOrder ? (
         <div>
           {currentOrder.status === "Picking up package" ? (
@@ -615,6 +626,28 @@ const StyledMap = styled.div`
     background: none;
     border: none;
     z-index: 2010;
+  }
+  .able-to-drive {
+    position: absolute;
+    width: 20vw;
+    top: 6rem;
+    padding: 0;
+    padding-left: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    right: 7rem;
+    background: #fafafa;
+    border: none;
+    height: 3.5em;
+    z-index: 2010;
+    h4 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color: #ef0023;
+      font-size: 1em;
+      margin-left: 0.5em;
+    }
   }
   .cashOut {
     position: absolute;

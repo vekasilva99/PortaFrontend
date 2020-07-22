@@ -87,7 +87,7 @@ const HomeStyle = styled.section`
     position: fixed;
   }
 
-  @media only screen and (max-width: 734px) {
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
     .form {
       width: 100vw;
       height: 100vh;
@@ -96,9 +96,16 @@ const HomeStyle = styled.section`
       display: flex;
       position: fixed;
     }
+  }
 
-    .show {
-      display: none;
+  @media only screen and (max-width: 735px) {
+    .form {
+      width: 100vw;
+      height: 100vh;
+      margin-left: 0;
+      margin-top: 0;
+      display: flex;
+      position: fixed;
     }
   }
 `;

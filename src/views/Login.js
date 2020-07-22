@@ -9,7 +9,10 @@ export default function Login(props) {
       <LoginView show={props.show}>
         <div className="login-box">
           <MdClose
-            onClick={props.togglerLogin}
+            onClick={() => {
+              props.togglerLogin();
+              props.handlingNav();
+            }}
             className="close"
             size="1.7rem"
             color="#fafafa"

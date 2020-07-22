@@ -142,12 +142,10 @@ export const REGISTER_USER = gql`
 export const UPDATE_USER = gql`
   mutation($updateInput: UpdateUserInput!) {
     updateUser(updateInput: $updateInput) {
-      _id
       name
       lastName
       birthdate
       mail
-      password
       zone
       cellphone
     }
@@ -157,7 +155,6 @@ export const UPDATE_USER = gql`
 export const UPDATE_DRIVER = gql`
   mutation($updateInput: UpdateUserInput!) {
     updateRepartidor(updateInput: $updateInput) {
-      _id
       name
       lastName
       birthdate
@@ -430,7 +427,7 @@ export const CONTACT_US = gql`
 
 export const SET_CREDIT_CARD = gql`
   mutation($cardInput: CardInput) {
-    setUpCreditCard(cardInput: $cardInput){
+    setUpCreditCard(cardInput: $cardInput) {
       _id
       name
       lastName
@@ -447,7 +444,7 @@ export const SET_INTENT = gql`
 
 export const CARD_SAVED = gql`
   mutation {
-    cardSaved{
+    cardSaved {
       name
       haveCard
     }
@@ -456,7 +453,7 @@ export const CARD_SAVED = gql`
 
 export const COLLECT_PAY = gql`
   mutation {
-    collectPay{
+    collectPay {
       name
       lastName
       saldo
@@ -465,8 +462,8 @@ export const COLLECT_PAY = gql`
 `;
 
 export const UPDATE_PROFILE_PIC = gql`
-  mutation($imageURL: String!){
-    updateProfilePic(imageURL: $imageURL){
+  mutation($imageURL: String!) {
+    updateProfilePic(imageURL: $imageURL) {
       name
       lastName
       userImageURL

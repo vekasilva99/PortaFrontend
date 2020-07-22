@@ -21,7 +21,7 @@ export default function DriverMenu(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/driver/mytrips" className="link">
               MY TRIPS
             </NavLink>
           </li>
@@ -43,67 +43,53 @@ export default function DriverMenu(props) {
 const StyledSidebar = styled.nav`
   .open {
     transform: translateY(0);
-    height: 20%;
     background: #202124;
     position: fixed;
+
     right: 0;
-    width: 20vw;
     transition: transform 0.4s ease-in;
-    margin-right: 0.2em;
-    margin-top: 125px;
     z-index: 3000;
   }
 
   .close {
-    transform: translateY(-50vh);
-    height: 20%;
+    transform: translateY(-40vh);
     background: #202124;
     position: fixed;
-    top: 0;
     right: 0;
-    width: 20vw;
     transition: transform 0.4s ease-in;
-    margin-right: 0.2em;
-    margin-top: 70px;
-    z-index: 1;
+    z-index: 3000;
   }
+
   .nav-links {
+    top: 0;
+    margin: 0;
     position: fixed;
     width: 100%;
     height: 100%;
     display: flex;
     flex-flow: column;
     list-style: none;
-    left: 0;
-    top: -5;
-    list-style: none;
-    margin-left: 0;
-    width: 100%;
-    margin-block-end: 0;
-    margin-block-start: 0;
-    padding-inline-start: 0;
     justify-content: center;
     background: #202124;
   }
+
   .link {
     background: #202124;
     display: flex;
     color: #fafafa;
     font-weight: 500;
-    font-size: 0.9em;
     text-decoration: none;
     padding: 1.4rem;
     padding-left: 2rem;
     padding-right: 1.4rem;
     cursor: pointer;
-    transition: all ease-in-out 0.3s;
+    /* transition: all ease-in-out 0.3s; */
     justify-content: flex-start;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
     &:hover {
-      color: #ef0023;
-      border-left: 2.5px solid #ef0023;
+      color: #ee462f;
+      border-left: 2.5px solid #ee462f;
       background: #333333;
     }
     &:focus {
@@ -124,7 +110,43 @@ const StyledSidebar = styled.nav`
     z-index: 50;
   }
 
+  @media only screen and (min-width: 735px) {
+    .open {
+      width: 300px;
+      margin-top: 35px;
+    }
+    .close {
+      width: 300px;
+    }
+    .nav-links {
+      top: 165px;
+    }
+    .link {
+      font-size: 15px;
+    }
+  }
+
   @media only screen and (max-width: 734px) {
-    display: none;
+    .open {
+      width: 100%;
+      height: 100%;
+      top: 70px;
+      overflow: hidden;
+      margin-right: 0;
+      right: 0;
+    }
+    .close {
+      width: 100%;
+      height: 100%;
+      top: 70px;
+      transform: translateY(-100vh);
+    }
+    .nav-links {
+      top: 0;
+      justify-content: start;
+    }
+    .link {
+      font-size: 15px;
+    }
   }
 `;
