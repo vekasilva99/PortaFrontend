@@ -172,6 +172,11 @@ export default function FormLogin(props) {
                     SIGN IN{" "}
                   </Button>
                 </div>
+                {/* <div>{error  && error.networkError ? "Network error" : ""}</div> */}
+                {/* <Button color={props.color} type="submit" block>
+                  {" "}
+                  SIGN IN{" "}
+                </Button> */}
               </form>
             )
           }
@@ -186,8 +191,5 @@ const StyledForm = styled.div`
     text-align: center;
     margin-top: 1em;
     color: #ef0023;
-  }
-  .buttonC {
-    margin-top: 3em;
   }
 `;

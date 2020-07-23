@@ -172,4 +172,7 @@ const StyledForm = styled.div`
     margin-top: 1em;
     color: #ef0023;
   }
+  Button {
+    margin-top: 100px;
+  }
 `;

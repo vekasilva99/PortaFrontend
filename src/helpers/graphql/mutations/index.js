@@ -470,3 +470,13 @@ export const UPDATE_PROFILE_PIC = gql`
     }
   }
 `;
+
+export const DISABLE_DRIVER = gql`
+  mutation($driverId: String!) {
+    disableDriver(driverId: $driverId) {
+      name
+      lastName
+      workingStatus
+    }
+  }
+`;

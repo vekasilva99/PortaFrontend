@@ -164,6 +164,7 @@ export const GET_REPARTIDORES = gql`
       carnetCirculacion
       seguroVehiculo
       placaVehiculo
+      workingStatus
       rating {
         score
       }
