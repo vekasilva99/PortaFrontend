@@ -2,18 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import { GET_REPARTIDORES } from "../helpers/graphql/queries";
+import { GET_REQUESTS } from "../helpers/graphql/queries";
 import { DISABLE_DRIVER } from "../helpers/graphql/mutations";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import { Button } from "antd";
 
-export default function AdminTable(props) {
+export default function TableRequests(props) {
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(
-    GET_REPARTIDORES
+    GET_REQUESTS
   );
-
   const [disableDriver, { data, error, loading }] = useMutation(DISABLE_DRIVER);
 
   if (loadingU) return "Loading...";
@@ -28,66 +27,49 @@ export default function AdminTable(props) {
   };
 
   return (
-    <TableDriversStyle>
+    <TableRequestsStyle>
       <table>
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col" width="35%">
-              Mail
+            <th scope="col" width="20%">
+              Name
             </th>
-            <th scope="col" width="16%">
-              Cellphone
+            <th scope="col">ID</th>
+            <th scope="col">Experience</th>
+            <th scope="col">Vehicle</th>
+            <th scope="col" width="30%">
+              Desition
             </th>
-            <th scope="col">Date Hired</th>
-            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
-          {dataU.drivers.map((user) => (
+          {dataU.solicitudes.map((request) => (
             <tr>
-              <td data-label="Name">{user.name}</td>
-              <td data-label="Last Name">{user.lastName}</td>
-              <td data-label="Mail">{user.mail}</td>
-              <td data-label="Cellphone">{user.cellphone}</td>
-              <td data-label="Date Hired">
-                {moment(user.createdAt).format("DD-mm-yy")}
+              <td data-label="Name">
+                {request.repartidor.name} {request.repartidor.lastName}
               </td>
-              <td data-label="Status">
-                <Button href="#popup1">
-                  {user.workingStatus ? "Accepted" : "Pending"}
+              <td data-label="ID">{request.repartidor.cedula}</td>
+              <td data-label="Experience">{request.experience}</td>
+              <td data-label="Vehicle">{request.vehicle}</td>
+              <td data-label="Desition">
+                <Button>Accept</Button>
+                <Button
+                  className="del"
+                  onClick={() => {
+                    reject(request.repartidor._id);
+                  }}
+                >
+                  Reject
                 </Button>
-                <div id="popup1" class="overlay">
-                  <div class="popup">
-                    <h2>Rejected?</h2>
-                    <a class="close" href="#">
-                      &times;
-                    </a>
-                    <div class="content">
-                      Desea cambiar el estado del repartidor seleccionado? Esta
-                      acción no puede revertirse
-                    </div>
-                    <Button
-                      href="#"
-                      className="del"
-                      onClick={() => {
-                        reject(user._id);
-                      }}
-                    >
-                      REJECT
-                    </Button>
-                  </div>
-                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </TableDriversStyle>
+    </TableRequestsStyle>
   );
 }
-const TableDriversStyle = styled.nav`
+const TableRequestsStyle = styled.nav`
   display: flex;
   flex-flow: column;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
