@@ -71,6 +71,7 @@ export default function Deliv(props) {
         } else return prev;
       },
     });
+
     return () => {
       unsubscription();
     };
@@ -79,6 +80,15 @@ export default function Deliv(props) {
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
+  };
+
+  const getMoney = (orders) => {
+    let content = 0;
+    for (let item of orders) {
+      content = content + item.price;
+    }
+
+    return content;
   };
 
   if (error) return `Error ${error.message}`;
@@ -93,6 +103,12 @@ export default function Deliv(props) {
         ) : (
           <>
             {orders.length > 0 ? (
+              <div className="collected">
+                <h3>You have made: </h3>
+                <h3> ${getMoney(orders).toString()} USD</h3>
+              </div>
+            ) : null}
+            {orders.length > 0 ? (
               orders.map((order) => (
                 <div key={order._id} className="order">
                   <div className="textb">
@@ -104,9 +120,9 @@ export default function Deliv(props) {
 
                     {order.repartidor ? (
                       <div>
-                        <h4>Repartidor</h4>
+                        <h4>Usuario</h4>
                         <h3>
-                          {order.repartidor.name} {order.repartidor.lastName}
+                          {order.user.name} {order.user.lastName}
                         </h3>
                       </div>
                     ) : null}
@@ -121,7 +137,7 @@ export default function Deliv(props) {
               ))
             ) : (
               <div className="empty">
-                <img src="/empty.png" alt="compass" />
+                <img src="/emptyrojo.png" alt="compass" />
                 <h2>Usted no ha realizado ningun Viaje</h2>
               </div>
             )}
@@ -218,11 +234,11 @@ const StyledDeliv = styled.nav`
   .textb {
     padding: 0;
     width: 100%;
-    background: #00507a;
+    background: #ee462f;
     height: max-content;
     border-radius: 20px;
     margin-top: 0;
-    border: 1px solid #00507a;
+    border: 1px solid #ee462f;
     width: 100%;
     padding: 0.5em;
   }

@@ -9,17 +9,17 @@ export default function DriverProfileSidebar() {
       <div className="container">
         <ul className="nav-links">
           <li>
-            <NavLink to="/admin" className="link">
+            <NavLink to="/driver/request" className="link">
               REQUEST TO BE A DRIVER
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin/users" className="link">
+            <NavLink to="/driver/mytrips" className="link">
               MY TRIPS
             </NavLink>
           </li>
           <li>
-            <NavLink to="/" className="link">
+            <NavLink to="/river/driverprofile" className="link">
               PROFILE SETTINGS
             </NavLink>
           </li>

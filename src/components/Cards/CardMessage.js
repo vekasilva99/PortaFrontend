@@ -8,7 +8,7 @@ import {
   MDBCardText as Text,
   MDBRow as Row,
 } from "mdbreact";
-
+import moment from "moment";
 export default function CardMessage({
   content,
   date,
@@ -42,9 +42,7 @@ export default function CardMessage({
               </div>
               <p className="cont"> {content}</p>
               <div className="info2">
-                <p className="date">
-                  {new Date(date).toLocaleString("en-VE", options)}{" "}
-                </p>
+                <p className="date">{moment(message.createdAt).fromNow()} </p>
               </div>
             </Col>
           </Body>
@@ -288,5 +286,8 @@ const StyledCard = styled.div`
         color: #fafafa;
       }
     }
+  }
+
+  @media only screen and (max-width: 734px) {
   }
 `;

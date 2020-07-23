@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import Deliv from "../components/Deliv";
 
 export default function DeliveryCli() {
-  const [on, setToggle] = React.useState(true);
+  const [on, setToggle] = React.useState(false);
   const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
@@ -46,29 +46,34 @@ const DeliveryCliStyle = styled.div`
   width: 100vw;
   margin: 0;
   padding: 0;
-  top: 0;
-  left: 0;
 
   .page {
     margin-top: 80px;
   }
 
   .deliveries {
-    background-color: white;
-    padding-left: 3rem;
+    margin-top: 70px;
+    display: flex;
+    position: relative;
+    width: 60vw;
+    height: 80vh;
+    padding-left: 0;
     h1 {
       font-weight: 300;
       color: #00507a;
       letter-spacing: 2px;
       margin-bottom: 40px;
+      margin-left: 3rem;
     }
   }
 
-  @media only screen and (min-width: 970px) {
+  @media only screen and (min-width: 1069px) {
     .page {
-      display: grid;
-      grid-template-columns: 25% 75%;
-      grid-auto-rows: 100vh;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     .repartidores {
       h1 {
@@ -86,7 +91,7 @@ const DeliveryCliStyle = styled.div`
       }
     }
   }
-  @media only screen and (max-width: 969px) and (min-width: 735px) {
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
     .repartidores {
       height: 100vh;
       h1 {
@@ -106,6 +111,23 @@ const DeliveryCliStyle = styled.div`
     }
     .sid {
       display: none;
+    }
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding-left: 0;
+      h1 {
+        display: flex;
+        justify-self: center;
+        font-weight: 300;
+        color: #00507a;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        margin-left: 0;
+      }
     }
   }
   @media only screen and (max-width: 734px) {
@@ -133,6 +155,24 @@ const DeliveryCliStyle = styled.div`
     }
     .sid {
       display: none;
+    }
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      padding-left: 0;
+      h1 {
+        display: flex;
+        justify-self: center;
+        font-weight: 300;
+        color: #00507a;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        margin-left: 0;
+      }
     }
   }
 `;

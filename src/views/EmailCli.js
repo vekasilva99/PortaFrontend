@@ -67,7 +67,7 @@ const EmailCliStyle = styled.div`
     }
   }
 
-  @media only screen and (min-width: 970px) {
+  @media only screen and (min-width: 1069px) {
     .page {
       display: grid;
       grid-template-columns: 25% 75%;
@@ -89,11 +89,13 @@ const EmailCliStyle = styled.div`
       }
     }
   }
-  @media only screen and (max-width: 969px) and (min-width: 735px) {
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
     .page {
-      display: grid;
-      grid-template-columns: 25% 75%;
-      grid-auto-rows: 100vh;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     .mails {
       height: 100vh;

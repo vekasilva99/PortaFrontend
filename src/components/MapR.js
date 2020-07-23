@@ -134,41 +134,6 @@ export default function MapR() {
     }
   }, [dataS, dispatch]);
 
-  // const { dataA } = await orderArrived({
-  //   variables: {
-  //     orderId: currentOrder_id.toString(),
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   if (dataA && dataA.orderArrived) {
-  //     dispatch({
-  //       type: "UPDATE_USER",
-  //       payload: {
-  //         currentOrder: dataA.orderArrived,
-  //       },
-  //     });
-  //   }
-  // }, [dataA, dispatch]);
-
-  // const [
-  //   orderCompleted,
-  //   { data: dataC, error: errorC, loading: loadingC },
-  // ] = useMutation(ORDER_COMPLETED);
-
-  // useEffect(() => {
-  //   if (dataC && dataC.orderCompleted) {
-  //     dispatch({
-  //       type: "UPDATE_USER",
-  //       payload: {
-  //         currentOrder: null,
-  //       },
-  //     });
-  //   }
-  // }, [dataC, dispatch]);
-
-  // Completed
-
   console.log("latitud" + latitud);
   console.log("longitud" + longitud);
 

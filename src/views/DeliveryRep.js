@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { colorPrimary } from "../helpers/styles";
-import NavbarAdmin from "../components/NavbarAdmin";
-import AdminSidebar from "../components/AdminSidebar";
-import AdminTable from "../components/AdminUserDashboardTable";
-import AdminDriverTable from "../components/AdminDriverDashboardTable";
-import RequestsTable from "../components/RequestsDashboardTable";
-import CardMessage from "../components/Cards/CardMessage";
-import Messages from "../components/Messages";
 import NavbarOn from "../components/NavOn";
 import DriverMenu from "../components/DriverMenu";
 import DriverProfileSidebar from "../components/DriverProfileSidebar";
-import UserProfileForm from "../components/Forms/UserProfile";
 import { useSelector } from "react-redux";
-import Correo from "../components/Correo";
+import DelivRep from "../components/DelivRep";
 
-export default function EmailCli() {
+export default function DeliveryRep() {
   const [on, setToggle] = React.useState(false);
   const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
   }));
   return (
-    <EmailCliStyle>
+    <DeliveryCliStyle>
       <NavbarOn name={name} toggle={handleToggle} />
       <DriverMenu show={on} />
       <div className="page">
@@ -30,48 +21,72 @@ export default function EmailCli() {
           {/* <SideIn></SideIn> */}
           <DriverProfileSidebar />
         </div>
-        <div className="mails">
-          <h1>Emails</h1>
-          <Correo color="#EE462F" />
+        <div className="deliveries">
+          <h1>My Trips</h1>
+          <DelivRep />
         </div>
       </div>
-    </EmailCliStyle>
+    </DeliveryCliStyle>
   );
 }
 
-const EmailCliStyle = styled.div`
+const DeliveryCliStyle = styled.div`
   position: absolute;
   background: white;
   height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
-  top: 0;
-  left: 0;
 
   .page {
     margin-top: 80px;
   }
 
-  .mails {
-    background-color: white;
-    padding-left: 3rem;
+  .deliveries {
+    margin-top: 70px;
+    display: flex;
+    position: relative;
+    width: 60vw;
+    height: 80vh;
+    padding-left: 0;
     h1 {
       font-weight: 300;
       color: #ee462f;
       letter-spacing: 2px;
       margin-bottom: 40px;
+      margin-left: 3rem;
     }
   }
 
   @media only screen and (min-width: 1069px) {
     .page {
-      display: grid;
-      grid-template-columns: 25% 75%;
-      grid-auto-rows: 100vh;
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
-    .mails {
+    .repartidores {
       h1 {
+        font-weight: 300;
+        color: #ee462f;
+        letter-spacing: 2px;
+      }
+      h2 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      hr {
+        border: 1px solid #00507a;
+        width: 600px;
+      }
+    }
+  }
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .repartidores {
+      height: 100vh;
+      h1 {
+        margin-top: 100px;
         font-weight: 300;
         color: #ee462f;
         letter-spacing: 2px;
@@ -85,53 +100,30 @@ const EmailCliStyle = styled.div`
         width: 600px;
       }
     }
-  }
-  @media only screen and (max-width: 1069px) and (min-width: 735px) {
-    .page {
-      margin-top: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+    .sid {
+      display: none;
     }
-    .mails {
-      height: 100vh;
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
       width: 100vw;
+      height: 100vh;
+      padding-left: 0;
       h1 {
-        margin-top: 100px;
+        display: flex;
+        justify-self: center;
         font-weight: 300;
         color: #ee462f;
         letter-spacing: 2px;
-      }
-      h2 {
-        margin-top: 15px;
-        margin-bottom: 15px;
-      }
-      hr {
-        border: 1px solid #ef0023a;
-        width: 600px;
+        margin-bottom: 40px;
+        margin-left: 0;
       }
     }
   }
   @media only screen and (max-width: 734px) {
     .page {
-      margin-top: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    .mails {
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-top: 80px;
-      h1 {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
+      margin-top: 50px;
     }
     .repartidores {
       height: 100vh;
@@ -139,7 +131,7 @@ const EmailCliStyle = styled.div`
         margin-top: 100px;
         font-size: 30px;
         font-weight: 300;
-        color: #ef0023a;
+        color: #ee462f;
         letter-spacing: 2px;
       }
       h2 {
@@ -148,12 +140,30 @@ const EmailCliStyle = styled.div`
         font-size: 15px;
       }
       hr {
-        border: 1px solid #ef0023a;
+        border: 1px solid #ee462f;
         width: 400px;
       }
     }
     .sid {
       display: none;
+    }
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      padding-left: 0;
+      h1 {
+        display: flex;
+        justify-self: center;
+        font-weight: 300;
+        color: #ee462f;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        margin-left: 0;
+      }
     }
   }
 `;

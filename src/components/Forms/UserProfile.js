@@ -85,146 +85,250 @@ export default function UserProfileForm(props) {
   };
 
   return (
-    <>
-      <FormStyle>
-        <Formik
-          initialValues={{
-            photo: null,
-          }}
-          validate={(values) => {
-            const errors = {};
+    <FormStyle>
+      {photo1E ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>{photo1E}</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                setPhotoE(null);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {dataP && dataP.updateProfilePic ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>Your Profile Picture Has Been Updated</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(true);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {dataU && dataU.updateUser ? (
+        <div className="error">
+          <div className="error-message">
+            <h4>Your Profile Has Been Updated</h4>
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(true);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {errorU && errorU.graphQLErrors ? (
+        <div className="error">
+          <div className="error-message">
+            {errorU.graphQLErrors[0].message ? (
+              <h4>{errorU.graphQLErrors[0].message}</h4>
+            ) : (
+              <h4>Ha ocurrido un error</h4>
+            )}
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(false);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {errorU && errorU.networkError ? (
+        <div className="error">
+          <div className="error-message">
+            {errorU.graphQLErrors[0].message ? (
+              <h4>{errorU.graphQLErrors[0].message}</h4>
+            ) : (
+              <h4>Ha ocurrido un error de red</h4>
+            )}
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(false);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="navb"></div>
+      <div className="driver-profile">
+        <div className="profile">
+          <div className="edit">
+            <Formik
+              initialValues={{
+                photo: null,
+              }}
+              validate={(values) => {
+                const errors = {};
 
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            /// code here
-            //event.preventDefault();
-            setSubmitting(true);
-            console.log(photo1);
-            let image = new FormData();
-            let file = document.querySelector("#photoId");
-            image.append("image", file.files[0]);
-            console.log(image);
-            const userId = _id;
-            if (photo1) {
-              const uploadTask = storage
-                .ref(`images/${photo1.name}`)
-                .put(photo1);
-              uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                  const progress = Math.round(
-                    (snapshot.bytesTransfered / snapshot.totalBytes) * 100
-                  );
-                  setProgress(progress);
-                },
-                (error) => {
-                  setPhotoE(error);
-                  console.log(error);
-                },
-                () => {
-                  storage
-                    .ref("images")
-                    .child(photo1.name)
-                    .getDownloadURL()
-                    .then(async (url) => {
-                      const { data: dataP } = await updateProfilePic({
-                        variables: {
-                          imageURL: url,
-                        },
-                      });
-                      if (dataP && dataP.updateProfilePic) {
-                        dispatch({
-                          type: "UPDATE_USER",
-                          payload: {
-                            userImageURL: url,
-                          },
-                        });
-                      }
-
-                      setProgress(0);
-                      setPhoto(null);
-                    });
-                }
-              );
-            } else {
-              setPhotoE("Please Select An Image to Upload");
-            }
-
-            setSubmitting(false);
-            resetForm();
-          }}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            isSubmitting,
-            /* and other goodies */
-          }) => (
-            <>
-              <Form
-                onSubmit={handleSubmit}
-                className="formP"
-                encType="multipart/form-data"
-              >
-                <div className="edit">
-                  {userImageURL ? (
-                    <img className="photo" src={userImageURL} />
-                  ) : (
-                    <img className="photo" src={user} />
-                  )}
-
-                  <label>
-                    <Field
-                      className="inputPhoto"
-                      type="file"
-                      name="image"
-                      id="photoId"
-                      style={{ display: "none" }}
-                      onChange={(event) => {
-                        const file = event.currentTarget.files[0];
-
-                        if (file) {
-                          const fileType = file["type"];
-                          const validImageTypes = [
-                            "image/gif",
-                            "image/jpeg",
-                            "image/png",
-                          ];
-                          if (validImageTypes.includes(fileType)) {
-                            setPhotoE(null);
-                            setPhoto(event.currentTarget.files[0]);
-                          } else {
-                            setPhotoE("Please Select An Image to Upload");
-                            console.log("Please Select An Image to Upload");
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                /// code here
+                //event.preventDefault();
+                setSubmitting(true);
+                console.log(photo1);
+                let image = new FormData();
+                let file = document.querySelector("#photoId");
+                image.append("image", file.files[0]);
+                console.log(image);
+                const userId = _id;
+                if (photo1) {
+                  const uploadTask = storage
+                    .ref(`images/${photo1.name}`)
+                    .put(photo1);
+                  uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                      const progress = Math.round(
+                        (snapshot.bytesTransfered / snapshot.totalBytes) * 100
+                      );
+                      setProgress(progress);
+                    },
+                    (error) => {
+                      setPhotoE(error);
+                      console.log(error);
+                    },
+                    () => {
+                      storage
+                        .ref("images")
+                        .child(photo1.name)
+                        .getDownloadURL()
+                        .then(async (url) => {
+                          const { data: dataP } = await updateProfilePic({
+                            variables: {
+                              imageURL: url,
+                            },
+                          });
+                          if (dataP && dataP.updateProfilePic) {
+                            dispatch({
+                              type: "UPDATE_USER",
+                              payload: {
+                                userImageURL: url,
+                              },
+                            });
                           }
-                        } else {
-                        }
-                      }}
-                    />
 
-                    <label htmlFor="photoId" className="settings" type="button">
-                      <MdModeEdit className="pen" color="#00507a" size="1em" />
-                    </label>
-                  </label>
-                  {photo1 ? (
-                    <button type="submit" className="saveP">
-                      <MdSave className="save" color="#00507a" size="0.8em" />
-                    </button>
-                  ) : null}
-                </div>
-              </Form>
-            </>
-          )}
-        </Formik>
+                          setProgress(0);
+                          setPhoto(null);
+                        });
+                    }
+                  );
+                } else {
+                  setPhotoE("Please Select An Image to Upload");
+                }
 
-        <div className="Form">
+                setSubmitting(false);
+                resetForm();
+              }}
+            >
+              {({
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                isSubmitting,
+                /* and other goodies */
+              }) => (
+                <>
+                  <Form
+                    onSubmit={handleSubmit}
+                    className="formP"
+                    encType="multipart/form-data"
+                  >
+                    <div className="edit">
+                      {userImageURL ? (
+                        <img className="photo" src={userImageURL} />
+                      ) : (
+                        <img className="photo" src={user} />
+                      )}
+
+                      <Field
+                        className="inputPhoto"
+                        type="file"
+                        name="image"
+                        id="photoId"
+                        style={{ display: "none" }}
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+
+                          if (file) {
+                            const fileType = file["type"];
+                            const validImageTypes = [
+                              "image/gif",
+                              "image/jpeg",
+                              "image/png",
+                            ];
+                            if (validImageTypes.includes(fileType)) {
+                              setPhotoE(null);
+                              setPhoto(event.currentTarget.files[0]);
+                            } else {
+                              setPhotoE("Please Select An Image to Upload");
+                              console.log("Please Select An Image to Upload");
+                            }
+                          } else {
+                          }
+                        }}
+                      />
+
+                      <label
+                        htmlFor="photoId"
+                        className="settings"
+                        type="button"
+                      >
+                        <MdModeEdit
+                          className="pen"
+                          color="#00507a"
+                          size="1em"
+                        />
+                      </label>
+
+                      {photo1 ? (
+                        <button type="submit" className="saveP">
+                          <MdSave
+                            className="save"
+                            color="#00507a"
+                            size="1.5em"
+                          />
+                        </button>
+                      ) : null}
+                    </div>
+                  </Form>
+                </>
+              )}
+            </Formik>
+          </div>
+          <div className="Profile-name">
+            <h1>
+              {name} {lastName}
+            </h1>
+            <h2>{mail}</h2>
+            <h2>{cellphone}</h2>
+          </div>
+        </div>
+        <div className="edit-section">
           <Formik
             initialValues={{
-              Email: mail,
               Password: "211ce496Vale",
               Phone: cellphone,
               FName: name,
@@ -235,14 +339,7 @@ export default function UserProfileForm(props) {
             validate={(values) => {
               const errors = {};
               console.log(values);
-              if (!values.Email) {
-                errors.Email = "Required Field";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-              ) {
-                errors.Email = "Invalid Email";
-                console.log("sa");
-              }
+
               if (!values.Password) {
                 errors.Password = "Required Field";
               } else if (values.Password.length < 9) {
@@ -272,33 +369,61 @@ export default function UserProfileForm(props) {
             }}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
-
-              console.log(values.BDate);
-              const { data: dataU } = await update({
-                variables: {
-                  updateInput: {
-                    id: _id,
-                    name: values.FName,
-                    lastName: values.LName,
-                    mail: values.Email,
-                    birthdate: new Date(moment(selectedDate)),
-                    zone: values.Region,
-                  },
-                },
-              });
-
-              if (dataU && dataU.createUser) {
-                dispatch({
-                  type: "UPDATE_USER",
-                  payload: {
-                    name: values.FName,
-                    lastName: values.LName,
-                    mail: values.Email,
-                    birthdate: new Date(moment(selectedDate)),
-                    zone: values.Region,
+              if (selectedDate === null) {
+                const { data: dataU } = await update({
+                  variables: {
+                    updateInput: {
+                      id: _id,
+                      name: values.FName,
+                      lastName: values.LName,
+                      mail: values.Email,
+                      birthdate: new Date(birthdate),
+                      zone: values.Region,
+                    },
                   },
                 });
+
+                if (dataU && dataU.updateUser) {
+                  dispatch({
+                    type: "UPDATE_USER",
+                    payload: {
+                      name: values.FName,
+                      lastName: values.LName,
+                      mail: values.Email,
+                      birthdate: new Date(birthdate),
+                      zone: values.Region,
+                    },
+                  });
+                }
+              } else {
+                const { data: dataU } = await update({
+                  variables: {
+                    updateInput: {
+                      id: _id,
+                      name: values.FName,
+                      lastName: values.LName,
+                      mail: values.Email,
+                      birthdate: new Date(selectedDate),
+                      zone: values.Region,
+                    },
+                  },
+                });
+
+                if (dataU && dataU.createUser) {
+                  dispatch({
+                    type: "UPDATE_USER",
+                    payload: {
+                      name: values.FName,
+                      lastName: values.LName,
+                      mail: values.Email,
+                      birthdate: new Date(selectedDate),
+                      zone: values.Region,
+                    },
+                  });
+                }
               }
+
+              console.log(values.BDate);
 
               setSubmitting(false);
               resetForm();
@@ -314,50 +439,7 @@ export default function UserProfileForm(props) {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className="navb">
-                  <button className="saveB2" type="submit">
-                    {" "}
-                    <IoIosArrowDropleftCircle
-                      color="#00507a"
-                      size="4rem"
-                    />{" "}
-                  </button>
-                  <button className="log" onClick={logOut}>
-                    {" "}
-                    <FiLogIn color="#00507a" size="3.2rem" />{" "}
-                  </button>
-                </div>
-                <div className="Profile-name">
-                  <h1>{name}</h1>
-                  <input
-                    className="phone"
-                    value={values.Phone}
-                    label="Enter your Phone"
-                    id="Phone"
-                    name="Phone"
-                    type="text"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
                 <div className="Profile-content">
-                  <div className="label">
-                    <h2>Email</h2>
-                    <div className="group">
-                      <input
-                        className="mail"
-                        value={values.Email}
-                        label="Enter your Email"
-                        id="Email"
-                        type="text"
-                        name="Email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        disabled={true}
-                      />
-                      <MdKeyboardArrowRight className="icon" color="#00507a" />
-                    </div>
-                  </div>
                   <div className="label">
                     <h2>First Name</h2>
                     <div className="group">
@@ -424,8 +506,8 @@ export default function UserProfileForm(props) {
                       <MdKeyboardArrowRight color="#00507a" className="icon" />
                     </div>
                   </div>
-                  <div className="label">
-                    <button className="saveB" type="submit" block>
+                  <div className="botonContainer2">
+                    <button className="boton" type="submit">
                       {" "}
                       SAVE CHANGES{" "}
                     </button>
@@ -435,265 +517,106 @@ export default function UserProfileForm(props) {
             )}
           </Formik>
         </div>
-      </FormStyle>
-    </>
+      </div>
+    </FormStyle>
   );
 }
 const FormStyle = styled.section`
-  display: flex;
-  position: relative;
-  width: 60vw;
-  height: 80vh;
-  margin-left: 0;
-  margin-top: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 
-  .photo {
-    border-radius: 500px;
-    border: solid 0.2em #00507a;
-    width: 13vw;
-    height: 13vw;
-    margin-left: 1vw;
-  }
-  button {
+  .navb {
+    margin: 0;
+    width: 100%;
+    height: 20vh;
     display: none;
   }
-  .inputPhoto{
-    z-index:3000;
-    
-  }
-  .formP{
-    z-index:2000;
-  }
-  .settings {
-    border-radius: 500px;
-    margin-left: 0;
-    left: 0;
-    margin-top: 8vw;
-    display: flex;
-    position: absolute;
-    padding: 0.2em;
-    border: solid 0.1em #00507a;
-    width: 4vw;
-    height: 4vw;
-    background: white;
-    cursor:pointer;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    outline:none;
 
-    z-index:100;
-    &:hover {
-      cursor:pointer;
-      outline:none;
+  .error{
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    width: 100vw;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
     }
-   
 
-  }
-  .saveP {
-    border-radius: 500px;
-    margin-left: 0;
-    left: 0;
-    margin-top: 10vw;
-    margin-left:2vw;
-    display: flex;
-    position: absolute;
-    padding: 0.2em;
-    border: solid 0.1em #00507a;
-    width: 3vw;
-    height: 3vw;
-    background: white;
-    cursor:pointer;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    outline:none;
-
-    z-index:2000;
-    &:hover {
-      cursor:pointer;
-      outline:none;
-    }
-   
-
-  }
-
-  .pen {
-    border-radius: 500px;
-    left: 0;
-    display: flex;
-    position: relative;
-    width: 3vw;
-    height: 3vw;
-    background: none;
-    align-self:center;
-
+    .error-message{
+      display: flex;
+      position: absolute;
+      height: 20vh;
+      width: 30vw;
+      background:#fafafa;
+      z-index: 3000;
+      top:50%;
+      left:50%;
+      transform:translate(-50%);
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#00507a;
+        font-size:1em;
 
   
-  }
-  .save {
-    border-radius: 500px;
-    left: 0;
-    display: flex;
-    position: relative;
-    width: 3vw;
-    height: 3vw;
-    background: none;
-    align-self:center;
+      }
+      .boton-error{
+        border: solid 2px #00507a;
+        color: white;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #00507a;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
 
+      }
+    }}
+  
 
-    
-  }
-  .edit {
-    width: 15vw;
-    height: 25vh;
-    margin-top: 0;
-    margin-left: 0;
-    display: flex;
-    position: relative;
-  }
-
-  .Form {
-    width: 60vw;
-    height: 80vh;
-    margin-left: 0;
-    margin-top: 0;
-    display: flex;
-    position: absolute;
-  }
-
-  .Profile-name {
-    margin-top: 6vh;
-    margin-left: 15vw;
-    width: 45vw;
-    height: 20vh;
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-  }
-
-  .Profile-content {
-    margin-top: 25vh;
-    margin-left: 2em;
-    width: 60vw;
-    height: 55vh;
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-  }
-  .icon {
-    width: 2rem;
-    height: 2rem;
-  }
-  input {
-    background: none;
-    color: #202124;
-    border: none;
-    box-shadow: none;
-    outline: none;
-    opacity: 0.8;
-    margin-top: 0;
-  }
-  .Fname-Lname {
-    display: flex;
-    flex-direction: row;
-    height: 4vh;
-  }
-  .Profile-name > h1 {
-    font-size: 1.8em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-weight: 600;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 4vh;
-    width: auto;
-    color: #202124;
-    display: inline-block;
-  }
-  .phone {
-    font-size: 1.1em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-weight: 300;
-    margin-left: 0;
-    margin-top: 0.5em;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 2.5vh;
-    width: 25vw;
-  }
-  .mail {
-    font-size: 1em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-weight: 300;
-    margin-left: 2em;
-    height: 6vh;
-    width: 40vw;
-    transition: all ease-in-out 0.5s;
-    border-bottom: solid 2px #202124;
-    &:focus {
-      opacity: 0.8;
-      outline: none;
-      border-bottom: solid 2px #00507a;
-    }
-  }
-
-  .select {
-    color: #202124;
-    background: none;
-    font-size: 1em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-weight: 300;
-    margin-left: 2em;
-    height: 6vh;
-    width: 40vw;
-    transition: all ease-in-out 0.5s;
-    border: none;
-    outline: none;
-    border-bottom: solid 2px #202124;
-    &:focus {
-      opacity: 0.8;
-      outline: none;
-      border-bottom: solid 2px #00507a;
-    }
-  }
-  .label {
-    display: flex;
-    height: 6vh;
-    flex-direction: row;
-    font-weight: 100;
-    justify-content: center;
-    margin-bottom: 1.5em;
-    justify-self: center;
-    align-self: center;
-  }
-
-  .label > h2 {
-    display: flex;
-    font-weight: 300;
-    font-size: 1.2em;
-    color: #202124;
-    margin: 0px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    width: 8vw;
-    justify-self: center;
-  }
-  .edit > h1 {
-    display: none;
-  }
-  .saveB {
+  .boton {
     border: solid 2px #00507a;
     color: white;
     padding: 0.9rem;
     font-size: 0.8em;
-    width: 15vw;
+    width: 20vw;
     display: flex;
     font-weight: 600;
     cursor: pointer;
@@ -713,247 +636,950 @@ const FormStyle = styled.section`
       outline: none;
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
-}
+  }
 
-    .nav {
-      display: none;
+  .botonContainer2 {
+    width: 100%;
+    background: #fafafa;
+    height: 18vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0.1vh;
+  }
+
+  .driver-profile {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+      "profile"
+      "edit-section"
+      "edit-section";
+
+    .profile {
+      display: grid;
+      grid-area: profile;
+      grid-template-areas: "edit Profile-name Profile-name Profile-name Profile-name ";
+
+      .edit {
+        display: grid;
+        grid-area: edit;
+        .photo {
+          border-radius: 500px;
+          border: solid 0.2em #00507a;
+          width: 14vw;
+          height: 14vw;
+          display: relative;
+          margin: auto;
+          background: #fafafa;
+        }
+        .settings {
+          border-radius: 500px;
+          display: flex;
+          position: absolute;
+          margin-top: 9vw;
+          padding: 0.2em;
+          border: solid 0.1em #00507a;
+          width: 5vw;
+          height: 5vw;
+          background: white;
+          cursor: pointer;
+          cursor: pointer;
+          outline: none;
+          margin-left: 4vw;
+
+          z-index: 100;
+          &:hover {
+            cursor: pointer;
+            outline: none;
+          }
+        }
+        .saveP {
+          border-radius: 500px;
+          margin-left: 0;
+          left: 0;
+          margin-top: 11vw;
+          margin-left: 6.5vw;
+          display: flex;
+          position: absolute;
+          padding: 0.2em;
+          border: solid 0.1em #00507a;
+          width: 3.5vw;
+          height: 3.5vw;
+          background: white;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          outline: none;
+
+          z-index: 2000;
+          &:hover {
+            cursor: pointer;
+            outline: none;
+          }
+        }
+        .inputPhoto {
+          z-index: 3000;
+        }
+
+        .pen {
+          border-radius: 500px;
+          left: 0;
+          width: 4vw;
+          height: 4vw;
+          background: none;
+          align-self: center;
+        }
+      }
+      .Profile-name {
+        display: grid;
+        grid-area: Profile-name;
+        display: flex;
+        flex-direction: column;
+        padding-top: 3em;
+        h1 {
+          font-size: 1.8em;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          font-weight: 600;
+          margin-left: 0;
+          margin-top: 0;
+          margin-bottom: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+          height: 4vh;
+          width: auto;
+          color: #202124;
+          display: inline-block;
+        }
+        h2 {
+          font-size: 1.2em;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          font-weight: 300;
+          margin-left: 0;
+          margin-top: 0.2em;
+          margin-bottom: 0;
+          padding-top: 0;
+          padding-bottom: 0;
+          height: 4vh;
+          width: auto;
+          color: #202124;
+        }
+      }
     }
-    .saveB2 {
-      display: none;
-      margin-left: 10vw;
+
+    .edit-section {
+      display: grid;
+      grid-area: edit-section;
+      width: 100%;
+      grid-template-areas: "Profile-content";
+
+      .Profile-content {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-area: Profile-content;
+        grid-template-areas: "label" "label" "label" "label" "label" "button";
+
+        .label {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+
+          h2 {
+            display: grid;
+            grid-area: title;
+            font-weight: 300;
+            font-size: 1.2em;
+            color: #202124;
+            margin: 0px;
+            width: 5vw;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+              sans-serif;
+            justify-self: center;
+          }
+
+          .group {
+            display: grid;
+            grid-area: group;
+            grid-template-areas: "input input input input input arrow";
+            width: 100%;
+
+            input {
+              background: #fafafa;
+              color: #202124;
+              border: none;
+              box-shadow: none;
+              outline: none;
+              opacity: 0.8;
+              margin-top: 0;
+            }
+
+            .mail {
+              font-size: 1em;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+              font-weight: 300;
+              margin-left: 2em;
+              height: 6vh;
+              background: #fafafa;
+              width: 40vw;
+              transition: all ease-in-out 0.5s;
+              border-bottom: solid 2px #202124;
+              &:focus {
+                opacity: 0.8;
+                outline: none;
+                border-bottom: solid 2px #00507a;
+              }
+            }
+
+            .select {
+              color: #202124;
+              background: #fafafa;
+              font-size: 1em;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+              font-weight: 300;
+              margin-left: 2em;
+              height: 6vh;
+              width: 40vw;
+              transition: all ease-in-out 0.5s;
+              border: none;
+              outline: none;
+              border-bottom: solid 2px #202124;
+              &:focus {
+                opacity: 0.8;
+                outline: none;
+                border-bottom: solid 2px #00507a;
+              }
+            }
+
+            .icon {
+              display: flex;
+              align-self: center;
+            }
+          }
+        }
+      }
     }
   }
 
-  @media only screen and (min-width: 1070px) {
-    .label {
-      align-items: center;
-    }
-  }
 
-  @media only screen and (max-width: 734px) {
-    width: 100vw;
-    height: 100vh;
-    .photo {
-      width: 25vw;
-      height: 25vw;
-      margin-left: 0;
-    }
-    .settings {
-      margin-top: 7.2vw;
-      margin-left: 37vw;
-      padding: 0.2;
-      border: solid 0.1em #00507a;
-      width: 12vw;
-      height: 12vw;
-      background: white;
-      align-self: center;
-      justify-self: center;
-    }
-    .pen {
-      border-radius: 500px;
-      left: 0;
+
+  @media only screen and (max-width: 1069px) and (min-width: 735px) {
+    .navb {
+      margin: 0;
+      width: 100%;
+      height: 12vh;
       display: flex;
-      position: relative;
-      width: 7.5vw;
-      height: 7.5vw;
-      background: none;
-      align-self:center;
-  
-  
-      
     }
 
-    .edit {
-      width: 100vw;
-      height: 15vh;
-      margin-top: 10vh;
-      margin-left: 0;
-      display: flex;
-      position: relative;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .Profile-name {
-      margin-top: 12vh;
-      margin-left: 0;
-      width: 100vw;
-      height: 10vh;
-      display: flex;
-      position: fixed;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .Profile-content {
-      margin-top: 28vh;
-      margin-left: 0;
-      width: 100vw;
-      height: 70vh;
+    .error{
       display: flex;
       position: absolute;
-      flex-direction: column;
-    }
-
-    .navb {
+      height: 100vh;
       width: 100vw;
-      height: 10vh;
-      margin-top: 0;
-      display: flex;
-      position: relative;
-      align-items: center;
-    }
-
-    .label {
-      display: flex;
-      height: auto;
-      width: 90vw;
-      margin-left: 1em;
-      margin-right: 1em;
-      flex-direction: column;
-      font-weight: 100;
-      margin-bottom: 0;
-      justify-self: none;
-      align-self: left;
-      align-items: left;
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-      border-top: solid 2px #00507a;
-    }
-
-    .label > h2 {
-      display: flex;
-      font-weight: 300;
-      font-size: 1em;
-      color: #202124;
-      margin: 0px;
-      margin-bottom: 0;
-      margin-top: 0;
-      margin-left: 0;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      width: 90vw;
-      height: 1vh;
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-      justify-self: none;
-      align-self: left;
-    }
-
-    .mail {
-      font-size: 1.5em;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      font-weight: 200;
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 0.2em;
-      height: 4vh;
-      width: 90vw;
-      padding-top: 0.2em;
-      padding-bottom: 0.2em;
-      transition: all ease-in-out 0.5s;
-      border-bottom: none;
-      border-top: none;
-      color: #202124;
-      display: flex;
-      align-self: center;
-      &:focus {
-        opacity: 0.8;
-        outline: none;
-        border: none;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
       }
-    }
-
-    .select {
-      color: #202124;
-      background: none;
-      font-size: 1.5em;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      font-weight: 200;
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 0.2em;
-      height: 5vh;
-      width: 90vw;
-      padding-top: 0.2em;
-      padding-bottom: 0.2em;
-      transition: all ease-in-out 0.5s;
-      border-bottom: none;
-      border-top: none;
-      display: flex;
-      align-self: center;
-      &:focus {
-        opacity: 0.8;
-        outline: none;
-        border: none;
-      }
-    }
-
-    .icon {
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      align-self: center;
-    }
-    .group {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .saveB {
-      display: none;
-    }
-
-    .saveB2 {
-      border: none;
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#00507a;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #00507a;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #00507a;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
+    .boton {
+      border: solid 2px #00507a;
       color: white;
-      padding-left: 1em;
-      font-size: 1em;
-      width: 50vw;
+      padding: 0.9rem;
+      font-size: 0.8em;
+      width: 40vw;
       display: flex;
       font-weight: 600;
       cursor: pointer;
-      background: none;
-      border-radius: none;
+      background: #00507a;
+      border-radius: 500px;
       transition: all ease-in-out 0.3s;
-      justify-self: center;
-      align-self: center;
-      margin-top: 0;
-      margin-left:0;
+      justify-content: center;
 
+      &:hover {
+        opacity: 0.8;
+        background: #00507a;
+        color: white;
+        border-color: #00507a;
+      }
       &:focus {
         opacity: 0.8;
         outline: none;
-        box-shadow: none;
-        border:none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
       }
     }
-    .log {
-      border: none;
+
+    .botonContainer2 {
+      width: 100%;
+      background: #fafafa;
+      height: 18vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 0;
+      padding-bottom: 0.1vh;
+    }
+
+    .driver-profile {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-areas:
+        "profile"
+        "edit-section"
+        "edit-section";
+
+      .profile {
+        display: grid;
+        grid-area: profile;
+        grid-template-areas: "edit" "Profile-name" ;
+
+        .edit {
+          display: grid;
+          grid-area: edit;
+          .photo {
+            border-radius: 500px;
+            border: solid 0.2em #00507a;
+            width: 20vw;
+            height: 20vw;
+            display: relative;
+            margin: auto;
+            background: #fafafa;
+          }
+          .settings {
+            border-radius: 500px;
+            display: flex;
+            position: absolute;
+            margin-top: 12vw;
+            padding: 0.2em;
+            border: solid 0.1em #00507a;
+            width: 8vw;
+            height: 8vw;
+            background: white;
+            cursor: pointer;
+            cursor: pointer;
+            outline: none;
+            margin-left: 42%;
+            transform: translateX(-42%);
+
+            z-index: 100;
+            &:hover {
+              cursor: pointer;
+              outline: none;
+            }
+          }
+          .saveP {
+            border-radius: 500px;
+            margin-left: 0;
+            left: 0;
+            margin-top: 16vw;
+            margin-left: 46%;
+            transform: translateX(-46%);
+            display: flex;
+            position: absolute;
+            padding: 0.2em;
+            border: solid 0.1em #00507a;
+            width: 8vw;
+            height: 8vw;
+            background: white;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+
+            z-index: 2000;
+            &:hover {
+              cursor: pointer;
+              outline: none;
+            }
+          }
+          .inputPhoto {
+            z-index: 3000;
+            background: blue;
+          }
+          .save{
+            width:7vw;
+            height:7vw;
+          }
+
+          .pen {
+            border-radius: 500px;
+            left: 0;
+            width: 7vw;
+            height: 7vw;
+            background: none;
+            align-self: center;
+          }
+        }
+        .Profile-name {
+          display: grid;
+          grid-area: Profile-name;
+          display: flex;
+          flex-direction: column;
+          justify-content:flex-start;
+          align-items:center;
+          padding-top: 0;
+          h1 {
+            font-size: 1.8em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+              sans-serif;
+            font-weight: 600;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 4vh;
+            width: auto;
+            color: #202124;
+            display: inline-block;
+          }
+          h2 {
+            font-size: 1.2em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+              sans-serif;
+            font-weight: 300;
+            margin-left: 0;
+            margin-top: 0.2em;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 4vh;
+            width: auto;
+            color: #202124;
+          }
+        }
+      }
+
+      .edit-section {
+        display: grid;
+        grid-area: edit-section;
+        width: 100%;
+        grid-template-areas: "Profile-content";
+
+        .Profile-content {
+          display: grid;
+          width: 100%;
+          height: 100%;
+          grid-area: Profile-content;
+          grid-template-areas: "label" "label" "label" "label" "label" "button";
+
+          .label {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-left:2vw;
+            margin-right:2vw;
+
+
+            h2 {
+              display: grid;
+              grid-area: title;
+              font-weight: 300;
+              font-size: 1.2em;
+              color: #202124;
+              margin: 0px;
+              width: 100%;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+              justify-self: center;
+            }
+
+            .group {
+              display: grid;
+              grid-area: group;
+              grid-template-areas: "input arrow";
+              width: 100%;
+
+              input {
+                background: none;
+                color: #202124;
+                border: none;
+                box-shadow: none;
+                outline: none;
+                opacity: 0.8;
+                margin-top: 0;
+              }
+
+              .mail {
+                font-size: 1em;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                  "Helvetica Neue", sans-serif;
+                font-weight: 300;
+                margin-left: 2em;
+                height: 6vh;
+                width: 80vw;
+                transition: all ease-in-out 0.5s;
+                border-bottom: solid 2px #202124;
+                &:focus {
+                  opacity: 0.8;
+                  outline: none;
+                  border-bottom: solid 2px #00507a;
+                }
+              }
+
+              .select {
+                color: #202124;
+                background: none;
+                font-size: 1em;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                  "Helvetica Neue", sans-serif;
+                font-weight: 300;
+                margin-left: 2em;
+                height: 6vh;
+                width: 80vw;
+                transition: all ease-in-out 0.5s;
+                border: none;
+                outline: none;
+                border-bottom: solid 2px #202124;
+                &:focus {
+                  opacity: 0.8;
+                  outline: none;
+                  border-bottom: solid 2px #00507a;
+                }
+              }
+
+              .icon {
+                display: flex;
+                align-self: center;
+                font-size:5vw;
+              }
+            }
+          }
+        }
+      }
+    }
+  }}
+  @media only screen and (max-width: 735px)  {
+    .navb {
+      margin: 0;
+      width: 100%;
+      height: 14vh;
+      display: flex;
+    }
+    .error{
+      display: flex;
+      position: absolute;
+      height: 100vh;
+      width: 100vw;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        position: absolute;
+        height: 20vh;
+        width: 80vw;
+        background:#fafafa;
+        z-index: 3000;
+        top:50%;
+        left:50%;
+        transform:translate(-50%);
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#00507a;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #00507a;
+          color: white;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #00507a;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
+    .boton {
+      border: solid 2px #00507a;
       color: white;
-      padding-right: 1em;
-      font-size: 1em;
-      width: 50vw;
+      padding: 0.9rem;
+      font-size: 0.6em;
+      width: 40vw;
       display: flex;
       font-weight: 600;
       cursor: pointer;
-      background: none;
-      border-radius: none;
+      background: #00507a;
+      border-radius: 500px;
       transition: all ease-in-out 0.3s;
-      justify-content: flex-end;
-      align-self: center;
-      margin-top: 0;
-      margin-right:0;
+      justify-content: center;
 
+      &:hover {
+        opacity: 0.8;
+        background: #00507a;
+        color: white;
+        border-color: #00507a;
+      }
       &:focus {
         opacity: 0.8;
         outline: none;
-        box-shadow: none;
-        border:none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
       }
     }
-  }
+
+    .botonContainer2 {
+      width: 100%;
+      background: #fafafa;
+      height: 20vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 0;
+      padding-bottom: 0.1vh;
+    }
+
+    .driver-profile {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-areas:
+        "profile"
+        "edit-section"
+        "edit-section";
+
+      .profile {
+        display: grid;
+        grid-area: profile;
+        grid-template-areas: "edit" "Profile-name" ;
+
+        .edit {
+          display: grid;
+          grid-area: edit;
+          .photo {
+            border-radius: 500px;
+            border: solid 0.2em #00507a;
+            width: 30vw;
+            height: 30vw;
+            display: relative;
+            margin: auto;
+            background: #fafafa;
+          }
+          .settings {
+            border-radius: 500px;
+            display: flex;
+            position: absolute;
+            margin-top: 18vw;
+            padding: 0.2em;
+            border: solid 0.1em #00507a;
+            width: 15vw;
+            height: 15vw;
+            background: white;
+            cursor: pointer;
+            cursor: pointer;
+            outline: none;
+            margin-left: 42%;
+            transform: translateX(-42%);
+
+            z-index: 100;
+            &:hover {
+              cursor: pointer;
+              outline: none;
+            }
+          }
+          .saveP {
+            border-radius: 500px;
+            margin-left: 0;
+            left: 0;
+            margin-top: 23vw;
+            margin-left: 49%;
+            transform: translateX(-49%);
+            display: flex;
+            position: absolute;
+            padding: 0.2em;
+            border: solid 0.1em #00507a;
+            width: 12vw;
+            height: 12vw;
+            background: white;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+
+            z-index: 2000;
+            &:hover {
+              cursor: pointer;
+              outline: none;
+            }
+          }
+          .inputPhoto {
+            z-index: 3000;
+            background: blue;
+          }
+
+          .pen {
+            border-radius: 500px;
+            left: 0;
+            width: 14vw;
+            height: 14vw;
+            background: none;
+            align-self: center;
+          }
+        }
+        .Profile-name {
+          display: grid;
+          grid-area: Profile-name;
+          display: flex;
+          flex-direction: column;
+          justify-content:flex-start;
+          align-items:center;
+          padding-top: 0;
+          h1 {
+            font-size: 1.4em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+              sans-serif;
+            font-weight: 600;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 4vh;
+            width: auto;
+            color: #202124;
+            display: inline-block;
+          }
+          h2 {
+            font-size: 1em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+              sans-serif;
+            font-weight: 300;
+            margin-left: 0;
+            margin-top: 0.2em;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            height: 4vh;
+            width: auto;
+            color: #202124;
+          }
+        }
+      }
+
+      .edit-section {
+        display: grid;
+        grid-area: edit-section;
+        width: 100%;
+        grid-template-areas: "Profile-content";
+
+        .Profile-content {
+          display: grid;
+          width: 100%;
+          height: 100%;
+          grid-area: Profile-content;
+          grid-template-areas: "label" "label" "label" "label" "label" "button";
+
+          .label {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-left:2vw;
+            margin-right:2vw;
+
+
+            h2 {
+              display: grid;
+              grid-area: title;
+              font-weight: 300;
+              font-size: 0.8em;
+              color: #202124;
+              margin: 0px;
+              width: 100%;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+              justify-self: center;
+            }
+
+            .group {
+              display: grid;
+              grid-area: group;
+              grid-template-areas: "input arrow";
+              width: 100%;
+
+              input {
+                background: none;
+                color: #202124;
+                border: none;
+                box-shadow: none;
+                outline: none;
+                opacity: 0.8;
+                margin-top: 0;
+              }
+
+              .mail {
+                font-size: 1em;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                  "Helvetica Neue", sans-serif;
+                font-weight: 300;
+                margin-left: 2em;
+                height: 6vh;
+                width: 80vw;
+                transition: all ease-in-out 0.5s;
+                border-bottom: solid 2px #202124;
+                &:focus {
+                  opacity: 0.8;
+                  outline: none;
+                  border-bottom: solid 2px #00507a;
+                }
+              }
+
+              .select {
+                color: #202124;
+                background: none;
+                font-size: 1em;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                  "Helvetica Neue", sans-serif;
+                font-weight: 300;
+                margin-left: 2em;
+                height: 6vh;
+                width: 80vw;
+                transition: all ease-in-out 0.5s;
+                border: none;
+                outline: none;
+                border-bottom: solid 2px #202124;
+                &:focus {
+                  opacity: 0.8;
+                  outline: none;
+                  border-bottom: solid 2px #00507a;
+                }
+              }
+
+              .icon {
+                display: flex;
+                align-self: center;
+                font-size:5vw;
+              }
+            }
+          }
+        }
+      }
+    }
+  }}
+
+ 
 `;

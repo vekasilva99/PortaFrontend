@@ -12,6 +12,7 @@ import { MdStar } from "react-icons/md";
 import { FaQuoteLeft } from "react-icons/fa";
 import { Formik } from "formik";
 import Input from "./Input";
+import Spinner from "./Spinner";
 import StarRating from "./StarRating";
 import { useParams } from "react-router";
 import { useQuery } from "@apollo/react-hooks";
@@ -42,7 +43,14 @@ export default function DriverProfile(props) {
     ...state.User,
   }));
 
-  if (loading) return "Loading...";
+  if (loading)
+    return (
+      <FormStyle>
+        <div className="spinner">
+          <Spinner />
+        </div>
+      </FormStyle>
+    );
   if (error) return `Error! ${error.message}`;
 
   console.log(data);
@@ -69,114 +77,112 @@ export default function DriverProfile(props) {
 
   return (
     <FormStyle>
-      <div className="navb">
-        {/* <button className="saveB2" type="submit">
-          {" "}
-          <IoIosArrowDropleftCircle color="#00507a" size="4rem" />{" "}
-        </button> */}
-      </div>
-      <div className="driver-profile">
-        <div className="profile">
-          <div className="edit">
-            {data.selectedDriver.userImageURL ? (
-              <img className="photo" src={data.selectedDriver.userImageURL} />
-            ) : (
-              <img className="photo" src={delivery} />
-            )}
-          </div>
-          <div className="Profile-name">
-            <h1>
-              {data.selectedDriver.name} {data.selectedDriver.lastName}
-            </h1>
-            <h2>{data.selectedDriver.cellphone}</h2>
-            <div className="group">
-              {getAllRatin(data.selectedDriver.rating) ? (
-                <>
-                  <h2>{getAllRatin(data.selectedDriver.rating)}</h2>
-                  <MdStar className="star" color="#00507a" size="1.1em" />
-                </>
-              ) : null}
+      <>
+        <div className="navb"></div>
+        <div className="driver-profile">
+          <div className="profile">
+            <div className="edit">
+              {data.selectedDriver.userImageURL ? (
+                <img className="photo" src={data.selectedDriver.userImageURL} />
+              ) : (
+                <img className="photo" src={delivery} />
+              )}
             </div>
-          </div>
-          <div className="rating-comp">
-            {" "}
-            <div className="star-comp">
-              <StarRating rating={getUserRatin(data.selectedDriver.rating)} />
-            </div>
-          </div>
-          <div></div>
-        </div>
-        <div className="comment-section">
-          {allComments.length != 0 ? (
-            <>
-              <h1>Comments</h1>
-              <div className="comment-cards">
-                <Card comments={allComments} />
+            <div className="Profile-name">
+              <h1>
+                {data.selectedDriver.name} {data.selectedDriver.lastName}
+              </h1>
+              <h2>{data.selectedDriver.cellphone}</h2>
+              <div className="group">
+                {getAllRatin(data.selectedDriver.rating) ? (
+                  <>
+                    <h2>{getAllRatin(data.selectedDriver.rating)}</h2>
+                    <MdStar className="star" color="#00507a" size="1.1em" />
+                  </>
+                ) : null}
               </div>
-            </>
-          ) : null}
-          <h2>Add Comment</h2>
-          <Formik
-            initialValues={{
-              Comentario: "",
-            }}
-            validate={(values) => {
-              const errors = {};
-              if (!values.Comentario) {
-                errors.Comentario = "Required Field";
-              }
+            </div>
+            <div className="rating-comp">
+              {" "}
+              <div className="star-comp">
+                <StarRating rating={getUserRatin(data.selectedDriver.rating)} />
+              </div>
+            </div>
+            <div></div>
+          </div>
+          <div className="comment-section">
+            {allComments.length != 0 ? (
+              <>
+                <h1>Comments</h1>
+                <div className="comment-cards">
+                  <Card comments={allComments} />
+                </div>
+              </>
+            ) : null}
+            <h2>Add Comment</h2>
+            <Formik
+              initialValues={{
+                Comentario: "",
+              }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.Comentario) {
+                  errors.Comentario = "Required Field";
+                }
 
-              return errors;
-            }}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
-              const { data: dataC } = await comment({
-                variables: {
-                  user: _id.toString(),
-                  repartidor: data.selectedDriver._id.toString(),
-                  content: values.Comentario,
-                },
-              });
+                return errors;
+              }}
+              onSubmit={async (values, { setSubmitting, resetForm }) => {
+                const { data: dataC } = await comment({
+                  variables: {
+                    user: _id.toString(),
+                    repartidor: data.selectedDriver._id.toString(),
+                    content: values.Comentario,
+                  },
+                });
 
-              if (dataC && dataC.createComment) {
-                allComments.push(dataC.createComment);
-              }
+                if (dataC && dataC.createComment) {
+                  allComments.push(dataC.createComment);
+                }
 
-              setSubmitting(true);
-              console.log(values);
-              setSubmitting(false);
-              resetForm();
-            }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              /* and other goodies */
-            }) => (
-              <form className="comment" onSubmit={handleSubmit}>
-                <textarea
-                  value={values.Comentario}
-                  id="Comentario"
-                  name="Comentario"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="comment-input"
-                  maxlength="50"
-                />
-
-                <button className="add" type="submit" block>
-                  {" "}
-                  ADD{" "}
-                </button>
-              </form>
-            )}
-          </Formik>
+                setSubmitting(true);
+                console.log(values);
+                setSubmitting(false);
+                resetForm();
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+                /* and other goodies */
+              }) => (
+                <form className="comment" onSubmit={handleSubmit}>
+                  <textarea
+                    value={values.Comentario}
+                    id="Comentario"
+                    name="Comentario"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="comment-input"
+                    maxlength="50"
+                  />
+                  <div className="botonContainer2">
+                    <button className="add" type="submit" block>
+                      {" "}
+                      ADD{" "}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
+      </>
     </FormStyle>
   );
 }
@@ -190,6 +196,17 @@ const FormStyle = styled.section`
     width: 100%;
     height: 10vh;
     display: none;
+  }
+
+  .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
   }
   .driver-profile {
     width: 100%;
@@ -478,12 +495,21 @@ const FormStyle = styled.section`
           }
         }
       }
+
+      .botonContainer2 {
+        width: 100%;
+        background: #fafafa;
+        height: 18vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
       .add {
         border: solid 2px #00507a;
         color: white;
-        padding: 0rem;
-        font-size: 0.6em;
-        width: 50vw;
+        padding: 0.9rem;
+        font-size: 0.8em;
+        width: 40vw;
         display: flex;
         font-weight: 600;
         cursor: pointer;
@@ -491,13 +517,6 @@ const FormStyle = styled.section`
         border-radius: 500px;
         transition: all ease-in-out 0.3s;
         justify-content: center;
-        justify-self: center;
-        align-items: center;
-        align-self: center;
-        margin-top: 0.5em;
-        margin-bottom: 0.2em;
-        margin-left: 0em;
-        height: 7vh;
 
         &:hover {
           opacity: 0.8;
@@ -678,12 +697,20 @@ const FormStyle = styled.section`
           }
         }
       }
+      .botonContainer2 {
+        width: 100%;
+        background: #fafafa;
+        height: 18vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
       .add {
         border: solid 2px #00507a;
         color: white;
-        padding: 0rem;
-        font-size: 1em;
-        width: 50vw;
+        padding: 0.9rem;
+        font-size: 0.8em;
+        width: 40vw;
         display: flex;
         font-weight: 600;
         cursor: pointer;
@@ -691,13 +718,6 @@ const FormStyle = styled.section`
         border-radius: 500px;
         transition: all ease-in-out 0.3s;
         justify-content: center;
-        justify-self: center;
-        align-items: center;
-        align-self: center;
-        margin-top: 1em;
-        margin-bottom: 0.2em;
-        margin-left: 0em;
-        height: 7vh;
 
         &:hover {
           opacity: 0.8;

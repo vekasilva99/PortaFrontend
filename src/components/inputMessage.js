@@ -22,7 +22,7 @@ export default function InputMessage({ postId, color }) {
           initialValues={{ message: "" }}
           validate={(values) => {
             var errors = {};
-            if (values.message.trim().length > 255) {
+            if (values.message.trim().length > 500) {
               errors.username = "No more 255 characters";
               return errors;
             }
@@ -74,11 +74,10 @@ export default function InputMessage({ postId, color }) {
             /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
-              <input
+              <textarea
                 id="message"
                 name="message"
                 value={values.message}
-                type="text"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 autoComplete="off"
@@ -127,7 +126,7 @@ const StyledInput = styled.div`
       width: 1.3em;
       height: 1.3em;
     }
-    input {
+    textarea {
       width: 100%;
       max-width: 80vw;
       margin: 0;
