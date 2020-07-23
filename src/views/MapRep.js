@@ -194,7 +194,7 @@ const StyleMapRep = styled.div`
   .botonContainer2 {
     width: 100%;
     background: #fafafa;
-    height: 18vh;
+    height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -207,7 +207,7 @@ const StyleMapRep = styled.div`
     padding-left: 9%;
     padding-right: 9%;
     width: 100%;
-    height: 20vh;
+    height: 30vh;
     background: #fafafa;
     display: grid;
     grid-template-areas: "partida partida";
@@ -220,17 +220,18 @@ const StyleMapRep = styled.div`
     grid-area: partida;
 
     h2 {
-      font-size: 12px;
+      font-size: 25px;
       font-weight: 500;
       color: #1d1d1f;
       margin: 0;
     }
 
     h3 {
-      font-size: 15px;
+      font-size: 20px;
       font-weight: 200;
       color: #1d1d1f;
       margin: 0;
+      margin-bottom: 1vh;
     }
   }
 
@@ -310,7 +311,10 @@ const StyleMapRep = styled.div`
         color: #1d1d1f;
         margin: 0;
         margin-top: 5%;
-        margin-left: 15%;
+        width: 90%;
+        text-align: center;
+        margin-left: 50%;
+        transform: translateX(-50%);
       }
       .switch {
         margin-left: 42%;
@@ -326,6 +330,7 @@ const StyleMapRep = styled.div`
       grid-template-areas:
         "clear"
         "busqueda";
+      overflow-y: scroll;
     }
 
     .busqueda {
@@ -334,47 +339,53 @@ const StyleMapRep = styled.div`
       z-index: 2020;
       margin: 0;
       bottom: 0;
-      height: fit-content;
+      height: 70vh;
       min-height: 48vh;
       h1 {
-        font-size: 30px;
+        font-size: 40px;
         font-weight: 400;
         color: #fafafa;
-        height: 80px;
+        height: 100px;
         background-color: #ef0023;
         margin: 0;
-        padding: 20px;
-        width: 1;
+        padding: 30px;
+        width: 100vw;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       }
       h5 {
         font-size: 20px;
         font-weight: 500;
         color: #1d1d1f;
         margin: 0;
+        width: 90%;
+        text-align: center;
         margin-top: 3%;
-        margin-left: 15%;
+        margin-left: 50%;
+        transform: translateX(-50%);
       }
       .switch {
-        margin-left: 42%;
+        margin-left: 50%;
+        transform: translateX(-50%);
         margin-top: 12px;
         margin-bottom: 20px;
-        width: 50px;
+        width: 60px;
       }
     }
 
     .clear {
       grid-area: clear;
-      height: 52vh;
+      height: 85vh;
     }
 
     .info {
       margin: 0;
-      padding-top: 2%;
+      padding-top: 10%;
       padding-bottom: 15%;
       padding-left: 9%;
       padding-right: 9%;
       width: 100%;
-      height: 20vh;
+      height: 30vh;
       background: #fafafa;
       display: grid;
       grid-template-areas: "partida partida";
@@ -387,17 +398,18 @@ const StyleMapRep = styled.div`
       grid-area: partida;
 
       h2 {
-        font-size: 12px;
+        font-size: 25px;
         font-weight: 500;
         color: #1d1d1f;
         margin: 0;
       }
 
       h3 {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 200;
         color: #1d1d1f;
         margin: 0;
+        margin-bottom: 1vh;
       }
     }
 
@@ -405,7 +417,7 @@ const StyleMapRep = styled.div`
       border: solid 2px #ef0023;
       color: white;
       padding: 0.9rem;
-      font-size: 0.8em;
+      font-size: 18px;
       width: 40vw;
       display: flex;
       font-weight: 600;
@@ -433,6 +445,7 @@ const StyleMapRep = styled.div`
       background: #fafafa;
       height: 18vh;
       display: flex;
+
       justify-content: center;
       align-items: center;
     }

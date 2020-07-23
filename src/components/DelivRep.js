@@ -71,6 +71,7 @@ export default function Deliv(props) {
         } else return prev;
       },
     });
+
     return () => {
       unsubscription();
     };
@@ -79,6 +80,15 @@ export default function Deliv(props) {
 
   const handlingSidebar = (e) => {
     setSidebar(!sidebar);
+  };
+
+  const getMoney = (orders) => {
+    let content = 0;
+    for (let item of orders) {
+      content = content + item.price;
+    }
+
+    return content;
   };
 
   if (error) return `Error ${error.message}`;
@@ -93,6 +103,12 @@ export default function Deliv(props) {
         ) : (
           <>
             {orders.length > 0 ? (
+              <div className="collected">
+                <h3>You have made: </h3>
+                <h3> ${getMoney(orders).toString()} USD</h3>
+              </div>
+            ) : null}
+            {orders.length > 0 ? (
               orders.map((order) => (
                 <div key={order._id} className="order">
                   <div className="textb">
@@ -104,9 +120,9 @@ export default function Deliv(props) {
 
                     {order.repartidor ? (
                       <div>
-                        <h4>Repartidor</h4>
+                        <h4>Usuario</h4>
                         <h3>
-                          {order.repartidor.name} {order.repartidor.lastName}
+                          {order.user.name} {order.user.lastName}
                         </h3>
                       </div>
                     ) : null}
@@ -121,6 +137,7 @@ export default function Deliv(props) {
               ))
             ) : (
               <div className="empty">
+                <img src="/emptyrojo.png" alt="compass" />
                 <h2>Usted no ha realizado ningun Viaje</h2>
               </div>
             )}
@@ -145,16 +162,31 @@ const StyledDeliv = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: ${(props) => (props.loading ? "center" : "flex-start")};
+  margin-top: ${(props) => (props.loading ? "0" : "60px")};
   height: 100%;
   width: 100%;
-  background: purple;
   overflow-x: hidden;
   overflow-y: auto;
 
+  .collected {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0.5rem;
+
+    h3 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-size: 20px;
+    }
+  }
+
   .spinner {
     display: flex;
-    margin: 0 auto;
-    background: blue;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
     width: 100%;
     height: 100%;
     top: 0;
@@ -177,19 +209,36 @@ const StyledDeliv = styled.nav`
 
   .empty {
     width: 20vw;
-    height: 20vh;
-    background: pink;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     left: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    h2 {
+      font-weight: 300;
+      color: #202124;
+      font-size: 20px;
+      letter-spacing: 2px;
+      margin-bottom: 40px;
+    }
+    img {
+      width: 5vw;
+      margin-bottom: 2vh;
+    }
   }
 
   .textb {
     padding: 0;
     width: 100%;
-    background: rgb(0, 80, 122);
+    background: #ee462f;
     height: max-content;
     border-radius: 20px;
     margin-top: 0;
-    border: 1px solid rgb(0, 80, 122);
+    border: 1px solid #ee462f;
     width: 100%;
     padding: 0.5em;
   }
@@ -198,8 +247,6 @@ const StyledDeliv = styled.nav`
     .empty {
       width: 100%;
       height: 100%;
-      background: pink;
-      z-index: 2000;
     }
     .textb {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -236,13 +283,26 @@ const StyledDeliv = styled.nav`
       height: 30px;
     }
   }
+  @media only screen and (min-width: 735px) (max-width: 1069px) {
+    .empty {
+      width: 100%;
+      height: 100%;
+      img {
+        width: 15vw;
+        margin-bottom: 2vh;
+      }
+    }
+  }
   @media only screen and (max-width: 734px) {
     .empty {
       width: 100%;
       height: 100%;
-      background: pink;
-      z-index: 2000;
+      img {
+        width: 15vw;
+        margin-bottom: 2vh;
+      }
     }
+
     .textb {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

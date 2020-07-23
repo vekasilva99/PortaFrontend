@@ -85,34 +85,49 @@ export default function Deliv(props) {
 
   return (
     <StyledDeliv loading={loading}>
-      {loading ? (
-        <Spinner />
-      ) : (
-        orders.map((order) => (
-          <div key={order._id} className="order">
-            <div className="textb">
-              <h2>Pedido</h2>
-              <h4>Origen</h4>
-              <h3>{order.deliver}</h3>
-              <h4>Destino</h4>
-              <h3>{order.pickUp}</h3>
-
-              {order.repartidor ? (
-                <div>
-                  <h4>Repartidor</h4>
-                  <h3>
-                    {order.repartidor.name} {order.repartidor.lastName}
-                  </h3>
-                </div>
-              ) : null}
-              <h4>Precio</h4>
-              <h3>${order.price.toString()}</h3>
-              <h4>Fecha</h4>
-              <h3>{Moment(order.createdAt.toString()).format("DD-MM-YYYY")}</h3>
-            </div>
+      <>
+        {loading ? (
+          <div className="spinner">
+            <Spinner />
           </div>
-        ))
-      )}
+        ) : (
+          <>
+            {orders.length > 0 ? (
+              orders.map((order) => (
+                <div key={order._id} className="order">
+                  <div className="textb">
+                    <h2>Pedido</h2>
+                    <h4>Origen</h4>
+                    <h3>{order.deliver}</h3>
+                    <h4>Destino</h4>
+                    <h3>{order.pickUp}</h3>
+
+                    {order.repartidor ? (
+                      <div>
+                        <h4>Repartidor</h4>
+                        <h3>
+                          {order.repartidor.name} {order.repartidor.lastName}
+                        </h3>
+                      </div>
+                    ) : null}
+                    <h4>Precio</h4>
+                    <h3>${order.price.toString()}</h3>
+                    <h4>Fecha</h4>
+                    <h3>
+                      {Moment(order.createdAt.toString()).format("DD-MM-YYYY")}
+                    </h3>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="empty">
+                <img src="/empty.png" alt="compass" />
+                <h2>Usted no ha realizado ningun Viaje</h2>
+              </div>
+            )}
+          </>
+        )}
+      </>
     </StyledDeliv>
   );
 }
@@ -127,12 +142,40 @@ const StyledDeliv = styled.nav`
   margin: 0;
   padding: 0;
   display: flex;
+  position: absolute;
   flex-direction: column;
   align-items: center;
-  justify-content: ${(props) => (props.loading ? "center" : "start")};
+  justify-content: ${(props) => (props.loading ? "center" : "flex-start")};
+  margin-top: ${(props) => (props.loading ? "0" : "60px")};
   height: 100%;
+  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+
+  .collected {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0.5rem;
+
+    h3 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-size: 20px;
+    }
+  }
+
+  .spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 
   .order {
     padding: 0;
@@ -148,19 +191,47 @@ const StyledDeliv = styled.nav`
     margin-bottom: 0.5em;
   }
 
+  .empty {
+    width: 20vw;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    left: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    h2 {
+      font-weight: 300;
+      color: #202124;
+      font-size: 20px;
+      letter-spacing: 2px;
+      margin-bottom: 40px;
+    }
+    img {
+      width: 5vw;
+      margin-bottom: 2vh;
+    }
+  }
+
   .textb {
     padding: 0;
     width: 100%;
-    background: rgb(0, 80, 122);
+    background: #00507a;
     height: max-content;
     border-radius: 20px;
     margin-top: 0;
-    border: 1px solid rgb(0, 80, 122);
+    border: 1px solid #00507a;
     width: 100%;
     padding: 0.5em;
   }
 
   @media only screen and (min-width: 735px) {
+    .empty {
+      width: 100%;
+      height: 100%;
+    }
     .textb {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -196,7 +267,26 @@ const StyledDeliv = styled.nav`
       height: 30px;
     }
   }
+  @media only screen and (min-width: 735px) (max-width: 1069px) {
+    .empty {
+      width: 100%;
+      height: 100%;
+      img {
+        width: 15vw;
+        margin-bottom: 2vh;
+      }
+    }
+  }
   @media only screen and (max-width: 734px) {
+    .empty {
+      width: 100%;
+      height: 100%;
+      img {
+        width: 15vw;
+        margin-bottom: 2vh;
+      }
+    }
+
     .textb {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

@@ -22,7 +22,7 @@ export default function DeliveryRep() {
           <DriverProfileSidebar />
         </div>
         <div className="deliveries">
-          <h1>My Deliveries</h1>
+          <h1>My Trips</h1>
           <DelivRep />
         </div>
       </div>
@@ -44,7 +44,6 @@ const DeliveryCliStyle = styled.div`
 
   .deliveries {
     margin-top: 70px;
-    background-color: red;
     display: flex;
     position: relative;
     width: 60vw;
@@ -55,6 +54,7 @@ const DeliveryCliStyle = styled.div`
       color: #ee462f;
       letter-spacing: 2px;
       margin-bottom: 40px;
+      margin-left: 3rem;
     }
   }
 
@@ -103,6 +103,23 @@ const DeliveryCliStyle = styled.div`
     .sid {
       display: none;
     }
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding-left: 0;
+      h1 {
+        display: flex;
+        justify-self: center;
+        font-weight: 300;
+        color: #ee462f;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        margin-left: 0;
+      }
+    }
   }
   @media only screen and (max-width: 734px) {
     .page {
@@ -129,6 +146,24 @@ const DeliveryCliStyle = styled.div`
     }
     .sid {
       display: none;
+    }
+    .deliveries {
+      margin-top: 70px;
+      display: flex;
+      position: relative;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      padding-left: 0;
+      h1 {
+        display: flex;
+        justify-self: center;
+        font-weight: 300;
+        color: #ee462f;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        margin-left: 0;
+      }
     }
   }
 `;
