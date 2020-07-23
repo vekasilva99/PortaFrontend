@@ -23,6 +23,13 @@ export default function FormRegister(props) {
   const [cedula, setCedula] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [errorF, setErrorF] = React.useState(true);
+  const [regionE, setRegionE] = React.useState(false);
+  const [emailE, setEmailE] = React.useState(false);
+  const [passwordE, setPasswordE] = React.useState(false);
+  const [passwordCE, setPasswordCE] = React.useState(false);
+  const [selectedDateE, setSelectedDateE] = React.useState(false);
+  const [phoneE, setPhoneE] = React.useState(null);
+  const [cedulaE, setCedulaE] = React.useState(null);
 
   const handleStep1 = (e) => {
     console.log(props.color);
