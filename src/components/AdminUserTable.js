@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import { GET_USERS, GET_REPARTIDORES, NEW_USERS, NEW_REPARTIDORES } from "../helpers/graphql/queries";
+import {
+  GET_USERS,
+  GET_REPARTIDORES,
+  NEW_USERS,
+  NEW_REPARTIDORES,
+} from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
 export default function AdminTable(props) {
@@ -31,8 +36,6 @@ export default function AdminTable(props) {
 
   // if (loadingNR) return "Loading...";
   // if (errorNR) return `Error! ${errorNR.message}`;
-
-
 
   // if (u_loading) return 'Loading...';
   // if (u_error) return `Error! ${r_error.message}`;

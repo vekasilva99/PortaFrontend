@@ -45,20 +45,11 @@ export default function FormRegister(props) {
     if (
       (phone &&
         !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone)) ||
-      phone === "" ||
+      phone == "" ||
       codigos === false
     ) {
       setStep1(true);
-      if (
-        codigos === false ||
-        (phone &&
-          !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone))
-      ) {
-        setPhoneE("Invalid  Phone  Number");
-      }
-      if (phone === "") {
-        setPhoneE("Required Field");
-      }
+      setPhoneE(true);
     } else {
       setStep1(false);
     }
@@ -68,16 +59,10 @@ export default function FormRegister(props) {
     if (!fName || !lName || !selectedDate || !region) {
       setStep2(true);
       if (!selectedDate) {
-        setSelectedDateE("Required Field");
+        setSelectedDateE(true);
       }
       if (!region) {
-        setRegionE("Required Field");
-      }
-      if (!lName) {
-        setLNameE("Required Field");
-      }
-      if (!fName) {
-        setNameE("Required Field");
+        setRegionE(true);
       }
       console.log(phone, "telefono");
     } else {
@@ -452,6 +437,7 @@ export default function FormRegister(props) {
 }
 const RegisterView = styled.div`
   display: flex;
+  flex-wrap: wrap;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   justify-content: center;
@@ -655,28 +641,57 @@ const RegisterView = styled.div`
       grid-template-areas: "passwordC" "error";
     }
   }
-  .buttonC {
-    width: 100%
-    margin: 0;
-    display: grid;
-    justify-content: center;
-    grid-template-areas: "error" "button ";
-  }
-  .buttonF {
-    width: 100%
-    margin: 0;
-    display: grid;
-    justify-content: center;
-    grid-template-areas: "error" "button ";
-  }
-  .inputG {
+  .errorB {
+    width: 30vw;
+    margin-top: 0.1em;
     display: flex;
-    flex-direction: column;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background: pink;
+    h4 {
+      color: #ef0023;
+      font-size: 12px;
+    }
+  }
+  input {
+    background: none;
+    font-size: 1em;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    color: ${(props) => props.color};
+    border: none;
+    border-bottom: solid 2px #ebebeb;
+    box-shadow: none;
+    outline: none;
+    transition: all ease-in-out 0.5s;
+    opacity: 0.8;
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0.3rem 0.5rem;
+    width: 80%;
+
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px ${(props) => props.color};
+    }
+  }
+
+  .input2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
     max-width: 600px;
+<<<<<<< HEAD
     text-align:center;
+=======
+>>>>>>> val
     align-items: center;
     margin:0 auto;
     justify-content: center;
+<<<<<<< HEAD
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     label {
@@ -713,44 +728,41 @@ const RegisterView = styled.div`
       }
     }
 
+=======
   }
-  .error {
-    width: 100%;
-    margin-top: 0.1em;
-    margin-bottom: 0.1em;
-    display: grid;
-    text-align: center;
 
-    h4 {
-      color: #ef0023;
-      font-size: 12px;
-    }
+  .button {
+    margin-top: 2rem;
+    margin-bottom: -3rem;
+>>>>>>> val
   }
-  .inputP {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-    align-items: center;
-    justify-content: center;
+
+  .dos {
+    font-size: 1em;
+    font-weight: 200;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    label {
-      font-size: 1em;
-      font-weight: 200;
-      color: #fafafa;
-      margin: 0.2rem;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-    input {
-      background: none;
-      font-size: 1em;
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-      color: #fafafa;
-      border: none;
-      border-bottom: solid 2px #ebebeb;
-      box-shadow: none;
+    color: #fafafa;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    width: inerit;
+  }
+
+  .picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    margin-bottom: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:focus {
+      opacity: 1;
       outline: none;
+<<<<<<< HEAD
       transition: all ease-in-out 0.5s;
       opacity: 0.8;
       margin-top: 1.5rem;
@@ -795,24 +807,14 @@ const RegisterView = styled.div`
       color: #fafafa;
       border: none;
       border-bottom: solid 2px #ebebeb;
+=======
+>>>>>>> val
       box-shadow: none;
-      outline: none;
-      transition: all ease-in-out 0.5s;
-      opacity: 0.8;
-      margin-top: 1.5rem;
-      padding: 0.4rem 0.5rem;
-      margin-left: 0;
-      width: 12.5vw;
-
-      &:focus {
-        opacity: 1;
-        outline: none;
-        box-shadow: none;
-        border-bottom: solid 2px #00507a;
-      }
+      border-bottom: solid 2px #0a95bf;
     }
   }
 
+<<<<<<< HEAD
   @media only screen and (max-width: 734px) {
     .buttonS {
       margin-top: 2em;
@@ -1172,6 +1174,29 @@ const RegisterView = styled.div`
           border-bottom: solid 2px #00507a;
         }
       }
+=======
+  .select {
+    background: none;
+    font-size: 1em;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    color: grey;
+    border: none;
+    border-bottom: solid 2px #ebebeb;
+    box-shadow: none;
+    outline: none;
+    transition: all ease-in-out 0.5s;
+    opacity: 0.8;
+    margin-top: 1.1rem;
+    margin-bottom: 0;
+    margin-left: 0;
+    bottom: 0;
+    padding-bottom: 0.35rem;
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #0a95bf;
+>>>>>>> val
     }
     
   }

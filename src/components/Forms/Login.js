@@ -163,9 +163,9 @@ export default function FormLogin(props) {
                 />
                 {error && error.graphQLErrors[0] ? (
                   <div className="error">{error.graphQLErrors[0].message}</div>
-                ) : error  && error.networkError ? (
+                ) : error && error.networkError ? (
                   <div className="error">Network error</div>
-                ) :null}
+                ) : null}
                 <div className="buttonC">
                   <Button color={props.color} type="submit" block>
                     {" "}
@@ -186,8 +186,5 @@ const StyledForm = styled.div`
     text-align: center;
     margin-top: 1em;
     color: #ef0023;
-  }
-  .buttonC {
-    margin-top: 3em;
   }
 `;

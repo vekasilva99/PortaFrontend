@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
+import Input from "../Input";
 import Button from "../Button";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
@@ -17,16 +18,16 @@ export default function FormRegister(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
-  const [fNameE, setFNameE] = React.useState(null);
-  const [lNameE, setLNameE] = React.useState(null);
-  const [cedula, setCedula] = React.useState("");
+  const [passwordE, setPasswordE] = React.useState(null);
+  const [passwordCE, setPasswordCE] = React.useState(null);
   const [phoneE, setPhoneE] = React.useState(null);
   const [regionE, setRegionE] = React.useState(null);
   const [emailE, setEmailE] = React.useState(null);
-  const [cedulaE, setCedulaE] = React.useState(null);
-  const [passwordE, setPasswordE] = React.useState(null);
-  const [passwordCE, setPasswordCE] = React.useState(null);
   const [selectedDateE, setSelectedDateE] = React.useState(null);
+  const [fNameE, setFNameE] = React.useState(null);
+  const [lNameE, setLNameE] = React.useState(null);
+  const [cedula, setCedula] = React.useState("");
+  const [cedulaE, setCedulaE] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [errorF, setErrorF] = React.useState(true);
 
@@ -51,16 +52,6 @@ export default function FormRegister(props) {
       codigos === false
     ) {
       setStep1(true);
-      if (
-        codigos === false ||
-        (phone &&
-          !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone))
-      ) {
-        setPhoneE("Invalid  Phone  Number");
-      }
-      if (phone === "") {
-        setPhoneE("Required Field");
-      }
     } else {
       setStep1(false);
     }
@@ -89,12 +80,6 @@ export default function FormRegister(props) {
   const handleStep2 = (e) => {
     if (!cedula || cedula < 1000000 || cedula > 100000000) {
       setStep2(true);
-      if (!cedula) {
-        setCedulaE("Required Field");
-      }
-      if (cedula < 1000000 || cedula > 100000000) {
-        setCedulaE("Invalid ID");
-      }
     } else {
       setStep2(false);
     }
@@ -498,6 +483,7 @@ export default function FormRegister(props) {
   );
 }
 const RegisterView = styled.div`
+<<<<<<< HEAD
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -726,49 +712,57 @@ width: 100%;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+=======
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+>>>>>>> val
   label {
     font-size: 1em;
     font-weight: 200;
-    color: #fafafa;
+    color: ${(props) => props.color};
     margin: 0.2rem;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
   input {
     background: none;
+    font-weight: 200;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: #fafafa;
+    color: ${(props) => props.color};
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin-top: 1.5rem;
+    margin: 0;
+    margin-top: 1rem;
     padding: 0.3rem 0.5rem;
-    margin-left: 0;
-    width: 25vw;
+    width: 80%;
 
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #ef0023;
+      border-bottom: solid 2px ${(props) => props.color};
     }
   }
-}
-.error {
-  width: 100%;
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
-  display: grid;
-  text-align: center;
-
-  h4 {
-    color: #ef0023;
-    font-size: 12px;
+  .input2 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 600px;
+    align-items: center;
+    justify-content: center;
   }
+
+  .button {
+    margin-top: 2rem;
+    margin-bottom: -3rem;
+  }
+<<<<<<< HEAD
 }
 .inputP {
   display: flex;
@@ -780,56 +774,65 @@ width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
+=======
+
+  .dos {
+>>>>>>> val
     font-size: 1em;
     font-weight: 200;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #fafafa;
-    margin: 0.2rem;
     cursor: pointer;
-    margin-top: 1rem;
-  }
-  input {
-    background: none;
-    font-size: 1em;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: #fafafa;
-    border: none;
-    border-bottom: solid 2px #ebebeb;
-    box-shadow: none;
-    outline: none;
-    transition: all ease-in-out 0.5s;
-    opacity: 0.8;
     margin-top: 1.5rem;
-    padding: 0.3rem 0.5rem;
-    margin-left: 0;
-    width: 12.5vw;
+    display: flex;
+    flex-direction: column;
+    width: inerit;
+  }
 
+  .picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    margin-bottom: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px #ef0023;
+      border-bottom: solid 2px #ee462f;
     }
   }
-  select {
+
+  .select {
     background: none;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: #fafafa;
+    color: grey;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin-top: 1.5rem;
-    padding: 0.4rem 0.5rem;
+    margin-top: 1.1rem;
+    margin-bottom: 0;
     margin-left: 0;
+<<<<<<< HEAD
     width: 12.5vw  ;
 
+=======
+    bottom: 0;
+    padding-bottom: 0.35rem;
+>>>>>>> val
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
+<<<<<<< HEAD
       border-bottom: solid 2px #ef0023;
     }
   }
@@ -1283,4 +1286,9 @@ width: 100%;
  
 
 }
+=======
+      border-bottom: solid 2px #ee462f;
+    }
+  }
+>>>>>>> val
 `;
