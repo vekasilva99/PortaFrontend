@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
 import { GET_REPARTIDORES } from "../helpers/graphql/queries";
+import { DISABLE_DRIVER } from "../helpers/graphql/mutations";
 import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import { Button } from "antd";
 
@@ -12,8 +14,26 @@ export default function AdminTable(props) {
     GET_REPARTIDORES
   );
 
+  const [
+    disableDriver,
+    { data, error, loading },
+  ] = useMutation(DISABLE_DRIVER);
+
   if (loadingU) return "Loading...";
   if (errorU) return `Error! ${errorU.message}`;
+
+  const reject = async (driverId) => {
+
+    const { data } = await disableDriver({
+      variables: {
+        driverId: driverId.toString(),
+      },
+    });
+
+    if(data && data.disableDriver){
+      alert("Driver disabled");
+    }
+  }
 
   return (
     <TableDriversStyle>
@@ -56,7 +76,7 @@ export default function AdminTable(props) {
                       Desea cambiar el estado del repartidor seleccionado? Esta
                       acción no puede revertirse
                     </div>
-                    <Button className="del">REJECT</Button>
+                    <Button className="del" onClick={ () => {reject(user._id)}} >REJECT</Button>
                   </div>
                 </div>
               </td>
