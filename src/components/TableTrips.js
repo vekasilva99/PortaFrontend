@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import { GET_USERS } from "../helpers/graphql/queries";
+import { GET_ALL_ORDERS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 import Spinner from "./Spinner";
 
-export default function AdminTable(props) {
-  const { data: dataU, error: errorU, loading: loadingU } = useQuery(GET_USERS);
+export default function TableTrips(props) {
+  const { data: dataU, error: errorU, loading: loadingU } = useQuery(
+    GET_ALL_ORDERS
+  );
 
   if (loadingU)
     return (
@@ -21,42 +23,43 @@ export default function AdminTable(props) {
   if (errorU) return `Error! ${errorU.message}`;
 
   return (
-    <TableUsersStyle>
+    <TableTripsStyle>
       <table>
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Birth Date </th>
-            <th scope="col" width="25%">
-              Mail
-            </th>
-            <th scope="col" width="16%">
-              Cellphone
-            </th>
-            <th scope="col">Date Added</th>
+            <th scope="col">User</th>
+            <th scope="col">Driver</th>
+            <th scope="col">Price</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
-          {dataU.costumers.map((user) => (
+          {dataU.allOrders.map((order) => (
             <tr>
-              <td data-label="Name">{user.name}</td>
-              <td data-label="Last Name">{user.lastName}</td>
-              <td data-label="Birth Date">
-                {moment(user.birthdate).format("DD-mm-yy")}
+              <td data-label="User">
+                {order.user.name} {order.user.lastName}
               </td>
-              <td data-label="Mail">{user.mail}</td>
-              <td data-label="Cellphone">{user.cellphone}</td>
-              <td data-label="Date Added">
-                {moment(user.createdAt).format("DD-mm-yy")}
+              <td data-label="Driver">
+                {order.repartidor
+                  ? order.repartidor.name + " " + order.repartidor.lastName
+                  : "N/A"}
+              </td>
+              <td data-label="Price">{order.price}</td>
+              <td data-label="Date">
+                {moment(order.createdAt).format("DD-mm-yy")}
+              </td>
+              <td data-label="Driver">
+                {order.concluded ? "Completed" : "Pending"}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </TableUsersStyle>
+    </TableTripsStyle>
   );
 }
+
 const StyledSpinner = styled.div`
 height: 50vh;
 width: 80vw;
@@ -75,7 +78,7 @@ position:relative;
 
   }
 `;
-const TableUsersStyle = styled.nav`
+const TableTripsStyle = styled.nav`
 display: flex;
 flex-flow: column;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,

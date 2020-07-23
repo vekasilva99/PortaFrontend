@@ -36,7 +36,7 @@ export default function UserMenu(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin" className="link">
+            <NavLink to="/admin/requests" className="link">
               REQUESTS
             </NavLink>
           </li>

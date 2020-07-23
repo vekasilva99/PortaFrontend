@@ -8,6 +8,7 @@ import {
 import { GET_USERS } from "../../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
+import Spinner from "../Spinner";
 
 export default function Graph1(props) {
   const [chartData, setChartData] = useState({
@@ -22,6 +23,7 @@ export default function Graph1(props) {
     ],
   });
   const lineOptions = {
+    maintainAspectRatio: false,
     scales: {
       xAxes: [
         {
@@ -69,11 +71,32 @@ export default function Graph1(props) {
   const { data: dataO, error: errorO, loading: loadingO } = useQuery(
     GET_ALL_ORDERS
   );
-  if (loadingU) return "Loading...";
+  if (loadingU)
+    return (
+      <StyledSpinner>
+        <div className="spinner">
+          <Spinner color="#ff8600" />
+        </div>
+      </StyledSpinner>
+    );
   if (errorU) return `Error! ${errorU.message}`;
-  if (loadingUS) return "Loading...";
+  if (loadingUS)
+    return (
+      <StyledSpinner>
+        <div className="spinner">
+          <Spinner color="#ff8600" />
+        </div>
+      </StyledSpinner>
+    );
   if (errorUS) return `Error! ${errorU.message}`;
-  if (loadingO) return "Loading...";
+  if (loadingO)
+    return (
+      <StyledSpinner>
+        <div className="spinner">
+          <Spinner color="#ff8600" />
+        </div>
+      </StyledSpinner>
+    );
   if (errorO) return `Error! ${errorU.message}`;
 
   console.log(dataUS);
@@ -85,12 +108,12 @@ export default function Graph1(props) {
 
     console.log(dataD);
     const dataF = {
-      labels: ["Accepted", "Rejected"],
+      labels: ["Driver Accepted", "Driver Rejected"],
       datasets: [
         {
           data: dataD,
-          backgroundColor: ["#ef0023", "#ebebeb"],
-          hoverBackgroundColor: ["#ef0023", "#ebebeb"],
+          backgroundColor: ["#202124", "#ff8600"],
+          hoverBackgroundColor: ["#ef0023", "#202124"],
           borderWidth: 4,
         },
       ],
@@ -104,11 +127,11 @@ export default function Graph1(props) {
     dataU.drivers.map((user) => (dataD[1] = dataD[1] + 1));
 
     const dataF = {
-      labels: ["Users", "Drivers"],
+      labels: ["Users in App", "Drivers in App"],
       datasets: [
         {
           data: dataD,
-          backgroundColor: ["#00507a", "#ef0023"],
+          backgroundColor: ["#ff8600", "#202124"],
           hoverBackgroundColor: ["#00507a", "#ef0023"],
           borderWidth: 4,
         },
@@ -151,18 +174,18 @@ export default function Graph1(props) {
           data: dataD,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: "#ebebeb",
-          borderColor: "#ebebeb",
+          backgroundColor: "#ff8600",
+          borderColor: "#ff8600",
           borderCapStyle: "butt",
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
-          pointBorderColor: "#ebebeb",
+          pointBorderColor: "#ff8600",
           pointBackgroundColor: "#fff",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: "#ebebeb",
-          pointHoverBorderColor: "#ebebeb",
+          pointHoverBackgroundColor: "#ff8600",
+          pointHoverBorderColor: "#ff8600",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -200,18 +223,18 @@ export default function Graph1(props) {
           data: dataD,
           fill: false,
           lineTension: 0.1,
-          backgroundColor: "#ebebeb",
-          borderColor: "#ebebeb",
+          backgroundColor: "#ff8600",
+          borderColor: "#ff8600",
           borderCapStyle: "butt",
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: "miter",
-          pointBorderColor: "#ebebeb",
+          pointBorderColor: "#ff8600",
           pointBackgroundColor: "#fff",
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: "#ebebeb",
-          pointHoverBorderColor: "#ebebeb",
+          pointHoverBackgroundColor: "#ff8600",
+          pointHoverBorderColor: "#ff8600",
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -223,24 +246,14 @@ export default function Graph1(props) {
   return (
     <>
       <StyledCard>
-        <div classname="graph">
+        <div className="graph1">
           {" "}
           <Doughnut
-            width={10}
-            height={5}
             data={chart1(dataU.drivers)}
-            className="graph1"
+            options={{ maintainAspectRatio: false }}
           />
         </div>
-        <div classname="graph">
-          {" "}
-          <Doughnut
-            width={10}
-            height={5}
-            data={chart2(dataUS.costumers, dataU.drivers)}
-          />
-        </div>
-        <div classname="graph">
+        <div className="graph2">
           {" "}
           <Line
             width={100}
@@ -249,7 +262,7 @@ export default function Graph1(props) {
             data={chart3(dataUS.costumers, dataU.drivers)}
           />
         </div>
-        <div classname="graph">
+        <div className="graph3">
           {" "}
           <Line
             width={100}
@@ -258,33 +271,191 @@ export default function Graph1(props) {
             data={chart4(dataO.allOrders)}
           />
         </div>
+        <div className="graph4">
+          {" "}
+          <Doughnut
+            options={{ maintainAspectRatio: false }}
+            data={chart2(dataUS.costumers, dataU.drivers)}
+          />
+        </div>
       </StyledCard>
     </>
   );
 }
+const StyledSpinner = styled.div`
+height: 50vh;
+width: 80vw;
+overflow-x: hidden;
+overflow-y: scroll;
+background: #fafafa;
+display: flex;
+position:relative;
+.spinner{
+    display:flex;
+    position:absolute:
+    z-index:100;
+    width:100%;
+    height:100%;
+    justify-content:center;
+
+  }
+`;
 
 const StyledCard = styled.div`
-  height: auto;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background: pink;
+  height: 100vh;
+  width: 70vw;
   overflow-x: hidden;
+  overflow-y: scroll;
   background: #fafafa;
   display: grid;
-  grid-area: profile;
   grid-template-areas:
-    "graph"
-    "graph";
-
-  .graph {
-    grid-area: graph;
-    width: 50%;
-    height: 50%;
-  }
+    "graph1 graph2"
+    "graph3 graph4";
 
   .graph1 {
-    width: 50px;
-    height: 50px;
+    margin: 5%;
+    grid-area: graph1;
+    padding: 1vw;
+    width: 35vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .graph2 {
+    margin: 5%;
+    grid-area: graph2;
+    padding: 1vw;
+    width: 35vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .graph3 {
+    margin: 5%;
+    grid-area: graph3;
+    padding: 1vw;
+    width: 35vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .graph4 {
+    margin: 5%;
+    grid-area: graph4;
+    padding: 1vw;
+    width: 35vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media only screen and (max-width: 734px) {
+    height: 300vh;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: #fafafa;
+    display: grid;
+    grid-template-areas:
+      "graph1" "graph2"
+      "graph3" "graph4";
+
+    .graph1 {
+      margin: 5%;
+      grid-area: graph1;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph2 {
+      margin: 5%;
+      grid-area: graph2;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph3 {
+      margin: 5%;
+      grid-area: graph3;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph4 {
+      margin: 5%;
+      grid-area: graph4;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  @media only screen and (max-width: 969px) and (min-width: 735px) {
+    height: 300vh;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: #fafafa;
+    display: grid;
+    grid-template-areas:
+      "graph1" "graph2"
+      "graph3" "graph4";
+
+    .graph1 {
+      margin: 5%;
+      grid-area: graph1;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph2 {
+      margin: 5%;
+      grid-area: graph2;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph3 {
+      margin: 5%;
+      grid-area: graph3;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph4 {
+      margin: 5%;
+      grid-area: graph4;
+      padding: 1vw;
+      width: 90vw;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;

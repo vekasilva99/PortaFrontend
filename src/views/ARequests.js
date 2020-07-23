@@ -6,15 +6,16 @@ import AdminSidebar from "../components/AdminSidebar";
 import AdminMenu from "../components/AdminMenu";
 import { useSelector } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
-import Graph1 from "../components/Graphs/Graph1";
-export default function AHome() {
+import TableRequests from "../components/TableRequests";
+
+export default function ARequests() {
   const [on, setToggle] = React.useState(true);
   const handleToggle = (e) => setToggle(!on);
   const { name, lastName, role } = useSelector((state) => ({
     ...state.User,
   }));
   return (
-    <AHomeStyle>
+    <ARequestsStyle>
       <NavbarAdmin name={name} toggle={handleToggle} />
       <AdminMenu show={!on} />
       <div className="page">
@@ -49,16 +50,16 @@ export default function AHome() {
         </div>
         <div className="main">
           <div className="banner">
-            <h1>Bienvenido Admin</h1>
+            <h1>Requests</h1>
           </div>
-          <Graph1 />
+          <TableRequests />
         </div>
       </div>
-    </AHomeStyle>
+    </ARequestsStyle>
   );
 }
 
-const AHomeStyle = styled.div`
+const ARequestsStyle = styled.div`
   position: absolute;
   background: white;
   height: 100vh;
@@ -149,7 +150,7 @@ const AHomeStyle = styled.div`
       align-items: center;
       background-repeat: no-repeat;
       background-position: center;
-      background-image: url("/banner1.png");
+      background-image: url("/arequest1.png");
       background-size: 800px;
     }
     h1 {
@@ -171,7 +172,7 @@ const AHomeStyle = styled.div`
       align-items: center;
       background-repeat: no-repeat;
       background-position: center;
-      background-image: url("/banner1.png");
+      background-image: url("/arequest1.png");
       background-size: 800px;
     }
     .main {
@@ -184,6 +185,7 @@ const AHomeStyle = styled.div`
     }
     .main {
       height: 100vh;
+      background-color: #fafafa;
     }
     h1 {
       font-size: 40px;
@@ -196,7 +198,7 @@ const AHomeStyle = styled.div`
       align-items: center;
       background-repeat: no-repeat;
       background-position: center;
-      background-image: url("/banner2.png");
+      background-image: url("/arequest2.png");
       background-size: 700px;
     }
   }

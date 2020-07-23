@@ -45,11 +45,20 @@ export default function FormRegister(props) {
     if (
       (phone &&
         !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone)) ||
-      phone == "" ||
+      phone === "" ||
       codigos === false
     ) {
       setStep1(true);
-      setPhoneE(true);
+      if (
+        codigos === false ||
+        (phone &&
+          !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone))
+      ) {
+        setPhoneE("Invalid  Phone  Number");
+      }
+      if (phone === "") {
+        setPhoneE("Required Field");
+      }
     } else {
       setStep1(false);
     }
@@ -59,10 +68,16 @@ export default function FormRegister(props) {
     if (!fName || !lName || !selectedDate || !region) {
       setStep2(true);
       if (!selectedDate) {
-        setSelectedDateE(true);
+        setSelectedDateE("Required Field");
       }
       if (!region) {
-        setRegionE(true);
+        setRegionE("Required Field");
+      }
+      if (!lName) {
+        setLNameE("Required Field");
+      }
+      if (!fName) {
+        setNameE("Required Field");
       }
       console.log(phone, "telefono");
     } else {
@@ -437,7 +452,6 @@ export default function FormRegister(props) {
 }
 const RegisterView = styled.div`
   display: flex;
-  flex-wrap: wrap;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   justify-content: center;
@@ -641,49 +655,25 @@ const RegisterView = styled.div`
       grid-template-areas: "passwordC" "error";
     }
   }
-  .errorB {
-    width: 30vw;
-    margin-top: 0.1em;
-    display: flex;
-    position: absolute;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    background: pink;
-    h4 {
-      color: #ef0023;
-      font-size: 12px;
-    }
-  }
-  input {
-    background: none;
-    font-size: 1em;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: ${(props) => props.color};
-    border: none;
-    border-bottom: solid 2px #ebebeb;
-    box-shadow: none;
-    outline: none;
-    transition: all ease-in-out 0.5s;
-    opacity: 0.8;
+  .buttonC {
+    width: 100%
     margin: 0;
-    margin-top: 1rem;
-    padding: 0.3rem 0.5rem;
-    width: 80%;
-
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
-    }
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "error" "button ";
   }
-
-  .input2 {
+  .buttonF {
+    width: 100%
+    margin: 0;
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "error" "button ";
+  }
+  .inputG {
     display: flex;
-    flex-direction: row;
-    width: 100%;
+    flex-direction: column;
     max-width: 600px;
+<<<<<<< HEAD
 <<<<<<< HEAD
     text-align:center;
 =======
@@ -692,6 +682,12 @@ const RegisterView = styled.div`
     margin:0 auto;
     justify-content: center;
 <<<<<<< HEAD
+=======
+    text-align:center;
+    align-items: center;
+    margin:0 auto;
+    justify-content: center;
+>>>>>>> val
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     label {
@@ -728,6 +724,7 @@ const RegisterView = styled.div`
       }
     }
 
+<<<<<<< HEAD
 =======
   }
 
@@ -735,34 +732,50 @@ const RegisterView = styled.div`
     margin-top: 2rem;
     margin-bottom: -3rem;
 >>>>>>> val
+=======
+>>>>>>> val
   }
+  .error {
+    width: 100%;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    display: grid;
+    text-align: center;
 
-  .dos {
-    font-size: 1em;
-    font-weight: 200;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    color: #fafafa;
-    cursor: pointer;
-    margin-top: 1.5rem;
+    h4 {
+      color: #ef0023;
+      font-size: 12px;
+    }
+  }
+  .inputP {
     display: flex;
     flex-direction: column;
-    width: inerit;
-  }
-
-  .picker {
-    display: flex;
-    flex-direction: column;
+    max-width: 300px;
     align-items: center;
     justify-content: center;
-    font-family: Roboto;
-    margin-bottom: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    &:focus {
-      opacity: 1;
+    label {
+      font-size: 1em;
+      font-weight: 200;
+      color: #fafafa;
+      margin: 0.2rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    input {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
       outline: none;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> val
       transition: all ease-in-out 0.5s;
       opacity: 0.8;
       margin-top: 1.5rem;
@@ -807,14 +820,33 @@ const RegisterView = styled.div`
       color: #fafafa;
       border: none;
       border-bottom: solid 2px #ebebeb;
+<<<<<<< HEAD
+=======
+>>>>>>> val
 =======
 >>>>>>> val
       box-shadow: none;
-      border-bottom: solid 2px #0a95bf;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 1.5rem;
+      padding: 0.4rem 0.5rem;
+      margin-left: 0;
+      width: 12.5vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px #00507a;
+      }
     }
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> val
   @media only screen and (max-width: 734px) {
     .buttonS {
       margin-top: 2em;
@@ -1174,6 +1206,7 @@ const RegisterView = styled.div`
           border-bottom: solid 2px #00507a;
         }
       }
+<<<<<<< HEAD
 =======
   .select {
     background: none;
@@ -1196,6 +1229,8 @@ const RegisterView = styled.div`
       outline: none;
       box-shadow: none;
       border-bottom: solid 2px #0a95bf;
+>>>>>>> val
+=======
 >>>>>>> val
     }
     

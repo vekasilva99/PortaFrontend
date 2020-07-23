@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik } from "formik";
-import Input from "../Input";
 import Button from "../Button";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
@@ -52,6 +51,16 @@ export default function FormRegister(props) {
       codigos === false
     ) {
       setStep1(true);
+      if (
+        codigos === false ||
+        (phone &&
+          !/^\+?([0-9]{4})?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i.test(phone))
+      ) {
+        setPhoneE("Invalid  Phone  Number");
+      }
+      if (phone === "") {
+        setPhoneE("Required Field");
+      }
     } else {
       setStep1(false);
     }
@@ -80,6 +89,12 @@ export default function FormRegister(props) {
   const handleStep2 = (e) => {
     if (!cedula || cedula < 1000000 || cedula > 100000000) {
       setStep2(true);
+      if (!cedula) {
+        setCedulaE("Required Field");
+      }
+      if (cedula < 1000000 || cedula > 100000000) {
+        setCedulaE("Invalid ID");
+      }
     } else {
       setStep2(false);
     }
@@ -484,6 +499,9 @@ export default function FormRegister(props) {
 }
 const RegisterView = styled.div`
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> val
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -712,57 +730,61 @@ width: 100%;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+<<<<<<< HEAD
 =======
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 >>>>>>> val
+=======
+>>>>>>> val
   label {
     font-size: 1em;
     font-weight: 200;
-    color: ${(props) => props.color};
+    color: #fafafa;
     margin: 0.2rem;
     cursor: pointer;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   input {
     background: none;
-    font-weight: 200;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: ${(props) => props.color};
+    color: #fafafa;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin: 0;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 0.3rem 0.5rem;
-    width: 80%;
+    margin-left: 0;
+    width: 25vw;
 
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-      border-bottom: solid 2px ${(props) => props.color};
+      border-bottom: solid 2px #ef0023;
     }
   }
-  .input2 {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    max-width: 600px;
-    align-items: center;
-    justify-content: center;
-  }
+}
+.error {
+  width: 100%;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+  display: grid;
+  text-align: center;
 
-  .button {
-    margin-top: 2rem;
-    margin-bottom: -3rem;
+  h4 {
+    color: #ef0023;
+    font-size: 12px;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> val
 }
 .inputP {
   display: flex;
@@ -774,53 +796,58 @@ width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
+<<<<<<< HEAD
 =======
 
   .dos {
 >>>>>>> val
+=======
+>>>>>>> val
     font-size: 1em;
     font-weight: 200;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #fafafa;
+    margin: 0.2rem;
     cursor: pointer;
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    width: inerit;
+    margin-top: 1rem;
   }
-
-  .picker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Roboto;
-    margin-bottom: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    &:focus {
-      opacity: 1;
-      outline: none;
-      box-shadow: none;
-      border-bottom: solid 2px #ee462f;
-    }
-  }
-
-  .select {
+  input {
     background: none;
     font-size: 1em;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    color: grey;
+    color: #fafafa;
     border: none;
     border-bottom: solid 2px #ebebeb;
     box-shadow: none;
     outline: none;
     transition: all ease-in-out 0.5s;
     opacity: 0.8;
-    margin-top: 1.1rem;
-    margin-bottom: 0;
+    margin-top: 1.5rem;
+    padding: 0.3rem 0.5rem;
     margin-left: 0;
+    width: 12.5vw;
+
+    &:focus {
+      opacity: 1;
+      outline: none;
+      box-shadow: none;
+      border-bottom: solid 2px #ef0023;
+    }
+  }
+  select {
+    background: none;
+    font-size: 1em;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    color: #fafafa;
+    border: none;
+    border-bottom: solid 2px #ebebeb;
+    box-shadow: none;
+    outline: none;
+    transition: all ease-in-out 0.5s;
+    opacity: 0.8;
+    margin-top: 1.5rem;
+    padding: 0.4rem 0.5rem;
+    margin-left: 0;
+<<<<<<< HEAD
 <<<<<<< HEAD
     width: 12.5vw  ;
 
@@ -828,11 +855,18 @@ width: 100%;
     bottom: 0;
     padding-bottom: 0.35rem;
 >>>>>>> val
+=======
+    width: 12.5vw  ;
+
+>>>>>>> val
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> val
       border-bottom: solid 2px #ef0023;
     }
   }
@@ -1286,9 +1320,12 @@ width: 100%;
  
 
 }
+<<<<<<< HEAD
 =======
       border-bottom: solid 2px #ee462f;
     }
   }
+>>>>>>> val
+=======
 >>>>>>> val
 `;
