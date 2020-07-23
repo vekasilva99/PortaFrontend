@@ -344,10 +344,7 @@ export default function Map() {
               <button
                 className="boton-error"
                 onClick={() => {
-                  setError(null);
-                  setApproved(true);
-                  setUser(null);
-                  setPackage(null);
+                  window.location.reload(false);
                 }}
               >
                 ACCEPT
@@ -676,15 +673,16 @@ const StyledMap = styled.div`
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background: transparent;
-    overflow: hidden;
+    overflow: scroll;
+    overflow-x: hidden;
   }
 
-  .error{
+  .error {
     display: flex;
     position: absolute;
     height: 100vh;
     width: 100vw;
-    background:transparent;
+    background: transparent;
     z-index: 3000;
     transition: all ease-in-out 0.3s;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -701,32 +699,30 @@ const StyledMap = styled.div`
       opacity: 0.4;
     }
 
-    .error-message{
+    .error-message {
       display: flex;
       position: absolute;
       height: 20vh;
       width: 30vw;
-      background:#fafafa;
+      background: #fafafa;
       z-index: 3000;
-      top:50%;
-      left:50%;
-      transform:translate(-50%);
-      padding-left:0.5em;
-      padding-right:0.5em;
-      text-align:center;
-      
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      h4{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        color:#00507a;
-        font-size:1em;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%);
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      text-align: center;
 
-  
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h4 {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color: #00507a;
+        font-size: 1em;
       }
-      .boton-error{
+      .boton-error {
         border: solid 2px #00507a;
         color: white;
         padding: 0.6rem;
@@ -750,11 +746,8 @@ const StyledMap = styled.div`
           outline: none;
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
         }
-
       }
-  
     }
-
   }
   .locate {
     position: absolute;
@@ -765,29 +758,27 @@ const StyledMap = styled.div`
     z-index: 2010;
   }
 
-  .able-to-order{
+  .able-to-order {
     position: absolute;
-    width:20vw;
-    top:6rem;
-    padding:0;
-    padding-left:1em;
-    display:flex;
-    justify-content:flex-start;
-    align-items:center;
+    width: 20vw;
+    top: 6rem;
+    padding: 0;
+    padding-left: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     right: 7rem;
     background: #fafafa;
     border: none;
-    height:3.5em;
+    height: 3.5em;
     z-index: 2010;
-    h4{
+    h4 {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      color:#00507a;
-      font-size:1em;
-      margin-left:0.5em;
-
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color: #00507a;
+      font-size: 1em;
+      margin-left: 0.5em;
     }
-
   }
   .locate2 {
     position: absolute;
@@ -806,7 +797,7 @@ const StyledMap = styled.div`
     width: 5em;
     cursor: pointer;
   }
-  
+
   .boton {
     border: solid 2px #00507a;
     color: white;
@@ -858,6 +849,7 @@ const StyledMap = styled.div`
       margin: 20px;
       margin-top: 80px;
       width: 400px;
+      height: 80vh;
       z-index: 2020;
       h1 {
         font-size: 60px;
@@ -889,7 +881,7 @@ const StyledMap = styled.div`
         grid-template-areas:
           "iconos partida partida"
           "iconos llegada llegada"
-          "precio precio precio"
+          "precio precio precio";
       }
       .info {
         margin: 0;
@@ -901,29 +893,29 @@ const StyledMap = styled.div`
         height: 40vh;
         background: #fafafa;
         display: grid;
-        grid-template-areas:
-          "partida partida"
-      
+        grid-template-areas: "partida partida";
       }
-      .div6{
+      .div6 {
         background: transparent;
         width: 100%;
         height: 100%;
         grid-area: partida;
-        h2{
-          font-size: 15px;
+        h2 {
+          font-size: 25px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
         }
-        h3{
-          font-size: 18px;
+
+        h3 {
+          font-size: 20px;
           font-weight: 200;
           color: #1d1d1f;
           margin: 0;
+          margin-bottom: 1vh;
         }
       }
-  
+
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
@@ -945,18 +937,18 @@ const StyledMap = styled.div`
         grid-area: precio;
         background: transparent;
         width: 122%;
-        margin-top:8%;
+        margin-top: 8%;
         margin-left: -22%;
-        padding:0;
-        padding-right:5%;
-        height:50%;
+        padding: 0;
+        padding-right: 5%;
+        height: 50%;
         display: flex;
         position: relative;
-        justify-content:flex-end;
-        align-text:center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        h2{
+        justify-content: flex-end;
+        align-text: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        h2 {
           font-size: 22px;
           font-weight: 500;
           color: #00507a;
@@ -968,13 +960,13 @@ const StyledMap = styled.div`
         background: transparent;
         width: 122%;
         margin-left: -22%;
-        margin-top:2%;
-        margin-Bottom:4%;
+        margin-top: 2%;
+        margin-bottom: 0;
         display: flex;
         position: relative;
-        height:100%;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        height: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         .search {
           display: flex;
           position: absolute;
@@ -995,46 +987,39 @@ const StyledMap = styled.div`
             border: none;
           }
         }
-        .texto{
-          width:100%;
-          height:fit-content;
-          background:transparent;
-          display:flex;
-          flex-direction:column;
-          position:absolute;
-          margin-left:0.1em;
-          h2{
-            
-          font-size: 18px;
-          font-weight: 500;
-          color: #1d1d1f;
-          margin: 0;
-          
-  
+        .texto {
+          width: 100%;
+          height: fit-content;
+          background: transparent;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          margin-left: 0.1em;
+          h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin: 0;
           }
-          h3{
-           
+          h3 {
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
             margin: 0;
-           
-  
           }
         }
-        
       }
-     
+
       .div3 {
         grid-area: llegada;
         background: transparent;
         width: 122%;
         margin-left: -22%;
-        margin-top:4%;
-        margin-bottom:5%;
+        margin-top: 0;
+        margin-bottom: 5%;
         display: flex;
         position: relative;
-        height:100%;
+        height: 100%;
         .search {
           display: flex;
           position: absolute;
@@ -1042,14 +1027,14 @@ const StyledMap = styled.div`
           width: 100%;
           height: 100%;
           height: 100%;
-          padding:0;
+          padding: 0;
           z-index: 2030;
         }
         .search input {
           font-size: 1.5rem;
           height: 90%;
           width: 100%;
-          margin:0;
+          margin: 0;
           background: transparent;
           outline: none;
           border: none;
@@ -1058,32 +1043,25 @@ const StyledMap = styled.div`
             border: none;
           }
         }
-        .texto{
-          
-          width:100%;
-          height:fit-content;
-          background:transparent;
-          display:flex;
-          position:absolute;
-          flex-direction:column;
-          margin-left:0.1em;
-          h2{
-            
-          font-size: 18px;
-          font-weight: 500;
-          color: #1d1d1f;
-          margin: 0;
-         
-  
+        .texto {
+          width: 100%;
+          height: fit-content;
+          background: transparent;
+          display: flex;
+          position: absolute;
+          flex-direction: column;
+          margin-left: 0.1em;
+          h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin: 0;
           }
-          h3{
-          
+          h3 {
             font-size: 22px;
             font-weight: 300;
             color: #1d1d1f;
             margin: 0;
-            
-  
           }
         }
       }
@@ -1109,119 +1087,111 @@ const StyledMap = styled.div`
   @media only screen and (max-width: 734px) {
     .fondoMap {
       display: grid;
+      overflow-x: hidden;
       grid-template-areas:
         "clear"
         "busqueda";
     }
 
-    .error{
-    display: flex;
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    background:transparent;
-    z-index: 3000;
-    transition: all ease-in-out 0.3s;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    &:after {
-      position: absolute;
-      top: 0;
-      left: 0;
-      content: "";
-      width: 100%;
-      z-index: 1;
-      height: 100%;
-      background: #202124;
-      opacity: 0.4;
-    }
-
-    .error-message{
+    .error {
       display: flex;
       position: absolute;
-      height: 20vh;
-      width: 80vw;
-      background:#fafafa;
+      height: 100vh;
+      width: 100vw;
+      background: transparent;
       z-index: 3000;
-      top:50%;
-      left:50%;
-      transform:translate(-50%);
-      padding-left:0.5em;
-      padding-right:0.5em;
-      text-align:center;
-      
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      h4{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        color:#00507a;
-        font-size:1em;
-
-  
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
       }
-      .boton-error{
-        border: solid 2px #00507a;
-        color: white;
-        padding: 0.6rem;
-        font-size: 0.8em;
-        width: 30vw;
+
+      .error-message {
         display: flex;
-        font-weight: 600;
-        cursor: pointer;
-        background: #00507a;
-        border-radius: 500px;
-        transition: all ease-in-out 0.3s;
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        background: #fafafa;
+        z-index: 3000;
+        top: 0;
+        bottom: 0;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        text-align: center;
+
+        flex-direction: column;
         justify-content: center;
-        &:hover {
-          opacity: 0.8;
-          background: #00507a;
+        align-items: center;
+        h4 {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color: #00507a;
+          font-size: 1em;
+        }
+        .boton-error {
+          border: solid 2px #00507a;
           color: white;
-          border-color: #00507a;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #00507a;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
         }
-        &:focus {
-          opacity: 0.8;
-          outline: none;
-          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-        }
-
       }
-    }}
-  
-    
-  
+    }
 
-    .able-to-order{
+    .able-to-order {
       position: absolute;
-      width:60vw;
-      top:6rem;
-      padding:0;
-      padding-left:1em;
-      display:flex;
-      justify-content:flex-start;
-      align-items:center;
+      width: 60vw;
+      top: 6rem;
+      padding: 0;
+      padding-left: 1em;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       right: 7rem;
       background: #fafafa;
       border: none;
-      height:3.5em;
+      height: 3.5em;
       z-index: 2010;
-      h4{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        color:#00507a;
-        font-size:1em;
-        margin-left:0.5em;
-  
+      h4 {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color: #00507a;
+        font-size: 1em;
+        margin-left: 0.5em;
       }
-  
     }
 
-    .MuiInputBase-input{
-      height:0.3em;
+    .MuiInputBase-input {
+      height: 0.3em;
     }
     .MuiPickersToolbar-toolbar {
-      
       height: 100px;
       display: flex;
       align-items: center;
@@ -1233,18 +1203,20 @@ const StyledMap = styled.div`
     .MuiGrid-container {
       width: 100%;
       display: flex;
-      height:auto;
-      padding-top:0;
+      height: auto;
+      padding-top: 0;
       flex-wrap: wrap;
       box-sizing: border-box;
-      margin-top: -1%;
+      margin-top: -15%;
     }
     .busqueda {
+      left: 0;
       grid-area: busqueda;
       background-color: #fafafa;
       z-index: 2020;
-      margin:0;
-      height: auto;
+      margin: 0;
+      width: 100vw;
+      height: 70vh;
       h1 {
         font-size: 30px;
         font-weight: 400;
@@ -1255,7 +1227,7 @@ const StyledMap = styled.div`
         padding: 20px;
         width: 1;
       }
-     
+
       h5 {
         font-size: 20px;
         font-weight: 500;
@@ -1271,82 +1243,84 @@ const StyledMap = styled.div`
         padding-left: 5%;
         padding-right: 5%;
         width: 100%;
-        height:auto;
-       
+        height: 30vh;
+        margin-top: 10%;
+
         display: grid;
         grid-template-areas:
-        "iconos partida partida"
-        "iconos llegada llegada"
-        "precio precio precio";
+          "iconos partida partida"
+          "iconos llegada llegada"
+          "precio precio precio";
       }
       .info {
         margin: 0;
-        padding-top: 2%;
+        padding-top: 10%;
         padding-bottom: 15%;
         padding-left: 9%;
         padding-right: 9%;
         width: 100%;
-        height: 20vh;
+        height: 30vh;
         background: #fafafa;
         display: grid;
         grid-template-areas: "partida partida";
       }
-  
+
       .div6 {
         background: transparent;
         width: 100%;
         height: 100%;
         grid-area: partida;
-  
+
         h2 {
-          font-size: 12px;
+          font-size: 25px;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
         }
-  
+
         h3 {
-          font-size: 15px;
+          font-size: 20px;
           font-weight: 200;
           color: #1d1d1f;
           margin: 0;
+          margin-bottom: 1vh;
         }
       }
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
-        background-size: 20px;
-        height:150%;
+        background-size: 40px;
+        height: 120%;
         z-index: 2030;
-        width: 78%;
-       
+        width: 50%;
       }
       .div1 {
         grid-area: iconos;
+        justify-self: center;
       }
       .div2 {
         grid-area: partida;
         background: #fafafa;
-        width: 124%;
-        margin-left: -29%;
-        margin-top:4%;
+        width: 100%;
+        margin-left: -15%;
+        margin-top: 0;
         display: flex;
         position: relative;
         .search {
           display: flex;
           position: absolute;
           align-items: center;
-          margin-bottom:0.2em;
+          margin-bottom: 0;
           width: 100%;
           height: 100%;
           height: 100%;
           z-index: 2030;
         }
         .search input {
-          font-size: 1.2rem;
-          height: 100%;
-          margin-bottom:0.1em;
-          background: transparent;
+          font-size: 22px;
+          height: 90%;
+          margin-bottom: 0;
+          background: #fafafa;
           outline: none;
           border: none;
           &:focus {
@@ -1359,56 +1333,56 @@ const StyledMap = styled.div`
         grid-area: precio;
         background: transparent;
         width: 122%;
-        margin-top:8%;
+        margin-top: 8%;
         margin-left: -22%;
-        padding:0;
-        padding-right:5%;
-        height:100%;
+        padding: 0;
+        padding-right: 5%;
+        height: 100%;
         display: flex;
         position: relative;
-        justify-content:flex-end;
-        align-text:center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        h2{
+        justify-content: flex-end;
+        align-text: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        h2 {
           font-size: 20px;
           font-weight: 500;
           color: #00507a;
           margin: 0;
         }
       }
-        .div3 {
-          grid-area: llegada;
-          background: #fafafa;
-          width: 124%;
-          margin-left: -29%;
-          margin-top:12%;
+      .div3 {
+        grid-area: llegada;
+        background: #fafafa;
+        width: 100%;
+        margin-left: -15%;
+        margin-top: 0;
+        display: flex;
+        position: relative;
+
+        .search {
           display: flex;
-          position: relative;
-          
-          .search {
-            display: flex;
-            position: absolute;
-            align-items: center;
-            margin-top:0.2em;
-            width: 100%;
-            height: 100%;
-            height: 100%;
-            z-index: 2030;
-          }
-          .search input {
-            font-size: 1.2rem;
-            height: 90%;
-            background: transparent;
-            margin-top:0.1em;
+          position: absolute;
+          align-items: center;
+          margin-top: 0.2em;
+          width: 100%;
+          height: 100%;
+          height: 100%;
+          z-index: 2030;
+        }
+        .search input {
+          font-size: 22px;
+          height: 90%;
+          background: transparent;
+          margin-top: 0;
+          outline: none;
+          border: none;
+          width: 100%;
+          &:focus {
             outline: none;
             border: none;
-            &:focus {
-              outline: none;
-              border: none;
-            }
           }
-        ß
+        }
       }
       .boton {
         border: solid 2px #00507a;
@@ -1423,7 +1397,7 @@ const StyledMap = styled.div`
         border-radius: 500px;
         transition: all ease-in-out 0.3s;
         justify-content: center;
-  
+
         &:hover {
           opacity: 0.8;
           background: #00507a;
@@ -1436,36 +1410,35 @@ const StyledMap = styled.div`
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
         }
       }
-  
+
       .botonContainer2 {
         width: 100%;
         background: #fafafa;
         height: 18vh;
         display: flex;
         justify-content: center;
-        align-items: flex-start;
-        padding-top:0;
-        padding-bottom:0.1vh;
+        align-items: center;
+        padding-top: 0;
+        padding-bottom: 0.1vh;
       }
     }
     .clear {
       grid-area: clear;
-      height: 52vh;
-    
+      height: 85vh;
     }
-    .div6{
-        h2{
-          font-size: 15px;
-          font-weight: 500;
-          color: #1d1d1f;
-          margin: 0;
-        }
-        h3{
-          font-size: 20px;
-          font-weight: 200;
-          color: #1d1d1f;
-          margin: 0;
-        }
+    .div6 {
+      h2 {
+        font-size: 15px;
+        font-weight: 500;
+        color: #1d1d1f;
+        margin: 0;
       }
+      h3 {
+        font-size: 20px;
+        font-weight: 200;
+        color: #1d1d1f;
+        margin: 0;
+      }
+    }
   }
 `;
