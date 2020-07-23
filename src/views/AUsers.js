@@ -32,7 +32,7 @@ export default function AUsers() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/" className="link">
+              <NavLink to="/admin/drivers" className="link">
                 DRIVERS
               </NavLink>
             </li>

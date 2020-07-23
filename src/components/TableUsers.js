@@ -2,12 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import {
-  GET_USERS,
-  GET_REPARTIDORES,
-  NEW_USERS,
-  NEW_REPARTIDORES,
-} from "../helpers/graphql/queries";
+import { GET_USERS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 

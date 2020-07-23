@@ -36,6 +36,7 @@ import Spinner from "../components/Spinner";
 import styled from "styled-components";
 import AHome from "../views/AHome";
 import AUsers from "../views/AUsers";
+import ADrivers from "../views/ADrivers";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
     fetchPolicy: "network-only",
@@ -84,6 +85,12 @@ export default function Routes() {
         path="/admin/users"
         role={role}
         component={AUsers}
+      />
+      <GuardRoutesAdmin
+        exact
+        path="/admin/drivers"
+        role={role}
+        component={ADrivers}
       />
 
       <GuardRoutesAdmin
