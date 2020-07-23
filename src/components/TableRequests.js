@@ -46,7 +46,7 @@ export default function TableRequests(props) {
             <th scope="col">Experience</th>
             <th scope="col">Vehicle</th>
             <th scope="col" width="30%">
-              Decision
+              Desition
             </th>
           </tr>
         </thead>

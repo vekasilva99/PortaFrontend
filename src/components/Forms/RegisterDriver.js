@@ -498,10 +498,7 @@ export default function FormRegister(props) {
   );
 }
 const RegisterView = styled.div`
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
+
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -730,14 +727,7 @@ width: 100%;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-<<<<<<< HEAD
-=======
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
->>>>>>> val
-=======
->>>>>>> val
+
   label {
     font-size: 1em;
     font-weight: 200;
@@ -781,10 +771,7 @@ width: 100%;
     color: #ef0023;
     font-size: 12px;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
+
 }
 .inputP {
   display: flex;
@@ -796,13 +783,6 @@ width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
-<<<<<<< HEAD
-=======
-
-  .dos {
->>>>>>> val
-=======
->>>>>>> val
     font-size: 1em;
     font-weight: 200;
     color: #fafafa;
@@ -847,26 +827,14 @@ width: 100%;
     margin-top: 1.5rem;
     padding: 0.4rem 0.5rem;
     margin-left: 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
     width: 12.5vw  ;
-
-=======
     bottom: 0;
     padding-bottom: 0.35rem;
->>>>>>> val
-=======
     width: 12.5vw  ;
-
->>>>>>> val
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
       border-bottom: solid 2px #ef0023;
     }
   }
@@ -1320,12 +1288,5 @@ width: 100%;
  
 
 }
-<<<<<<< HEAD
-=======
-      border-bottom: solid 2px #ee462f;
-    }
-  }
->>>>>>> val
-=======
->>>>>>> val
+
 `;

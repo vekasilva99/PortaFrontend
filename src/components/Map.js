@@ -156,6 +156,9 @@ export default function Map() {
   const [directions, setDirections] = React.useState(null);
   const handleSend = async (e) => {
     if (user != null && pack != null && distancia != null && precio != null) {
+      if (precio <= 0.5) {
+        setPrecio(0.5);
+      }
       setSubmitted(true);
       console.log("SE PUEDE MANDAR");
       console.log(user);
@@ -1218,10 +1221,10 @@ const StyledMap = styled.div`
       width: 100vw;
       height: 70vh;
       h1 {
-        font-size: 30px;
+        font-size: 5vh;
         font-weight: 400;
         color: #fafafa;
-        height: 80px;
+        height: 15vh;
         background-color: rgb(0, 80, 122);
         margin: 0;
         padding: 20px;
@@ -1229,7 +1232,7 @@ const StyledMap = styled.div`
       }
 
       h5 {
-        font-size: 20px;
+        font-size: 3vh;
         font-weight: 500;
         color: #1d1d1f;
         margin: 0;
@@ -1238,8 +1241,8 @@ const StyledMap = styled.div`
       }
       .rutas {
         margin: 0;
-        padding-top: 5%;
-        padding-bottom: 5%;
+        padding-top: 2%;
+        padding-bottom: 2%;
         padding-left: 5%;
         padding-right: 5%;
         width: 100%;
@@ -1272,14 +1275,14 @@ const StyledMap = styled.div`
         grid-area: partida;
 
         h2 {
-          font-size: 25px;
+          font-size: 3vh;
           font-weight: 500;
           color: #1d1d1f;
           margin: 0;
         }
 
         h3 {
-          font-size: 20px;
+          font-size: 2.5vh;
           font-weight: 200;
           color: #1d1d1f;
           margin: 0;
@@ -1289,14 +1292,15 @@ const StyledMap = styled.div`
       .div1 {
         background-image: url("/iconos.png");
         background-repeat: no-repeat;
-        background-size: 40px;
-        height: 120%;
+        background-size: contain;
+        height: 100%;
         z-index: 2030;
         width: 50%;
       }
       .div1 {
         grid-area: iconos;
         justify-self: center;
+        margin-top: -1%;
       }
       .div2 {
         grid-area: partida;
@@ -1304,12 +1308,14 @@ const StyledMap = styled.div`
         width: 100%;
         margin-left: -15%;
         margin-top: 0;
+        height: 5vh;
         display: flex;
         position: relative;
+        align-items: center;
         .search {
           display: flex;
           position: absolute;
-          align-items: center;
+          align-items: flex-end;
           margin-bottom: 0;
           width: 100%;
           height: 100%;
@@ -1317,8 +1323,8 @@ const StyledMap = styled.div`
           z-index: 2030;
         }
         .search input {
-          font-size: 22px;
-          height: 90%;
+          font-size: 3vh;
+          height: 10%;
           margin-bottom: 0;
           background: #fafafa;
           outline: none;
@@ -1345,7 +1351,7 @@ const StyledMap = styled.div`
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         h2 {
-          font-size: 20px;
+          font-size: 4vh;
           font-weight: 500;
           color: #00507a;
           margin: 0;
@@ -1359,11 +1365,13 @@ const StyledMap = styled.div`
         margin-top: 0;
         display: flex;
         position: relative;
+        align-items: center;
+        height: 5vh;
 
         .search {
           display: flex;
           position: absolute;
-          align-items: center;
+          align-items: flex-end;
           margin-top: 0.2em;
           width: 100%;
           height: 100%;
@@ -1371,8 +1379,8 @@ const StyledMap = styled.div`
           z-index: 2030;
         }
         .search input {
-          font-size: 22px;
-          height: 90%;
+          font-size: 3vh;
+          height: 100%;
           background: transparent;
           margin-top: 0;
           outline: none;
@@ -1387,8 +1395,8 @@ const StyledMap = styled.div`
       .boton {
         border: solid 2px #00507a;
         color: white;
-        padding: 0.9rem;
-        font-size: 0.8em;
+        padding: 1.2vh;
+        font-size: 2vh;
         width: 40vw;
         display: flex;
         font-weight: 600;

@@ -673,21 +673,10 @@ const RegisterView = styled.div`
     display: flex;
     flex-direction: column;
     max-width: 600px;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    text-align:center;
-=======
->>>>>>> val
-    align-items: center;
-    margin:0 auto;
-    justify-content: center;
-<<<<<<< HEAD
-=======
     text-align:center;
     align-items: center;
     margin:0 auto;
     justify-content: center;
->>>>>>> val
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     label {
@@ -724,16 +713,11 @@ const RegisterView = styled.div`
       }
     }
 
-<<<<<<< HEAD
-=======
   }
 
   .button {
     margin-top: 2rem;
     margin-bottom: -3rem;
->>>>>>> val
-=======
->>>>>>> val
   }
   .error {
     width: 100%;
@@ -772,10 +756,6 @@ const RegisterView = styled.div`
       border-bottom: solid 2px #ebebeb;
       box-shadow: none;
       outline: none;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
       transition: all ease-in-out 0.5s;
       opacity: 0.8;
       margin-top: 1.5rem;
@@ -820,11 +800,6 @@ const RegisterView = styled.div`
       color: #fafafa;
       border: none;
       border-bottom: solid 2px #ebebeb;
-<<<<<<< HEAD
-=======
->>>>>>> val
-=======
->>>>>>> val
       box-shadow: none;
       outline: none;
       transition: all ease-in-out 0.5s;
@@ -843,10 +818,6 @@ const RegisterView = styled.div`
     }
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
   @media only screen and (max-width: 734px) {
     .buttonS {
       margin-top: 2em;
@@ -1206,8 +1177,6 @@ const RegisterView = styled.div`
           border-bottom: solid 2px #00507a;
         }
       }
-<<<<<<< HEAD
-=======
   .select {
     background: none;
     font-size: 1em;
@@ -1229,9 +1198,6 @@ const RegisterView = styled.div`
       outline: none;
       box-shadow: none;
       border-bottom: solid 2px #0a95bf;
->>>>>>> val
-=======
->>>>>>> val
     }
     
   }

@@ -1230,6 +1230,7 @@ const FormStyle = styled.section`
     }
   }}
   @media only screen and (max-width: 735px)  {
+    
     .navb {
       margin: 0;
       width: 100%;
@@ -1241,7 +1242,7 @@ const FormStyle = styled.section`
       position: absolute;
       height: 100vh;
       width: 100vw;
-      background:transparent;
+      background:#fafafa;
       z-index: 3000;
       transition: all ease-in-out 0.3s;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -1254,7 +1255,7 @@ const FormStyle = styled.section`
         width: 100%;
         z-index: 1;
         height: 100%;
-        background: #202124;
+        background: #fafafa;
         opacity: 0.4;
       }
   
@@ -1455,7 +1456,7 @@ const FormStyle = styled.section`
             margin-bottom: 0;
             padding-top: 0;
             padding-bottom: 0;
-            height: 4vh;
+            height: 10vw;
             width: auto;
             color: #202124;
             display: inline-block;
@@ -1471,7 +1472,7 @@ const FormStyle = styled.section`
             margin-bottom: 0;
             padding-top: 0;
             padding-bottom: 0;
-            height: 4vh;
+            height: 8vw;
             width: auto;
             color: #202124;
           }
@@ -1536,7 +1537,7 @@ const FormStyle = styled.section`
                   "Helvetica Neue", sans-serif;
                 font-weight: 300;
                 margin-left: 2em;
-                height: 6vh;
+                height: 10vw;
                 width: 80vw;
                 transition: all ease-in-out 0.5s;
                 border-bottom: solid 2px #202124;
@@ -1556,7 +1557,7 @@ const FormStyle = styled.section`
                   "Helvetica Neue", sans-serif;
                 font-weight: 300;
                 margin-left: 2em;
-                height: 6vh;
+                height: 10vw;
                 width: 80vw;
                 transition: all ease-in-out 0.5s;
                 border: none;
