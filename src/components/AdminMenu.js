@@ -21,6 +21,11 @@ export default function UserMenu(props) {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/admin/graphs" className="link">
+              GRAPHS
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/admin/users" className="link">
               USERS
             </NavLink>
@@ -31,7 +36,7 @@ export default function UserMenu(props) {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/admin" className="link">
+            <NavLink to="/admin/requests" className="link">
               REQUESTS
             </NavLink>
           </li>

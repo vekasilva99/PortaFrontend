@@ -390,7 +390,7 @@ export default function UserProfileForm(props) {
                       name: values.FName,
                       lastName: values.LName,
                       mail: values.Email,
-                      birthdate: new Date(birthdate),
+                      birthdate: new Date(moment(birthdate)),
                       zone: values.Region,
                     },
                   });
@@ -416,7 +416,7 @@ export default function UserProfileForm(props) {
                       name: values.FName,
                       lastName: values.LName,
                       mail: values.Email,
-                      birthdate: new Date(selectedDate),
+                      birthdate: new Date(moment(selectedDate)),
                       zone: values.Region,
                     },
                   });

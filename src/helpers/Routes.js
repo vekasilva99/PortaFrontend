@@ -38,6 +38,8 @@ import styled from "styled-components";
 import AHome from "../views/AHome";
 import AUsers from "../views/AUsers";
 import ADrivers from "../views/ADrivers";
+import ATrips from "../views/ATrips";
+import ARequests from "../views/ARequests";
 export default function Routes() {
   const { data, loading, error, refetch } = useQuery(CURRENT_USER, {
     fetchPolicy: "network-only",
@@ -93,25 +95,18 @@ export default function Routes() {
         role={role}
         component={ADrivers}
       />
+      <GuardRoutesAdmin
+        exact
+        path="/admin/trips"
+        role={role}
+        component={ATrips}
+      />
 
       <GuardRoutesAdmin
         exact
         path="/admin/requests"
         role={role}
-        component={AdminRequests}
-      />
-      <GuardRoutesAdmin
-        exact
-        path="/admin/trips"
-        role={role}
-        component={Trips}
-      />
-
-      <GuardRoutesAdmin
-        exact
-        path="/admin/requests/:id"
-        role={role}
-        component={AdminRequest}
+        component={ARequests}
       />
 
       <GuardRoutesDriver

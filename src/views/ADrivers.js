@@ -37,7 +37,7 @@ export default function AUsers() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/" className="link">
+              <NavLink to="/admin/requests" className="link">
                 REQUESTS
               </NavLink>
             </li>

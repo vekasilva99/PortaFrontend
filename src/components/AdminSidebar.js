@@ -19,6 +19,11 @@ export default function AdminSidebar(props) {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/admin/graphs" className="link">
+              GRAPHS
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/admin/users" className="link">
               USERS
             </NavLink>
