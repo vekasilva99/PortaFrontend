@@ -17,6 +17,8 @@ export default function FormRegister(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
   const [lName, setLName] = React.useState("");
+  const [fNameE, setFNameE] = React.useState(null);
+  const [lNameE, setLNameE] = React.useState(null);
   const [cedula, setCedula] = React.useState("");
   const [phoneE, setPhoneE] = React.useState(null);
   const [regionE, setRegionE] = React.useState(null);
@@ -26,6 +28,7 @@ export default function FormRegister(props) {
   const [passwordCE, setPasswordCE] = React.useState(null);
   const [selectedDateE, setSelectedDateE] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
+  const [errorF, setErrorF] = React.useState(true);
 
   const handleStep1 = (e) => {
     console.log(props.color);
@@ -67,15 +70,19 @@ export default function FormRegister(props) {
     if (!fName || !lName || !selectedDate || !region) {
       setStep3(true);
       if (!selectedDate) {
-        setSelectedDateE("Please Choose a Date");
+        setSelectedDateE("Required Field");
       }
       if (!region) {
-        setRegionE("Please Choose a Region");
+        setRegionE("Required Field");
       }
-      console.log(phone, "telefono");
+      if (!region) {
+        setFNameE("Required Field");
+      }
+      if (!region) {
+        setLNameE("Required Field");
+      }
     } else {
       setStep3(false);
-      console.log(phone, "telefono");
     }
   };
 
@@ -115,340 +122,378 @@ export default function FormRegister(props) {
 
   return (
     <RegisterView>
-      <Formik
-        initialValues={{
-          Email: "",
-          Password: "",
-          Password2: "",
-          Phone: "",
-          FName: "",
-          LName: "",
-          BDate: "",
-          Region: "",
-          Cedula: "",
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.Email) {
-            errors.Email = "Required Field";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-          ) {
-            errors.email = "Invalid Email";
-            setEmailE("Invalid Email");
-          }
-          if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
-            setEmailE(null);
-          }
-          if (!values.Password) {
-            errors.Password = "Required Field";
-            setPasswordCE("Required Field");
-          } else if (values.Password.length < 9) {
-            errors.Password = "Password too short";
-            setPasswordE("Password too short");
-          } else if (values.Password !== values.Password2) {
-            errors.Password = "Password doesn't match";
-            setPasswordCE("Password doesn't match");
-          }
-          if (values.Password.length >= 9) {
-            setPasswordE(null);
-          }
-          if (values.Password === values.Password2) {
-            setPasswordCE(null);
-          }
+      <>
+        {data && data.createUser ? (
+          <div className="error-m">
+            <div className="error-message">
+              <h4>User Has Been Created!</h4>
+              <button
+                className="boton-error"
+                onClick={() => {
+                  window.location.reload(false);
+                }}
+              >
+                ACCEPT
+              </button>
+            </div>
+          </div>
+        ) : null}
 
-          return console.log(errors);
-        }}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          /// code here
-          console.log(phone);
-          let submitUser = [
-            {
-              UserPhone: phone,
-              FirstName: fName,
-              LastName: lName,
-              Password: values.Password,
-              Email: values.Email,
-              Birthdate: selectedDate,
-              Region: region,
-              Cedula: cedula,
-            },
-          ];
-
-          const { data } = await register({
-            variables: {
-              userInput: {
-                name: submitUser[0].FirstName,
-                lastName: submitUser[0].LastName,
-                birthdate: submitUser[0].Birthdate,
-                mail: submitUser[0].Email,
-                password: submitUser[0].Password,
-                zone: submitUser[0].Region,
-                cellphone: submitUser[0].UserPhone,
-                cedula: submitUser[0].Cedula,
-                role: "DRIVER",
+        <Formik
+          initialValues={{
+            Email: "",
+            Password: "",
+            Password2: "",
+            Phone: "",
+            FName: "",
+            LName: "",
+            BDate: "",
+            Region: "",
+            Cedula: "",
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.Email) {
+              errors.Email = "Required Field";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+            ) {
+              errors.email = "Invalid Email";
+              setEmailE("Invalid Email");
+            }
+            if (
+              /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+            ) {
+              setEmailE(null);
+            }
+            if (!values.Password) {
+              errors.Password = "Required Field";
+              setPasswordCE("Required Field");
+            } else if (values.Password.length < 9) {
+              errors.Password = "Password too short";
+              setPasswordE("Password too short");
+            } else if (values.Password !== values.Password2) {
+              errors.Password = "Password doesn't match";
+              setPasswordCE("Password doesn't match");
+            }
+            if (values.Password.length >= 9) {
+              setPasswordE(null);
+            }
+            if (values.Password === values.Password2) {
+              setPasswordCE(null);
+            }
+            if (!errors.Password && !errors.Email) {
+              setErrorF(false);
+            }
+            return console.log(errors);
+          }}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            /// code here
+            console.log(phone);
+            let submitUser = [
+              {
+                UserPhone: phone,
+                FirstName: fName,
+                LastName: lName,
+                Password: values.Password,
+                Email: values.Email,
+                Birthdate: selectedDate,
+                Region: region,
+                Cedula: cedula,
               },
-            },
-          });
+            ];
 
-          setSubmitting(true);
-          console.log(submitUser);
-          setStep1(true);
-          setStep2(true);
-          setSubmitting(false);
-          resetForm();
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          /* and other goodies */
-        }) => (
-          <form onSubmit={handleSubmit}>
-            {step3 ? (
-              <div>
-                {step2 ? (
-                  <div>
-                    {step1 ? (
-                      <div>
-                        <div className="inputG">
-                          <label>Enter your phone number</label>
-                          <input
-                            value={phone}
-                            label="Enter your phone number"
-                            id="Phone"
-                            name="Phone"
-                            type="text"
-                            onChange={handlePhone}
-                            onBlur={handleBlur}
-                            color={props.color}
-                          />
-                        </div>
-                        {phoneE ? (
-                          <div className="error">
-                            <h4>{phoneE}</h4>
+            const { data } = await register({
+              variables: {
+                userInput: {
+                  name: submitUser[0].FirstName,
+                  lastName: submitUser[0].LastName,
+                  birthdate: submitUser[0].Birthdate,
+                  mail: submitUser[0].Email,
+                  password: submitUser[0].Password,
+                  zone: submitUser[0].Region,
+                  cellphone: submitUser[0].UserPhone,
+                  cedula: submitUser[0].Cedula,
+                  role: "DRIVER",
+                },
+              },
+            });
+
+            setSubmitting(true);
+            console.log(submitUser);
+            setStep1(true);
+            setStep2(true);
+            setSubmitting(false);
+            resetForm();
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <form onSubmit={handleSubmit}>
+              {step3 ? (
+                <div>
+                  {step2 ? (
+                    <div>
+                      {step1 ? (
+                        <div>
+                          <div className="inputG">
+                            <label>Enter your phone number</label>
+                            <input
+                              value={phone}
+                              label="Enter your phone number"
+                              id="Phone"
+                              name="Phone"
+                              type="text"
+                              onChange={handlePhone}
+                              onBlur={handleBlur}
+                              color={props.color}
+                            />
                           </div>
-                        ) : null}
+                          {phoneE ? (
+                            <div className="error">
+                              <h4>{phoneE}</h4>
+                            </div>
+                          ) : null}
 
-                        <div className="buttonS">
-                          <Button
-                            color={props.color}
-                            onClick={handleStep1}
-                            block
-                          >
-                            {" "}
-                            CONTINUE{" "}
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="inputG">
-                          <label>Enter your ID</label>
-                          <input
-                            value={cedula}
-                            label="Enter your ID"
-                            id="Cedula"
-                            name="Cedula"
-                            type="number"
-                            min="1000000"
-                            max="100000000"
-                            onChange={handleCedula}
-                            onBlur={handleBlur}
-                            color={props.color}
-                          />
-                        </div>
-                        {phoneE ? (
-                          <div className="error">
-                            <h4>{cedulaE}</h4>
+                          <div className="buttonS">
+                            <Button
+                              color={props.color}
+                              onClick={handleStep1}
+                              block
+                              style={{ margin: "0 auto" }}
+                            >
+                              {" "}
+                              CONTINUE{" "}
+                            </Button>
                           </div>
-                        ) : null}
-
-                        <div className="buttonS">
-                          <Button
-                            color={props.color}
-                            onClick={handleStep2}
-                            block
-                          >
-                            {" "}
-                            CONTINUE{" "}
-                          </Button>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="step2">
-                    <div className="info">
-                      <div className="FName">
-                        <div className="inputP">
-                          <label>Enter your First Name</label>
-                          <input
-                            value={fName}
-                            label="Enter your First Name"
-                            id="FName"
-                            name="FName"
-                            type="text"
-                            onChange={handleFName}
-                            onBlur={handleBlur}
-                            color={props.color}
-                            className="nInput"
-                          />
-                        </div>
-                      </div>
-                      <div className="LName">
-                        <div className="inputP">
-                          <label>Enter your Last Name</label>
-                          <input
-                            value={lName}
-                            label="Enter your Last Name"
-                            id="LName"
-                            name="LName"
-                            type="text"
-                            onChange={handleLName}
-                            onBlur={handleBlur}
-                            color={props.color}
-                            className="nInput"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="bday">
-                        <div className="inputP">
-                          <label>Choose Birthdate</label>
-                          <DatePicker
-                            className="picker"
-                            selected={selectedDate}
-                            maxDate={new Date(moment())}
-                            onChange={(date) => setSelectedDate(date)}
-                            placeholderText=""
-                          />
-                        </div>
-                        {selectedDateE ? (
-                          <div className="error">
-                            <h4>{selectedDateE}</h4>
+                      ) : (
+                        <div>
+                          <div className="inputG">
+                            <label>Enter your ID</label>
+                            <input
+                              value={cedula}
+                              label="Enter your ID"
+                              id="Cedula"
+                              name="Cedula"
+                              type="number"
+                              min="1000000"
+                              max="100000000"
+                              onChange={handleCedula}
+                              onBlur={handleBlur}
+                              color={props.color}
+                            />
                           </div>
-                        ) : null}
-                      </div>
+                          {phoneE ? (
+                            <div className="error">
+                              <h4>{cedulaE}</h4>
+                            </div>
+                          ) : null}
 
-                      <div className="region">
-                        <div className="inputP">
-                          <label>Select your Region</label>
-                          <select
-                            name="region"
-                            value={region}
-                            onChange={handleRegion}
-                            onBlur={handleBlur}
-                            className="select"
-                          >
-                            <option value="" label="" />
-                            <option value="Hatillo" label="El Hatillo" />
-                            <option value="Baruta" label="Baruta" />
-                          </select>
-                        </div>
-                        {regionE ? (
-                          <div className="error">
-                            <h4>{regionE}</h4>
+                          <div className="buttonS">
+                            <Button
+                              color={props.color}
+                              onClick={handleStep2}
+                              block
+                              style={{ margin: "0 auto" }}
+                            >
+                              {" "}
+                              CONTINUE{" "}
+                            </Button>
                           </div>
-                        ) : null}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="step2">
+                      <div className="info">
+                        <div className="FName">
+                          <div className="inputP">
+                            <label>Enter your First Name</label>
+                            <input
+                              value={fName}
+                              label="Enter your First Name"
+                              id="FName"
+                              name="FName"
+                              type="text"
+                              onChange={handleFName}
+                              onBlur={handleBlur}
+                              color={props.color}
+                              className="nInput"
+                            />
+                          </div>
+                          {fNameE ? (
+                            <div className="error">
+                              <h4>{fNameE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="LName">
+                          <div className="inputP">
+                            <label>Enter your Last Name</label>
+                            <input
+                              value={lName}
+                              label="Enter your Last Name"
+                              id="LName"
+                              name="LName"
+                              type="text"
+                              onChange={handleLName}
+                              onBlur={handleBlur}
+                              color={props.color}
+                              className="nInput"
+                            />
+                          </div>
+                          {lNameE ? (
+                            <div className="error">
+                              <h4>{lNameE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="bday">
+                          <div className="inputP">
+                            <label>Choose Birthdate</label>
+                            <DatePicker
+                              className="picker"
+                              selected={selectedDate}
+                              maxDate={new Date(moment())}
+                              onChange={(date) => setSelectedDate(date)}
+                              placeholderText=""
+                            />
+                          </div>
+                          {selectedDateE ? (
+                            <div className="error">
+                              <h4>{selectedDateE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="region">
+                          <div className="inputP">
+                            <label>Select your Region</label>
+                            <select
+                              name="region"
+                              value={region}
+                              onChange={handleRegion}
+                              onBlur={handleBlur}
+                              className="select"
+                            >
+                              <option value="" label="" />
+                              <option value="Hatillo" label="El Hatillo" />
+                              <option value="Baruta" label="Baruta" />
+                            </select>
+                          </div>
+                          {regionE ? (
+                            <div className="error">
+                              <h4>{regionE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="buttonC">
+                        <Button color={props.color} onClick={handleStep3} block>
+                          {" "}
+                          CONTINUE{" "}
+                        </Button>
                       </div>
                     </div>
-                    <div className="buttonC">
-                      <Button color={props.color} onClick={handleStep3} block>
-                        {" "}
-                        CONTINUE{" "}
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="step3">
-                <div className="email">
-                  <div className="inputG">
-                    <label>Enter your Email</label>
-                    <input
-                      value={values.Email}
-                      label="Enter your email"
-                      id="Email"
-                      name="Email"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      color={props.color}
-                    />
-                  </div>
-                  {emailE ? (
-                    <div className="error">
-                      <h4>{emailE}</h4>
-                    </div>
-                  ) : null}
+                  )}
                 </div>
-                <div className="pass">
-                  <div className="password">
-                    <div className="inputP">
-                      <label>Enter your Password</label>
+              ) : (
+                <div className="step3">
+                  <div className="email">
+                    <div className="inputG">
+                      <label>Enter your Email</label>
                       <input
-                        value={values.Password}
-                        label="Enter your password"
-                        id="Password"
-                        type="password"
-                        name="Password"
+                        value={values.Email}
+                        label="Enter your email"
+                        id="Email"
+                        name="Email"
+                        type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         color={props.color}
                       />
                     </div>
-                    {passwordE ? (
+                    {emailE ? (
                       <div className="error">
-                        <h4>{passwordE}</h4>
+                        <h4>{emailE}</h4>
                       </div>
                     ) : null}
                   </div>
-
-                  <div className="passwordC">
-                    <div className="inputP">
-                      <label>Confirm password</label>
-                      <input
-                        value={values.Password2}
-                        label="Confirm password"
-                        id="Password2"
-                        type="password"
-                        name="Password2"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
+                  <div className="pass">
+                    <div className="password">
+                      <div className="inputP">
+                        <label>Enter your Password</label>
+                        <input
+                          value={values.Password}
+                          label="Enter your password"
+                          id="Password"
+                          type="password"
+                          name="Password"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+                      </div>
+                      {passwordE ? (
+                        <div className="error">
+                          <h4>{passwordE}</h4>
+                        </div>
+                      ) : null}
                     </div>
-                    {passwordCE ? (
+
+                    <div className="passwordC">
+                      <div className="inputP">
+                        <label>Confirm password</label>
+                        <input
+                          value={values.Password2}
+                          label="Confirm password"
+                          id="Password2"
+                          type="password"
+                          name="Password2"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+                      </div>
+                      {passwordCE ? (
+                        <div className="error">
+                          <h4>{passwordCE}</h4>
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="buttonF">
+                    {error ? (
                       <div className="error">
-                        <h4>{passwordCE}</h4>
+                        {error.graphQLErrors[0] ? (
+                          <h4>{error.graphQLErrors[0].message}</h4>
+                        ) : (
+                          <h4>There was an Error! Please Try Again.</h4>
+                        )}
                       </div>
                     ) : null}
+                    <Button disabled={errorF} color={props.color} type="submit">
+                      {" "}
+                      SIGN UP{" "}
+                    </Button>
                   </div>
                 </div>
-
-                <div className="buttonF">
-                  {error ? (
-                    <div className="error">
-                      <h4>{error.graphQLErrors[0].message}</h4>
-                    </div>
-                  ) : null}
-                  <Button color={props.color} type="submit">
-                    {" "}
-                    SIGN UP{" "}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </form>
-        )}
-      </Formik>
+              )}
+            </form>
+          )}
+        </Formik>
+      </>
     </RegisterView>
   );
 }
@@ -460,6 +505,82 @@ justify-content: center;
 align-items: center;
 width: 100%;
 
+
+.error-m{
+  display: flex;
+  position: fixed;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  justify-content:center;
+  align-items:center;
+  background:transparent;
+  z-index: 3000;
+  transition: all ease-in-out 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  &:after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 100%;
+    z-index: 1;
+    height: 100%;
+    background: #202124;
+    opacity: 0.4;
+  }
+
+  .error-message{
+    display: flex;
+    height: 50vh;
+    width: 35vw;
+    background:#202124;
+    z-index: 3000;
+    
+    padding-left:0.5em;
+    padding-right:0.5em;
+    text-align:center;
+    
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    h4{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      color:#fafafa;
+      font-size:1em;
+
+
+    }
+    .boton-error{
+      border: solid 2px #ebebeb;
+      color: #202124;
+      padding: 0.6rem;
+      font-size: 0.8em;
+      width: 10vw;
+      display: flex;
+      font-weight: 600;
+      cursor: pointer;
+      background: #ebebeb;
+      border-radius: 500px;
+      transition: all ease-in-out 0.3s;
+      justify-content: center;
+      &:hover {
+        opacity: 0.8;
+        background: #ef0023;
+        color: white;
+        border-color: #ef0023;
+      }
+      &:focus {
+        opacity: 0.8;
+        outline: none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      }
+
+    }
+  }}
 
 
 
@@ -531,7 +652,7 @@ width: 100%;
   }
 }
 .step3 {
-  margin-top: 2em;
+  margin-top: 1vh;
   width: 100%;
   display: grid;
 
@@ -600,7 +721,7 @@ width: 100%;
   display: flex;
   flex-direction: column;
   max-width: 600px;
-
+  margin: 0 auto;
   align-items: center;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -654,6 +775,7 @@ width: 100%;
   flex-direction: column;
   max-width: 300px;
   align-items: center;
+  margin: 0 auto;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -702,7 +824,7 @@ width: 100%;
     margin-top: 1.5rem;
     padding: 0.4rem 0.5rem;
     margin-left: 0;
-    width: 12.5vw;
+    width: 12.5vw  ;
 
     &:focus {
       opacity: 1;
@@ -717,6 +839,80 @@ width: 100%;
   .buttonS {
     margin-top: 2em;
   }
+
+  .error-m{
+    display: flex;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    justify-content:center;
+    align-items:center;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position:  fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      height: 70vh;
+      width: 100vw;
+      background:#202124;
+      z-index: 3000;
+      margin:0 auto;
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#fafafa;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #ebebeb;
+        color: #202124;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 30vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #ebebeb;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #ef0023;
+          color: white;
+          border-color: #ef0023;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
 
   .step2 {
     margin-top: 0;
@@ -976,5 +1172,115 @@ width: 100%;
       }
     }
   }
+}
+@media only screen and (min-width: 735px) and (max-width: 1069px)  {
+  
+  .inputP{
+    text-align:center;
+    width:100%;
+    input{
+       width:25vw;
+    }
+    select{
+      width:25vw;
+    }
+    .picker{
+      width:25vw;
+      margin-left:0;
+    }
+   
+      
+    }
+  .inputG{
+    text-align:center;
+
+    input{
+      width:80%;
+    }
+    select{
+      width:100%;
+    }
+  }
+
+  form{
+    width:100%;
+  }
+  .error-m{
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    justify-content:center;
+    align-items:center;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
+
+    .error-message{
+      display: flex;
+      height: 55vh;
+      width: 100%;
+      background:#202124;
+      z-index: 3000;
+      
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#fafafa;
+        font-size:1em;
+
+  
+      }
+      .boton-error{
+        border: solid 2px #ebebeb;
+        color: #202124;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #ebebeb;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #ef0023;
+          color: white;
+          border-color: #ef0023;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
+ 
+
 }
 `;

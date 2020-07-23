@@ -18,6 +18,7 @@ export default function FormRegister(props) {
   const [regionE, setRegionE] = React.useState(null);
   const [emailE, setEmailE] = React.useState(null);
   const [nameE, setNameE] = React.useState(null);
+  const [errorF, setErrorF] = React.useState(true);
   const [lNameE, setLNameE] = React.useState(null);
   const [passwordE, setPasswordE] = React.useState(null);
   const [passwordCE, setPasswordCE] = React.useState(null);
@@ -104,308 +105,348 @@ export default function FormRegister(props) {
 
   return (
     <RegisterView>
-      <Formik
-        initialValues={{
-          Email: "",
-          Password: "",
-          Password2: "",
-          Phone: "",
-          FName: "",
-          LName: "",
-          BDate: "",
-          Region: "",
-        }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.Email) {
-            errors.Email = "Required Field";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
-          ) {
-            errors.email = "Invalid Email";
-            setEmailE("Invalid Email");
-          }
-          if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
-            setEmailE(null);
-          }
-          if (!values.Password) {
-            errors.Password = "Required Field";
-            setPasswordCE("Required Field");
-          } else if (values.Password.length < 9) {
-            errors.Password = "Password too short";
-            setPasswordE("Password too short");
-          } else if (values.Password !== values.Password2) {
-            errors.Password = "Password doesn't match";
-            setPasswordCE("Password doesn't match");
-          }
-          if (values.Password.length >= 9) {
-            setPasswordE(null);
-          }
-          if (values.Password === values.Password2) {
-            setPasswordCE(null);
-          }
+      <>
+        {data && data.createUser ? (
+          <div className="error-m">
+            <div className="error-message">
+              <h4>User Has Been Created!</h4>
+              <button
+                className="boton-error"
+                onClick={() => {
+                  window.location.reload(false);
+                }}
+              >
+                ACCEPT
+              </button>
+            </div>
+          </div>
+        ) : null}
 
-          return console.log(errors);
-        }}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          /// code here
-          console.log(phone);
-          let submitUser = [
-            {
-              UserPhone: phone,
-              FirstName: fName,
-              LastName: lName,
-              Password: values.Password,
-              Email: values.Email,
-              Birthdate: selectedDate,
-              Region: region,
-            },
-          ];
+        <Formik
+          initialValues={{
+            Email: "",
+            Password: "",
+            Password2: "",
+            Phone: "",
+            FName: "",
+            LName: "",
+            BDate: "",
+            Region: "",
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.Email) {
+              errors.Email = "Required Field";
+              setEmailE("Required Field");
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+            ) {
+              errors.email = "Invalid Email";
+              setEmailE("Invalid Email");
+            }
+            if (
+              /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)
+            ) {
+              setEmailE(null);
+            }
+            if (!values.Password) {
+              errors.Password = "Required Field";
+              setPasswordCE("Required Field");
+            } else if (values.Password.length < 9) {
+              errors.Password = "Password too short";
+              setPasswordE("Password too short");
+            } else if (values.Password !== values.Password2) {
+              errors.Password = "Password doesn't match";
+              setPasswordCE("Password doesn't match");
+            }
+            if (values.Password.length >= 9) {
+              setPasswordE(null);
+            }
+            if (values.Password === values.Password2) {
+              setPasswordCE(null);
+            }
+            if (!errors.Password && !errors.Email) {
+              setErrorF(false);
+            }
 
-          const { data } = await register({
-            variables: {
-              userInput: {
-                name: submitUser[0].FirstName,
-                lastName: submitUser[0].LastName,
-                birthdate: submitUser[0].Birthdate,
-                mail: submitUser[0].Email,
-                password: submitUser[0].Password,
-                zone: submitUser[0].Region,
-                cellphone: submitUser[0].UserPhone,
-                role: "COSTUMER",
-              },
-            },
-          });
+            return console.log(errors);
+          }}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            /// code here
+            if (emailE === null && passwordE === null && passwordCE === null) {
+              let submitUser = [
+                {
+                  UserPhone: phone,
+                  FirstName: fName,
+                  LastName: lName,
+                  Password: values.Password,
+                  Email: values.Email,
+                  Birthdate: selectedDate,
+                  Region: region,
+                },
+              ];
 
-          console.log(data);
-          setSubmitting(true);
-          console.log(submitUser);
-          setStep1(true);
-          setStep2(true);
-          setSubmitting(false);
-          resetForm();
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          /* and other goodies */
-        }) => (
-          <form onSubmit={handleSubmit}>
-            {step2 ? (
-              <div>
-                {step1 ? (
-                  <div>
+              const { data } = await register({
+                variables: {
+                  userInput: {
+                    name: submitUser[0].FirstName,
+                    lastName: submitUser[0].LastName,
+                    birthdate: submitUser[0].Birthdate,
+                    mail: submitUser[0].Email,
+                    password: submitUser[0].Password,
+                    zone: submitUser[0].Region,
+                    cellphone: submitUser[0].UserPhone,
+                    role: "COSTUMER",
+                  },
+                },
+              });
+            }
+            console.log(phone);
+
+            console.log(data);
+            setSubmitting(true);
+
+            setStep1(true);
+            setStep2(true);
+            setSubmitting(false);
+            resetForm();
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <form onSubmit={handleSubmit}>
+              {step2 ? (
+                <div>
+                  {step1 ? (
+                    <div>
+                      <div className="inputG">
+                        <label>Enter your phone number</label>
+                        <input
+                          value={phone}
+                          label="Enter your phone number"
+                          id="Phone"
+                          name="Phone"
+                          type="text"
+                          onChange={handlePhone}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+                      </div>
+                      {phoneE ? (
+                        <div className="error">
+                          <h4>{phoneE}</h4>
+                        </div>
+                      ) : null}
+
+                      <div className="buttonS">
+                        <Button
+                          color={props.color}
+                          onClick={handleStep1}
+                          block
+                          style={{ margin: "0 auto" }}
+                        >
+                          {" "}
+                          CONTINUE{" "}
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="step2">
+                      <div className="info">
+                        <div className="FName">
+                          <div className="inputP">
+                            <label>Enter your First Name</label>
+                            <input
+                              value={fName}
+                              label="Enter your First Name"
+                              id="FName"
+                              name="FName"
+                              type="text"
+                              onChange={handleFName}
+                              onBlur={handleBlur}
+                              color={props.color}
+                              className="nInput"
+                            />
+                          </div>
+                          {nameE ? (
+                            <div className="error">
+                              <h4>{nameE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="LName">
+                          <div className="inputP">
+                            <label>Enter your Last Name</label>
+                            <input
+                              value={lName}
+                              label="Enter your Last Name"
+                              id="LName"
+                              name="LName"
+                              type="text"
+                              onChange={handleLName}
+                              onBlur={handleBlur}
+                              color={props.color}
+                              className="nInput"
+                            />
+                          </div>
+                          {lNameE ? (
+                            <div className="error">
+                              <h4>{lNameE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="bday">
+                          <div className="inputP">
+                            <label>Choose Birthdate</label>
+                            <DatePicker
+                              className="picker"
+                              selected={selectedDate}
+                              maxDate={new Date(moment())}
+                              onChange={(date) => setSelectedDate(date)}
+                              placeholderText=""
+                            />
+                          </div>
+                          {selectedDateE ? (
+                            <div className="error">
+                              <h4>{selectedDateE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        <div className="region">
+                          <div className="inputP">
+                            <label>Select your Region</label>
+                            <select
+                              name="region"
+                              value={region}
+                              onChange={handleRegion}
+                              onBlur={handleBlur}
+                              className="select"
+                            >
+                              <option value="" label="" />
+                              <option value="Hatillo" label="El Hatillo" />
+                              <option value="Baruta" label="Baruta" />
+                            </select>
+                          </div>
+                          {regionE ? (
+                            <div className="error">
+                              <h4>{regionE}</h4>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="buttonC">
+                        <Button color={props.color} onClick={handleStep2} block>
+                          {" "}
+                          CONTINUE{" "}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="step3">
+                  <div className="email">
                     <div className="inputG">
-                      <label>Enter your phone number</label>
+                      <label>Enter your Email</label>
                       <input
-                        value={phone}
-                        label="Enter your phone number"
-                        id="Phone"
-                        name="Phone"
+                        value={values.Email}
+                        label="Enter your email"
+                        id="Email"
+                        name="Email"
                         type="text"
-                        onChange={handlePhone}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
-                    </div>
-                    {phoneE ? (
-                      <div className="error">
-                        <h4>{phoneE}</h4>
-                      </div>
-                    ) : null}
-
-                    <div className="buttonS">
-                      <Button color={props.color} onClick={handleStep1} block>
-                        {" "}
-                        CONTINUE{" "}
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="step2">
-                    <div className="info">
-                      <div className="FName">
-                        <div className="inputP">
-                          <label>Enter your First Name</label>
-                          <input
-                            value={fName}
-                            label="Enter your First Name"
-                            id="FName"
-                            name="FName"
-                            type="text"
-                            onChange={handleFName}
-                            onBlur={handleBlur}
-                            color={props.color}
-                            className="nInput"
-                          />
-                        </div>
-                        {nameE ? (
-                          <div className="error">
-                            <h4>{nameE}</h4>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div className="LName">
-                        <div className="inputP">
-                          <label>Enter your Last Name</label>
-                          <input
-                            value={lName}
-                            label="Enter your Last Name"
-                            id="LName"
-                            name="LName"
-                            type="text"
-                            onChange={handleLName}
-                            onBlur={handleBlur}
-                            color={props.color}
-                            className="nInput"
-                          />
-                        </div>
-                        {lNameE ? (
-                          <div className="error">
-                            <h4>{lNameE}</h4>
-                          </div>
-                        ) : null}
-                      </div>
-
-                      <div className="bday">
-                        <div className="inputP">
-                          <label>Choose Birthdate</label>
-                          <DatePicker
-                            className="picker"
-                            selected={selectedDate}
-                            maxDate={new Date(moment())}
-                            onChange={(date) => setSelectedDate(date)}
-                            placeholderText=""
-                          />
-                        </div>
-                        {selectedDateE ? (
-                          <div className="error">
-                            <h4>{selectedDateE}</h4>
-                          </div>
-                        ) : null}
-                      </div>
-
-                      <div className="region">
-                        <div className="inputP">
-                          <label>Select your Region</label>
-                          <select
-                            name="region"
-                            value={region}
-                            onChange={handleRegion}
-                            onBlur={handleBlur}
-                            className="select"
-                          >
-                            <option value="" label="" />
-                            <option value="Hatillo" label="El Hatillo" />
-                            <option value="Baruta" label="Baruta" />
-                          </select>
-                        </div>
-                        {regionE ? (
-                          <div className="error">
-                            <h4>{regionE}</h4>
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className="buttonC">
-                      <Button color={props.color} onClick={handleStep2} block>
-                        {" "}
-                        CONTINUE{" "}
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="step3">
-                <div className="email">
-                  <div className="inputG">
-                    <label>Enter your Email</label>
-                    <input
-                      value={values.Email}
-                      label="Enter your email"
-                      id="Email"
-                      name="Email"
-                      type="text"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      color={props.color}
-                    />
-                  </div>
-                  {emailE ? (
-                    <div className="error">
-                      <h4>{emailE}</h4>
-                    </div>
-                  ) : null}
-                </div>
-                <div className="pass">
-                  <div className="password">
-                    <div className="inputP">
-                      <label>Enter your Password</label>
-                      <input
-                        value={values.Password}
-                        label="Enter your password"
-                        id="Password"
-                        type="password"
-                        name="Password"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         color={props.color}
                       />
+                      {/* {error && error.graphQLErrors[0] ? (
+                          <div className="error">{error.graphQLErrors[0].message}</div>
+                        ) : error && error.networkError ? (
+                          <div className="error">Network error</div>
+                        ) : null}
+                    <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div> */}
                     </div>
-
-                    {passwordE ? (
+                    {emailE ? (
                       <div className="error">
-                        <h4>{passwordE}</h4>
+                        <h4>{emailE}</h4>
                       </div>
                     ) : null}
                   </div>
+                  <div className="pass">
+                    <div className="password">
+                      <div className="inputP">
+                        <label>Enter your Password</label>
+                        <input
+                          value={values.Password}
+                          label="Enter your password"
+                          id="Password"
+                          type="password"
+                          name="Password"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+                      </div>
 
-                  <div className="passwordC">
-                    <div className="inputP">
-                      <label>Confirm password</label>
-                      <input
-                        value={values.Password2}
-                        label="Confirm password"
-                        id="Password2"
-                        type="password"
-                        name="Password2"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        color={props.color}
-                      />
+                      {passwordE ? (
+                        <div className="error">
+                          <h4>{passwordE}</h4>
+                        </div>
+                      ) : null}
                     </div>
-                    {passwordCE ? (
+
+                    <div className="passwordC">
+                      <div className="inputP">
+                        <label>Confirm password</label>
+                        <input
+                          value={values.Password2}
+                          label="Confirm password"
+                          id="Password2"
+                          type="password"
+                          name="Password2"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          color={props.color}
+                        />
+                      </div>
+                      {passwordCE ? (
+                        <div className="error">
+                          <h4>{passwordCE}</h4>
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="buttonF">
+                    {error ? (
                       <div className="error">
-                        <h4>{passwordCE}</h4>
+                        {error.graphQLErrors[0] ? (
+                          <h4>{error.graphQLErrors[0].message}</h4>
+                        ) : (
+                          <h4>There was an Error! Please Try Again.</h4>
+                        )}
                       </div>
                     ) : null}
+                    <Button disabled={errorF} color={props.color} type="submit">
+                      {" "}
+                      SIGN UP{" "}
+                    </Button>
                   </div>
                 </div>
-
-                <div className="buttonF">
-                  {/* <div>{data && data.createUser  ? "Usuario creado exitosamente" : ""}</div> */}
-                  {error ? (
-                    <div className="error">
-                      <h4>{error.graphQLErrors[0].message}</h4>
-                    </div>
-                  ) : null}
-                  <Button color={props.color} type="submit">
-                    {" "}
-                    SIGN UP{" "}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </form>
-        )}
-      </Formik>
+              )}
+            </form>
+          )}
+        </Formik>
+      </>
     </RegisterView>
   );
 }
@@ -416,9 +457,83 @@ const RegisterView = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  .error-m{
+    display: flex;
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 100%;
+    justify-content:center;
+    align-items:center;
+    background:transparent;
+    z-index: 3000;
+    transition: all ease-in-out 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      content: "";
+      width: 100%;
+      z-index: 1;
+      height: 100%;
+      background: #202124;
+      opacity: 0.4;
+    }
 
- 
+    .error-message{
+      display: flex;
+      height: 50vh;
+      width: 30vw;
+      background:#202124;
+      z-index: 3000;
+      
+      padding-left:0.5em;
+      padding-right:0.5em;
+      text-align:center;
+      
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      h4{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        color:#fafafa;
+        font-size:1em;
+
   
+      }
+      .boton-error{
+        border: solid 2px #ebebeb;
+        color: #202124;
+        padding: 0.6rem;
+        font-size: 0.8em;
+        width: 10vw;
+        display: flex;
+        font-weight: 600;
+        cursor: pointer;
+        background: #ebebeb;
+        border-radius: 500px;
+        transition: all ease-in-out 0.3s;
+        justify-content: center;
+        &:hover {
+          opacity: 0.8;
+          background: #00507a;
+          color: white;
+          border-color: #00507a;
+        }
+        &:focus {
+          opacity: 0.8;
+          outline: none;
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+      }
+    }}
+ 
+
 
   .buttonS {
     margin-top: 3em;
@@ -426,8 +541,9 @@ const RegisterView = styled.div`
 
   .step2 {
     margin-top: 1vh;
-    width: 100%;
+    width: inherit;
     display: grid;
+
 
     grid-template-areas:
       "info"
@@ -488,7 +604,7 @@ const RegisterView = styled.div`
     }
   }
   .step3 {
-    margin-top: 2em;
+    margin-top: 1vh;
     width: 100%;
     display: grid;
 
@@ -557,8 +673,9 @@ const RegisterView = styled.div`
     display: flex;
     flex-direction: column;
     max-width: 600px;
-
+    text-align:center;
     align-items: center;
+    margin:0 auto;
     justify-content: center;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -572,6 +689,8 @@ const RegisterView = styled.div`
     }
     input {
       background: none;
+      display:flex;
+      justify-self: center;
       font-size: 1em;
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
       color: #fafafa;
@@ -593,6 +712,7 @@ const RegisterView = styled.div`
         border-bottom: solid 2px #00507a;
       }
     }
+
   }
   .error {
     width: 100%;
@@ -645,6 +765,29 @@ const RegisterView = styled.div`
         border-bottom: solid 2px #00507a;
       }
     }
+    .picker {
+      background: none;
+      font-size: 1em;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      border: none;
+      border-bottom: solid 2px #ebebeb;
+      box-shadow: none;
+      outline: none;
+      transition: all ease-in-out 0.5s;
+      opacity: 0.8;
+      margin-top: 1.5rem;
+      padding: 0.3rem 0.5rem;
+      margin-left: 0;
+      width: 12.5vw;
+
+      &:focus {
+        opacity: 1;
+        outline: none;
+        box-shadow: none;
+        border-bottom: solid 2px #00507a;
+      }
+    }
     select {
       background: none;
       font-size: 1em;
@@ -674,6 +817,79 @@ const RegisterView = styled.div`
     .buttonS {
       margin-top: 2em;
     }
+    .error-m{
+      display: flex;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      justify-content:center;
+      align-items:center;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position:  fixed;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        height: 70vh;
+        width: 100vw;
+        background:#202124;
+        z-index: 3000;
+        margin:0 auto;
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#fafafa;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #ebebeb;
+          color: #202124;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 30vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #ebebeb;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
 
     .step2 {
       margin-top: 0;
@@ -873,6 +1089,7 @@ const RegisterView = styled.div`
       flex-direction: column;
       max-width: 300px;
       align-items: center;
+      tex
       justify-content: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -887,6 +1104,29 @@ const RegisterView = styled.div`
         margin-top: 1rem;
       }
       input {
+        background: none;
+        font-size: 1em;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        color: #fafafa;
+        border: none;
+        border-bottom: solid 2px #ebebeb;
+        box-shadow: none;
+        outline: none;
+        transition: all ease-in-out 0.5s;
+        opacity: 0.8;
+        margin-top: 0em;
+        padding: 0.3rem 0.5rem;
+        margin-left: 0;
+        width: 80vw;
+
+        &:focus {
+          opacity: 1;
+          outline: none;
+          box-shadow: none;
+          border-bottom: solid 2px #00507a;
+        }
+      }
+      .picker {
         background: none;
         font-size: 1em;
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -933,5 +1173,115 @@ const RegisterView = styled.div`
         }
       }
     }
+    
+  }
+
+  @media only screen and (min-width: 735px) and (max-width: 1069px)  {
+    .inputP{
+      text-align:center;
+      width:100%;
+      input{
+        width:25vw;
+      }
+      select{
+        width:25vw;
+      }
+      .picker{
+        width:25vw;
+        margin-left:0;
+      }
+   
+      
+    }
+    .inputG{
+      text-align:center;
+
+      input{
+        width:80%;
+      }
+      select{
+        width:60vw;
+      }
+    }
+
+    form{
+      width:100%;
+    }
+    .error-m{
+      display: flex;
+      position: fixed;
+      top:0;
+      left:0;
+      height: 100%;
+      width: 100%;
+      justify-content:center;
+      align-items:center;
+      background:transparent;
+      z-index: 3000;
+      transition: all ease-in-out 0.3s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      &:after {
+        position: fixed;
+        top: 0;
+        left: 0;
+        content: "";
+        width: 100%;
+        z-index: 1;
+        height: 100%;
+        background: #202124;
+        opacity: 0.4;
+      }
+  
+      .error-message{
+        display: flex;
+        height: 50vh;
+        width: 100%;
+        background:#202124;
+        z-index: 3000;
+        
+        padding-left:0.5em;
+        padding-right:0.5em;
+        text-align:center;
+        
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        h4{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+          color:#fafafa;
+          font-size:1em;
+  
+    
+        }
+        .boton-error{
+          border: solid 2px #ebebeb;
+          color: #202124;
+          padding: 0.6rem;
+          font-size: 0.8em;
+          width: 10vw;
+          display: flex;
+          font-weight: 600;
+          cursor: pointer;
+          background: #ebebeb;
+          border-radius: 500px;
+          transition: all ease-in-out 0.3s;
+          justify-content: center;
+          &:hover {
+            opacity: 0.8;
+            background: #00507a;
+            color: white;
+            border-color: #00507a;
+          }
+          &:focus {
+            opacity: 0.8;
+            outline: none;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+          }
+  
+        }
+      }}
+   
   }
 `;

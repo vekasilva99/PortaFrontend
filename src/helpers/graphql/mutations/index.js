@@ -142,12 +142,10 @@ export const REGISTER_USER = gql`
 export const UPDATE_USER = gql`
   mutation($updateInput: UpdateUserInput!) {
     updateUser(updateInput: $updateInput) {
-      _id
       name
       lastName
       birthdate
       mail
-      password
       zone
       cellphone
     }
@@ -157,7 +155,6 @@ export const UPDATE_USER = gql`
 export const UPDATE_DRIVER = gql`
   mutation($updateInput: UpdateUserInput!) {
     updateRepartidor(updateInput: $updateInput) {
-      _id
       name
       lastName
       birthdate

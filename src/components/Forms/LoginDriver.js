@@ -135,6 +135,15 @@ export default function FormLoginDriver(props) {
                   onBlur={handleBlur}
                   color={props.color}
                 />
+                {/* {error && error.graphQLErrors[0] ? (
+                  <div className="error">{error.graphQLErrors[0].message}</div>
+                ) : error  && error.networkError ? (
+                  <div className="error">Network error</div>
+                ) :null}
+                <Button color={props.color} type="submit" block>
+                  {" "}
+                  SIGN IN{" "}
+                </Button> */}
                 {error ? (
                   <>
                     {error.graphQLErrors[0] ? (

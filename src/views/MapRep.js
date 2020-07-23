@@ -326,6 +326,7 @@ const StyleMapRep = styled.div`
       grid-template-areas:
         "clear"
         "busqueda";
+      overflow-y: scroll;
     }
 
     .busqueda {
@@ -334,7 +335,7 @@ const StyleMapRep = styled.div`
       z-index: 2020;
       margin: 0;
       bottom: 0;
-      height: fit-content;
+      height: 90vh;
       min-height: 48vh;
       h1 {
         font-size: 30px;
@@ -364,7 +365,7 @@ const StyleMapRep = styled.div`
 
     .clear {
       grid-area: clear;
-      height: 52vh;
+      height: 90vh;
     }
 
     .info {

@@ -26,7 +26,8 @@ export default function DriverRequestForm(props) {
   const [Email, setEmail] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [submitted, setSubmitted] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [error1, setError1] = React.useState(false);
   const [updated, setUpdated] = React.useState(false);
   const [
     makeRequest,
@@ -71,6 +72,21 @@ export default function DriverRequestForm(props) {
                   className="boton-error"
                   onClick={() => {
                     setUpdated(true);
+                  }}
+                >
+                  ACCEPT
+                </button>
+              </div>
+            </div>
+          ) : null}
+          {error ? (
+            <div className="error">
+              <div className="error-message">
+                <h4>Su solicitud ha sido enviada</h4>
+                <button
+                  className="boton-error"
+                  onClick={() => {
+                    setError(null);
                   }}
                 >
                   ACCEPT
@@ -180,10 +196,16 @@ export default function DriverRequestForm(props) {
                     errors.Experiencia = "Required Field";
                   }
                   console.log(errors);
+                  if (errors) {
+                    setError1(true);
+                  }
                   return errors;
                 }}
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
+                  console.log("entre", error1);
+
                   setSubmitted(true);
+
                   const { data: dataU } = await makeRequest({
                     variables: {
                       solicitudInput: {

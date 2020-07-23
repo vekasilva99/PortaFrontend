@@ -116,7 +116,7 @@ export default function UserProfileForm(props) {
           </div>
         </div>
       ) : null}
-      {dataU && dataU.createUser ? (
+      {dataU && dataU.updateUser ? (
         <div className="error">
           <div className="error-message">
             <h4>Your Profile Has Been Updated</h4>
@@ -124,6 +124,44 @@ export default function UserProfileForm(props) {
               className="boton-error"
               onClick={() => {
                 window.location.reload(true);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {errorU && errorU.graphQLErrors ? (
+        <div className="error">
+          <div className="error-message">
+            {errorU.graphQLErrors[0].message ? (
+              <h4>{errorU.graphQLErrors[0].message}</h4>
+            ) : (
+              <h4>Ha ocurrido un error</h4>
+            )}
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(false);
+              }}
+            >
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {errorU && errorU.networkError ? (
+        <div className="error">
+          <div className="error-message">
+            {errorU.graphQLErrors[0].message ? (
+              <h4>{errorU.graphQLErrors[0].message}</h4>
+            ) : (
+              <h4>Ha ocurrido un error de red</h4>
+            )}
+            <button
+              className="boton-error"
+              onClick={() => {
+                window.location.reload(false);
               }}
             >
               ACCEPT
@@ -345,7 +383,7 @@ export default function UserProfileForm(props) {
                   },
                 });
 
-                if (dataU && dataU.createUser) {
+                if (dataU && dataU.updateUser) {
                   dispatch({
                     type: "UPDATE_USER",
                     payload: {
@@ -773,7 +811,7 @@ const FormStyle = styled.section`
             width: 100%;
 
             input {
-              background: none;
+              background: #fafafa;
               color: #202124;
               border: none;
               box-shadow: none;
@@ -790,6 +828,7 @@ const FormStyle = styled.section`
               font-weight: 300;
               margin-left: 2em;
               height: 6vh;
+              background: #fafafa;
               width: 40vw;
               transition: all ease-in-out 0.5s;
               border-bottom: solid 2px #202124;
@@ -802,7 +841,7 @@ const FormStyle = styled.section`
 
             .select {
               color: #202124;
-              background: none;
+              background: #fafafa;
               font-size: 1em;
               font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                 Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
@@ -1013,8 +1052,8 @@ const FormStyle = styled.section`
             position: absolute;
             padding: 0.2em;
             border: solid 0.1em #00507a;
-            width: 6vw;
-            height: 6vw;
+            width: 8vw;
+            height: 8vw;
             background: white;
             cursor: pointer;
             align-items: center;
@@ -1031,6 +1070,10 @@ const FormStyle = styled.section`
           .inputPhoto {
             z-index: 3000;
             background: blue;
+          }
+          .save{
+            width:7vw;
+            height:7vw;
           }
 
           .pen {
@@ -1357,7 +1400,7 @@ const FormStyle = styled.section`
             border-radius: 500px;
             margin-left: 0;
             left: 0;
-            margin-top: 4vw;
+            margin-top: 23vw;
             margin-left: 49%;
             transform: translateX(-49%);
             display: flex;
