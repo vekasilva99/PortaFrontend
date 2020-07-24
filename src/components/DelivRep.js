@@ -105,7 +105,7 @@ export default function Deliv(props) {
             {orders.length > 0 ? (
               <div className="collected">
                 <h3>You have made: </h3>
-                <h3> ${getMoney(orders).toString()} USD</h3>
+                <h3> ${getMoney(orders).toFixed(2).toString()} USD</h3>
               </div>
             ) : null}
             {orders.length > 0 ? (

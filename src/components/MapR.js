@@ -548,7 +548,7 @@ function Locate({
         <button className="cashOut" onClick={handleCashOut}>
           {/* <img src="/IMHERE.png" alt="compass" /> */}
           <h4>CASH OUT</h4>
-          <h3>{saldo.toString()}$</h3>
+          <h3>{saldo.toFixed(2).toString()}$</h3>
         </button>
       )}
       {currentOrder ? (

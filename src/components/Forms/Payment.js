@@ -40,7 +40,7 @@ export default function Payment() {
         fontFamily:
           "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif",
         fontSmoothing: "antialiased",
-        fontSize: "8vw",
+        fontSize: "6vw",
         "::placeholder": {
           color: "#aab7c4",
         },
@@ -271,7 +271,7 @@ const StyledPayment = styled.nav`
       background-image: url("/CardClient.png");
       background-size: 100% 100%;
       width: 100vw;
-      height: 30vh;
+      height: 50vw;
       padding-bottom: 2em;
       padding-left: 3em;
       padding-right: 3em;
@@ -280,7 +280,7 @@ const StyledPayment = styled.nav`
       justify-content: flex-end;
       max-width: 400px;
       margin: 0 0;
-      position: fixed;
+      position: static;
       margin-top: 0;
       margin-left: 0;
       margin-right: 0;
@@ -288,12 +288,12 @@ const StyledPayment = styled.nav`
     .popUp {
       width: 100vw;
       height: 50vh;
-      background: pink;
+
       h2 {
-        margin-left: 0.5em;
-        margin-right: 0.5em;
+        margin-left: 0.5vw;
+        margin-right: 0.5vw;
         margin-top: 0.2;
-        font-size: 25px;
+        font-size: 5vw;
         color: #00507a;
       }
       .buttonA {

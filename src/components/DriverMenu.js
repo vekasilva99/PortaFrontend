@@ -16,6 +16,11 @@ export default function DriverMenu(props) {
       <div className={style}>
         <ul className="nav-links">
           <li>
+            <NavLink to="/driver/maprep" className="link">
+              MAP
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/driver/request" className="link">
               REQUEST TO BE A DRIVER
             </NavLink>
@@ -52,7 +57,7 @@ const StyledSidebar = styled.nav`
   }
 
   .close {
-    transform: translateY(-40vh);
+    transform: translateY(-50vh);
     background: #202124;
     position: fixed;
     right: 0;
@@ -113,7 +118,7 @@ const StyledSidebar = styled.nav`
   @media only screen and (min-width: 735px) {
     .open {
       width: 300px;
-      margin-top: 35px;
+      margin-top: 70px;
     }
     .close {
       width: 300px;
