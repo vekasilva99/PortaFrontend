@@ -4,6 +4,12 @@ import { NavLink, withRouter } from "react-router-dom";
 import logo3 from "../assets/images/logo3.png";
 import { FiMail } from "react-icons/fi";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Menú del usuario
+ */
+
 export default function UserMenu(props) {
   let style;
   if (props.show) {
@@ -49,6 +55,10 @@ export default function UserMenu(props) {
       </div>
     </StyledSidebar>
   );
+}
+
+UserMenu.propTypes = {
+  show: PropTypes.bool.isRequired
 }
 
 const StyledSidebar = styled.nav`

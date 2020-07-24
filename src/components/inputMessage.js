@@ -6,6 +6,13 @@ import styled from "styled-components";
 import { CREATE_MESSAGE } from "../helpers/graphql/mutations";
 import { useSelector } from "react-redux";
 import { FiSend } from "react-icons/fi";
+
+import PropTypes from 'prop-types'
+
+/**
+ * 
+ */
+
 export default function InputMessage({ postId, color }) {
   const { _id, role, name, lastName, currentOrder } = useSelector((state) => ({
     ...state.User,

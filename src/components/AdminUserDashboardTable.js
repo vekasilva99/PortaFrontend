@@ -5,6 +5,12 @@ import { BsCircleFill } from "react-icons/bs";
 import { NEW_USERS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con la tabla de los nuevos Usuarios.
+ */
+
 export default function AdminTable(props) {
   //Nuevos usuarios
   const { data: dataNU, error: errorNU, loading: loadingNU } = useQuery(
@@ -98,6 +104,18 @@ export default function AdminTable(props) {
     </StyledTable>
   );
 }
+
+AdminTable.propTypes = {
+  /** Query con los nuevos usuarios*/
+  NEW_USERS: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  cellphone:PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired
+}
+
 const StyledTable = styled.nav`
   display: flex;
   flex-flow: column;

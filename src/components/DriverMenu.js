@@ -4,6 +4,12 @@ import { NavLink, withRouter } from "react-router-dom";
 import logo3 from "../assets/images/logo3.png";
 import { FiMail } from "react-icons/fi";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con el menú para el Repartidor.
+ */
+
 export default function DriverMenu(props) {
   let style;
   if (props.show) {
@@ -40,6 +46,12 @@ export default function DriverMenu(props) {
     </StyledSidebar>
   );
 }
+
+DriverMenu.propTypes = {
+  /** Booleano para saber si se debe mostrar el menú*/
+  show: PropTypes.bool.isRequired
+}
+
 const StyledSidebar = styled.nav`
   .open {
     transform: translateY(0);

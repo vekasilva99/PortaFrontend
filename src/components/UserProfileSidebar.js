@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import logo3 from "../assets/images/logo3.png";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Sidebar en el perfil del usuario. No recibe Props
+ */
 export default function UserProfileSidebar() {
   return (
     <StyledSidebar>
@@ -43,6 +48,9 @@ export default function UserProfileSidebar() {
     </StyledSidebar>
   );
 }
+
+
+
 const StyledSidebar = styled.nav`
   .container {
     height: 20vh;

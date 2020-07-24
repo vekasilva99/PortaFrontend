@@ -13,6 +13,12 @@ import {
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Lista con los repartidores
+ */
+
 export default function RepList(props) {
   const [sidebar, setSidebar] = React.useState(false);
   let [path, setPath] = React.useState("/user/driverprofile/");

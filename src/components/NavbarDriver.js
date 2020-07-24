@@ -5,6 +5,12 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 
+import PropTypes from 'prop-types'
+
+/**Navbar para los repartidores
+ * 
+ */
+
 export default function NavbarDriver(props) {
   const [sidebar, setSidebar] = React.useState(false);
 

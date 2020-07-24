@@ -11,6 +11,12 @@ import { useMutation } from "@apollo/react-hooks";
 import { SELECTED_REQUEST } from "../helpers/graphql/queries/index";
 import { REVIEW_REQUEST } from "../helpers/graphql/mutations/index";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con el formulario de la solicitud para aceptar a un nuevo Repartidor.
+ */
+
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -168,6 +174,24 @@ export default function DriverRequestForm(props) {
     </FormStyle>
   );
 }
+
+DriverRequestForm.propTypes = {
+  /** Query con requests*/
+  REVIEW_REQUEST: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Query con los request seleccionados*/
+  SELECTED_REQUEST: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Nombre del repartidor*/
+  fname: PropTypes.string.isRequired,
+  /** Apellido del repartidor*/
+  lname: PropTypes.string.isRequired,
+  /** Zona del repartidor*/
+  zone: PropTypes.string.isRequired,
+  /** Cedula del repartidor*/
+  cedula: PropTypes.string.isRequired,
+  /** Mail del repartidor*/
+  mail: PropTypes.string.isRequired
+}
+
 const FormStyle = styled.section`
   display: flex;
   position: relative;

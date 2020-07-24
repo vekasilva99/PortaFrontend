@@ -50,6 +50,12 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
+import PropTypes from 'prop-types'
+
+/**
+ * 
+ */
+
 const libraries = ["places", "directions"];
 const mapContainerStyle = {
   height: "100vh",
@@ -69,6 +75,7 @@ const center = {
   lat: 10.480594,
   lng: -66.903603,
 };
+
 
 export default function MapR() {
   const [directions, setDirections] = React.useState(null);

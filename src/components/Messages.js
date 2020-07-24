@@ -8,6 +8,12 @@ import styled from "styled-components";
 import Spinner from "./Spinner";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componenete para los mensajes
+*/
+
 export default function Messages({
   messages,
   subscribeToMore,

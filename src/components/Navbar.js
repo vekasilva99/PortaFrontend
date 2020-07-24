@@ -4,6 +4,11 @@ import { FiLogIn } from "react-icons/fi";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
+import PropTypes from 'prop-types'
+
+/**
+ * Sección general de navbar para todos los usuarios.
+ */
 
 export default function Navbar(props) {
   const [sidebar, setSidebar] = React.useState(false);

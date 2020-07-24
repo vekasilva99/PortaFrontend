@@ -6,6 +6,11 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { FiMail } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from 'prop-types'
+
+/**
+ * Navbar para los administradores
+ */
 
 export default function NavbarAdmin(props) {
   const [sidebar, setSidebar] = React.useState(false);

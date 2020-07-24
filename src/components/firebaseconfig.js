@@ -1,6 +1,12 @@
 import firebase from "firebase";
 import "firebase/storage";
 
+import PropTypes from 'prop-types'
+
+/**
+ * 
+ */
+
 var firebaseConfig = {
   apiKey: "AIzaSyCySL0izdrTBPFapugrRPEB32QrkV8d6S0",
   authDomain: "porta-hasta-tu-puerta.firebaseapp.com",

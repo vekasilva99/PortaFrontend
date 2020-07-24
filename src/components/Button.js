@@ -1,5 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con botón
+ */
+
 export default function Button({ color, children, ...rest }) {
   return (
     <ButtonS color={color} {...rest}>
@@ -7,6 +14,12 @@ export default function Button({ color, children, ...rest }) {
     </ButtonS>
   );
 }
+
+Button.propTypes = {
+  /** Color*/
+  color: PropTypes.string.isRequired
+}
+
 const ButtonS = styled.button`
   border: solid 2px #ebebeb;
   color: #202124;

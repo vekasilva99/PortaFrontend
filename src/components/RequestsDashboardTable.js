@@ -5,6 +5,12 @@ import { BsCircleFill } from "react-icons/bs";
 import { NEW_REQUESTS } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Tablero con el formulario de la solicitud
+ */
+
 export default function RequestsTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },

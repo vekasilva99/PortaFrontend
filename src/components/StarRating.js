@@ -6,6 +6,12 @@ import { useSelector } from "react-redux";
 import { RATE_DRIVER } from "../helpers/graphql/mutations/index";
 import { useMutation } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Rating para los repartidores
+ */
+
 export default function StarRating(props) {
   const [rating, setRating] = useState(props.rating);
   const [hover, setHover] = useState(null);
@@ -58,6 +64,11 @@ export default function StarRating(props) {
     </RatingStyle>
   );
 }
+
+StarRating.propTypes = {
+  rating: PropTypes.number.isRequired
+}
+
 const RatingStyle = styled.div`
   display: flex;
   flex-direction: row;

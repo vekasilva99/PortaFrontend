@@ -14,6 +14,12 @@ import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions
 import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
 import Moment from "moment";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente que maneja la información del deliveri.
+ */
+
 export default function Deliv(props) {
   const [sidebar, setSidebar] = React.useState(false);
 
@@ -116,6 +122,18 @@ export default function Deliv(props) {
     </StyledDeliv>
   );
 }
+
+Deliv.propTypes = {
+  /** Query */
+  GET_ORDERS: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Mutation */
+  ACCEPT_ORDER: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Mutation */
+  UPDATE_USER: PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+  order: PropTypes.object.isRequired,
+}
+
 const Animation = keyframes`
 from {
   opacity:0;

@@ -20,6 +20,12 @@ import { SELECTED_DRIVER } from "../helpers/graphql/queries/index";
 import { CREATE_COMMENT } from "../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente para el perfil del Repartidor.
+ */
+
 export default function DriverProfile(props) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [ratingAll, setRatingAll] = useState(0);
@@ -186,6 +192,21 @@ export default function DriverProfile(props) {
     </FormStyle>
   );
 }
+
+DriverProfile.propTypes = {
+  /** Query */
+  CONTACT_US: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  cellphone:PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  /** Role del usuario */
+  role: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+}
+
 const FormStyle = styled.section`
   display: flex;
   position: relative;

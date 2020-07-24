@@ -13,6 +13,13 @@ import { useMutation } from "@apollo/react-hooks";
 import { CONTACT_US } from "../helpers/graphql/mutations/index";
 import Checkbox from "@material-ui/core/Checkbox";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con formulario para enviar un correo a los administradores.
+ */
+
+
 export default function Correo({ color }) {
   const [checked, setChecked] = React.useState(true);
   const [subject, setSubject] = React.useState("");
@@ -89,6 +96,20 @@ export default function Correo({ color }) {
       </form>
     </StyledCorreo>
   );
+}
+
+Correo.propTypes = {
+  /** Query */
+  CONTACT_US: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  cellphone:PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  /** Role del usuario */
+  role: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 }
 
 const StyledCorreo = styled.nav`

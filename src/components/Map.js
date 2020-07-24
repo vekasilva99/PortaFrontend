@@ -53,6 +53,12 @@ import {
 } from "@material-ui/pickers";
 import { FiAlertCircle } from "react-icons/fi";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Mapa
+ */
+
 const libraries = ["places", "directions"];
 const mapContainerStyle = {
   height: "100vh",

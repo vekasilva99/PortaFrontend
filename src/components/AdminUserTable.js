@@ -5,6 +5,12 @@ import { BsCircleFill } from "react-icons/bs";
 import { GET_USERS, GET_REPARTIDORES, NEW_USERS, NEW_REPARTIDORES } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * 
+ */
+
 export default function AdminTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },
@@ -129,6 +135,20 @@ export default function AdminTable(props) {
     </StyledTable>
   );
 }
+
+
+AdminTable.propTypes = {
+  /** Query para obtener a los usuarios*/
+  GET_USERS: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  cellphone:PropTypes.string.isRequired,
+  /** Fecha en la que fue creado el usuario */
+  createdAt: PropTypes.string.isRequired
+}
+
 const StyledTable = styled.nav`
   display: flex;
   flex-flow: column;

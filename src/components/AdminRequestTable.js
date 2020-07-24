@@ -9,6 +9,12 @@ import {
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente con la tabla con las solicitudes para aceptar a un nuevo Repartidor.
+ */
+
 export default function AdminRequestTable(props) {
   const [users, setUsers] = React.useState([
     { id: 1, name: "Wasif", age: 21, email: "wasif@email.com" },

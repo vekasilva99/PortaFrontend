@@ -14,6 +14,12 @@ import { NOTIFICATION_ADDED_SUSCRIPTION } from "../helpers/graphql/subscriptions
 import { ACCEPT_ORDER } from "../helpers/graphql/mutations/index";
 import { useAlert } from "react-alert";
 
+import PropTypes from 'prop-types'
+
+/**
+ * Componente para los pedidos
+ */
+
 export default function Pedido(props) {
   const [sidebar, setSidebar] = React.useState(false);
   const alert = useAlert();

@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import logo3 from "../assets/images/logo3.png";
 
+import PropTypes from 'prop-types'
+
+/**
+ * 
+ */
+
 export default function DriverProfileSidebar() {
   return (
     <StyledSidebar>

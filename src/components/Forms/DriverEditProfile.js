@@ -19,6 +19,11 @@ import { useDispatch } from "react-redux";
 
 import { Redirect } from "react-router-dom";
 
+
+/**
+ * Componente para editar el perfil siendo Repartidor.
+ */
+
 export default function DriverEditProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -292,6 +297,16 @@ export default function DriverEditProfileForm(props) {
     </FormStyle>
   );
 }
+
+Correo.propTypes = {
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  phone:PropTypes.string.isRequired,
+  region:PropTypes.string.isRequired
+}
+
 const FormStyle = styled.section`
   display: flex;
   position: relative;

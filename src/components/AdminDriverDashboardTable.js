@@ -7,6 +7,13 @@ import {
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 
+import PropTypes from 'prop-types'
+
+
+/**
+ * Componente con la tabla de los Repartidores más recientes.
+ */
+
 export default function AdminDriverTable(props) {
   const { data: dataNR, error: errorNR, loading: loadingNR } = useQuery(
     NEW_REPARTIDORES
@@ -103,6 +110,18 @@ export default function AdminDriverTable(props) {
     </StyledTable>
   );
 }
+
+AdminDriverTable.propTypes = {
+  /** Query con los últimos repartidores */
+  NEW_REPARTIDORES: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Nombre del repartidor*/
+  fname: PropTypes.string.isRequired,
+  /** Cedula del repartidor */
+  cedula: PropTypes.string.isRequired,
+  /** Mail del repartidor*/
+  mail: PropTypes.string.isRequired
+}
+
 const StyledTable = styled.nav`
   display: flex;
   flex-flow: column;
