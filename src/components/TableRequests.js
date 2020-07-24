@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
 import { GET_REQUESTS, SELECTED_DRIVER } from "../helpers/graphql/queries";
-import { DISABLE_DRIVER } from "../helpers/graphql/mutations";
+import { REVIEW_REQUEST } from "../helpers/graphql/mutations";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
 import moment from "moment";
@@ -12,10 +12,9 @@ import { Button } from "antd";
 
 export default function TableRequests(props) {
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(
-    GET_REQUESTS,
-    SELECTED_DRIVER
+    GET_REQUESTS
   );
-  const [disableDriver, { data, error, loading }] = useMutation(DISABLE_DRIVER);
+  const [reviewSolicitud, { data, error, loading }] = useMutation(REVIEW_REQUEST);
 
   if (loadingU)
     return (
@@ -27,12 +26,49 @@ export default function TableRequests(props) {
     );
   if (errorU) return `Error! ${errorU.message}`;
 
-  const reject = async (driverId) => {
-    const { data } = await disableDriver({
+  // const reject = async (driverId) => {
+  //   const { data } = await disableDriver({
+  //     variables: {
+  //       driverId: driverId.toString(),
+  //     },
+  //   });
+  // };
+
+  const acceptRequest = async (request) => {
+
+    const { data } = await reviewSolicitud({
       variables: {
-        driverId: driverId.toString(),
+        reviewInput: {
+          id: request._id,
+          vehiculo: request.vehiculo,
+          licencia: request.licencia,
+          experience: request.experience,
+          carnetCirculacion: request.carnetCirculacion,
+          seguroVehiculo: request.seguroVehiculo,
+          placaVehiculo: request.placaVehiculo,
+          status: true,
+        },
       },
     });
+
+  };
+
+  const denyRequest = async (request) => {
+    const { data } = await reviewSolicitud({
+      variables: {
+        reviewInput: {
+          id: request._id,
+          vehiculo: request.vehiculo,
+          licencia: request.licencia,
+          experience: request.experience,
+          carnetCirculacion: request.carnetCirculacion,
+          seguroVehiculo: request.seguroVehiculo,
+          placaVehiculo: request.placaVehiculo,
+          status: false,
+        },
+      },
+    });
+
   };
 
   return (
@@ -93,32 +129,39 @@ export default function TableRequests(props) {
                       </div>
                       <div className="row">
                         <div class="cell">Vehicle:</div>
-                        <div class="cell">{request.repartidor.vehiculo}</div>
+                        <div class="cell">{request.vehiculo}</div>
                       </div>
                       <div className="row">
                         <div class="cell">Licence:</div>
-                        <div class="cell">{request.repartidor.licencia}</div>
+                        <div class="cell">{request.licencia}</div>
                       </div>
                       <div className="row">
                         <div class="cell">Carnet:</div>
                         <div class="cell">
-                          {request.repartidor.carnetCirculacion}
+                          {request.carnetCirculacion}
                         </div>
                       </div>
                       <div className="row">
                         <div class="cell">Insurance:</div>
                         <div class="cell">
-                          {request.repartidor.seguroVehiculo}
+                          {request.seguroVehiculo}
                         </div>
                       </div>
                     </div>
                     <div className="options">
-                      <Button id="opt" href="#">
+                    {!loading ? (
+                      <>
+                      <Button id="opt" href="#" onClick={() => {acceptRequest(request)}}>
                         Accept
                       </Button>
-                      <Button id="opt" href="#">
+                      <Button id="opt" href="#" onClick={ () => {denyRequest(request)}}>
                         Reject
                       </Button>
+                      </>
+                    ) : (
+                        <Spinner color={"#000"}></Spinner>
+                    )}
+                      
                     </div>
                   </div>
                 </div>

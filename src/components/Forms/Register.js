@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../../helpers/graphql/mutations";
+import Spinner from "../Spinner";
 
 export default function FormRegister(props) {
   const [register, { data, loading, error }] = useMutation(REGISTER_USER);
@@ -436,10 +437,15 @@ export default function FormRegister(props) {
                         )}
                       </div>
                     ) : null}
-                    <Button disabled={errorF} color={props.color} type="submit">
-                      {" "}
-                      SIGN UP{" "}
-                    </Button>
+                    {!loading ? (
+                      <Button disabled={errorF} color={props.color} type="submit">
+                        {" "}
+                        SIGN UP{" "}
+                      </Button>
+                    ) : (
+                      <Spinner color={"#00507a"}></Spinner>
+                    )}
+                    
                   </div>
                 </div>
               )}
