@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../firebaseconfig";
+import Spinner from "../Spinner";
 
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
@@ -507,10 +508,14 @@ export default function UserProfileForm(props) {
                     </div>
                   </div>
                   <div className="botonContainer2">
+                  {!loadingU ? (
                     <button className="boton" type="submit">
                       {" "}
                       SAVE CHANGES{" "}
                     </button>
+                  ) : (
+                    <Spinner color={"#00507a"}></Spinner>
+                  )}
                   </div>
                 </div>
               </form>

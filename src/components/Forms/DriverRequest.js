@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { MdSave } from "react-icons/md";
 import { DRIVER_REQUEST } from "../../helpers/graphql/mutations/index";
 import { Redirect } from "react-router-dom";
+import Spinner from "../Spinner";
 
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
@@ -354,14 +355,19 @@ export default function DriverRequestForm(props) {
                         </div>
                       </div>
                       <div className="botonContainer2">
+                      {!loadingU ? (
                         <button
-                          className="boton"
-                          type="submit"
-                          disabled={submitted}
+                        className="boton"
+                        type="submit"
+                        disabled={submitted}
                         >
                           {" "}
                           SEND REQUEST{" "}
                         </button>
+                      ) : (
+                          <Spinner color={"#ef0023"}></Spinner>
+                        )}
+
                       </div>
                     </div>
                   </form>

@@ -12,6 +12,7 @@ import {
   NEW_REPARTIDORES,
 } from "../helpers/graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
+import Spinner from "./Spinner";
 
 export default function RepList(props) {
   const [sidebar, setSidebar] = React.useState(false);
@@ -25,7 +26,6 @@ export default function RepList(props) {
     setSidebar(!sidebar);
   };
 
-  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
   function handleClick(name) {
@@ -34,18 +34,23 @@ export default function RepList(props) {
 
   return (
     <StyledRepList>
-      <div className="container">
-        {data.drivers.map((repartidor) => (
-          <div className="repart">
-            <h2>
-              {repartidor.name} {repartidor.lastName}
-            </h2>
-            <NavLink to={path + repartidor._id} className="next">
-              <img src="/nextblue.png" alt="Next" className="nextbut" />
-            </NavLink>
-          </div>
-        ))}
-      </div>
+      {!loading ? (
+        <div className="container">
+          {data.drivers.map((repartidor) => (
+            <div className="repart">
+              <h2>
+                {repartidor.name} {repartidor.lastName}
+              </h2>
+              <NavLink to={path + repartidor._id} className="next">
+                <img src="/nextblue.png" alt="Next" className="nextbut" />
+              </NavLink>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Spinner color={"#00507a"}></Spinner>
+      )}
+      
     </StyledRepList>
   );
 }

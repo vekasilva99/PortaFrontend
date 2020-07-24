@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../../helpers/graphql/mutations";
+import Spinner from "../Spinner";
 
 export default function FormRegister(props) {
   const [register, { data, loading, error }] = useMutation(REGISTER_USER);
@@ -29,6 +30,13 @@ export default function FormRegister(props) {
   const [cedulaE, setCedulaE] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [errorF, setErrorF] = React.useState(true);
+  //const [regionE, setRegionE] = React.useState(false);
+  //const [emailE, setEmailE] = React.useState(false);
+  //const [passwordE, setPasswordE] = React.useState(false);
+  //const [passwordCE, setPasswordCE] = React.useState(false);
+  //const [selectedDateE, setSelectedDateE] = React.useState(false);
+  //const [phoneE, setPhoneE] = React.useState(null);
+  //const [cedulaE, setCedulaE] = React.useState(null);
 
   const handleStep1 = (e) => {
     console.log(props.color);
@@ -483,10 +491,15 @@ export default function FormRegister(props) {
                         )}
                       </div>
                     ) : null}
-                    <Button disabled={errorF} color={props.color} type="submit">
-                      {" "}
-                      SIGN UP{" "}
-                    </Button>
+                    {!loading ? (
+                        <Button disabled={errorF} color={props.color} type="submit">
+                          {" "}
+                          SIGN UP{" "}
+                        </Button>
+                    ) : (
+                          <Spinner color={"#ef0023"}></Spinner>
+                    )}
+                    
                   </div>
                 </div>
               )}
@@ -498,18 +511,12 @@ export default function FormRegister(props) {
   );
 }
 const RegisterView = styled.div`
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 justify-content: center;
 align-items: center;
 width: 100%;
-
-
 .error-m{
   display: flex;
   position: fixed;
@@ -535,7 +542,6 @@ width: 100%;
     background: #202124;
     opacity: 0.4;
   }
-
   .error-message{
     display: flex;
     height: 50vh;
@@ -555,8 +561,6 @@ width: 100%;
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       color:#fafafa;
       font-size:1em;
-
-
     }
     .boton-error{
       border: solid 2px #ebebeb;
@@ -582,33 +586,25 @@ width: 100%;
         outline: none;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
       }
-
     }
   }}
-
-
-
 .buttonS {
   margin-top: 3em;
 }
-
 .step2 {
   margin-top: 1vh;
   width: 100%;
   display: grid;
-
   grid-template-areas:
     "info"
     "button";
   .info {
-
     margin-top: 0;
     width: 100%;
     display: grid;
     grid-template-areas:
       "name lname"
       "date region";
-
     .FName {
       margin: 0;
       padding-top: 10%;
@@ -659,12 +655,10 @@ width: 100%;
   margin-top: 1vh;
   width: 100%;
   display: grid;
-
   grid-template-areas:
     "email"
     "pass"
     "button";
-
   .pass {
     margin: 0;
     width: 100%;
@@ -672,7 +666,6 @@ width: 100%;
     display: grid;
     grid-template-areas: "password  passwordC";
   }
-
   .email {
     margin: 0;
     padding-top: 5%;
@@ -730,14 +723,6 @@ width: 100%;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-<<<<<<< HEAD
-=======
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
->>>>>>> val
-=======
->>>>>>> val
   label {
     font-size: 1em;
     font-weight: 200;
@@ -761,7 +746,6 @@ width: 100%;
     padding: 0.3rem 0.5rem;
     margin-left: 0;
     width: 25vw;
-
     &:focus {
       opacity: 1;
       outline: none;
@@ -776,15 +760,10 @@ width: 100%;
   margin-bottom: 0.1em;
   display: grid;
   text-align: center;
-
   h4 {
     color: #ef0023;
     font-size: 12px;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
 }
 .inputP {
   display: flex;
@@ -796,13 +775,6 @@ width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   label {
-<<<<<<< HEAD
-=======
-
-  .dos {
->>>>>>> val
-=======
->>>>>>> val
     font-size: 1em;
     font-weight: 200;
     color: #fafafa;
@@ -825,7 +797,6 @@ width: 100%;
     padding: 0.3rem 0.5rem;
     margin-left: 0;
     width: 12.5vw;
-
     &:focus {
       opacity: 1;
       outline: none;
@@ -847,36 +818,22 @@ width: 100%;
     margin-top: 1.5rem;
     padding: 0.4rem 0.5rem;
     margin-left: 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
     width: 12.5vw  ;
-
-=======
     bottom: 0;
     padding-bottom: 0.35rem;
->>>>>>> val
-=======
     width: 12.5vw  ;
-
->>>>>>> val
     &:focus {
       opacity: 1;
       outline: none;
       box-shadow: none;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> val
       border-bottom: solid 2px #ef0023;
     }
   }
 }
-
 @media only screen and (max-width: 734px) {
   .buttonS {
     margin-top: 2em;
   }
-
   .error-m{
     display: flex;
     position: fixed;
@@ -900,7 +857,6 @@ width: 100%;
       background: #202124;
       opacity: 0.4;
     }
-
     .error-message{
       display: flex;
       height: 70vh;
@@ -920,7 +876,6 @@ width: 100%;
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         color:#fafafa;
         font-size:1em;
-
   
       }
       .boton-error{
@@ -947,10 +902,8 @@ width: 100%;
           outline: none;
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
         }
-
       }
     }}
-
   .step2 {
     margin-top: 0;
     width: 100%;
@@ -968,7 +921,6 @@ width: 100%;
       grid-template-areas:
         "name" "lname"
         "date" "region";
-
       .FName {
         margin: 0;
         margin-top:1em;
@@ -1018,13 +970,10 @@ width: 100%;
     justify-content: center;
   
    
-
-
     grid-template-areas:
       "email"
       "pass"
       "buttonC";
-
     .pass {
       margin: 0;
       width: 100%;
@@ -1035,7 +984,6 @@ width: 100%;
       justify-content: center;
       grid-template-areas: "password" "passwordC";
     }
-
     .email {
       margin: 0;
       padding-top: 5%;
@@ -1093,7 +1041,6 @@ width: 100%;
     flex-direction: column;
     max-width: 600px;
     text-align: center;
-
     align-items: center;
     justify-content: center;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -1123,7 +1070,6 @@ width: 100%;
       padding: 0.3rem 0.5rem;
       margin-left: 0;
       width: 80vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -1138,7 +1084,6 @@ width: 100%;
     margin-bottom: 0.5em;
     display: grid;
     text-align: center;
-
     h4 {
       color: #ef0023;
       font-size: 12px;
@@ -1177,7 +1122,6 @@ width: 100%;
       padding: 0.3rem 0.5rem;
       margin-left: 0;
       width: 80vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -1200,7 +1144,6 @@ width: 100%;
       padding: 0.4rem 0.5rem;
       margin-left: 0;
       width: 80vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -1230,7 +1173,6 @@ width: 100%;
     }
   .inputG{
     text-align:center;
-
     input{
       width:80%;
     }
@@ -1238,7 +1180,6 @@ width: 100%;
       width:100%;
     }
   }
-
   form{
     width:100%;
   }
@@ -1267,7 +1208,6 @@ width: 100%;
       background: #202124;
       opacity: 0.4;
     }
-
     .error-message{
       display: flex;
       height: 55vh;
@@ -1287,7 +1227,6 @@ width: 100%;
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         color:#fafafa;
         font-size:1em;
-
   
       }
       .boton-error{
@@ -1314,18 +1253,8 @@ width: 100%;
           outline: none;
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
         }
-
       }
     }}
  
-
 }
-<<<<<<< HEAD
-=======
-      border-bottom: solid 2px #ee462f;
-    }
-  }
->>>>>>> val
-=======
->>>>>>> val
 `;
