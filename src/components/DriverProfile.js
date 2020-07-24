@@ -110,12 +110,15 @@ export default function DriverProfile(props) {
             </div>
             <div></div>
           </div>
+          {!loadingC ? (
           <div className="comment-section">
             {allComments.length != 0 ? (
               <>
                 <h1>Comments</h1>
                 <div className="comment-cards">
-                  <Card comments={allComments} />
+                  
+                    <Card comments={allComments} />
+                  
                 </div>
               </>
             ) : null}
@@ -181,6 +184,9 @@ export default function DriverProfile(props) {
               )}
             </Formik>
           </div>
+          ) : (
+            <Spinner color={"#00507a"}></Spinner>
+          )}
         </div>
       </>
     </FormStyle>

@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { RATE_DRIVER } from "../helpers/graphql/mutations/index";
 import { useMutation } from "@apollo/react-hooks";
+import Spinner from "./Spinner";
 
 export default function StarRating(props) {
   const [rating, setRating] = useState(props.rating);
@@ -24,6 +25,8 @@ export default function StarRating(props) {
 
   return (
     <RatingStyle>
+      {!loadingR ? (
+      <>
       {[...Array(5)].map((star, i) => {
         const ratingValue = i + 1;
         return (
@@ -54,6 +57,10 @@ export default function StarRating(props) {
           </label>
         );
       })}
+      </>
+      ) : (
+        <Spinner color={"#00507a"}></Spinner>
+      )}
     </RatingStyle>
   );
 }

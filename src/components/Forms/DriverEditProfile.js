@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { MdSave } from "react-icons/md";
 import { UPDATE_PROFILE_PIC } from "../../helpers/graphql/mutations";
 import { Redirect } from "react-router-dom";
+import Spinner from "../Spinner";
 
 export default function DriverEditProfileForm(props) {
   const [region, setRegion] = React.useState("");
@@ -493,10 +494,14 @@ export default function DriverEditProfileForm(props) {
                     </div>
                   </div>
                   <div className="botonContainer2">
-                    <button className="boton" type="submit">
-                      {" "}
-                      SAVE CHANGES{" "}
-                    </button>
+                      {!loadingU ? (
+                        <button className="boton" type="submit">
+                          {" "}
+                          SAVE CHANGES{" "}
+                        </button>
+                      ) : (
+                          <Spinner color={"#ef0023"}></Spinner>
+                        )}
                   </div>
                 </div>
               </form>

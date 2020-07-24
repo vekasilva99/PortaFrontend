@@ -125,16 +125,20 @@ export default function Pedido(props) {
               <h4>Destino</h4>
               <h3>{order.pickUp}</h3>
             </div>
-            <button
+            {!loadingO ? (
+              <button
               className="next"
               value={order._id}
               onClick={() => {
                 accept(Event, order._id);
                 props.handleChangeChk();
               }}
-            >
-              <img src="/nextred.png" alt="Next" className="nextbut" />
-            </button>
+              >
+                <img src="/nextred.png" alt="Next" className="nextbut" />
+              </button>
+            ) : (
+              <Spinner color={"#ef0023"}></Spinner>
+            )}
           </div>
         ))
       )}
