@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../../helpers/graphql/mutations";
+import Spinner from "../Spinner";
 
 export default function FormRegister(props) {
   const [register, { data, loading, error }] = useMutation(REGISTER_USER);
@@ -436,10 +437,18 @@ export default function FormRegister(props) {
                         )}
                       </div>
                     ) : null}
-                    <Button disabled={errorF} color={props.color} type="submit">
-                      {" "}
-                      SIGN UP{" "}
-                    </Button>
+                    {!loading ? (
+                      <Button
+                        disabled={errorF}
+                        color={props.color}
+                        type="submit"
+                      >
+                        {" "}
+                        SIGN UP{" "}
+                      </Button>
+                    ) : (
+                      <Spinner color={"#00507a"}></Spinner>
+                    )}
                   </div>
                 </div>
               )}
@@ -482,7 +491,6 @@ const RegisterView = styled.div`
       background: #202124;
       opacity: 0.4;
     }
-
     .error-message{
       display: flex;
       height: 50vh;
@@ -502,7 +510,6 @@ const RegisterView = styled.div`
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         color:#fafafa;
         font-size:1em;
-
   
       }
       .boton-error{
@@ -529,34 +536,26 @@ const RegisterView = styled.div`
           outline: none;
           box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
         }
-
       }
     }}
  
-
-
   .buttonS {
     margin-top: 3em;
   }
-
   .step2 {
     margin-top: 1vh;
     width: inherit;
     display: grid;
-
-
     grid-template-areas:
       "info"
       "button";
     .info {
-
       margin-top: 0;
       width: 100%;
       display: grid;
       grid-template-areas:
         "name lname"
         "date region";
-
       .FName {
         margin: 0;
         padding-top: 10%;
@@ -607,12 +606,10 @@ const RegisterView = styled.div`
     margin-top: 1vh;
     width: 100%;
     display: grid;
-
     grid-template-areas:
       "email"
       "pass"
       "button";
-
     .pass {
       margin: 0;
       width: 100%;
@@ -620,7 +617,6 @@ const RegisterView = styled.div`
       display: grid;
       grid-template-areas: "password  passwordC";
     }
-
     .email {
       margin: 0;
       padding-top: 5%;
@@ -704,7 +700,6 @@ const RegisterView = styled.div`
       padding: 0.3rem 0.5rem;
       margin-left: 0;
       width: 25vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -712,9 +707,7 @@ const RegisterView = styled.div`
         border-bottom: solid 2px #00507a;
       }
     }
-
   }
-
   .button {
     margin-top: 2rem;
     margin-bottom: -3rem;
@@ -725,7 +718,6 @@ const RegisterView = styled.div`
     margin-bottom: 0.1em;
     display: grid;
     text-align: center;
-
     h4 {
       color: #ef0023;
       font-size: 12px;
@@ -762,7 +754,6 @@ const RegisterView = styled.div`
       padding: 0.3rem 0.5rem;
       margin-left: 0;
       width: 12.5vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -785,7 +776,6 @@ const RegisterView = styled.div`
       padding: 0.3rem 0.5rem;
       margin-left: 0;
       width: 12.5vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -808,7 +798,6 @@ const RegisterView = styled.div`
       padding: 0.4rem 0.5rem;
       margin-left: 0;
       width: 12.5vw;
-
       &:focus {
         opacity: 1;
         outline: none;
@@ -817,7 +806,6 @@ const RegisterView = styled.div`
       }
     }
   }
-
   @media only screen and (max-width: 734px) {
     .buttonS {
       margin-top: 2em;
@@ -895,7 +883,6 @@ const RegisterView = styled.div`
   
         }
       }}
-
     .step2 {
       margin-top: 0;
       width: 100%;
@@ -913,7 +900,6 @@ const RegisterView = styled.div`
         grid-template-areas:
           "name" "lname"
           "date" "region";
-
         .FName {
           margin: 0;
           margin-top:1em;
@@ -964,12 +950,10 @@ const RegisterView = styled.div`
     
      
   
-
       grid-template-areas:
         "email"
         "pass"
         "buttonC";
-
       .pass {
         margin: 0;
         width: 100%;
@@ -980,7 +964,6 @@ const RegisterView = styled.div`
         justify-content: center;
         grid-template-areas: "password" "passwordC";
       }
-
       .email {
         margin: 0;
         padding-top: 5%;
@@ -1038,7 +1021,6 @@ const RegisterView = styled.div`
       flex-direction: column;
       max-width: 600px;
       text-align: center;
-
       align-items: center;
       justify-content: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -1068,7 +1050,6 @@ const RegisterView = styled.div`
         padding: 0.3rem 0.5rem;
         margin-left: 0;
         width: 80vw;
-
         &:focus {
           opacity: 1;
           outline: none;
@@ -1083,7 +1064,6 @@ const RegisterView = styled.div`
       margin-bottom: 0.1em;
       display: grid;
       text-align: center;
-
       h4 {
         color: #ef0023;
         font-size: 12px;
@@ -1123,7 +1103,6 @@ const RegisterView = styled.div`
         padding: 0.3rem 0.5rem;
         margin-left: 0;
         width: 80vw;
-
         &:focus {
           opacity: 1;
           outline: none;
@@ -1146,7 +1125,6 @@ const RegisterView = styled.div`
         padding: 0.3rem 0.5rem;
         margin-left: 0;
         width: 80vw;
-
         &:focus {
           opacity: 1;
           outline: none;
@@ -1169,7 +1147,6 @@ const RegisterView = styled.div`
         padding: 0.4rem 0.5rem;
         margin-left: 0;
         width: 80vw;
-
         &:focus {
           opacity: 1;
           outline: none;
@@ -1201,7 +1178,6 @@ const RegisterView = styled.div`
     }
     
   }
-
   @media only screen and (min-width: 735px) and (max-width: 1069px)  {
     .inputP{
       text-align:center;
@@ -1221,7 +1197,6 @@ const RegisterView = styled.div`
     }
     .inputG{
       text-align:center;
-
       input{
         width:80%;
       }
@@ -1229,7 +1204,6 @@ const RegisterView = styled.div`
         width:60vw;
       }
     }
-
     form{
       width:100%;
     }

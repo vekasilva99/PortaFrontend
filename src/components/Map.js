@@ -164,6 +164,15 @@ export default function Map() {
       console.log(user);
       console.log("Precio", precio);
       console.log("Distancia", distancia);
+
+      let realPrice
+      if(precio < 0.50){
+        realPrice = 0.50;
+      }else{
+        realPrice = precio;
+      }
+
+      console.log("Real price: " + realPrice);
       const { dataM } = await makeOrderd({
         variables: {
           orderInput: {
@@ -175,7 +184,7 @@ export default function Map() {
             deliverLat: pack.lat.toString(),
             deliverLng: pack.lng.toString(),
             km: distancia,
-            price: Number(precio),
+            price: Number(realPrice),
           },
         },
       });
@@ -430,13 +439,17 @@ export default function Map() {
                 </Grid>
               </MuiPickersUtilsProvider>
               <div className="botonContainer2">
-                <button
-                  className="boton"
-                  disabled={!haveCard || submitted ? true : false}
-                  onClick={handleSend}
-                >
-                  ACCEPT
-                </button>
+                    {!loadingM ? (
+                      <button
+                        className="boton"
+                        disabled={!haveCard || submitted ? true : false}
+                        onClick={handleSend}
+                      >
+                        ACCEPT
+                      </button>
+                    ) : (
+                      <Spinner color={"#00507a"}></Spinner>
+                    )}
               </div>
             </div>
           )}

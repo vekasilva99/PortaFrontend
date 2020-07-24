@@ -8,6 +8,7 @@ import FormPayment from "../components/Forms/Payment";
 import { useMutation } from "@apollo/react-hooks";
 import UserMenu from "../components/UserMenu";
 import UserProfileSidebar from "../components/UserProfileSidebar";
+import { useSelector } from "react-redux";
 
 export default function UserHome() {
   const [on, setToggle] = React.useState(false);
@@ -15,12 +16,16 @@ export default function UserHome() {
 
   const handlingSidebar = (e) => setSidebar(!sidebar);
 
+  const { name } = useSelector((state) => ({
+    ...state.User,
+  }));
+
   return (
     <>
       <HomeStyle>
         {" "}
         <div className="show">
-          <NavbarIn name={"Veka"} toggle={handlingSidebar} />
+          <NavbarIn name={name} toggle={handlingSidebar} />
           <UserMenu show={sidebar} />
         </div>
         <div className="Payment">

@@ -71,12 +71,18 @@ export default function Correo({ color }) {
           Content
           <textarea className="cont" value={text} onChange={handletextChange} />
         </label>
-        <input
+
+        {!loading ? (
+          <input
           className="but"
           type="submit"
           value="Submit"
           onClick={sendMail}
-        />
+          />
+        ) : (
+          <Spinner color={"#00507a"}></Spinner>
+        )}  
+        
         <div className="check">
           <h4>{data && data.contactUs ? "Correo recibido" : ""}</h4>
           <h4>{data && !data.contactUs ? "Network error" : ""}</h4>
