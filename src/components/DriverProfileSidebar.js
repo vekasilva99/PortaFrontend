@@ -14,6 +14,11 @@ export default function DriverProfileSidebar() {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/driver/request" className="link">
+              REQUEST TO BE A DRIVER
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/driver/mytrips" className="link">
               MY TRIPS
             </NavLink>
