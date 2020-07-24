@@ -11,6 +11,10 @@ import { useMutation } from "@apollo/react-hooks";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
+/**
+ * Componente para loguear como Repartidor
+ */
+
 export default function FormLoginDriver(props) {
   //const [login, { data, loading, error }] = useLazyQuery(LOGIN_USER);
 
@@ -152,6 +156,17 @@ export default function FormLoginDriver(props) {
     </>
   );
 }
+
+FormLoginDriver.propTypes = {
+  /** Mutation */
+  LOGIN_USER:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+  name:PropTypes.string.isRequired,
+  password:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  color:PropTypes.string.isRequired,
+}
+
 const StyledForm = styled.div`
   .error {
     width: 100%;

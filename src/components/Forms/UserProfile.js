@@ -433,6 +433,21 @@ export default function UserProfileForm(props) {
     </>
   );
 }
+
+DriverEditProfileForm.propTypes = {
+  /** Mutation */
+  UPDATE_PROFILE_PIC:PropTypes.arrayOf(PropTypes.object).isRequired,
+  /** Mutation */
+  UPDATE_USER:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  phone:PropTypes.string.isRequired,
+  region:PropTypes.string.isRequired
+}
+
 const FormStyle = styled.section`
   display: flex;
   position: relative;

@@ -16,6 +16,10 @@ const stripePromise = loadStripe(
   "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
 );
 
+/**
+ * Componente para manejar el pago
+ */
+
 export default function Payment() {
   const { _id, name, lastName, haveCard } = useSelector((state) => ({
     ...state.User,
@@ -154,6 +158,13 @@ export default function Payment() {
       </StyledPayment>
     </Elements>
   );
+}
+
+
+FormLoginDriver.propTypes = {
+  /** Mutation */
+  CARD_SAVED:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired
 }
 
 const StyledPayment = styled.nav`

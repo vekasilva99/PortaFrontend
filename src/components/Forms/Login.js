@@ -11,6 +11,9 @@ import { LOGIN_USER } from "../../helpers/graphql/mutations";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
+/**
+ * Componente con el formulario para hacer login.
+ */
 export default function FormLogin(props) {
   // const [login, { data, loading, error, called }] = useLazyQuery(LOGIN_USER);
 
@@ -178,6 +181,17 @@ export default function FormLogin(props) {
     </>
   );
 }
+
+FormLogin.propTypes = {
+  /** Mutation */
+  LOGIN_USER:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+  name:PropTypes.string.isRequired,
+  password:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  color:PropTypes.string.isRequired,
+}
+
 const StyledForm = styled.div`
   .error {
     width: 100%;

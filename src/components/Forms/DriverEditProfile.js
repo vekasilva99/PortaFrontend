@@ -298,7 +298,10 @@ export default function DriverEditProfileForm(props) {
   );
 }
 
-Correo.propTypes = {
+DriverEditProfileForm.propTypes = {
+  /** Mutation */
+  UPDATE_DRIVER:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
   name:PropTypes.string.isRequired,
   lastname:PropTypes.string.isRequired,
   birthdate:PropTypes.string.isRequired,

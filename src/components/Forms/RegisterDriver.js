@@ -8,6 +8,9 @@ import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../../helpers/graphql/mutations";
 
+/**
+ * Componente para registrarse como Repartidor.
+ */
 export default function FormRegister(props) {
   const [register, { data, loading, error }] = useMutation(REGISTER_USER);
   const [step1, setStep1] = React.useState(true);
@@ -452,6 +455,19 @@ export default function FormRegister(props) {
     </RegisterView>
   );
 }
+
+FormRegister.propTypes = {
+  /** Mutation */
+  REGISTER_USER: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  phone:PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired
+}
+
 const RegisterView = styled.div`
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,

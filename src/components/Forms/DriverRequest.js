@@ -16,6 +16,10 @@ import { useMutation } from "@apollo/react-hooks";
 import { DRIVER_REQUEST } from "../../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 
+/**
+ * Componente con el request para optar a ser Repartidor.
+ */
+
 export default function DriverRequestForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -257,6 +261,25 @@ export default function DriverRequestForm(props) {
     </FormStyle>
   );
 }
+
+DriverRequestForm.propTypes = {
+  /** Mutation */
+  DRIVER_REQUEST:PropTypes.arrayOf(PropTypes.object).isRequired,
+  user: PropTypes.object.isRequired,
+  name:PropTypes.string.isRequired,
+  lastname:PropTypes.string.isRequired,
+  birthdate:PropTypes.string.isRequired,
+  mail:PropTypes.string.isRequired,
+  phone:PropTypes.string.isRequired,
+  region:PropTypes.string.isRequired,
+  vehiculo:PropTypes.string.isRequired,
+  experiencia:PropTypes.string.isRequired,
+  carnet:PropTypes.string.isRequired,
+  seguro:PropTypes.string.isRequired,
+  placa:PropTypes.string.isRequired,
+  licencia:PropTypes.string.isRequired,
+}
+
 const FormStyle = styled.section`
   display: flex;
   position: relative;
