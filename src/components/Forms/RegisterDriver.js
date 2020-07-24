@@ -8,6 +8,8 @@ import moment from "moment";
 import { useMutation } from "@apollo/react-hooks";
 import { REGISTER_USER } from "../../helpers/graphql/mutations";
 
+import PropTypes from 'prop-types'
+
 /**
  * Componente para registrarse como Repartidor.
  */

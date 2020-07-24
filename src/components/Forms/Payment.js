@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { CARD_SAVED, SET_INTENT } from "../../helpers/graphql/mutations/index";
 
+import PropTypes from 'prop-types'
+
 const stripePromise = loadStripe(
   "pk_test_51H4Vo7HrEh2luE8FIDf7KhmJwVc9l1YRxOeMYq8z1rTKQsysHj4CiR2xTLx54juBFQmGchi2rjEA2w4fgBqqJlko00TGMRLM9w"
 );
@@ -161,7 +163,7 @@ export default function Payment() {
 }
 
 
-FormLoginDriver.propTypes = {
+Payment.propTypes = {
   /** Mutation */
   CARD_SAVED:PropTypes.arrayOf(PropTypes.object).isRequired,
   user: PropTypes.object.isRequired

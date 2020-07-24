@@ -11,6 +11,8 @@ import { useMutation } from "@apollo/react-hooks";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
+import PropTypes from 'prop-types'
+
 /**
  * Componente para loguear como Repartidor
  */

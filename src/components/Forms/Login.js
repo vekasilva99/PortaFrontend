@@ -11,6 +11,8 @@ import { LOGIN_USER } from "../../helpers/graphql/mutations";
 import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 
+
+import PropTypes from 'prop-types'
 /**
  * Componente con el formulario para hacer login.
  */

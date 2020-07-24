@@ -16,6 +16,8 @@ import { useMutation } from "@apollo/react-hooks";
 import { DRIVER_REQUEST } from "../../helpers/graphql/mutations/index";
 import { useSelector } from "react-redux";
 
+import PropTypes from 'prop-types'
+
 /**
  * Componente con el request para optar a ser Repartidor.
  */

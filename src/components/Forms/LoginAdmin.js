@@ -11,6 +11,8 @@ import Spinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+
+import PropTypes from 'prop-types'
 /**
  * Componente para loguear como Administrador
  */

@@ -21,6 +21,8 @@ import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../firebaseconfig";
 
+import PropTypes from 'prop-types'
+
 export default function UserProfileForm(props) {
   const [region, setRegion] = React.useState("");
   const [fName, setFName] = React.useState("");
@@ -434,7 +436,7 @@ export default function UserProfileForm(props) {
   );
 }
 
-DriverEditProfileForm.propTypes = {
+UserProfileForm.propTypes = {
   /** Mutation */
   UPDATE_PROFILE_PIC:PropTypes.arrayOf(PropTypes.object).isRequired,
   /** Mutation */
