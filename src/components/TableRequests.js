@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink, withRouter } from "react-router-dom";
 import { BsCircleFill } from "react-icons/bs";
-import { GET_REQUESTS } from "../helpers/graphql/queries";
+import { GET_REQUESTS, SELECTED_DRIVER } from "../helpers/graphql/queries";
 import { DISABLE_DRIVER } from "../helpers/graphql/mutations";
 import { useQuery } from "@apollo/react-hooks";
 import { useMutation } from "@apollo/react-hooks";
@@ -12,7 +12,8 @@ import { Button } from "antd";
 
 export default function TableRequests(props) {
   const { data: dataU, error: errorU, loading: loadingU } = useQuery(
-    GET_REQUESTS
+    GET_REQUESTS,
+    SELECTED_DRIVER
   );
   const [disableDriver, { data, error, loading }] = useMutation(DISABLE_DRIVER);
 
@@ -45,9 +46,7 @@ export default function TableRequests(props) {
             <th scope="col">ID</th>
             <th scope="col">Experience</th>
             <th scope="col">Vehicle</th>
-            <th scope="col" width="30%">
-              Decision
-            </th>
+            <th scope="col">Desition</th>
           </tr>
         </thead>
         <tbody>
@@ -58,17 +57,71 @@ export default function TableRequests(props) {
               </td>
               <td data-label="ID">{request.repartidor.cedula}</td>
               <td data-label="Experience">{request.experience}</td>
-              <td data-label="Vehicle">{request.vehicle}</td>
+              <td data-label="Vehicle">{request.vehiculo}</td>
               <td data-label="Desition">
-                <Button>Accept</Button>
-                <Button
-                  className="del"
-                  onClick={() => {
-                    reject(request.repartidor._id);
-                  }}
-                >
-                  Reject
-                </Button>
+                <Button href="#popup1">More Info</Button>
+                <div id="popup1" class="overlay">
+                  <div class="popup">
+                    <h2>Possible Driver</h2>
+                    <a class="close" href="#">
+                      &times;
+                    </a>
+                    <div class="content">
+                      <div className="row">
+                        <div class="cell">Name:</div>
+                        <div class="cell">{request.repartidor.name}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Last Name:</div>
+                        <div class="cell">{request.repartidor.lastName}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">ID:</div>
+                        <div class="cell">{request.repartidor.cedula}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Birthdate:</div>
+                        <div class="cell">{request.repartidor.birthdate}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Mail:</div>
+                        <div class="cell">{request.repartidor.mail}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Cellphone:</div>
+                        <div class="cell">{request.repartidor.cellphone}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Vehicle:</div>
+                        <div class="cell">{request.repartidor.vehiculo}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Licence:</div>
+                        <div class="cell">{request.repartidor.licencia}</div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Carnet:</div>
+                        <div class="cell">
+                          {request.repartidor.carnetCirculacion}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div class="cell">Insurance:</div>
+                        <div class="cell">
+                          {request.repartidor.seguroVehiculo}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="options">
+                      <Button id="opt" href="#">
+                        Accept
+                      </Button>
+                      <Button id="opt" href="#">
+                        Reject
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
           ))}
@@ -95,6 +148,7 @@ position:relative;
 
   }
 `;
+
 const TableRequestsStyle = styled.nav`
   display: flex;
   flex-flow: column;
@@ -106,7 +160,7 @@ const TableRequestsStyle = styled.nav`
 
   .overlay {
     position: fixed;
-    top: 30%;
+    top: 15%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -125,12 +179,22 @@ const TableRequestsStyle = styled.nav`
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    width: 40%;
+    width: 500px;
     height: auto;
     position: relative;
     transition: all 5s ease-in-out;
+
     .content {
-      margin: 20px;
+      display: table;
+      overflow: auto;
+      margin: auto;
+    }
+
+    .row {
+      display: table-row;
+    }
+    .cell {
+      display: table-cell;
     }
     .del {
       color: #fafafa;
@@ -138,12 +202,14 @@ const TableRequestsStyle = styled.nav`
       border-radius: 20px;
       padding: 10px;
       font-weight: 600;
+      width: 500px;
     }
   }
 
   .popup h2 {
     margin-top: 0;
     color: #333;
+    padding: 10px;
   }
   .popup .close {
     position: absolute;
@@ -158,10 +224,7 @@ const TableRequestsStyle = styled.nav`
   .popup .close:hover {
     color: #ff8600;
   }
-  .popup .content {
-    max-height: 30%;
-    overflow: auto;
-  }
+
   table {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -193,6 +256,18 @@ const TableRequestsStyle = styled.nav`
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #ff8600;
+  }
+
+  .options {
+    margin: 20px;
+    #opt {
+      color: #fafafa;
+      background-color: #ff8600;
+      border-radius: 20px;
+      padding: 10px;
+      width: 120px;
+      margin: 10px;
+    }
   }
 
   @media screen and (max-width: 734px) {
@@ -236,20 +311,14 @@ const TableRequestsStyle = styled.nav`
       padding: 20px;
       background: #fff;
       border-radius: 5px;
-      width: 80%;
+      width: 90%;
       height: auto;
       position: relative;
       transition: all 5s ease-in-out;
       text-align: center;
-    }
-    .del {
-      color: #fafafa;
-      background-color: orange;
-      border-radius: 20px;
-      width: 100px;
-      padding: 10px;
-      font-weight: 600;
-      margin: 15px;
+      h2 {
+        margin-bottom: 25px;
+      }
     }
   }
 `;
