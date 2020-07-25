@@ -485,14 +485,17 @@ export default function FormRegister(props) {
                       </div>
                     ) : null}
                     {!loading ? (
-                      <Button disabled={errorF} color={props.color} type="submit">
+                      <Button
+                        disabled={errorF}
+                        color={props.color}
+                        type="submit"
+                      >
                         {" "}
                         SIGN UP{" "}
                       </Button>
                     ) : (
-                        <Spinner color={"#ef0023"}></Spinner>
+                      <Spinner color={"#ef0023"}></Spinner>
                     )}
-                    
                   </div>
                 </div>
               )}
@@ -504,7 +507,6 @@ export default function FormRegister(props) {
   );
 }
 const RegisterView = styled.div`
-
 display: flex;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -733,7 +735,6 @@ width: 100%;
   justify-content: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
   label {
     font-size: 1em;
     font-weight: 200;
@@ -777,7 +778,6 @@ width: 100%;
     color: #ef0023;
     font-size: 12px;
   }
-
 }
 .inputP {
   display: flex;

@@ -438,14 +438,17 @@ export default function FormRegister(props) {
                       </div>
                     ) : null}
                     {!loading ? (
-                      <Button disabled={errorF} color={props.color} type="submit">
+                      <Button
+                        disabled={errorF}
+                        color={props.color}
+                        type="submit"
+                      >
                         {" "}
                         SIGN UP{" "}
                       </Button>
                     ) : (
                       <Spinner color={"#00507a"}></Spinner>
                     )}
-                    
                   </div>
                 </div>
               )}
@@ -718,7 +721,6 @@ const RegisterView = styled.div`
         border-bottom: solid 2px #00507a;
       }
     }
-
   }
 
   .button {
@@ -823,7 +825,6 @@ const RegisterView = styled.div`
       }
     }
   }
-
   @media only screen and (max-width: 734px) {
     .buttonS {
       margin-top: 2em;
